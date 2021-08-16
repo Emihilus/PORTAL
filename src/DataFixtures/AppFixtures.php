@@ -48,19 +48,17 @@ class AppFixtures extends Fixture
 
     private function loadAuctions(ObjectManager $manager) : void
     {
-        foreach ($this->getAuctionData() as [$title,  $createdAt, $description, $roles])
+        foreach ($this->getAuctionData() as [$title,  $createdAt, $description])
         {
             $auction = new Auction();
             $auction->setByUser($this->tempUser);
             $auction->setTitle($title);
-            $auction->setCreatedAt($createdAt);
-            $auction->setEndsAt($createdAt->modify('+1 day'));
+            $createdAtCurrent = $createdAt;
+            $auction->setCreatedAt($createdAtCurrent);
+            $ends = $createdAt->modify('+1 day');
+            $auction->setEndsAt($ends);
             $auction->setDescription($description);
-            $user->setUsername($username);
-            $user->setEmail($email);
-            $user->setPassword($this->passwordHasher->hashPassword($user, $password));
-            $user->setRoles($roles);
-            $manager->persist($user);
+            $manager->persist($auction);
         }
 
         $manager->flush();
@@ -69,7 +67,7 @@ class AppFixtures extends Fixture
     public function getAuctionData(): array
     {
         return[
-            ['Piec wendzarzniczy BOLOKS', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']]
+            ['Piec wendzarzniczy BOLOKS', (new \DateTime()), 'Mały, ale wariat.']
         ];
     }
 }
