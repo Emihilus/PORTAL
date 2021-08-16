@@ -2,12 +2,20 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function load(ObjectManager $manager, UserPasswordEncoderInterface $hasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
+
+    public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
     }
@@ -17,7 +25,7 @@ class AppFixtures extends Fixture
         foreach ($this->getUserData() as [$name, $last_name, $email, $password, $api_key, $roles])
         {
             $user = new User();
-            $user->setName($name);
+            $user->setUsername($name);
             $user->setLastName($last_name);
             $user->setEmail($email);
             $user->setPassword($this->pwd_encoder->encodePassword($user, $password));
@@ -30,7 +38,7 @@ class AppFixtures extends Fixture
     public function getUserData(): array
     {
         return[
-            ['Jon', 'Smitch', 'jahael@gmail.com', '12345', 'ffb8a9b0cfd15ddef9bf7bffe8e7cb30', ['ROLE_ADMIN']],
+            ['Emis', 'Smitch', 'jahael@gmail.com', '12345', 'ffb8a9b0cfd15ddef9bf7bffe8e7cb30', ['ROLE_ADMIN']],
             ['Maciek', 'Ryshka', 'rmsysz@gmail.com', '12345', 'apik', ['ROLE_USER']],
             ['Marciin', 'MaśLANKA', 'mmasl@gmail.com', '12345', 'apik', ['ROLE_USER']],
             ['Fourth', 'Sephiroth', 'zoro@gmail.com', '12345', 'apik', ['ROLE_USER']],
