@@ -22,27 +22,23 @@ class AppFixtures extends Fixture
 
     private function loadUsers(ObjectManager $manager) : void
     {
-        foreach ($this->getUserData() as [$name, $last_name, $email, $password, $api_key, $roles])
+        foreach ($this->getUserData() as [$username,  $email, $password, $roles])
         {
             $user = new User();
-            $user->setUsername($name);
-            $user->setLastName($last_name);
+            $user->setUsername($username);
             $user->setEmail($email);
-            $user->setPassword($this->pwd_encoder->encodePassword($user, $password));
-            $user->setVimeloApiKey($api_key);
+            $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setRoles($roles);
             $manager->persist($user);
         }
+
+        $manager->flush();
     }
 
     public function getUserData(): array
     {
         return[
-            ['Emis', 'Smitch', 'jahael@gmail.com', '12345', 'ffb8a9b0cfd15ddef9bf7bffe8e7cb30', ['ROLE_ADMIN']],
-            ['Maciek', 'Ryshka', 'rmsysz@gmail.com', '12345', 'apik', ['ROLE_USER']],
-            ['Marciin', 'MaśLANKA', 'mmasl@gmail.com', '12345', 'apik', ['ROLE_USER']],
-            ['Fourth', 'Sephiroth', 'zoro@gmail.com', '12345', 'apik', ['ROLE_USER']],
-            ['Marian', 'Sephiroth', 'marianus@gmail.com', '12345', 'apik', ['ROLE_USER']]
+            ['Emis', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']]
         ];
     }
 }
