@@ -6,6 +6,7 @@ use App\Repository\AuctionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="auctions")
  * @ORM\Entity(repositoryClass=AuctionRepository::class)
  */
 class Auction
@@ -36,6 +37,12 @@ class Auction
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="Auctions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $byUser;
 
     public function getId(): ?int
     {
@@ -86,6 +93,18 @@ class Auction
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getByUser(): ?User
+    {
+        return $this->byUser;
+    }
+
+    public function setByUser(?User $byUser): self
+    {
+        $this->byUser = $byUser;
 
         return $this;
     }

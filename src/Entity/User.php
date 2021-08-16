@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $Email;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Auction::class, mappedBy="byUser")
+     */
+    private $Auctions;
+
+    public function __construct()
+    {
+        $this->Auctions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -133,6 +145,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $Email): self
     {
         $this->Email = $Email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Auction[]
+     */
+    public function getAuctions(): Collection
+    {
+        return $this->Auctions;
+    }
+
+    public function addAuction(Auction $auction): self
+    {
+        if (!$this->Auctions->contains($auction)) {
+            $this->Auctions[] = $auction;
+            $auction->setByUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuction(Auction $auction): self
+    {
+        if ($this->Auctions->removeElement($auction)) {
+            // set the owning side to null (unless already changed)
+            if ($auction->getByUser() === $this) {
+                $auction->setByUser(null);
+            }
+        }
 
         return $this;
     }
