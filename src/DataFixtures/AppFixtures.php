@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
-    public function load(ObjectManager $manager, UserPasswordHasherInterface $hasher)
+    public function load(ObjectManager $manager, UserPasswordEncoderInterface $hasher)
     {
         $this->loadUsers($manager);
     }
