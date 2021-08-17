@@ -20,9 +20,10 @@ class MainController extends AbstractController
     /**
      * @Route("/auction-list/{page}", name="auction-list", defaults ={"page": "1" })
      */
-    public function index(): Response
+    public function index($page): Response
     {
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
+        $auctions = $this->paginator->paginate($auctions,$page, Auction::perPage);
 
         return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
