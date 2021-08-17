@@ -3,7 +3,7 @@
 {% block title %}Aukcje{% endblock %}
 
 {% block body %}
-<h1>Lista aukcji</h1>
+<h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
 {% for auction in auctions %}
     <a href="{{path('auction-details',{'auctionId': auction.id})}}">{{auction.title}}</a><br>
 {% endfor %}
