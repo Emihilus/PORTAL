@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Auction
 {
+
+    public const perPage = 10;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
