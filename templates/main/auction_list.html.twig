@@ -24,24 +24,29 @@
 			<nav class="mt-2" aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 
-                <li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
+					<li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
 						<a class="page-link" href="{{path ('auction-list', {'page': app.request.get('page')-1})}}">Previous</a>
 					</li>
-                
-					
+
+
 					{% for i in 1.. pages %}
 						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
 							<a class="page-link" href="{{path ('auction-list', {'page': i})}}">{{i}}</a>
 						</li>
 					{% endfor %}
 
-                    {% if app.request.get('page') != pages %}
-                    <li class="page-item">
+
+					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
 						<a class="page-link" href="{{path ('auction-list', {'page': app.request.get('page')+1})}}">Next</a>
 					</li>
-                    {% endif %}
 
-                 <span class="">BABA</span>
+
+					<select class="form-select form-select-sm" aria-label="Default select example">
+						<option selected>Open this select menu</option>
+						<option value="1">One</option>
+						<option value="2">Two</option>
+						<option value="3">Three</option>
+					</select>
 				</ul>
 			</nav>
 		</div>
