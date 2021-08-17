@@ -28,10 +28,10 @@ class MainController extends AbstractController
      */
     public function auctionDetails($auctionId): Response
     {
-        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
+        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneBy(['id' => $auctionId]);
 
         return $this->render('main/auction_details.html.twig', [
-            'auctions' => $auctions,
+            'auction' => $auction,
         ]);
     }
 }

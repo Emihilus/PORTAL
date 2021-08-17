@@ -13,6 +13,6 @@
     {{ dump(auctions) }}
 </pre> #}
 {% for auction in auctions %}
-    <span>{{auction.title}}</span><br>
+    <a href="{{path('auction-details',{'auctionId': auction.id})}}">{{auction.title}}</a><br>
 {% endfor %}
 {% endblock %}

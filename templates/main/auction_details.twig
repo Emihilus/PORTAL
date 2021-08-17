@@ -8,11 +8,9 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<h1>Lista aukcji</h1>
+<h1>Aukcja pieca {{auction.title}}</h1>
 {# <pre>
     {{ dump(auctions) }}
 </pre> #}
-{% for auction in auctions %}
-    <span>{{auction.title}}</span><br>
-{% endfor %}
+<p>{{auction.description}}</p>
 {% endblock %}
