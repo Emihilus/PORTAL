@@ -14,31 +14,6 @@ h1
 	margin: 20px;
 }
 
-.jumpers
-{
-	/* margin-left: auto;
-	margin-right: auto;
-	width: d1w1d00px; */
-	text-align: center;
-	/* paddisng: 0; PAWEŁ BENDZIE SKAKA   AŁ*/
-}
-
-.jumpers img
-{
-	width:100%;
-	height: auto;
-}
-
-.jumpers p
-{
-	margin-bottom: 30px;
-}
-
-.jumpers figcaption
-{
-	margin-top: 8px;
-}
-
 .navbar-nav li:hover>.dropdown-menu
 {
 	display:block;
@@ -49,18 +24,6 @@ h1
 	min-height: 57px;
 }
 
-.bg-jumperz
-{
-	background: #332200;
-}
-
-.wpis
-{
-	text-align: justify;
-	font-size: 16px;
-	padding: 30px;
-	margin-bottom: 40px;
-}
 
 .list-group-item-dark
 {
