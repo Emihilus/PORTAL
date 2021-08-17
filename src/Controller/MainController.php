@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Auction;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,10 +16,10 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        $user = new User();
+        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
 
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+        return $this->render('main/show_auctions.html.twig', [
+            'auctions' => $auctions,
         ]);
     }
 }
