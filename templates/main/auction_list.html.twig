@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
 
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<ul class="list-group col">
 				{% for auction in auctions %}
@@ -21,7 +21,7 @@
 
 		</div>
 		<div class="row">
-			<nav class="mt-2" aria-label="Page navigation example">
+			<nav class="mt-2 col-10" aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 
                 {% if app.request.get('page') != 1 %}<li class="page-item">
@@ -41,9 +41,8 @@
 					</li>
                     {% endif %}
 
-
-					
 				</ul>
+                <span class="col-2">BABA</span>
 			</nav>
 		</div>
 	</div>

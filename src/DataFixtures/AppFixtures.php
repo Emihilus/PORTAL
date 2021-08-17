@@ -20,6 +20,9 @@ class AppFixtures extends Fixture
     {
         $this->loadUsers($manager);
         $this->loadAuctions($manager);
+        $this->loadAuctions($manager);
+        $this->loadAuctions($manager);
+        $this->loadAuctions($manager);
     }
 
     private function loadUsers(ObjectManager $manager) : void
