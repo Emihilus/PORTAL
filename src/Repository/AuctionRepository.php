@@ -19,6 +19,9 @@ class AuctionRepository extends ServiceEntityRepository
         parent::__construct($registry, Auction::class);
     }
 
+
+
+
     // /**
     //  * @return Auction[] Returns an array of Auction objects
     //  */
