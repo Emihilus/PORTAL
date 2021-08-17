@@ -5,8 +5,14 @@
 {% block body %}
 <h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
 
+<div class="container">
+<div class="row">
 <ul class="list-group">
 {% for auction in auctions %}
     <a href="{{path('auction-details',{'auctionId': auction.id})}}" class="list-group-item list-group-item-dark list-group-item-action">[#{{auction.id}}] | {{auction.title}} | kończy się {{auction.endsAt|date('Y-m-d')}}</a><br>
+
 {% endfor %}
+</ul>
+</div>
+</div>
 {% endblock %}
