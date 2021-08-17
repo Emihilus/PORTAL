@@ -48,15 +48,15 @@ class AppFixtures extends Fixture
 
     private function loadAuctions(ObjectManager $manager) : void
     {
-        foreach ($this->getAuctionData() as [$title,  $createdAt, $description])
+        foreach ($this->getAuctionData() as [$title,  $createdAt, $PEROID, $description])
         {
             $auction = new Auction();
             $auction->setByUser($this->tempUser);
             $auction->setTitle($title);
-            $createdAtCurrent = $createdAt;
+            $createdAtCurrent = clone $createdAt;
             $auction->setCreatedAt($createdAtCurrent);
-            $ends = $createdAt->modify('+1 day');
-            $auction->setEndsAt($ends);
+            $createdAt->modify($PEROID);
+            $auction->setEndsAt($createdAt);
             $auction->setDescription($description);
             $manager->persist($auction);
         }
@@ -67,7 +67,9 @@ class AppFixtures extends Fixture
     public function getAuctionData(): array
     {
         return[
-            ['Piec wendzarzniczy BOLOKS', (new \DateTime()), 'Mały, ale wariat.']
+            ['Piec wendzarzniczy BOLOKS', (new \DateTime()), '+1 day', 'Mały, ale wariat.'],
+            ['Piec PORTALION', (new \DateTime()), '+4 days', 'Mały, ale wariat.'],
+            ['Piec ROZŁOŻYCIELS', (new \DateTime()), '+6 days', 'Mały, ale wariat.'],
         ];
     }
 }
