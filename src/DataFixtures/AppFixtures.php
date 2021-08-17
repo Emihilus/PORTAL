@@ -84,7 +84,7 @@ class AppFixtures extends Fixture
             Fot: Michał Szyszka Fotografia'],
 
 
-            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+            ['Piec Moon Card', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN'],
 
 
             ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
