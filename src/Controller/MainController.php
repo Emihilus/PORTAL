@@ -18,13 +18,13 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/auction-list", name="home")
+     * @Route("/auction-list/{page}", name="auction-list", defaults ={"page": "1" })
      */
     public function index(): Response
     {
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
 
-        return $this->render('main/sauction_list.html.twig', [
+        return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
         ]);
     }
