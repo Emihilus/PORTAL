@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Auction
 {
 
-    public const perPage = 10;
+    public const perPage = 8;
 
     /**
      * @ORM\Id
