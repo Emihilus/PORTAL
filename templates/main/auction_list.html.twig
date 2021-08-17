@@ -21,12 +21,12 @@
 
 		</div>
 		<div class="row">
-			<nav class="mt-2 col-10" aria-label="Page navigation example">
+			<nav class="mt-2" aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 
-                {% if app.request.get('page') != 1 %}<li class="page-item">
+                <li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
 						<a class="page-link" href="{{path ('auction-list', {'page': app.request.get('page')-1})}}">Previous</a>
-					</li>{% endif %}
+					</li>
                 
 					
 					{% for i in 1.. pages %}
@@ -41,8 +41,8 @@
 					</li>
                     {% endif %}
 
+                 <span class="">BABA</span>
 				</ul>
-                <span class="col-2">BABA</span>
 			</nav>
 		</div>
 	</div>
