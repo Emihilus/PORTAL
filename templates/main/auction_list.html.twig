@@ -1,19 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Aukcje{% endblock %}
+{% block title %}Aukcje
+{% endblock %}
 
 {% block body %}
-<h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
+	<h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
 
-<div class="container">
-<div class="row">
-<ul class="list-group">
-{% for auction in auctions %}
+	<div class="container">
+		<div class="row">
+			<ul class="list-group col">
+				{% for auction in auctions %}
 
-    <a href="{{path('auction-details',{'auctionId': auction.id})}}" class="list-group-item list-group-item-dark list-group-item-action">[#{{auction.id}}] | {{auction.title}} | kończy się {{auction.endsAt|date('Y-m-d')}}</a><br>
+					<a href="{{path('auction-details',{'auctionId': auction.id})}}" class="list-group-item list-group-item-dark list-group-item-action">[#{{auction.id}}] |
+						{{auction.title}}
+						| kończy się
+						{{auction.endsAt|date('Y-m-d')}}</a>
 
-{% endfor %}
-</ul>
-</div>
-</div>
+				{% endfor %}
+			</ul>
+
+
+		</div>
+		<div class="row">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination m-auto">
+					<li class="page-item">
+						<a class="page-link" href="#">Previous</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">1</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">2</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">3</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">Next</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
 {% endblock %}
