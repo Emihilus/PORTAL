@@ -25,8 +25,10 @@ class MainController extends AbstractController
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
         $auctions = $this->paginator->paginate($auctions,$page, Auction::perPage);
 
+
         return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
+            'pages' => count($auctions)
         ]);
     }
 
