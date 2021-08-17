@@ -67,9 +67,44 @@ class AppFixtures extends Fixture
     public function getAuctionData(): array
     {
         return[
-            ['Piec wendzarzniczy BOLOKS', (new \DateTime()), '+1 day', 'Mały, ale wariat.'],
-            ['Piec PORTALION', (new \DateTime()), '+4 days', 'Mały, ale wariat.'],
-            ['Piec ROZŁOŻYCIELS', (new \DateTime()), '+6 days', 'Mały, ale wariat.'],
+            ['Piec wendzarzniczy Huel', (new \DateTime()), '+1 day', 'Huel Hot & Savoury to pełnowartościowe, ciepłe i smaczne danie na bazie roślin, które zawiera wszystkie z 26 niezbędnych witamin i składników mineralnych. Pełen pysznych składników, smaku i wszystkiego czego potrzebujesz, aby zachować dobrą kondycję i zdrowie.'],
+            ['Piec Ptaki', (new \DateTime()), '+4 days', 'Głośny mały ptaszek podobny do wróbelka ale wydaje mi się że to może być bilbil ogrodowy😊 czy ktoś potwierdzi?'],
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+            ['Piec Astrofotografia Polska', (new \DateTime()), '+6 days', 'Noc Perseidów 🌠🌟
+            Ten krótki film to efekt mojej kilkugodzinnej, nocnej pracy z gwiazdami.
+            Jest to 200 zdjęć drogi mlecznej.
+            Każde naświetlane 20sek z jedno sekundową przerwą między zdjęciami.
+            200x20sek + 200sek = 4200sek 
+            (70minut)
+            Tyle czasu jest potrzebne by stworzyć film 10sekundowy.
+            Ktoś pomyśli: po co?
+            Ja odpowiem: bo warto!
+            ...a Wam jak się podoba taki efekt? 😉
+            Przyjemności 👊🙃❗
+            Fot: Michał Szyszka Fotografia'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
+
+            ['Piec Przyrodnicze wędrówki', (new \DateTime()), '+6 days', 'BOCIANY w połowie sierpnia rozpoczynają swoją coroczną podróż do Afryki.'],
         ];
     }
 }
