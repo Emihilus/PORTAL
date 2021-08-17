@@ -23,12 +23,15 @@ class MainController extends AbstractController
     public function index($page): Response
     {
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
+        $allCount = count($auctions);
+
         $auctions = $this->paginator->paginate($auctions,$page, Auction::perPage);
+        
 
 
         return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
-            'pages' => count($auctions)%Auction::perPage == 0 ? count($auctions)/Auction::perPage : count($auctions)/Auction::perPage+1
+            'pages' => $allCount%Auction::perPage === 0 ? $allCount/Auction::perPage : $allCount/Auction::perPage+1
         ]);
     }
 
