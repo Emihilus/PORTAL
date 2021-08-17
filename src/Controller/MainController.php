@@ -22,4 +22,16 @@ class MainController extends AbstractController
             'auctions' => $auctions,
         ]);
     }
+
+    /**
+     * @Route("/auction-details/{auctionId}", name="auction-details")
+     */
+    public function auctionDetails($auctionId): Response
+    {
+        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
+
+        return $this->render('main/auction_details.html.twig', [
+            'auctions' => $auctions,
+        ]);
+    }
 }
