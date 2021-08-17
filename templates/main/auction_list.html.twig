@@ -5,6 +5,6 @@
 {% block body %}
 <h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
 {% for auction in auctions %}
-    <a href="{{path('auction-details',{'auctionId': auction.id})}}">{{auction.title}}</a><br>
+    <a href="{{path('auction-details',{'auctionId': auction.id})}}">{{auction.title}} | {{auction.endsAt|date('Y-m-d')}}</a><br>
 {% endfor %}
 {% endblock %}
