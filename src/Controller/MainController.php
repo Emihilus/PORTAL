@@ -83,7 +83,7 @@ class MainController extends AbstractController
 
         $itemsPerPage = $_COOKIE['itemsPerPage'];
 
-        //$auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
+        $auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
 
         $allCount = count($auctions);
 
@@ -91,8 +91,8 @@ class MainController extends AbstractController
         foreach($auctions as $auction) {
             $arrayCollection[] = array(
                 'id' => $auction->getId(),
-                'id' => $auction->getId(),
-                'id' => $auction->getId(),
+                'title' => $auction->getTitle(),
+                'endsAt' => $auction->getEndsAt(),
                 // ... Same for each property you want
             );
        }
@@ -103,7 +103,7 @@ class MainController extends AbstractController
             'itemsPerPage' => $itemsPerPage
         ]);*/
         return new JsonResponse([
-            'auctions' => $auctions,
+            'auctions' => $arrayCollection,
             'rqp' => $_POST_requestedPage,
             'ac' => $allCount
         ]); 

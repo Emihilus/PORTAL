@@ -8,7 +8,7 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<ul
+			<ul id="auctions"
 				class="list-group col">
 				{# {% for auction in auctions %}
 					
@@ -87,10 +87,14 @@ function getAuctions(requestedPage)
         requestedPage: requestedPage
     }
 		})
+
+		{% set auctionId = value %}
 	.done(res => 
 	{ 
-  	  	console.log(res);
-  	  //	location.reload();
+  	  	res.forEach(function(auction)
+			{
+				$('#auctions').append("<a href=\"{{path('auction-details',{'auctionId': auction.id})}}\" class=\"list-group-item list-group-item-dark list-group-item-action\">[#{{auction.id}}] | auction.title kończy się auction.endsAt </a>");
+			});
 	});
 }
 </script>
