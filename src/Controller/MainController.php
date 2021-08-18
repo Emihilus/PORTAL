@@ -27,13 +27,19 @@ class MainController extends AbstractController
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
         $allCount = count($auctions);
 
-        $auctions = $this->paginator->paginate($auctions, $page, Auction::perPage);
+        
 
+        if(!isset($_COOKIE['itemsPerPage']))
+        {
+            setcookie('itemsPerPage', 10, time() + (86400 * 30), "/");
+        }
+        $itemsPerPage = $_COOKIE['itemsPerPage'];
 
+        $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
         return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
-            'pages' => $allCount % Auction::perPage === 0 ? $allCount / Auction::perPage : intval($allCount / Auction::perPage) + 1
+            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1
         ]);
     }
 
