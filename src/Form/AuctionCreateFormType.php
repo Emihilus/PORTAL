@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class AuctionCreateFormType extends AbstractType
 {
@@ -25,6 +26,7 @@ class AuctionCreateFormType extends AbstractType
                 'data' => 432000,
                 'label' => 'expires in'
             ])
+            ->add('file', VichFileType::class)
             ->add('Put', SubmitType::class)
         ;
     }
