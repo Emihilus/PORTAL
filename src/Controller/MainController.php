@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Auction;
 use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -58,7 +59,6 @@ class MainController extends AbstractController
      */
     public function createAuctionForm(Request $request): Response
     {
-         // creates a task object and initializes some data for this example
          $auction = new Auction();
  
          $form = $this->createForm(AuctionCreateFormType::class, $auction);
@@ -66,11 +66,10 @@ class MainController extends AbstractController
          if ($form->isSubmitted() && $form->isValid())
          {
             $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
             $auction = $form->getData();
-            $auction->setByUser($this->getUser())
-            /*$auction->setTitle($request->request->get('auction')['title']);
-            $auction->setDescription($request->request->get('auction')['description']);
-            $auction->setEndsAt($request->request->get('auction')['endsAt']);*/
+            $auction->setByUser($user);
+            $auction->setCreatedAt(null);
             $em->persist($auction);
             $em->flush();
          }
