@@ -1,6 +1,6 @@
 {% for auction in auctions %}
 					
-										<a href="{{path('auction-details',{'auctionId': auction.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{{asset('img/'~auction.id~'.jpg')}}" width="50"> |
+										<a href="{{path('auction-details',{'auctionId': auction.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{{asset('img/'~auction.id~'.jpg')}}" width="50">
 											{{auction.title}}
 											|
 											{{ auction.endsAt|date('Y-m-d') }}</a>

@@ -31,9 +31,13 @@ class MainController extends AbstractController
 
         if(!isset($_COOKIE['itemsPerPage']))
         {
-            setcookie('itemsPerPage', 10, time() + (86400 * 30), "/");
+            setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
+            $itemsPerPage = 20;
         }
-        $itemsPerPage = $_COOKIE['itemsPerPage'];
+        else
+        {
+            $itemsPerPage = $_COOKIE['itemsPerPage'];
+        }
 
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
