@@ -27,13 +27,13 @@ class MainController extends AbstractController
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
         $allCount = count($auctions);
 
-        $auctions = $this->paginator->paginate($auctions,$page, Auction::perPage);
-        
+        $auctions = $this->paginator->paginate($auctions, $page, Auction::perPage);
+
 
 
         return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
-            'pages' => $allCount%Auction::perPage === 0 ? $allCount/Auction::perPage : intval($allCount/Auction::perPage)+1
+            'pages' => $allCount % Auction::perPage === 0 ? $allCount / Auction::perPage : intval($allCount / Auction::perPage) + 1
         ]);
     }
 
@@ -49,18 +49,21 @@ class MainController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * @Route("/ep/setPerPage", name="setPerPage", methods={"POST"})
      */
     public function setPerPageCookie(Request $request)
     {
-        $postData = json_decode($request->getContent());
-        
+        $parametersAsArray = [];
+        if ($content = $request->getContent()) {
+            $parametersAsArray = json_decode($content, true);
+        }
+
         //$result = $postData['itemsPerPage'];
 
         return new JsonResponse([
             'RESPONSE' => 'resp',
-            'itemsPerPage' => $postData
+            'itemsPerPage' => $parametersAsArray['itemsPerPage']
         ]);
     }
 }
