@@ -94,7 +94,16 @@ function getAuctions(requestedPage)
 		$('#auctions').html(res);
 		$('.page-item').toArray().forEach(function (pageItemElement) 
 		{
+			console.log(pageItemElement.children[0].innerHTML);
 			console.log(pageItemElement);
+			if(requestedPage == pageItemElement.children[0].innerHTML)
+			{
+				$(pageItemElement).addClass('active');
+			}
+			else
+			{
+				$(pageItemElement).reomClass('active');
+			}
 		});
 	});
 }
