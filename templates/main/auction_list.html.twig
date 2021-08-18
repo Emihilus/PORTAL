@@ -10,7 +10,7 @@
 		<div class="row">
 			<ul id="auctions"
 				class="list-group col">
-				{# jQuery dynamic content #}
+				{# jQuery populated dynamic content #}
 			</ul>
 
 
@@ -57,7 +57,6 @@ window.onLoad = getAuctions({{app.request.get('page')}});
 
 function onChangeHandler (selectedObject)
 {
-	console.log(selectedObject);
 	$.ajax({
 		url: "{{path ('setPerPage') }}",
 		method: "post", 
