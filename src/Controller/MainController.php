@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Auction;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class MainController extends AbstractController
 {
@@ -26,8 +22,6 @@ class MainController extends AbstractController
     {
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
         $allCount = count($auctions);
-
-        
 
         if(!isset($_COOKIE['itemsPerPage']))
         {
@@ -54,6 +48,18 @@ class MainController extends AbstractController
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
+        ]);
+    }
+
+    /**
+     * @Route("/create-auction", name="create-auction")
+     */
+    public function createAuctionForm(): Response
+    {
+        
+
+        return $this->render('main/auction_create.html.twig', [
+            'auction' => 'asda',
         ]);
     }
 }
