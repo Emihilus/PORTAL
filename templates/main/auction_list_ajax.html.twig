@@ -95,10 +95,6 @@ function getAuctions(requestedPage)
 		let pageElementsArray = $('.page-item').toArray();
 		pageElementsArray.forEach(function (pageItemElement) 
 		{
-			/*console.log(pageItemElement.children[0].innerHTML);
-			console.log(pageItemElement);*/
-
-
 			if(requestedPage == pageItemElement.children[0].innerHTML)
 				$(pageItemElement).addClass('active');
 			else
@@ -107,15 +103,18 @@ function getAuctions(requestedPage)
 			if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage == 1)
 				$(pageItemElement).addClass('disabled');
 			else if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage > 1)
-				{
-					$(pageItemElement).removeClass('disabled');
-				}
+			{
+				$(pageItemElement).removeClass('disabled');
+				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage-1)+')');
+			}
 			
 			if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage == pageElementsArray.length-2)
 				$(pageItemElement).addClass('disabled');
 			else if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage < pageElementsArray.length-2)
-				{
-					$(pageItemElement).removeClass('disabled');
+			{
+				$(pageItemElement).removeClass('disabled');
+				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
+			}
 		});
 	});
 }
