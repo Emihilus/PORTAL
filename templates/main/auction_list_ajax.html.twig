@@ -58,6 +58,9 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
+
+window.onLoad = getAuctions({{app.request.get('page')}});
+
 function onChangeHandler (selectedObject)
 {
 	console.log(selectedObject);
@@ -78,23 +81,17 @@ function onChangeHandler (selectedObject)
 
 function getAuctions(requestedPage)
 {
-	console.log(requestedPage);
     $.ajax({
    	 	url: "{{path ('getAuctions') }}",
     	method: "post", 
-    	dataType: "json", 
+    	dataType: "html", 
     	data: { 
         requestedPage: requestedPage
     }
 		})
-
-		{% set auctionId = value %}
 	.done(res => 
 	{ 
-  	  	res.forEach(function(auction)
-			{
-				$('#auctions').append("<a href=\"{{path('auction-details',{'auctionId': auction.id})}}\" class=\"list-group-item list-group-item-dark list-group-item-action\">[#{{auction.id}}] | auction.title kończy się auction.endsAt </a>");
-			});
+		$('#auctions').html(res);  	
 	});
 }
 </script>

@@ -87,7 +87,7 @@ class MainController extends AbstractController
 
         $allCount = count($auctions);
 
-        $arrayCollection = [];
+        /*$arrayCollection = [];
         foreach($auctions as $auction) {
             $arrayCollection[] = array(
                 'id' => $auction->getId(),
@@ -95,17 +95,15 @@ class MainController extends AbstractController
                 'endsAt' => $auction->getEndsAt(),
                 // ... Same for each property you want
             );
-       }
-/*
-        return $this->render('main/auction_list_ajax.html.twig', [
-            'auctions' => $auctions,
-            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
-            'itemsPerPage' => $itemsPerPage
-        ]);*/
-        return new JsonResponse([
+       }*/
+
+        return $this->render('main/auction_list_ajax_part.html.twig', [
+            'auctions' => $auctions
+        ]);
+        /*return new JsonResponse([
             'auctions' => $arrayCollection,
             'rqp' => $_POST_requestedPage,
             'ac' => $allCount
-        ]); 
+        ]); */
     }
 }
