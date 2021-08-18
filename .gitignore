@@ -1,4 +1,5 @@
 gct/nohup.out
+public/img
 
 ###> symfony/framework-bundle ###
 /.env.local
