@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Auction;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,6 +45,20 @@ class MainController extends AbstractController
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
+        ]);
+    }
+
+     /**
+     * @Route("/ep/setPerPage", name="setPerPage", methods={"POST"})
+     */
+    public function setPerPageCookie(Request $request)
+    {
+        
+        
+
+
+        return $this->render('main/auction_details.html.twig', [
+            'auction' => '$auction'
         ]);
     }
 }
