@@ -51,14 +51,10 @@ class EndPointsController extends AbstractController
      */
     public function uploadTemp(Request $request)
     {
-        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
-
-        $_POST_requestedPage = $request->get('requestedPage');
-        $itemsPerPage = $_COOKIE['itemsPerPage'];
-        $auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
+        
 
         return $this->render('main/tools/auction_list_ajax_part.html.twig', [
-            'auctions' => $auctions
+            'result' => 'file uploaded'
         ]);
     }
 }

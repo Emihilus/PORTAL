@@ -41,6 +41,23 @@ uploadElement.addEventListener("change",e =>
     if(product_id == "") return;*/
     console.log(files);
     console.log(files[0].name);
+    
+    let formData = new FormData();
+    formData.append('file', files[0]);
+    console.log(formData);
+    
+    $.ajax({
+		url: "{{path ('uploadTemporary') }}",
+		method: "post", 
+		dataType: "json", 
+		data: { 
+			file: files
+    }
+	})
+	.done(res => 
+	{ 
+		console.log(res);
+	});
    
 });
 </script>
