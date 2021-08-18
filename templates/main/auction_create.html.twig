@@ -12,12 +12,24 @@
 {# <div class="my-custom-class-for-errors">
         {{ form_errors(form) }}
 </div> #}
-<pre>
+{# <pre>
     {{ dump(form) }}
-</pre>
+</pre> #}
+
+
 {{ form_row(form.title) }}
-{# {{ form_row(form.submit, { 'label': 'Submit me' }) }} #}
+{{ form_row(form.description) }}
+{{ form_row(form.endsAt) }}
+{{ form_row(form.Submit) }}
 
-        {# {{form_end(form)}} #}
 
+   <input id="upload-file" type="file" name="imageFile">
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+
+</script>
 {% endblock %}
