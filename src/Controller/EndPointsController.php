@@ -52,21 +52,19 @@ class EndPointsController extends AbstractController
      */
     public function uploadTemp(Request $request)
     {
-        $result = '';
+        $sessionId = session_id();
         if ( 0 < $_FILES['file']['error'] ) 
         {
             echo 'Error: ' . $_FILES['file']['error'] . '<br>';
-            $result = 'err';
         }
         else 
         {
-            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath.'/tempImg/' . $_FILES['file']['name']);
-            $result = 'oka';
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/$sessionId" . $_FILES['file']['name']);
         }
     
 
         return new JsonResponse([
-            'resulkt' => $_FILES
+            'resulkt' => session_id()
         ]);
     }
 

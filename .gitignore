@@ -24,6 +24,8 @@ gct/nohup.out
 /node_modules/
 /public/build/
 /public/img/
+/public/upload/
+/tempImg
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
