@@ -59,13 +59,13 @@ class EndPointsController extends AbstractController
         }
         else 
         {
-            move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $_FILES['file']['name']);
+            move_uploaded_file($_FILES['file']['tmp_name'], '/uploads/' . $_FILES['file']['name']);
             $result = 'oka';
         }
     
 
         return new JsonResponse([
-            'resulkt' => $result 
+            'resulkt' => $_FILES
         ]);
     }
 
