@@ -57,9 +57,9 @@ class AppFixtures extends Fixture
             $auction->setByUser($this->tempUser);
             $auction->setTitle("Piec ".$this->names[random_int(0,count($this->names))]);
             $createdAtCurrent = clone $createdAt;
-            $auction->setCreatedAt($createdAtCurrent);
+            $auction->setCreatedAt(null);
             $createdAt->modify($PEROID);
-            $auction->setEndsAt($createdAt);
+            $auction->setEndsAt('86400');
             $auction->setDescription($description);
             $manager->persist($auction);
         }

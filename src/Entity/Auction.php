@@ -75,7 +75,7 @@ class Auction
 
         return $this;
     }*/
-    public function setCreatedAt($dummy): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = new \DateTime('now');
 
@@ -87,9 +87,17 @@ class Auction
         return $this->endsAt;
     }
 
-    public function setEndsAt(\DateTimeInterface $endsAt): self
+    /*public function setEndsAt(\DateTimeInterface $endsAt): self
     {
         $this->endsAt = $endsAt;
+
+        return $this;
+    }*/
+
+    public function setEndsAt(string $secondsOffest): self
+    {
+        $this->endsAt = new \DateTime();
+        $this->endsAt->add(new \DateInterval('+'.$secondsOffest.' seconds'));
 
         return $this;
     }
