@@ -54,16 +54,13 @@ class MainController extends AbstractController
      */
     public function setPerPageCookie(Request $request)
     {
-        $parametersAsArray = [];
-        if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
-        }
 
-        //$result = $postData['itemsPerPage'];
+        $result = $request->get('itemsPerPage');
+        setcookie('itemsPerPage', $result, time() + (86400 * 30), "/");
 
         return new JsonResponse([
             'RESPONSE' => 'resp',
-            'itemsPerPage' => $parametersAsArray['itemsPerPage']
+            'itemsPerPage' => $result 
         ]);
     }
 }
