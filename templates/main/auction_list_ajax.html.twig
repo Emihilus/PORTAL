@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aukcje
+{% endblock %}
+
+{% block body %}
+	<h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH</h1>
+
+	<div class="container-fluid">
+		<div class="row">
+			<ul
+				class="list-group col">
+				{# {% for auction in auctions %}
+					
+										<a href="{{path('auction-details',{'auctionId': auction.id})}}" class="list-group-item list-group-item-dark list-group-item-action">[#{{auction.id}}] |
+											{{auction.title}}
+											| kończy się
+											{{ auction.endsAt|date('Y-m-d') }}</a>
+					{% endfor %} #}
+			</ul>
+
+
+		</div>
+		<div class="row">
+			<nav class="mt-2" aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+
+					<li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
+						<a class="page-link" href="#" onclick="getAuctions({{app.request.get('page')-1}})">Previous</a>
+					</li>
+
+
+					{% for i in 1.. pages %}
+						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" href="#" onclick="getAuctions({{i}})">{{i}}</a>
+						</li>
+					{% endfor %}
+
+
+					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
+						<a class="page-link" href="#" onclick="getAuctions({{app.request.get('page')+1}})">Next</a>
+					</li>
+
+					Items per page
+					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
+						{% for i in 1.. 5 %}
+							<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
+						{% endfor %}
+					</select>
+				</ul>
+			</nav>
+		</div>
+	</div>
+{% endblock %}
+
+
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+function onChangeHandler (selectedObject)
+{
+	console.log(selectedObject);
+	$.ajax({
+		url: "{{path ('setPerPage') }}",
+		method: "post", 
+		dataType: "json", 
+		data: { 
+			itemsPerPage: selectedObject
+    }
+	})
+	.done(res => 
+	{ 
+		console.log(res);
+		location.reload();
+	});
+}
+
+function getAuctions(requestedPage)
+{
+	console.log(requestedPage);
+    $.ajax({
+   	 	url: "{{path ('getAuctions') }}",
+    	method: "post", 
+    	dataType: "json", 
+    	data: { 
+        requestedPage: requestedPage
+    }
+		})
+	.done(res => 
+	{ 
+  	  	console.log(res);
+  	  //	location.reload();
+	});
+}
+</script>
+{% endblock %}

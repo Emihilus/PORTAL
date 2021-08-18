@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class MainController extends AbstractController
 {
@@ -37,7 +37,7 @@ class MainController extends AbstractController
 
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
-        return $this->render('main/auction_list.html.twig', [
+        return $this->render('main/auction_list_ajax.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage
@@ -66,8 +66,46 @@ class MainController extends AbstractController
         setcookie('itemsPerPage', $result, time() + (86400 * 30), "/");
 
         return new JsonResponse([
-            'RESPONSE' => 'resp',
             'itemsPerPage' => $result 
         ]);
+    }
+
+    /**
+     * @Route("/ep/getAuctions", name="getAuctions", methods={"POST"})
+     */
+    public function getAuctions(Request $request, SerializerInterface $serializer)
+    {
+
+        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
+
+
+        $_POST_requestedPage = $request->get('requestedPage');
+
+        $itemsPerPage = $_COOKIE['itemsPerPage'];
+
+        //$auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
+
+        $allCount = count($auctions);
+
+        $arrayCollection = [];
+        foreach($auctions as $auction) {
+            $arrayCollection[] = array(
+                'id' => $auction->getId(),
+                'id' => $auction->getId(),
+                'id' => $auction->getId(),
+                // ... Same for each property you want
+            );
+       }
+/*
+        return $this->render('main/auction_list_ajax.html.twig', [
+            'auctions' => $auctions,
+            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
+            'itemsPerPage' => $itemsPerPage
+        ]);*/
+        return new JsonResponse([
+            'auctions' => $auctions,
+            'rqp' => $_POST_requestedPage,
+            'ac' => $allCount
+        ]); 
     }
 }
