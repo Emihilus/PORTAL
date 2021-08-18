@@ -11,8 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EndPointsController extends AbstractController
 {
-    public function __construct(PaginatorInterface $paginator)
+    public function __construct($path, PaginatorInterface $paginator)
     {
+        $this->rootPath = $path;
         $this->paginator = $paginator;
     }
 
@@ -59,7 +60,7 @@ class EndPointsController extends AbstractController
         }
         else 
         {
-            move_uploaded_file($_FILES['file']['tmp_name'], '/uploads/' . $_FILES['file']['name']);
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath.'upload/' . $_FILES['file']['name']);
             $result = 'oka';
         }
     
