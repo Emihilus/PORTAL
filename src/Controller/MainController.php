@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Auction;
+use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,14 +60,10 @@ class MainController extends AbstractController
          // creates a task object and initializes some data for this example
          $auction = new Auction();
  
-         $form = $this->createFormBuilder($auction)
-             ->add('task', TextType::class)
-             ->add('dueDate', DateType::class)
-             ->add('save', SubmitType::class, ['label' => 'Create Task'])
-             ->getForm();
+         $form = $this->createForm(AuctionCreateFormType::class, $auction);
 
-        return $this->render('main/auction_create.html.twig', [
-            'auction' => 'asda',
+         return $this->render('main/auction_create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
