@@ -91,7 +91,11 @@ function getAuctions(requestedPage)
 		})
 	.done(res => 
 	{ 
-		$('#auctions').html(res);  	
+		$('#auctions').html(res);
+		$('.page-item').toArray().forEach(function (pageItemElement) 
+		{
+			console.log(pageItemElement);
+		});
 	});
 }
 </script>
