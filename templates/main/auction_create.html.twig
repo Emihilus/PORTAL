@@ -24,6 +24,15 @@
    <input id="upload-file" type="file" name="imageFile">
 
 {{ form_row(form.Submit) }}
+
+<div id="drop-area">
+  <form class="my-form">
+    <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+    <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+    <label class="button" for="fileElem">Select some files</label>
+  </form>
+</div>
+
 {% endblock %}
 
 
@@ -61,6 +70,36 @@ uploadElement.addEventListener("change",e =>
 	{ 
 		console.log(res);
 	});
+
+
+    let dropArea = document.getElementById('drop-area');
+
+  ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false)
+})
+
+function preventDefaults (e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
+
+;['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, highlight, false)
+})
+
+;['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, unhighlight, false)
+})
+
+function highlight(e) {
+  dropArea.classList.add('highlight')
+}
+
+function unhighlight(e) {
+  dropArea.classList.remove('highlight')
+}
+
+
    
 });
 </script>
