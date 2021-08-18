@@ -77,6 +77,9 @@ uploadElement.addEventListener("change",e =>
 		console.log(res);
 	});
 
+});
+
+
 
 let dropArea = document.getElementById('drop-area');
 
@@ -117,8 +120,9 @@ function handleDrop(e) {
 
 function handleFiles(files) {
   files = [...files]
+  console.log(files)
   files.forEach(uploadFile)
-  files.forEach(previewFile)
+  //files.forEach(previewFile)
 }
 
 
@@ -136,8 +140,5 @@ function uploadFile(file) {
   .then(() => { /* Done. Inform the user */ })
   .catch(() => { /* Error. Inform the user */ })
 }
-
-   
-});
 </script>
 {% endblock %}
