@@ -51,10 +51,22 @@ class EndPointsController extends AbstractController
      */
     public function uploadTemp(Request $request)
     {
-        
+        $result = '';
+        if ( 0 < $_FILES['file']['error'] ) 
+        {
+            echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+            $result = 'err';
+        }
+        else 
+        {
+            move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $_FILES['file']['name']);
+            $result = 'oka';
+        }
+    
 
         return new JsonResponse([
-            'resulkt' => 'ok' 
+            'resulkt' => $result 
         ]);
     }
+
 }
