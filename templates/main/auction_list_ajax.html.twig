@@ -41,7 +41,7 @@
 						<a class="page-link" href="#" onclick="getAuctions({{app.request.get('page')+1}})">Next</a>
 					</li>
 
-					Items per page
+					<span>Items per page
 					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
 						{% for i in 1.. 5 %}
 							<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
@@ -116,6 +116,7 @@ function getAuctions(requestedPage)
 				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
 			}
 		});
+		window.history.pushState('page2', 'Title', '{{path('auction-list')}}/'+requestedPage);
 	});
 }
 </script>
