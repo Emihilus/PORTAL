@@ -26,7 +26,7 @@ class Auction
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="images", fileNameProperty="imageName", size="imageSize")
      * 
      * @var File|null
      */
