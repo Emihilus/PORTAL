@@ -30,6 +30,18 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-
+let uploadElement = document.getElementById('upload-file');
+uploadElement.addEventListener("change",e =>
+{
+    let files = e.target.files || e.dataTransfer.files;
+    if(!files.length)
+        console.log('no files'); 
+    let product = document.getElementById("product");
+    let product_id = product.options[product.selectedIndex].value;
+    if(product_id == "") return;
+    console.log(files);
+    console.log(files[0].name);
+   
+});
 </script>
 {% endblock %}
