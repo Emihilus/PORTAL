@@ -20,10 +20,10 @@
 {{ form_row(form.title) }}
 {{ form_row(form.description) }}
 {{ form_row(form.endsAt) }}
-{{ form_row(form.Submit) }}
-
 
    <input id="upload-file" type="file" name="imageFile">
+
+{{ form_row(form.Submit) }}
 {% endblock %}
 
 
@@ -36,9 +36,9 @@ uploadElement.addEventListener("change",e =>
     let files = e.target.files || e.dataTransfer.files;
     if(!files.length)
         console.log('no files'); 
-    let product = document.getElementById("product");
+    /*let product = document.getElementById("product");
     let product_id = product.options[product.selectedIndex].value;
-    if(product_id == "") return;
+    if(product_id == "") return;*/
     console.log(files);
     console.log(files[0].name);
    
