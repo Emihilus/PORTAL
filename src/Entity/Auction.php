@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use App\Repository\AuctionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Table(name="auctions")
  * @ORM\Entity(repositoryClass=AuctionRepository::class)
+ * @Vich\Uploadable
  */
 class Auction
 {
@@ -20,6 +23,16 @@ class Auction
      * @ORM\Column(type="integer")
      */
     private $id;
+
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName", size="imageSize")
+     * 
+     * @var File|null
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
