@@ -40,20 +40,18 @@
 						<a class="page-link" href="{{path ('auction-list', {'page': app.request.get('page')+1})}}">Next</a>
 					</li>
 
-
+					Items per page
 					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
-						<option selected>Items per page</option>
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="30">30</option>
-						<option value="40">40</option>
-						<option value="50">50</option>
+						{% for i in 1.. 5 %}
+							<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
+						{% endfor %}
 					</select>
 				</ul>
 			</nav>
 		</div>
 	</div>
 {% endblock %}
+
 
 {% block javascripts %}
 {{ parent() }}

@@ -39,7 +39,8 @@ class MainController extends AbstractController
 
         return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
-            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1
+            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
+            'itemsPerPage' => $itemsPerPage
         ]);
     }
 
