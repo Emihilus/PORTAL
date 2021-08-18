@@ -27,14 +27,14 @@
 
 			<!-- <p class="d-inline-block mb-0">Skoki.pl</p> -->
 
-			<button class="navbar-toggler order-first" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="mainmenu">
 				<ul class="navbar-nav me-auto">
 					<li class="nav-item">
-						<a class="nav-link active" href="/">Start</a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'auction-list' %}active{% endif %}" href="/">Start</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" href="#">Nested</a>
@@ -55,7 +55,7 @@
 					</li>
 				</ul>
 
-				<form class="d-flex me-1">
+				<form class="d-none d-flex me-1">
 					<input type="text" class="form-control me-1" placeholder="First name" aria-label="First name">
 					<button class="btn btn-light" type="submit">Znajdź</button>
 				</form>

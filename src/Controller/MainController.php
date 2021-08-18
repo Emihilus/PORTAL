@@ -38,7 +38,7 @@ class MainController extends AbstractController
 
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
-        return $this->render('main/auction_list_ajax.html.twig', [
+        return $this->render('main/auction_list.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage
@@ -76,35 +76,14 @@ class MainController extends AbstractController
      */
     public function getAuctions(Request $request)
     {
-
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
 
-
         $_POST_requestedPage = $request->get('requestedPage');
-
         $itemsPerPage = $_COOKIE['itemsPerPage'];
-
         $auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
 
-        $allCount = count($auctions);
-
-        /*$arrayCollection = [];
-        foreach($auctions as $auction) {
-            $arrayCollection[] = array(
-                'id' => $auction->getId(),
-                'title' => $auction->getTitle(),
-                'endsAt' => $auction->getEndsAt(),
-                // ... Same for each property you want
-            );
-       }*/
-
-        return $this->render('main/auction_list_ajax_part.html.twig', [
+        return $this->render('main/tools/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
         ]);
-        /*return new JsonResponse([
-            'auctions' => $arrayCollection,
-            'rqp' => $_POST_requestedPage,
-            'ac' => $allCount
-        ]); */
     }
 }
