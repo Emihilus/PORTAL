@@ -41,11 +41,13 @@
 					</li>
 
 
-					<select class="form-select ms-2" aria-label="Default select example">
+					<select onchange="onChangeHandler()" class="form-select ms-2" aria-label="Default select example">
 						<option selected>Items per page</option>
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+						<option value="40">40</option>
+						<option value="50">50</option>
 					</select>
                     <span id="jq">INIT</span>
 				</ul>
@@ -54,9 +56,12 @@
 	</div>
 {% endblock %}
 
-{% block customjavascript %}
+{% block javascripts %}
 {{ parent() }}
 <script>
-$('#jq').html('CHANGED');
+function onChangeHandler ()
+{
+    
+}
 </script>
 {% endblock %}
