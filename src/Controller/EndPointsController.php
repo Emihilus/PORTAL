@@ -53,8 +53,8 @@ class EndPointsController extends AbstractController
     {
         
 
-        return $this->render('main/tools/auction_list_ajax_part.html.twig', [
-            'result' => 'file uploaded'
+        return new JsonResponse([
+            'resulkt' => 'ok' 
         ]);
     }
 }
