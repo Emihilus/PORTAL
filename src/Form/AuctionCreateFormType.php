@@ -27,7 +27,7 @@ class AuctionCreateFormType extends AbstractType
                 'label' => 'expires in'
             ])
             ->add('imageFile', VichFileType::class)
-            ->add('Put', SubmitType::class)
+            ->add('Submit', SubmitType::class)
         ;
     }
 
