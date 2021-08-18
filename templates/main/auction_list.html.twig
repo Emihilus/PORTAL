@@ -41,7 +41,7 @@
 					</li>
 
 
-					<select onchange="onChangeHandler(this)" class="form-select ms-2" aria-label="Default select example">
+					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
 						<option selected>Items per page</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
@@ -61,17 +61,18 @@
 <script>
 function onChangeHandler (selectedObject)
 {
+    console.log(selectedObject);
     $.ajax({
-    url: "{{path ('setPerPage')}}", //gdzie się łączymy
+    url: "{{path ('setPerPage') }}", //gdzie się łączymy
     method: "post", //typ połączenia, domyślnie get
     dataType: "json", //typ danych jakich oczekujemy w odpowiedzi
     contentType: "application/json", //typ wysyłanych danych
     data: { //dane do wysyłki
-        title: "Przykładowy tytuł",
-        author: "Karol Nowak",
-    })
+        itemsPerPage: selectedObject
+    }
 })
-.done(res => { //readuję na odpowiedź - o tym poniżej
+.done(res => 
+{ 
     console.log(res);
 });
 }

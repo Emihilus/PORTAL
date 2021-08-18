@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
@@ -55,10 +56,12 @@ class MainController extends AbstractController
     {
         
         
+        $result = $request->request->get('itemsPerPage');
 
 
-        return $this->render('main/auction_details.html.twig', [
-            'auction' => '$auction'
+        return new JsonResponse([
+            'RESPONSE' => 'resp',
+            'itemsPerPage' => $result
         ]);
     }
 }
