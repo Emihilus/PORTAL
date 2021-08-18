@@ -23,14 +23,23 @@ class Auction
     private $id;
 
 
+
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="images", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="images", fileNameProperty="imageName")
      * 
      * @var File|null
      */
     private $imageFile;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @var string|null
+     */
+    private $imageName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -82,6 +91,18 @@ class Auction
    {
        return $this->imageFile;
    }
+
+   public function setImageName(?string $imageName): void
+   {
+       $this->imageName = $imageName;
+   }
+
+   public function getImageName(): ?string
+   {
+       return $this->imageName;
+   }
+
+
 
 
     public function getId(): ?int
