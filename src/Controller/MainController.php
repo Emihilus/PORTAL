@@ -56,7 +56,14 @@ class MainController extends AbstractController
      */
     public function createAuctionForm(): Response
     {
-        
+         // creates a task object and initializes some data for this example
+         $auction = new Auction();
+ 
+         $form = $this->createFormBuilder($auction)
+             ->add('task', TextType::class)
+             ->add('dueDate', DateType::class)
+             ->add('save', SubmitType::class, ['label' => 'Create Task'])
+             ->getForm();
 
         return $this->render('main/auction_create.html.twig', [
             'auction' => 'asda',
