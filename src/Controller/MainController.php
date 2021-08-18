@@ -72,6 +72,13 @@ class MainController extends AbstractController
             $auction->setCreatedAt(null);
             $em->persist($auction);
             $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Your changes were saved!'
+            );
+
+            return $this->redirectToRoute('create-auction');
          }
 
          return $this->render('main/auction_create.html.twig', [

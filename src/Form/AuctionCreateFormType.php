@@ -23,7 +23,7 @@ class AuctionCreateFormType extends AbstractType
                     '7 days' => 604800
                 ],
                 'data' => 432000,
-                'label' => 'ends in'
+                'label' => 'expires in'
             ])
             ->add('Put', SubmitType::class)
         ;
