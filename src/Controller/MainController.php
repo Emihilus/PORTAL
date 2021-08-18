@@ -32,12 +32,9 @@ class MainController extends AbstractController
         if(!isset($_COOKIE['itemsPerPage']))
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
-            $itemsPerPage = 20;
+            $_COOKIE['itemsPerPage'] = 20;
         }
-        else
-        {
-            $itemsPerPage = $_COOKIE['itemsPerPage'];
-        }
+        $itemsPerPage = $_COOKIE['itemsPerPage'];
 
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
@@ -77,7 +74,7 @@ class MainController extends AbstractController
     /**
      * @Route("/ep/getAuctions", name="getAuctions", methods={"POST"})
      */
-    public function getAuctions(Request $request, SerializerInterface $serializer)
+    public function getAuctions(Request $request)
     {
 
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
