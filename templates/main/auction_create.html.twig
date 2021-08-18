@@ -32,6 +32,9 @@
     <label class="button" for="fileElem">Select some files</label>
   </form>
 </div>
+<progress id="progress-bar" max=100 value=0></progress>
+
+<div id="gallery"></div>
 
 {% endblock %}
 
@@ -72,9 +75,9 @@ uploadElement.addEventListener("change",e =>
 	});
 
 
-    let dropArea = document.getElementById('drop-area');
+let dropArea = document.getElementById('drop-area');
 
-  ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
   dropArea.addEventListener(eventName, preventDefaults, false)
 })
 
@@ -99,7 +102,48 @@ function unhighlight(e) {
   dropArea.classList.remove('highlight')
 }
 
+dropArea.addEventListener('drop', handleDrop, false)
 
+function handleDrop(e) {
+  let dt = e.dataTransfer
+  let files = dt.files
+
+  handleFiles(files)
+}
+
+
+function handleFiles(files) {
+  files = [...files]
+  files.forEach(uploadFile)
+  files.forEach(previewFile)
+}
+
+
+
+function uploadFile(file) {
+  let url = 'YOUR URL HERE'
+  let formData = new FormData()
+
+  formData.append('file', file)
+
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(() => { /* Done. Inform the user */ })
+  .catch(() => { /* Error. Inform the user */ })
+}
+
+function initializeProgress(numfiles) {
+  progressBar.value = 0
+  filesDone = 0
+  filesToDo = numfiles
+}
+
+function progressDone() {
+  filesDone++
+  progressBar.value = filesDone / filesToDo * 100
+}
    
 });
 </script>
