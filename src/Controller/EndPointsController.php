@@ -60,7 +60,7 @@ class EndPointsController extends AbstractController
         }
         else 
         {
-            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath.'upload/' . $_FILES['file']['name']);
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath.'/tempImg/' . $_FILES['file']['name']);
             $result = 'oka';
         }
     
