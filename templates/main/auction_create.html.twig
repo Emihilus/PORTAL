@@ -8,5 +8,8 @@
 
 <h1>Formularz dodawania aukcji</h1>
 
-{{ form(form) }}
+{{ form_start(form) }}
+{{ form_widget(form.title) }}
+{{ form_widget(form.description) }}
+{{ form_end(form)}}
 {% endblock %}
