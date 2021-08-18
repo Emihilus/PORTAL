@@ -32,7 +32,6 @@
     <label class="button" for="fileElem">Select some files</label>
   </form>
 </div>
-<progress id="progress-bar" max=100 value=0></progress>
 
 <div id="gallery"></div>
 
@@ -134,16 +133,6 @@ function uploadFile(file) {
   .catch(() => { /* Error. Inform the user */ })
 }
 
-function initializeProgress(numfiles) {
-  progressBar.value = 0
-  filesDone = 0
-  filesToDo = numfiles
-}
-
-function progressDone() {
-  filesDone++
-  progressBar.value = filesDone / filesToDo * 100
-}
    
 });
 </script>
