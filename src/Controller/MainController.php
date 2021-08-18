@@ -66,9 +66,11 @@ class MainController extends AbstractController
          if ($form->isSubmitted() && $form->isValid())
          {
             $em = $this->getDoctrine()->getManager();
-            $auction->setTitle($request->request->get('auction')['title']);
+            $auction = $form->getData();
+            $auction->setByUser($this->getUser())
+            /*$auction->setTitle($request->request->get('auction')['title']);
             $auction->setDescription($request->request->get('auction')['description']);
-            $auction->setEndsAt($request->request->get('auction')['endsAt']);
+            $auction->setEndsAt($request->request->get('auction')['endsAt']);*/
             $em->persist($auction);
             $em->flush();
          }
