@@ -97,7 +97,7 @@ class Auction
     public function setEndsAt(string $secondsOffest): self
     {
         $this->endsAt = new \DateTime();
-        $this->endsAt->add(new \DateInterval('+'.$secondsOffest.' seconds'));
+        $this->endsAt->add(new \DateInterval('PT'.$secondsOffest.'S'));
 
         return $this;
     }

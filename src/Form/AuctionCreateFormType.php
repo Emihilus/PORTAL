@@ -6,6 +6,7 @@ use App\Entity\Auction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AuctionCreateFormType extends AbstractType
 {
@@ -13,10 +14,9 @@ class AuctionCreateFormType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('createdAt')
-            ->add('endsAt')
             ->add('description')
-            ->add('byUser')
+            ->add('endsAt')
+            ->add('save', SubmitType::class)
         ;
     }
 
