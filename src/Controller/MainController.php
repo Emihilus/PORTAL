@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Auction;
 use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,12 +56,22 @@ class MainController extends AbstractController
     /**
      * @Route("/create-auction", name="create-auction")
      */
-    public function createAuctionForm(): Response
+    public function createAuctionForm(Request $request): Response
     {
          // creates a task object and initializes some data for this example
          $auction = new Auction();
  
          $form = $this->createForm(AuctionCreateFormType::class, $auction);
+         $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid())
+         {
+            $em = $this->getDoctrine()->getManager();
+            $auction->setTitle($request->request->get('auction')['title']);
+            $auction->setDescription($request->request->get('auction')['description']);
+            $auction->setEndsAt($request->request->get('auction')['endsAt']);
+            $em->persist($auction);
+            $em->flush();
+         }
 
          return $this->render('main/auction_create.html.twig', [
             'form' => $form->createView(),

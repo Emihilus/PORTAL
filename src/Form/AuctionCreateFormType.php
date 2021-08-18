@@ -22,9 +22,10 @@ class AuctionCreateFormType extends AbstractType
                     '5 days' => 432000,
                     '7 days' => 604800
                 ],
-                'data'
+                'data' => 432000,
+                'label' => 'ends in'
             ])
-            ->add('save', SubmitType::class)
+            ->add('Put', SubmitType::class)
         ;
     }
 
@@ -32,7 +33,6 @@ class AuctionCreateFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Auction::class,
-            'choices' => '5 days'
         ]);
     }
 }
