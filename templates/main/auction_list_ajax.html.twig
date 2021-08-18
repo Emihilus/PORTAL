@@ -102,8 +102,18 @@ function getAuctions(requestedPage)
 			}
 			else
 			{
-				$(pageItemElement).reomClass('active');
+				$(pageItemElement).removeClass('active');
 			}
+
+			if(requestedPage == 1 && pageItemElement.children[0].innerHTML == 'Previous')
+			{
+				$(pageItemElement).addClass('disabled');
+			}
+			else if(requestedPage == 1 && pageItemElement.children[0].innerHTML == 'Previous')
+			{
+				$(pageItemElement).removeClass('disabled');
+			}
+
 		});
 	});
 }
