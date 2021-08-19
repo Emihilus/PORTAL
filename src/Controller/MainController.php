@@ -66,15 +66,12 @@ class MainController extends AbstractController
          $form->handleRequest($request);
          if ($form->isSubmitted() && $form->isValid())
          {
-            $TOKEN = $request->request->get('create_auction_form')['token'];
+            $TOKEN = $request->request->get('auction_create_form')['token'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
             $auction = $form->getData();
             $auction->setByUser($user);
             $auction->setCreatedAt(null);
-
-dump($TOKEN);
-dump($request);
 
             $em->persist($auction);
             $em->flush();
