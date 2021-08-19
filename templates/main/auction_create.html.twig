@@ -90,7 +90,7 @@ function previewFile(file, count, length)
     document.getElementById('gallery').appendChild(previewContainer)
 
   if(count == length)
-    reassignOnclickButtons();
+    setTimeout(reassignOnclickButtons(), 5000);
   }
 }
 
