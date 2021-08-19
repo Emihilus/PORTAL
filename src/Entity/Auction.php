@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AuctionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
@@ -66,6 +68,16 @@ class Auction
      * @ORM\JoinColumn(nullable=false)
      */
     private $byUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AuctionImage::class, mappedBy="auction")
+     */
+    private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     /** 
     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -180,6 +192,36 @@ class Auction
     public function setByUser(?User $byUser): self
     {
         $this->byUser = $byUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AuctionImage[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(AuctionImage $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setAuction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(AuctionImage $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getAuction() === $this) {
+                $image->setAuction(null);
+            }
+        }
 
         return $this;
     }
