@@ -69,7 +69,7 @@ class MainController extends AbstractController
          if ($form->isSubmitted() && $form->isValid())
          {
             $TOKEN = $request->request->get('auction_create_form')['token'];
-            $NEW_ORDER = explode(",",$request->request->get('auction_create_form'));['image-order'];
+            $NEW_ORDER = explode(",",$request->request->get('auction_create_form')['image-order']);
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
             $auction = $form->getData();
@@ -77,13 +77,13 @@ class MainController extends AbstractController
             $auction->setCreatedAt(null);
 
             $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
-            $auctionImages = [];
-            $counter = 0;
             for ($i = 0 ; $i < count($tempImages); $i++)
             {
                 $auctionImage = new AuctionImage();
                 $auctionImage->setFilename($tempImages[$i]->getFilename());
                 $auctionImage->setOrderIndicator($NEW_ORDER[$i]);
+                $auctionImage->setAuction($auction);
+                $em->persist($auctionImage);
             }
 
             $em->persist($auction);
@@ -91,7 +91,7 @@ class MainController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Your changes were saved! ".count($images)
+                "Your changes were saved! "
             );
 
             return $this->redirectToRoute('create-auction');
