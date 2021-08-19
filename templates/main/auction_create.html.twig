@@ -170,7 +170,7 @@ function reassignOnclickButtons()
      newOrder+=","+item.getAttribute('id').substring(4);
   }
   newOrder = newOrder.substring(1);
-  document.getElementById("image-order").set
+  document.getElementById("image-order").setAttribute('value', newOrder)
 }
 
 
