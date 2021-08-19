@@ -47,43 +47,16 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-/*let uploadElement = document.getElementById('upload-file');
-uploadElement.addEventListener("change",e =>
-{
-    let files = e.target.files || e.dataTransfer.files;
-    if(!files.length)
-        console.log('no files'); 
-    /*let product = document.getElementById("product");
-    let product_id = product.options[product.selectedIndex].value;
-    if(product_id == "") return;*/
-    /*console.log(files);
-    console.log(files[0].name);
-
-    let filees = $('#upload-file').prop('files')[0];
-    
-    let formData = new FormData();
-    formData.append('file', filees);
-    console.log(formData);
-    
-    $.ajax({
-		url: "{{path ('uploadTemporary') }}",
-		method: "post", 
-		dataType: "json",
-        cache: false,
-        contentType: false,
-        processData: false,
-		data: formData
-	})
-	.done(res => 
-	{ 
-		console.log(res);
-	});
-
-});*/
 const TOKEN = Math.random().toString(36).replace(/[^a-z]+/g, '');
 document.getElementById('upload-token').setAttribute('value', TOKEN)
 
 let dropArea = document.getElementById('drop-area');
+
+let uploadProgress = []
+let filesDone = 0
+let filesToDo = 0
+let progressBar = document.getElementById('progress-bar')
+
 
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
   dropArea.addEventListener(eventName, preventDefaults, false)
@@ -165,12 +138,12 @@ function previewFile(file, count)
   reader.readAsDataURL(file)
   reader.onloadend = function() 
   {
-    let root = document.createElement('div');
+    let previewContainer = document.createElement('div');
     let back = document.createElement('span');
     let next = document.createElement('span');
-    root.className="back-b";
+    previewContainer.className="preview-container";
 
-    back.className="back-baaba";
+    back.className="back-pbutton";
     back.innerHTML = "back";
     back.setAttribute("onclick", "reorder(false,"+count+")");
    /* back.addEventListener("click",() => 
@@ -179,7 +152,7 @@ function previewFile(file, count)
     });*/
 
 
-    next.className="next-baaba";
+    next.className="next-pbutton";
     next.innerHTML = "next";
     next.setAttribute("onclick", "reorder(true,"+count+")");
 
@@ -187,25 +160,30 @@ function previewFile(file, count)
     let img = document.createElement('img')
     img.src = reader.result
 
-    root.appendChild(back);
-    root.appendChild(img);
-    root.appendChild(next);
+    previewContainer.appendChild(back);
+    previewContainer.appendChild(img);
+    previewContainer.appendChild(next);
 
-    document.getElementById('gallery').appendChild(root)
+    document.getElementById('gallery').appendChild(previewContainer)
   }
 }
 
 function reorder(isNext, clicked)
 {
   let rootGallerySet = document.getElementById('gallery');
-  let items = rootGallerySet.getElementsByClassName('back-b');
+  let items = rootGallerySet.getElementsByClassName('preview-container');
   let copy = new Array();
-  let anext,aprevious;
+
   for(let i = 0; i< items.length; i++)
   {
     if(isNext)
     {
-
+      if(i+1 == clicked-1)
+        copy[i] = items[i+1].cloneNode(true);
+      else if (i == clicked-1)
+        copy[i] = items[i-1].cloneNode(true);
+      else
+        copy[i] = items[i].cloneNode(true);
     }
     else
     {
@@ -229,20 +207,15 @@ function reorder(isNext, clicked)
 
 
   counter = 1;
-  let setToReassignOnclickButtons = set.getElementsByClassName(isNext ? 'next-baaba' : 'back-baaba');
+  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName(isNext ? 'next-pbutton' : 'back-pbutton');
 
   for (let item of setToReassignOnclickButtons) 
   {
     item.setAttribute("onclick", "reorder(false,"+counter+")");
     counter++;
-}
+  }
 
 }
-
-let uploadProgress = []
-let filesDone = 0
-let filesToDo = 0
-let progressBar = document.getElementById('progress-bar')
 
 function initializeProgress(numfiles) {
   progressBar.value = 0
