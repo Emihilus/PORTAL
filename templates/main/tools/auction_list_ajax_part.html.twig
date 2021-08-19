@@ -4,4 +4,8 @@
 											{{auction.title}}
 											| kończy się <b>
 											{{ auction.endsAt|date('Y-m-d h:m') }}</b></a>
+											<pre>
+						{{ dump(auction.images[0]) }}
+					</pre>
 					{% endfor %}
+					

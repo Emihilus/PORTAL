@@ -41,6 +41,9 @@ class EndPointsController extends AbstractController
         $_POST_requestedPage = $request->get('requestedPage');
         $itemsPerPage = $_COOKIE['itemsPerPage'];
         $auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
+       /*$auctionImage = $this->getDoctrine()->getRepository(AuctionImage::class)->findOneBy([
+            'auction_id' => ''
+        ])*/
 
         return $this->render('main/tools/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
