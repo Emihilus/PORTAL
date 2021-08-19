@@ -61,20 +61,22 @@ class EndPointsController extends AbstractController
         }
         else 
         {
-            $filename = "[$TOKEN]" . $_FILES['file']['name']
-            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/[$TOKEN]" . $_FILES['file']['name']);
+            $filename = "[$TOKEN]" . $_FILES['file']['name'];
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/$filename");
         }
     
         $tempImage = new TempImage();
         $tempImage->setToken($TOKEN);
-        $tempImage->setFilename();
+        $tempImage->setFilename($filename);
 
         $em = $this->getDoctrine()->getManager();
+        $em->persist($tempImage);
+        $em->flush();
 
 
         return new JsonResponse([
             'resulkt' => session_id(),
-            'resp' => $request->request->get('TOKEN')
+            'resp' => $TOKEN
         ]);
     }
 

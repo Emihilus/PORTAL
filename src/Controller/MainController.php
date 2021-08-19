@@ -59,8 +59,10 @@ class MainController extends AbstractController
      */
     public function createAuctionForm(Request $request): Response
     {
+         $TOKEN = $request->request->get('TOKEN');
+
          $auction = new Auction();
- 
+
          $form = $this->createForm(AuctionCreateFormType::class, $auction);
          $form->handleRequest($request);
          if ($form->isSubmitted() && $form->isValid())
@@ -71,7 +73,7 @@ class MainController extends AbstractController
             $auction->setByUser($user);
             $auction->setCreatedAt(null);
 
-            
+
 
             $em->persist($auction);
             $em->flush();
