@@ -15,8 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
-    public function __construct(PaginatorInterface $paginator)
+    public function __construct($path, PaginatorInterface $paginator)
     {
+        $this->rootPath = $path;
         $this->paginator = $paginator;
     }
 
@@ -84,6 +85,7 @@ class MainController extends AbstractController
                 $auctionImage->setOrderIndicator($NEW_ORDER[$i]);
                 $auctionImage->setAuction($auction);
                 $em->persist($auctionImage);
+                renmame($this->getParameter('tempImagePath').$tempImages[$i]->getFilename(), 0       );
             }
 
             $em->persist($auction);
