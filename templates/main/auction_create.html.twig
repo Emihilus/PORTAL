@@ -125,10 +125,12 @@ function handleFiles(files)
   let count = 1;
   files = [...files]
   initializeProgress(files.length) 
-  files.forEach((file)=> {
-    uploadFile(file,count);
-    count++; });
-  files.forEach(previewFile)
+  files.forEach(uploadFile);
+  files.forEach((file) => 
+  {
+    previewFile(file,count);
+    count++;
+  })
 }
 
 
@@ -213,12 +215,12 @@ function reorder(next, clicked)
 
 
   let backButtons = set.getElementsByClassName('back-baaba');
-  console.log(backButtons);
+  // console.log(backButtons);
   counter = 1;
-  backButtons.forEach((itm) =>
+  /*backButtons.forEach((itm) =>
   {
     
-  } );
+  } );*/
 
   for (let itm of backButtons) 
   {
