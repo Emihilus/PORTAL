@@ -167,6 +167,7 @@ function previewFile(file, count)
     let back = document.createElement('span');
     let next = document.createElement('span');
     root.className="back-b";
+    back.className="back-baaba";
     back.innerHTML = "back";
     back.setAttribute("onclick", "reorder(false,"+count+")");
    /* back.addEventListener("click",() => 
@@ -209,6 +210,21 @@ function reorder(next, clicked)
     set.appendChild(item);
     counter++;
   });
+
+
+  let backButtons = set.getElementsByClassName('back-baaba');
+  console.log(backButtons);
+  counter = 1;
+  backButtons.forEach((itm) =>
+  {
+    
+  } );
+
+  for (let itm of backButtons) 
+  {
+    itm.setAttribute("onclick", "reorder(false,"+counter+")");
+    counter++;
+}
 
 }
 
