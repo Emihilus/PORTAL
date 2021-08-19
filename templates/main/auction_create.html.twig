@@ -39,7 +39,6 @@
 </div>
 
 
-{# {{ form_row(form.Submit) }} #}
 
 {% endblock %}
 
@@ -56,6 +55,101 @@ let uploadProgress = []
 let filesDone = 0
 let filesToDo = 0
 let progressBar = document.getElementById('progress-bar')
+
+
+function previewFile(file, count, length) 
+{
+  let reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onloadend = function() 
+  {
+    let previewContainer = document.createElement('div');
+    let back = document.createElement('span');
+    let next = document.createElement('span');
+    previewContainer.className="preview-container";
+
+    count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
+    back.innerHTML = "back";
+    back.setAttribute("onclick", "reorder(false,"+count+")");
+    previewContainer.appendChild(back);
+    
+
+    let img = document.createElement('img')
+    img.src = reader.result
+    previewContainer.appendChild(img);
+
+
+    count == length ? next.className="next-pbutton d-none" : next.className="next-pbutton";
+    next.innerHTML = "next";
+    next.setAttribute("onclick", "reorder(true,"+count+")");
+    previewContainer.appendChild(next);
+
+    document.getElementById('gallery').appendChild(previewContainer)
+  }
+}
+
+function reorder(isNext, clicked)
+{
+  let rootGallerySet = document.getElementById('gallery');
+  let items = rootGallerySet.getElementsByClassName('preview-container');
+  let copy = new Array();
+
+  for(let i = 0; i< items.length; i++)
+  {
+    if(isNext)
+    {
+      if(i == clicked-1)
+        copy[i] = items[i+1].cloneNode(true);
+      else if (i-1 == clicked-1)
+        copy[i] = items[i-1].cloneNode(true);
+      else
+        copy[i] = items[i].cloneNode(true);
+    }
+    else
+    {
+      if(i+1 == clicked-1)
+        copy[i] = items[i+1].cloneNode(true);
+      else if (i == clicked-1)
+        copy[i] = items[i-1].cloneNode(true);
+      else
+        copy[i] = items[i].cloneNode(true);
+    }
+
+  }
+    rootGallerySet.innerHTML = "";
+    let counter = 1;
+  copy.forEach((item) => 
+  {
+
+    rootGallerySet.appendChild(item);
+    counter++;
+  });
+
+
+  counter = 1;
+  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('next-pbutton');
+
+  for (let item of setToReassignOnclickButtons) 
+  {
+    item.setAttribute("onclick", "reorder(true,"+counter+")");
+    counter == setToReassignOnclickButtons.length ? item.className = 'next-pbutton d-none' : item.className = 'next-pbutton';
+    counter++;
+  }
+
+  counter = 1;
+  setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('back-pbutton');
+
+  for (let item of setToReassignOnclickButtons) 
+  {
+    item.setAttribute("onclick", "reorder(false,"+counter+")");
+    counter == 1 ? item.className = 'back-pbutton d-none' : item.className = 'back-pbutton';
+    counter++;
+  }
+
+}
+
+
+
 
 
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -132,106 +226,7 @@ function uploadFile(file)
   .catch(() => { /* Error. Inform the user */ })
 }
 
-function previewFile(file, count, length) 
-{
-  let reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onloadend = function() 
-  {
-    let previewContainer = document.createElement('div');
-    let back = document.createElement('span');
-    let next = document.createElement('span');
-    previewContainer.className="preview-container";
 
-    
-      count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
-      back.innerHTML = "back";
-      back.setAttribute("onclick", "reorder(false,"+count+")");
-    /* back.addEventListener("click",() => 
-      {
-        reorder(false,count);
-      });*/
-      previewContainer.appendChild(back);
-    
-
-    let img = document.createElement('img')
-    img.src = reader.result
-
-    previewContainer.appendChild(img);
-
-
-    if(count != length)
-    {
-      next.className="next-pbutton";
-      next.innerHTML = "next";
-      next.setAttribute("onclick", "reorder(true,"+count+")");
-
-      previewContainer.appendChild(next);
-    }
-
-
-    document.getElementById('gallery').appendChild(previewContainer)
-  }
-}
-
-function reorder(isNext, clicked)
-{
-  let rootGallerySet = document.getElementById('gallery');
-  let items = rootGallerySet.getElementsByClassName('preview-container');
-  let copy = new Array();
-
-  for(let i = 0; i< items.length; i++)
-  {
-    console.log(clicked+" "+i);
-    if(isNext)
-    {
-      if(i == clicked-1)
-        copy[i] = items[i+1].cloneNode(true);
-      else if (i-1 == clicked-1)
-        copy[i] = items[i-1].cloneNode(true);
-      else
-        copy[i] = items[i].cloneNode(true);
-    }
-    else
-    {
-      if(i+1 == clicked-1)
-        copy[i] = items[i+1].cloneNode(true);
-      else if (i == clicked-1)
-        copy[i] = items[i-1].cloneNode(true);
-      else
-        copy[i] = items[i].cloneNode(true);
-    }
-
-  }
-    rootGallerySet.innerHTML = "";
-    let counter = 1;
-  copy.forEach((item) => 
-  {
-
-    rootGallerySet.appendChild(item);
-    counter++;
-  });
-
-
-  counter = 1;
-  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('next-pbutton');
-
-  for (let item of setToReassignOnclickButtons) 
-  {
-    item.setAttribute("onclick", "reorder(true,"+counter+")");
-    counter++;
-  }
-
-  counter = 1;
-  setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('back-pbutton');
-
-  for (let item of setToReassignOnclickButtons) 
-  {
-    item.setAttribute("onclick", "reorder(false,"+counter+")");
-    counter++;
-  }
-
-}
 
 function initializeProgress(numfiles) {
   progressBar.value = 0
