@@ -176,11 +176,12 @@ function reorder(isNext, clicked)
 
   for(let i = 0; i< items.length; i++)
   {
+    console.log(clicked+" "+i);
     if(isNext)
     {
-      if(i+1 == clicked-1)
+      if(i == clicked-1)
         copy[i] = items[i+1].cloneNode(true);
-      else if (i == clicked-1)
+      else if (i+1 == clicked-1)
         copy[i] = items[i-1].cloneNode(true);
       else
         copy[i] = items[i].cloneNode(true);
