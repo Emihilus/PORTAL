@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
@@ -26,7 +27,8 @@ class AuctionCreateFormType extends AbstractType
                 'data' => 432000,
                 'label' => 'expires in'
             ])
-            ->add('imageFile', VichFileType::class)
+            // ->add('token', HiddenType::class)
+            /*->add('imageFile', VichFileType::class)*/
             ->add('Submit', SubmitType::class)
         ;
     }
@@ -35,6 +37,7 @@ class AuctionCreateFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Auction::class,
+            'allow_extra_fields' => true
         ]);
     }
 }

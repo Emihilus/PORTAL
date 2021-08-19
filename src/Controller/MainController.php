@@ -59,7 +59,6 @@ class MainController extends AbstractController
      */
     public function createAuctionForm(Request $request): Response
     {
-         $TOKEN = $request->request->get('TOKEN');
 
          $auction = new Auction();
 
@@ -67,6 +66,7 @@ class MainController extends AbstractController
          $form->handleRequest($request);
          if ($form->isSubmitted() && $form->isValid())
          {
+            $TOKEN = $request->request->get('auction_create_form[token]');
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
             $auction = $form->getData();
@@ -80,7 +80,7 @@ class MainController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Your changes were saved!'
+                "Your changes were saved! $TOKEN"
             );
 
             return $this->redirectToRoute('create-auction');

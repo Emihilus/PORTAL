@@ -8,7 +8,7 @@
 
 <h1>Formularz dodawania aukcji</h1>
 
-{# {{ form_start(form) }} #}
+ {{ form_start(form) }} 
 {# <div class="my-custom-class-for-errors">
         {{ form_errors(form) }}
 </div> #}
@@ -21,6 +21,8 @@
     <input id="upload-token" type="hidden" name="auction_create_form[token]">
 {{ form_row(form.description) }}
 {{ form_row(form.endsAt) }}
+
+{{form_end(form)}}
 
    {# <input id="upload-file" type="file" name="imageFile"> #}
 
@@ -37,7 +39,7 @@
 </div>
 
 
-{{ form_row(form.Submit) }}
+{# {{ form_row(form.Submit) }} #}
 
 {% endblock %}
 
