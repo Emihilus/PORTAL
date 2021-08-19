@@ -21,9 +21,8 @@
 {{ form_row(form.description) }}
 {{ form_row(form.endsAt) }}
 
-   <input id="upload-file" type="file" name="imageFile">
+   {# <input id="upload-file" type="file" name="imageFile"> #}
 
-{{ form_row(form.Submit) }}
 
 <div id="drop-area">
   <form class="my-form">
@@ -37,6 +36,7 @@
 </div>
 
 
+{{ form_row(form.Submit) }}
 
 {% endblock %}
 
@@ -44,7 +44,7 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-let uploadElement = document.getElementById('upload-file');
+/*let uploadElement = document.getElementById('upload-file');
 uploadElement.addEventListener("change",e =>
 {
     let files = e.target.files || e.dataTransfer.files;
@@ -53,7 +53,7 @@ uploadElement.addEventListener("change",e =>
     /*let product = document.getElementById("product");
     let product_id = product.options[product.selectedIndex].value;
     if(product_id == "") return;*/
-    console.log(files);
+    /*console.log(files);
     console.log(files[0].name);
 
     let filees = $('#upload-file').prop('files')[0];
@@ -76,7 +76,7 @@ uploadElement.addEventListener("change",e =>
 		console.log(res);
 	});
 
-});
+});*/
 
 
 
@@ -129,7 +129,7 @@ function handleFiles(files)
 
 function uploadFile(file) 
 {
-  let url = 'YOUR URL HERE'
+  let url = "{{path ('uploadTemporary') }}"
   let formData = new FormData()
 
   formData.append('file', file)
