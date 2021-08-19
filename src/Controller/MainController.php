@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Auction;
+use App\Entity\AuctionImage;
 use App\Entity\TempImage;
 use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -68,13 +69,22 @@ class MainController extends AbstractController
          if ($form->isSubmitted() && $form->isValid())
          {
             $TOKEN = $request->request->get('auction_create_form')['token'];
+            $NEW_ORDER = explode(",",$request->request->get('auction_create_form'));['image-order'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
             $auction = $form->getData();
             $auction->setByUser($user);
             $auction->setCreatedAt(null);
 
-            $images = $em->getRepository(TempImage::class)->findByToken($TOKEN);
+            $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
+            $auctionImages = [];
+            $counter = 0;
+            for ($i = 0 ; $i < count($tempImages); $i++)
+            {
+                $auctionImage = new AuctionImage();
+                $auctionImage->setFilename($tempImages[$i]->getFilename());
+                $auctionImage->setOrderIndicator($NEW_ORDER[$i]);
+            }
 
             $em->persist($auction);
             $em->flush();
