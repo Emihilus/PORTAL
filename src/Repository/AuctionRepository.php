@@ -28,13 +28,14 @@ class AuctionRepository extends ServiceEntityRepository
     
     public function findAllWithFirstAuctionImage()
     {
-        return $this->createQueryBuilder('a')
+       /* return $this->createQueryBuilder('a')
             ->select('a')
             ->leftJoin('a.auction_image', 'ac')
             ->leftJoin('ac.auction_image', 'ac')
             ->getQuery()
             ->getResult()
-        ;
+        ;*/
+        return $this->createQuery('SELECT a, i FROM auctions a LEFT JOIN ');
     }
     
 
