@@ -187,6 +187,12 @@ function reorder(next, count)
 {
   let set = document.getElementById('gallery');
   const items = set.querySelectorAll('div');
+  let copy = new Array(items.length);
+  for(let i = 0; i< items.length; i++)
+  {
+    copy[i] = items[i];
+  }
+  set.appendChild(copy);
 
 }
 
