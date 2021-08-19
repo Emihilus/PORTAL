@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Auction;
+use App\Entity\TempImage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,17 +53,25 @@ class EndPointsController extends AbstractController
      */
     public function uploadTemp(Request $request)
     {
-        $sessionId = session_id();
+        $TOKEN = $request->request->get('TOKEN');
+        $filename = '';
         if ( 0 < $_FILES['file']['error'] ) 
         {
             echo 'Error: ' . $_FILES['file']['error'] . '<br>';
         }
         else 
         {
-            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/[$sessionId]" . $_FILES['file']['name']);
+            $filename = "[$TOKEN]" . $_FILES['file']['name']
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/[$TOKEN]" . $_FILES['file']['name']);
         }
     
-        dump($request);
+        $tempImage = new TempImage();
+        $tempImage->setToken($TOKEN);
+        $tempImage->setFilename();
+
+        $em = $this->getDoctrine()->getManager();
+
+
         return new JsonResponse([
             'resulkt' => session_id(),
             'resp' => $request->request->get('TOKEN')
