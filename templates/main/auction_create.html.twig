@@ -192,13 +192,17 @@ function reorder(next, count)
   let anext,aprevious;
   for(let i = 0; i< items.length; i++)
   {
+
+  console.log(items);
     if(i == count)
     items[i] = null;
   }
   console.log(items);
   items.forEach((item) => 
   {
+
     document.getElementById('gallery').appendChild(item);
+    
   });
 
 }
