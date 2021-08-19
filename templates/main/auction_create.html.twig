@@ -143,13 +143,17 @@ function previewFile(file, count)
     let next = document.createElement('span');
     previewContainer.className="preview-container";
 
-    back.className="back-pbutton";
-    back.innerHTML = "back";
-    back.setAttribute("onclick", "reorder(false,"+count+")");
-   /* back.addEventListener("click",() => 
+    if(count != 1)
     {
-      reorder(false,count);
-    });*/
+      back.className="back-pbutton";
+      back.innerHTML = "back";
+      back.setAttribute("onclick", "reorder(false,"+count+")");
+    /* back.addEventListener("click",() => 
+      {
+        reorder(false,count);
+      });*/
+      previewContainer.appendChild(back);
+    }
 
 
     next.className="next-pbutton";
@@ -160,7 +164,6 @@ function previewFile(file, count)
     let img = document.createElement('img')
     img.src = reader.result
 
-    previewContainer.appendChild(back);
     previewContainer.appendChild(img);
     previewContainer.appendChild(next);
 
@@ -181,7 +184,7 @@ function reorder(isNext, clicked)
     {
       if(i == clicked-1)
         copy[i] = items[i+1].cloneNode(true);
-      else if (i+1 == clicked-1)
+      else if (i-1 == clicked-1)
         copy[i] = items[i-1].cloneNode(true);
       else
         copy[i] = items[i].cloneNode(true);
@@ -208,7 +211,16 @@ function reorder(isNext, clicked)
 
 
   counter = 1;
-  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName(isNext ? 'next-pbutton' : 'back-pbutton');
+  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('next-pbutton');
+
+  for (let item of setToReassignOnclickButtons) 
+  {
+    item.setAttribute("onclick", "reorder(true,"+counter+")");
+    counter++;
+  }
+
+  counter = 1;
+  setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('back-pbutton');
 
   for (let item of setToReassignOnclickButtons) 
   {
