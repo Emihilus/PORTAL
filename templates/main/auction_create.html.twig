@@ -182,7 +182,7 @@ function previewFile(file, count)
   }
 }
 
-function reorder(next, count)
+function reorder(next, counta)
 {
   console.log("sadas");
   let set = document.getElementById('gallery');
@@ -193,8 +193,8 @@ function reorder(next, count)
   for(let i = 0; i< items.length; i++)
   {
 
-  console.log(items);
-    if(i == count)
+  console.log("EXEC" + counta);
+    if(i == counta)
     items[i] = null;
   }
   console.log(items);
