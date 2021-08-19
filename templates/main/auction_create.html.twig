@@ -85,6 +85,9 @@ function previewFile(file, count, length)
     previewContainer.appendChild(next);
 
     document.getElementById('gallery').appendChild(previewContainer)
+
+  if(count == length)
+    reassignOnclickButtons();
   }
 }
 
@@ -125,6 +128,34 @@ function reorder(isNext, clicked)
     counter++;
   });
 
+  reassignOnclickButtons();
+/*
+  counter = 1;
+  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('next-pbutton');
+
+  for (let item of setToReassignOnclickButtons) 
+  {
+    item.setAttribute("onclick", "reorder(true,"+counter+")");
+    counter == setToReassignOnclickButtons.length ? item.className = 'next-pbutton d-none' : item.className = 'next-pbutton';
+    counter++;
+  }
+
+  counter = 1;
+  setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('back-pbutton');
+
+  for (let item of setToReassignOnclickButtons) 
+  {
+    item.setAttribute("onclick", "reorder(false,"+counter+")");
+    counter == 1 ? item.className = 'back-pbutton d-none' : item.className = 'back-pbutton';
+    counter++;
+  }*/
+
+}
+
+function reassignOnclickButtons()
+{
+  console.log("REASSIGN");
+  let rootGallerySet = document.getElementById('gallery');
 
   counter = 1;
   let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('next-pbutton');
@@ -145,10 +176,7 @@ function reorder(isNext, clicked)
     counter == 1 ? item.className = 'back-pbutton d-none' : item.className = 'back-pbutton';
     counter++;
   }
-
 }
-
-
 
 
 
@@ -184,6 +212,7 @@ function handleDrop(e) {
   let files = dt.files
 
   handleFiles(files)
+
 }
 
 
@@ -198,7 +227,6 @@ function handleFiles(files)
     previewFile(file,count,files.length);
     count++;
   })
-  reorder(false, 2);
 }
 
 
