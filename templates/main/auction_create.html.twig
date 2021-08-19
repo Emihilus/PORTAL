@@ -187,18 +187,18 @@ function reorder(next, counta)
   console.log("sadas");
   let set = document.getElementById('gallery');
   let items = set.querySelectorAll('div');
-  // let copy = new Array(items.length);
+   let copy = new Array(items.length);
   console.log(items);
   let anext,aprevious;
   for(let i = 0; i< items.length; i++)
   {
 
   console.log("EXEC" + counta);
-    if(i == counta)
-    items[i] = null;
+    if(i != counta)
+    copy[i] = items[i].cloneNode(true);
   }
-  console.log(items);
-  items.forEach((item) => 
+  console.log(copy);
+  copy.forEach((item) => 
   {
 console.log(item);
     document.getElementById('gallery').appendChild(item);
