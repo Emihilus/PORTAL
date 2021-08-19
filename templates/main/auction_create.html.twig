@@ -18,6 +18,7 @@
 
 
 {{ form_row(form.title) }}
+    <input id="upload-token" type="hidden" name="auction_create_form[token]">
 {{ form_row(form.description) }}
 {{ form_row(form.endsAt) }}
 
@@ -32,7 +33,6 @@
 <div id="gallery"></div>
     <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
     <label class="button" for="fileElem">Select some files</label>
-    <input type="hidden" name="TOKEN" value="{{random()}}">
   </form>
 </div>
 
@@ -80,6 +80,7 @@ uploadElement.addEventListener("change",e =>
 });*/
 
 const TOKEN = Math.random().toString(36).replace(/[^a-z]+/g, '');
+document.getElementById('upload-token').setAttribute('value', TOKEN)
 
 let dropArea = document.getElementById('drop-area');
 
@@ -134,6 +135,9 @@ function uploadFile(file)
   let formData = new FormData()
 
   formData.append('file', file)
+  formData.append('TOKEN',TOKEN);
+
+  let dropArea = document.getElementById('drop-area')
 
   fetch(url, {
     method: 'POST',
