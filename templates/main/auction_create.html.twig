@@ -170,8 +170,8 @@ function previewFile(file, count)
     back.innerHTML = "back";
     back.addEventListener('click', () => 
     {
-      alert("SSZAPLERT");
-      reorder(false, count)
+      //alert("SSZAPLERT");
+      reorder(false, 1)
     });
     next.innerHTML = "next";
     let img = document.createElement('img')
@@ -185,14 +185,22 @@ function previewFile(file, count)
 
 function reorder(next, count)
 {
+  console.log("sadas");
   let set = document.getElementById('gallery');
-  const items = set.querySelectorAll('div');
-  let copy = new Array(items.length);
+  let items = set.querySelectorAll('div');
+  // let copy = new Array(items.length);
+  console.log(items);
+  let anext,aprevious;
   for(let i = 0; i< items.length; i++)
   {
-    copy[i] = items[i];
+    if(i == count)
+    items[i] = null;
   }
-  set.appendChild(copy);
+  
+  items.forEach((item) => 
+  {
+  set.appendChild(item);
+  });
 
 }
 
