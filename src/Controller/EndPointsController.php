@@ -61,7 +61,7 @@ class EndPointsController extends AbstractController
         }
         else 
         {
-            $filename = "[$TOKEN]" . $_FILES['file']['name'];
+            $filename = $this->getSaveFilename($TOKEN,1);
             move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/$filename");
         }
     
@@ -80,12 +80,12 @@ class EndPointsController extends AbstractController
         ]);
     }
 
-    private function getSavePath(string $token, int $count)
+    private function getSaveFilename(string $token, int $count) :string
     {
-        if(file_exists($this->rootPath."tempImg/[$token]$count.jpg"))
-            $this->getSavePath($token,$count+1);
+        if(file_exists($this->rootPath."/tempImg/[$token]$count.jpg"))
+            $this->getSaveFilename($token,$count+1);
         else
-            return $this->rootPath."tempImg/[$token]$count.jpg";
+            return "[$token]$count.jpg";
     }
 
 }
