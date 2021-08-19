@@ -55,7 +55,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/create-auction", name="create-auction")
+     * @Route("/create-auction", name="create-auction", methods={"POST","GET"})
      */
     public function createAuctionForm(Request $request): Response
     {
@@ -66,7 +66,7 @@ class MainController extends AbstractController
          $form->handleRequest($request);
          if ($form->isSubmitted() && $form->isValid())
          {
-            $TOKEN = $request->get('token');
+            $TOKEN = $request->request->get('create_auction_form')['token'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
             $auction = $form->getData();
