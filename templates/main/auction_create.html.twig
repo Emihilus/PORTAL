@@ -159,9 +159,17 @@ function previewFile(file) {
   let reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onloadend = function() {
+    let root = document.createElement('div');
+    let back = document.createElement('span');
+    let next = document.createElement('span');
+    back.innerHTML = "back";
+    next.innerHTML = "next";
     let img = document.createElement('img')
     img.src = reader.result
-    document.getElementById('gallery').appendChild(img)
+    root.appendChild(back);
+    root.appendChild(img);
+    root.appendChild(next);
+    document.getElementById('gallery').appendChild(root)
   }
 }
 
