@@ -133,26 +133,6 @@ function reorder(isNext, clicked)
   });
 
   reassignOnclickButtons();
-/*
-  counter = 1;
-  let setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('next-pbutton');
-
-  for (let item of setToReassignOnclickButtons) 
-  {
-    item.setAttribute("onclick", "reorder(true,"+counter+")");
-    counter == setToReassignOnclickButtons.length ? item.className = 'next-pbutton d-none' : item.className = 'next-pbutton';
-    counter++;
-  }
-
-  counter = 1;
-  setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('back-pbutton');
-
-  for (let item of setToReassignOnclickButtons) 
-  {
-    item.setAttribute("onclick", "reorder(false,"+counter+")");
-    counter == 1 ? item.className = 'back-pbutton d-none' : item.className = 'back-pbutton';
-    counter++;
-  }*/
 
 }
 
@@ -187,8 +167,10 @@ function reassignOnclickButtons()
   let newOrder = "";
   for (let item of setToSaveNewOrder) 
   {
-    
+     newOrder+=","+item.getAttribute('id').substring(4);
   }
+  newOrder = newOrder.substring(1);
+  document.getElementById("image-order").set
 }
 
 
