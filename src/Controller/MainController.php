@@ -70,6 +70,9 @@ class MainController extends AbstractController
             $auction = $form->getData();
             $auction->setByUser($user);
             $auction->setCreatedAt(null);
+
+            
+
             $em->persist($auction);
             $em->flush();
 
