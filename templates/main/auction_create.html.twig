@@ -80,7 +80,6 @@ uploadElement.addEventListener("change",e =>
 	});
 
 });*/
-
 const TOKEN = Math.random().toString(36).replace(/[^a-z]+/g, '');
 document.getElementById('upload-token').setAttribute('value', TOKEN)
 
@@ -196,10 +195,10 @@ function reorder(next, count)
     if(i == count)
     items[i] = null;
   }
-  
+  console.log(items);
   items.forEach((item) => 
   {
-  set.appendChild(item);
+    document.getElementById('gallery').appendChild(item);
   });
 
 }
