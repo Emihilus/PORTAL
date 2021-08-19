@@ -27,6 +27,11 @@ class AuctionImage
      */
     private $auction;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $orderIndicator;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class AuctionImage
     public function setAuction(?Auction $auction): self
     {
         $this->auction = $auction;
+
+        return $this;
+    }
+
+    public function getOrderIndicator(): ?int
+    {
+        return $this->orderIndicator;
+    }
+
+    public function setOrderIndicator(int $orderIndicator): self
+    {
+        $this->orderIndicator = $orderIndicator;
 
         return $this;
     }

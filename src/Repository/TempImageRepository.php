@@ -22,22 +22,21 @@ class TempImageRepository extends ServiceEntityRepository
     // /**
     //  * @return TempImage[] Returns an array of TempImage objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findByToken($value)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+            ->andWhere('t.token = :val')
             ->setParameter('val', $value)
             ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
-    /*
-    public function findOneBySomeField($value): ?TempImage
+    
+   /* public function findOneBySomeField($value): ?TempImage
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

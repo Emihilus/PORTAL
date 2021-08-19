@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Auction;
+use App\Entity\TempImage;
 use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,12 +74,14 @@ class MainController extends AbstractController
             $auction->setByUser($user);
             $auction->setCreatedAt(null);
 
+            $images = $em->getRepository(TempImage::class)->findByToken($TOKEN);
+
             $em->persist($auction);
             $em->flush();
 
             $this->addFlash(
                 'success',
-                "Your changes were saved! $TOKEN"
+                "Your changes were saved! ".count($images)
             );
 
             return $this->redirectToRoute('create-auction');
