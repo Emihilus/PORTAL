@@ -167,7 +167,12 @@ function previewFile(file, count)
     let back = document.createElement('span');
     let next = document.createElement('span');
     back.innerHTML = "back";
-    back.setAttribute("onclick", "reorder(false,1)");
+    //back.setAttribute("onclick", "reorder(false,"+count+")");
+    back.addEventListener("click",() => 
+    {
+      reorder(false,count);
+    });
+
     next.innerHTML = "next";
     let img = document.createElement('img')
     img.src = reader.result
@@ -186,14 +191,21 @@ function reorder(next, clicked)
   let anext,aprevious;
   for(let i = 0; i< items.length; i++)
   {
-    if(i != clicked)
+    if(i+1 == clicked)
+      copy[i] = items[i+1].cloneNode(true);
+    else if (i == clicked)
+      copy[i] = items[i-1].cloneNode(true);
+    else
       copy[i] = items[i].cloneNode(true);
+
   }
     set.innerHTML = "";
+    let counter = 1;
   copy.forEach((item) => 
   {
-    set.appendChild(item);
     
+    set.appendChild(item);
+    counter++;
   });
 
 }
