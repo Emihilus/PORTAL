@@ -101,7 +101,7 @@ function handleFiles(files)
   files.forEach(uploadFile);
   files.forEach((file) => 
   {
-    previewFile(file,count);
+    previewFile(file,count,files.length);
     count++;
   })
 }
@@ -132,7 +132,7 @@ function uploadFile(file)
   .catch(() => { /* Error. Inform the user */ })
 }
 
-function previewFile(file, count) 
+function previewFile(file, count, length) 
 {
   let reader = new FileReader()
   reader.readAsDataURL(file)
@@ -143,9 +143,8 @@ function previewFile(file, count)
     let next = document.createElement('span');
     previewContainer.className="preview-container";
 
-    if(count != 1)
-    {
-      back.className="back-pbutton";
+    
+      count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
       back.innerHTML = "back";
       back.setAttribute("onclick", "reorder(false,"+count+")");
     /* back.addEventListener("click",() => 
@@ -153,19 +152,23 @@ function previewFile(file, count)
         reorder(false,count);
       });*/
       previewContainer.appendChild(back);
-    }
-
-
-    next.className="next-pbutton";
-    next.innerHTML = "next";
-    next.setAttribute("onclick", "reorder(true,"+count+")");
-
+    
 
     let img = document.createElement('img')
     img.src = reader.result
 
     previewContainer.appendChild(img);
-    previewContainer.appendChild(next);
+
+
+    if(count != length)
+    {
+      next.className="next-pbutton";
+      next.innerHTML = "next";
+      next.setAttribute("onclick", "reorder(true,"+count+")");
+
+      previewContainer.appendChild(next);
+    }
+
 
     document.getElementById('gallery').appendChild(previewContainer)
   }
