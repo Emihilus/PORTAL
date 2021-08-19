@@ -169,6 +169,7 @@ function previewFile(file, count)
     let back = document.createElement('span');
     let next = document.createElement('span');
     root.className="back-b";
+
     back.className="back-baaba";
     back.innerHTML = "back";
     back.setAttribute("onclick", "reorder(false,"+count+")");
@@ -177,54 +178,62 @@ function previewFile(file, count)
       reorder(false,count);
     });*/
 
+
+    next.className="next-baaba";
     next.innerHTML = "next";
+    next.setAttribute("onclick", "reorder(true,"+count+")");
+
+
     let img = document.createElement('img')
     img.src = reader.result
+
     root.appendChild(back);
     root.appendChild(img);
     root.appendChild(next);
+
     document.getElementById('gallery').appendChild(root)
   }
 }
 
-function reorder(next, clicked)
+function reorder(isNext, clicked)
 {
-  let set = document.getElementById('gallery');
-  let items = set.getElementsByClassName('back-b');
-  console.log(items);
+  let rootGallerySet = document.getElementById('gallery');
+  let items = rootGallerySet.getElementsByClassName('back-b');
   let copy = new Array();
   let anext,aprevious;
   for(let i = 0; i< items.length; i++)
   {
-    if(i+1 == clicked)
-      copy[i] = items[i+1].cloneNode(true);
-    else if (i == clicked)
-      copy[i] = items[i-1].cloneNode(true);
+    if(isNext)
+    {
+
+    }
     else
-      copy[i] = items[i].cloneNode(true);
+    {
+      if(i+1 == clicked-1)
+        copy[i] = items[i+1].cloneNode(true);
+      else if (i == clicked-1)
+        copy[i] = items[i-1].cloneNode(true);
+      else
+        copy[i] = items[i].cloneNode(true);
+    }
 
   }
-    set.innerHTML = "";
+    rootGallerySet.innerHTML = "";
     let counter = 1;
   copy.forEach((item) => 
   {
 
-    set.appendChild(item);
+    rootGallerySet.appendChild(item);
     counter++;
   });
 
 
-  let backButtons = set.getElementsByClassName('back-baaba');
-  // console.log(backButtons);
   counter = 1;
-  /*backButtons.forEach((itm) =>
-  {
-    
-  } );*/
+  let setToReassignOnclickButtons = set.getElementsByClassName(isNext ? 'next-baaba' : 'back-baaba');
 
-  for (let itm of backButtons) 
+  for (let item of setToReassignOnclickButtons) 
   {
-    itm.setAttribute("onclick", "reorder(false,"+counter+")");
+    item.setAttribute("onclick", "reorder(false,"+counter+")");
     counter++;
 }
 
