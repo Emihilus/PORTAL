@@ -166,12 +166,13 @@ function previewFile(file, count)
     let root = document.createElement('div');
     let back = document.createElement('span');
     let next = document.createElement('span');
+    root.className="back-b";
     back.innerHTML = "back";
-    //back.setAttribute("onclick", "reorder(false,"+count+")");
-    back.addEventListener("click",() => 
+    back.setAttribute("onclick", "reorder(false,"+count+")");
+   /* back.addEventListener("click",() => 
     {
       reorder(false,count);
-    });
+    });*/
 
     next.innerHTML = "next";
     let img = document.createElement('img')
@@ -186,7 +187,8 @@ function previewFile(file, count)
 function reorder(next, clicked)
 {
   let set = document.getElementById('gallery');
-  let items = set.querySelectorAll('div');
+  let items = set.getElementsByClassName('back-b');
+  console.log(items);
   let copy = new Array();
   let anext,aprevious;
   for(let i = 0; i< items.length; i++)
@@ -203,7 +205,7 @@ function reorder(next, clicked)
     let counter = 1;
   copy.forEach((item) => 
   {
-    
+
     set.appendChild(item);
     counter++;
   });
