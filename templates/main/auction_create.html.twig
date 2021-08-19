@@ -32,7 +32,7 @@
 <div id="gallery"></div>
     <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
     <label class="button" for="fileElem">Select some files</label>
-    <input type="hidden" name="TOKEN" value=
+    <input type="hidden" name="TOKEN" value="{{random()}}">
   </form>
 </div>
 
@@ -139,7 +139,13 @@ function uploadFile(file)
     method: 'POST',
     body: formData
   })
-  .then(progressDone)
+  .then((response) => {
+      progressDone
+      console.log(response)
+      response.json().then(function(data) {
+        console.log(data);
+      });
+  })
   .catch(() => { /* Error. Inform the user */ })
 }
 

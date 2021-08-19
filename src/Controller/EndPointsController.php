@@ -62,9 +62,10 @@ class EndPointsController extends AbstractController
             move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/[$sessionId]" . $_FILES['file']['name']);
         }
     
-
+        dump($request);
         return new JsonResponse([
-            'resulkt' => session_id()
+            'resulkt' => session_id(),
+            'resp' => $request->request->get('TOKEN')
         ]);
     }
 
