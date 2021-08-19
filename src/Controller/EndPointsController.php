@@ -80,4 +80,9 @@ class EndPointsController extends AbstractController
         ]);
     }
 
+    private function getSavePath(string $token) : string
+    {
+        if(file_exists)
+    }
+
 }

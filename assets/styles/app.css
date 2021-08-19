@@ -102,3 +102,8 @@ h1
   #fileElem {
 	display: none;
   }
+
+  .page-item
+  {
+	  cursor:pointer;
+  }
