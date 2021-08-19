@@ -80,9 +80,12 @@ class EndPointsController extends AbstractController
         ]);
     }
 
-    private function getSavePath(string $token) : string
+    private function getSavePath(string $token, int $count)
     {
-        if(file_exists)
+        if(file_exists($this->rootPath."tempImg/[$token]$count.jpg"))
+            $this->getSavePath($token,$count+1);
+        else
+            return $this->rootPath."tempImg/[$token]$count.jpg";
     }
 
 }
