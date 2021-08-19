@@ -12,9 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EndPointsController extends AbstractController
 {
-    public function __construct($path, PaginatorInterface $paginator)
+    public function __construct(PaginatorInterface $paginator)
     {
-        $this->rootPath = $path;
         $this->paginator = $paginator;
     }
 
@@ -62,7 +61,7 @@ class EndPointsController extends AbstractController
         else 
         {
             $filename = $this->getSaveFilename($TOKEN,1);
-            move_uploaded_file($_FILES['file']['tmp_name'], $this->rootPath."/tempImg/$filename");
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->getParameter('tempImagePath').$filename);
         }
     
         $tempImage = new TempImage();
@@ -82,7 +81,7 @@ class EndPointsController extends AbstractController
 
     private function getSaveFilename(string $token, int $count) :string
     {
-        if(file_exists($this->rootPath."/tempImg/[$token]$count.jpg"))
+        if(file_exists($this->getParameter('tempImagePath')."[$token]$count.jpg"))
             return $this->getSaveFilename($token,$count+1);
         else
             return "[$token]$count.jpg";
