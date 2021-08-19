@@ -55,6 +55,7 @@ let uploadProgress = []
 let filesDone = 0
 let filesToDo = 0
 let progressBar = document.getElementById('progress-bar')
+let imgInitialIdentifier=0;
 
 
 function previewFile(file, count, length) 
@@ -67,6 +68,8 @@ function previewFile(file, count, length)
     let back = document.createElement('span');
     let next = document.createElement('span');
     previewContainer.className="preview-container";
+    previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
+    imgInitialIdentifier++;
 
     count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
     back.innerHTML = "back";
