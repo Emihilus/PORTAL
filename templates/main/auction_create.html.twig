@@ -155,14 +155,20 @@ function uploadFile(file)
   .catch(() => { /* Error. Inform the user */ })
 }
 
-function previewFile(file) {
+function previewFile(file) 
+{
   let reader = new FileReader()
   reader.readAsDataURL(file)
-  reader.onloadend = function() {
+  reader.onloadend = function() 
+  {
     let root = document.createElement('div');
     let back = document.createElement('span');
     let next = document.createElement('span');
     back.innerHTML = "back";
+    back.addEventListener('click', () => 
+    {
+      alert("SSZAPLERT");
+    });
     next.innerHTML = "next";
     let img = document.createElement('img')
     img.src = reader.result
