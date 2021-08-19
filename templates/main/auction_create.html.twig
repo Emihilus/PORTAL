@@ -28,16 +28,15 @@
 <div id="drop-area">
   <form class="my-form">
     <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+    <progress id="progress-bar" max=100 value=0></progress>
+
+<div id="gallery"></div>
     <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
     <label class="button" for="fileElem">Select some files</label>
   </form>
 </div>
 
-<div id="gallery"></div>
 
-{# <form action="/file-upload"
-      class="dropzone"
-      id="my-awesome-dropzone"></form> #}
 
 {% endblock %}
 
@@ -118,16 +117,18 @@ function handleDrop(e) {
 }
 
 
-function handleFiles(files) {
+function handleFiles(files) 
+{
   files = [...files]
-  console.log(files)
+  initializeProgress(files.length) 
   files.forEach(uploadFile)
-  //files.forEach(previewFile)
+  files.forEach(previewFile)
 }
 
 
 
-function uploadFile(file) {
+function uploadFile(file) 
+{
   let url = 'YOUR URL HERE'
   let formData = new FormData()
 
@@ -137,8 +138,35 @@ function uploadFile(file) {
     method: 'POST',
     body: formData
   })
-  .then(() => { /* Done. Inform the user */ })
+  .then(progressDone)
   .catch(() => { /* Error. Inform the user */ })
 }
+
+function previewFile(file) {
+  let reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onloadend = function() {
+    let img = document.createElement('img')
+    img.src = reader.result
+    document.getElementById('gallery').appendChild(img)
+  }
+}
+
+let uploadProgress = []
+let filesDone = 0
+let filesToDo = 0
+let progressBar = document.getElementById('progress-bar')
+
+function initializeProgress(numfiles) {
+  progressBar.value = 0
+  filesDone = 0
+  filesToDo = numfiles
+}
+
+function progressDone() {
+  filesDone++
+  progressBar.value = filesDone / filesToDo * 100
+}
+
 </script>
 {% endblock %}
