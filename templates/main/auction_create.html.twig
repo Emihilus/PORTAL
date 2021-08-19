@@ -167,11 +167,12 @@ function previewFile(file, count)
     let back = document.createElement('span');
     let next = document.createElement('span');
     back.innerHTML = "back";
-    back.addEventListener('click', () => 
+    back.setAttribute("onclick", "reorder(false,1)");
+    /*back.addEventListener('click', () => 
     {
       //alert("SSZAPLERT");
       reorder(false, 1)
-    });
+    });*/
     next.innerHTML = "next";
     let img = document.createElement('img')
     img.src = reader.result
@@ -184,24 +185,20 @@ function previewFile(file, count)
 
 function reorder(next, counta)
 {
-  console.log("sadas");
   let set = document.getElementById('gallery');
   let items = set.querySelectorAll('div');
    let copy = new Array(items.length);
-  console.log(items);
   let anext,aprevious;
   for(let i = 0; i< items.length; i++)
   {
 
-  console.log("EXEC" + counta);
     if(i != counta)
     copy[i] = items[i].cloneNode(true);
   }
-  console.log(copy);
+    set.innerHTML = "";
   copy.forEach((item) => 
   {
-console.log(item);
-    document.getElementById('gallery').appendChild(item);
+    set.appendChild(item);
     
   });
 
