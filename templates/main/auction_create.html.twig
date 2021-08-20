@@ -75,7 +75,7 @@ function previewFile(file, count, length)
 
     count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
     back.innerHTML = "back";
-    back.setAttribute("onclick", "reorder(false,"+count+")");
+    back.setAttribute("onclick", "reorder(0,"+count+")");
     previewContainer.appendChild(back);
     
 
@@ -86,7 +86,7 @@ function previewFile(file, count, length)
 
     count == length ? next.className="next-pbutton d-none" : next.className="next-pbutton";
     next.innerHTML = "next";
-    next.setAttribute("onclick", "reorder(true,"+count+")");
+    next.setAttribute("onclick", "reorder(1,"+count+")");
     previewContainer.appendChild(next);
 
 
@@ -126,25 +126,35 @@ function reorder(task, clicked)
   {
     switch (task)
     {
-    case 1:
-      if(i == clicked-1)
-        copy[i] = items[i+1].cloneNode(true);
-      else if (i-1 == clicked-1)
-        copy[i] = items[i-1].cloneNode(true);
-      else
-        copy[i] = items[i].cloneNode(true);
-    break;
+      // NEXT TASK
+      case 1:
+        if(i == clicked-1)
+          copy[i] = items[i+1].cloneNode(true);
+        else if (i-1 == clicked-1)
+          copy[i] = items[i-1].cloneNode(true);
+        else
+          copy[i] = items[i].cloneNode(true);
+        break;
 
-    case 0:
-      if(i+1 == clicked-1)
-        copy[i] = items[i+1].cloneNode(true);
-      else if (i == clicked-1)
-        copy[i] = items[i-1].cloneNode(true);
-      else
-        copy[i] = items[i].cloneNode(true);
-    break;
+      // BACK TASK
+      case 0:
+        if(i+1 == clicked-1)
+          copy[i] = items[i+1].cloneNode(true);
+        else if (i == clicked-1)
+          copy[i] = items[i-1].cloneNode(true);
+        else
+          copy[i] = items[i].cloneNode(true);
+      break;
 
-    case 2:
+      // REMOVE TASK
+      case 2:
+        if(i == clicked-1)
+          ;
+        else if (i > clicked-1)
+          copy[i-1] = items[i].cloneNode(true);
+        else
+          copy[i] = items[i].cloneNode(true);
+        break;
     }
 
   }
@@ -174,7 +184,7 @@ function reassignOnclickButtonsAndCalcNewOrder()
 
   for (let item of setToReassignOnclickButtons) 
   {
-    item.setAttribute("onclick", "reorder(true,"+counter+")");
+    item.setAttribute("onclick", "reorder(1,"+counter+")");
     counter == setToReassignOnclickButtons.length ? item.className = 'next-pbutton d-none' : item.className = 'next-pbutton';
     counter++;
   }
@@ -184,7 +194,7 @@ function reassignOnclickButtonsAndCalcNewOrder()
 
   for (let item of setToReassignOnclickButtons) 
   {
-    item.setAttribute("onclick", "reorder(false,"+counter+")");
+    item.setAttribute("onclick", "reorder(0,"+counter+")");
     counter == 1 ? item.className = 'back-pbutton d-none' : item.className = 'back-pbutton';
     counter++;
   }
