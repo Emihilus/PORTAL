@@ -49,9 +49,8 @@ class MainController extends AbstractController
      */
     public function auctionDetails($auctionId): Response
     {
-        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneBy(['id' => $auctionId]);
+        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithOffers($auctionId);
 
-        dump($auction);
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,

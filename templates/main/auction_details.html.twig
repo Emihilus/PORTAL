@@ -8,4 +8,11 @@
 
 <h1>Aukcja pieca {{auction.title}}</h1>
 <p>{{auction.description}}</p>
+
+<br>
+
+{% for offer in auction.offers %}
+    Emis: {{offer.value/100}} PLN <br>
+{% endfor %}
+
 {% endblock %}
