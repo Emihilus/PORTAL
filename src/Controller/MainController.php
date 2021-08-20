@@ -76,15 +76,15 @@ class MainController extends AbstractController
             $auction->setCreatedAt(null);
 
             $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
-            for ($i = 0 ; $i < count($tempImages); $i++)
+            for ($i = 0 ; $i < count($NEW_ORDER); $i++)
             {
                 $auctionImage = new AuctionImage();
-                $auctionImage->setFilename($tempImages[$i]->getFilename());
-                $auctionImage->setOrderIndicator($NEW_ORDER[$i]);
+                $auctionImage->setFilename($tempImages[$NEW_ORDER[$i]]->getFilename());
+                $auctionImage->setOrderIndicator($i);
                 $auctionImage->setAuction($auction);
                 $em->persist($auctionImage);
                 
-                rename($this->getParameter('tempImagePath').$tempImages[$i]->getFilename(),$this->getParameter('auctionImagePath').$tempImages[$i]->getFilename());
+                rename($this->getParameter('tempImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename(),$this->getParameter('auctionImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename());
             }
 
             $em->persist($auction);
