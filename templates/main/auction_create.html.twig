@@ -72,7 +72,6 @@ function previewFile(file, count, length)
 
     previewContainer.className="preview-container";
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
-    imgInitialIdentifier++;
 
     count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
     back.innerHTML = "back";
@@ -92,10 +91,11 @@ function previewFile(file, count, length)
 
 
     removeButton.innerHTML='delete';
-    removeButton.setAttribute("onclick", "removeImage(iid-"+imgInitialIdentifier+")");
+    removeButton.setAttribute("onclick", "removeImage('iid-"+imgInitialIdentifier+"')");
     previewContainer.appendChild(removeButton);
 
-
+    imgInitialIdentifier++;
+    
 
     document.getElementById('gallery').appendChild(previewContainer)
 
@@ -195,7 +195,8 @@ function reassignOnclickButtons()
 function removeImage(identifier)
 {
   let imageElement = document.getElementById(identifier);
-  imageElement.parentNode.removeChild()
+  imageElement.parentNode.removeChild(imageElement);
+  reassignOnclickButtons();
 }
 
 
