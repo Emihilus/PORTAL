@@ -153,7 +153,7 @@ class Auction
     }*/
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = new \DateTime('now');
+        $createdAt == null ? $this->createdAt = new \DateTime('now') : $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -67,9 +67,9 @@ class TempImage
         return $this->createdAt;
     }
 
-    public function setCreatedAt(): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = new \DateTime('now');
+        $createdAt == null ? $this->createdAt = new \DateTime('now') : $this->createdAt = $createdAt;
 
         return $this;
     }

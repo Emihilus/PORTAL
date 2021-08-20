@@ -64,7 +64,7 @@ class Offer
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $createdAt == null ? $this->createdAt = new \DateTime('now') : $createdAt;
+        $createdAt == null ? $this->createdAt = new \DateTime('now') : $this->createdAt = $createdAt;
 
         return $this;
     }
