@@ -86,7 +86,7 @@ class MainController extends AbstractController
                 
                 rename($this->getParameter('tempImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename(),$this->getParameter('auctionImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename());
 
-                $this->processToThumbnail($this->getParameter('auctionImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename());
+                $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
             }
 
             $em->persist($auction);
@@ -105,8 +105,35 @@ class MainController extends AbstractController
         ]);
     }
 
-    private function processToThumbnail($path)
+    private function processToThumbnail($filename)
     {
-        ;
-    }
+                //Your Image
+        $imgSrc = $this->getParameter('auctionImagePath').$filename;
+
+        //getting the image dimensions
+        list($width, $height) = getimagesize($imgSrc);
+
+        //saving the image into memory (for manipulation with GD Library)
+        $myImage = imagecreatefromjpeg($imgSrc);
+
+        // calculating the part of the image to use for thumbnail
+        if ($width > $height) {
+        $y = 0;
+        $x = ($width - $height) / 2;
+        $smallestSide = $height;
+        } else {
+        $x = 0;
+        $y = ($height - $width) / 2;
+        $smallestSide = $width;
+        }
+
+        // copying the part into thumbnail
+        $thumbSize = 100;
+        $thumb = imagecreatetruecolor($thumbSize, $thumbSize);
+        imagecopyresampled($thumb, $myImage, 0, 0, $x, $y, $thumbSize, $thumbSize, $smallestSide, $smallestSide);
+
+        //final output
+        // header('Content-type: image/jpeg');
+        imagejpeg($thumb, $this->getParameter('auctionImagePathThumbnail').'th-'.$filename);
+            }
 }
