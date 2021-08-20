@@ -48,9 +48,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Auctions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Offer::class, mappedBy="byUser")
+     */
+    private $offers;
+
     public function __construct()
     {
         $this->Auctions = new ArrayCollection();
+        $this->offers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,5 +188,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->username;
+    }
+
+    /**
+     * @return Collection|Offer[]
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): self
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers[] = $offer;
+            $offer->setByUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): self
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getByUser() === $this) {
+                $offer->setByUser(null);
+            }
+        }
+
+        return $this;
     }
 }
