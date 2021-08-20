@@ -30,8 +30,7 @@ class AuctionRepository extends ServiceEntityRepository
     {
         //$em = $this->getEntityManager();
        return $this->createQueryBuilder('a')
-            ->select('b')
-            ->leftJoin('AuctionImage', 'b')
+            ->leftJoin('a.images', 'i')
             //->leftJoin('ac.auctionimage', 'ac')
             ->getQuery()
             ->getResult()
