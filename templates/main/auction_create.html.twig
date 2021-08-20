@@ -68,7 +68,7 @@ function previewFile(file, count, length)
     let previewContainer = document.createElement('div');
     let back = document.createElement('span');
     let next = document.createElement('span');
-    let deleteButton = document.createElement('span');
+    let removeButton = document.createElement('span');
 
     previewContainer.className="preview-container";
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
@@ -91,8 +91,9 @@ function previewFile(file, count, length)
     previewContainer.appendChild(next);
 
 
-    deleteButton.innerHTML='delete';
-    previewContainer.appendChild(deleteButton);
+    removeButton.innerHTML='delete';
+    removeButton.setAttribute("onclick", "removeImage(iid-"+imgInitialIdentifier+")");
+    previewContainer.appendChild(removeButton);
 
 
 
@@ -179,7 +180,7 @@ function reassignOnclickButtons()
   }
 
 
-  //let rootGallerySet = document.getElementById('gallery');
+  // CALCULATE IMAGE NEW ORDER TO SEND IT TO THE SERVER
   let setToSaveNewOrder = rootGallerySet.getElementsByClassName('preview-container')
   let newOrder = "";
   for (let item of setToSaveNewOrder) 
@@ -190,6 +191,12 @@ function reassignOnclickButtons()
   document.getElementById("image-order").setAttribute('value', newOrder)
 }
 
+
+function removeImage(identifier)
+{
+  let imageElement = document.getElementById(identifier);
+  imageElement.parentNode.removeChild()
+}
 
 
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
