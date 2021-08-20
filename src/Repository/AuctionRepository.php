@@ -32,6 +32,7 @@ class AuctionRepository extends ServiceEntityRepository
        return $this->createQueryBuilder('a')
             ->leftJoin('a.images', 'i')
             ->addSelect('MIN(i.id)')
+            ->groupBy('i.filename')
             //->leftJoin('ac.auctionimage', 'ac')
             ->getQuery()
             ->getResult()
