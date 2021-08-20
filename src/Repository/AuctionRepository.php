@@ -59,6 +59,7 @@ class AuctionRepository extends ServiceEntityRepository
             ->addSelect('o')
             ->Where('a.id = :val')
             ->setParameter('val', $value)
+            ->orderBy('o.Value')
             ->getQuery()
             ->getOneOrNullResult()
         ;

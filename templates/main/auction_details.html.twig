@@ -12,7 +12,7 @@
 <br>
 
 {% for offer in auction.offers %}
-    Emis: {{offer.value/100}} PLN <br>
+    <b>Emis: {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
 {% endfor %}
 
 {% endblock %}
