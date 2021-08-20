@@ -50,6 +50,7 @@ class AppFixtures extends Fixture
 
     private function loadAuctions(ObjectManager $manager) : void
     {
+        $counter = 1;
         foreach ($this->getAuctionData() as [$title,  $createdAt, $PEROID, $description])
         {
             $auction = new Auction();
@@ -61,7 +62,7 @@ class AppFixtures extends Fixture
             $auction->setEndsAt('146400');
             $auction->setDescription($description);
 
-
+            // ADD OFFERS WITH RANDOM VALUE AND PAST DATE
             for ($i = 0; $i< random_int(1,10); $i++)
             {
                 $offer = new Offer();
@@ -73,13 +74,17 @@ class AppFixtures extends Fixture
                 $manager->persist($offer);
             }
 
+            // ADD FIRST IMAGE
             $auctionImage = new AuctionImage();
             $auctionImage->setAuction($auction);
-            $auctionImage->set
+            $auctionImage->setFilename($counter.'.jpg');
+            $auctionImage->setOrderIndicator(0);
+            $manager->persist($auctionImage);
 
 
 
             $manager->persist($auction);
+            $counter++;
         }
 
         $manager->flush();
