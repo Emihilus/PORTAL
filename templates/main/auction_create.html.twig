@@ -94,20 +94,24 @@ function previewFile(file, count, length)
     removeButton.setAttribute("onclick", "removeImage('iid-"+imgInitialIdentifier+"')");
     previewContainer.appendChild(removeButton);
 
-    imgInitialIdentifier++;
-    
+  
 
     document.getElementById('gallery').appendChild(previewContainer)
 
-    if(count == 1)
+    if(count == 1 && imgInitialIdentifier == 0)
     {
         let separator = document.createElement('hr');
         document.getElementById('gallery').appendChild(separator);   
     }
-
+    
   if(count == length)
-      setTimeout(reassignOnclickButtons, 500);
+      setTimeout(reassignOnclickButtonsAndCalcNewOrder, 500);
+
+    imgInitialIdentifier++;
+    
   }
+
+
 }
 
 function reorder(isNext, clicked)
@@ -151,11 +155,11 @@ function reorder(isNext, clicked)
     counter++;
   });
 
-  reassignOnclickButtons();
+  reassignOnclickButtonsAndCalcNewOrder();
 
 }
 
-function reassignOnclickButtons()
+function reassignOnclickButtonsAndCalcNewOrder()
 {
   let rootGallerySet = document.getElementById('gallery');
 
@@ -196,7 +200,7 @@ function removeImage(identifier)
 {
   let imageElement = document.getElementById(identifier);
   imageElement.parentNode.removeChild(imageElement);
-  reassignOnclickButtons();
+  reassignOnclickButtonsAndCalcNewOrder();
 }
 
 
