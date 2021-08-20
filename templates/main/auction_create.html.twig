@@ -26,10 +26,7 @@
 {{form_end(form)}}
 
    {# <input id="upload-file" type="file" name="imageFile"> #}
-<div id="drop-area-prima">
-  <form class="my-form">
-    <p>CLUSTER</p>
-    <progress id="progress-bar" max=100 value=0></progress>
+
 
 <div id="drop-area">
   <form class="my-form">
@@ -90,6 +87,12 @@ function previewFile(file, count, length)
     next.innerHTML = "next";
     next.setAttribute("onclick", "reorder(true,"+count+")");
     previewContainer.appendChild(next);
+
+     if(count == 1)
+    {
+        let separator = document.createElement('hr');
+        previewContainer.appendChild(separator);   
+    }
 
     document.getElementById('gallery').appendChild(previewContainer)
 
