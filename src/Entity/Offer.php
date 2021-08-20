@@ -34,6 +34,12 @@ class Offer
      */
     private $auction;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="offers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $byUser;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -56,9 +62,9 @@ class Offer
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $createdAt;
+        $createdAt == null ? $this->createdAt = new \DateTime('now') : $createdAt;
 
         return $this;
     }
@@ -71,6 +77,18 @@ class Offer
     public function setAuction(?Auction $auction): self
     {
         $this->auction = $auction;
+
+        return $this;
+    }
+
+    public function getByUser(): ?User
+    {
+        return $this->byUser;
+    }
+
+    public function setByUser(?User $byUser): self
+    {
+        $this->byUser = $byUser;
 
         return $this;
     }
