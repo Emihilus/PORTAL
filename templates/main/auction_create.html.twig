@@ -95,20 +95,22 @@ function previewFile(file, count, length)
     previewContainer.appendChild(removeButton);
 
   
-
     document.getElementById('gallery').appendChild(previewContainer)
 
-    if(count == 1 && imgInitialIdentifier == 0)
+    console.log(document.getElementById('image-order').value);
+
+    if(count == 1)// && document.getElementById('image-order').value == '')
     {
         let separator = document.createElement('hr');
         document.getElementById('gallery').appendChild(separator);   
     }
+    imgInitialIdentifier++;
+
     
   if(count == length)
       setTimeout(reassignOnclickButtonsAndCalcNewOrder, 500);
 
-    imgInitialIdentifier++;
-    
+
   }
 
 
@@ -242,6 +244,7 @@ function handleDrop(e) {
 
 function handleFiles(files) 
 {
+  document.getElementById('image-order').value != ''
   let count = 1;
   files = [...files]
   initializeProgress(files.length) 
