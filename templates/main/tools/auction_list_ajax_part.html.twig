@@ -1,10 +1,9 @@
 {% for auction in auctions %}
 
-	<a href="{{path('auction-details',{'auctionId': auction.0.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined %}{{asset('upload/'~auction.filename)}}{% endif %}" width="50">
+	<a href="{{path('auction-details',{'auctionId': auction.0.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset('upload/'~auction.filename)}}{% endif %}" width="50">
 		{{auction.0.title}}
 		| kończy się
 		<b>
 			{{ auction[0].endsAt|date('Y-m-d h:m') }}</b>
 	</a>
 {% endfor %}
-{# {{dump(auctions)}} #}

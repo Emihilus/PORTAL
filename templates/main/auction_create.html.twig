@@ -68,6 +68,8 @@ function previewFile(file, count, length)
     let previewContainer = document.createElement('div');
     let back = document.createElement('span');
     let next = document.createElement('span');
+    let deleteButton = document.createElement('span');
+
     previewContainer.className="preview-container";
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
     imgInitialIdentifier++;
@@ -88,8 +90,13 @@ function previewFile(file, count, length)
     next.setAttribute("onclick", "reorder(true,"+count+")");
     previewContainer.appendChild(next);
 
-    document.getElementById('gallery').appendChild(previewContainer)
 
+    deleteButton.innerHTML='delete';
+    previewContainer.appendChild(deleteButton);
+
+
+
+    document.getElementById('gallery').appendChild(previewContainer)
 
     if(count == 1)
     {
