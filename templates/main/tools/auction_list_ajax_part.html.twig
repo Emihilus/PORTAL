@@ -5,7 +5,10 @@
 											| kończy się <b>
 											{{ auction.endsAt|date('Y-m-d h:m') }}</b></a>
 											<pre>
-						{{ dump(auction.images[0]) }}
+											{% if auction.images[0] is not null %}
+    										{{ dump(auction.images[0]) }}
+											{% endif %}
+						
 					</pre>
 					{% endfor %}
 					
