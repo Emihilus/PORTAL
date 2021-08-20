@@ -88,13 +88,14 @@ function previewFile(file, count, length)
     next.setAttribute("onclick", "reorder(true,"+count+")");
     previewContainer.appendChild(next);
 
-     if(count == 1)
+    document.getElementById('gallery').appendChild(previewContainer)
+
+
+    if(count == 1)
     {
         let separator = document.createElement('hr');
-        previewContainer.appendChild(separator);   
+        document.getElementById('gallery').appendChild(separator);   
     }
-
-    document.getElementById('gallery').appendChild(previewContainer)
 
   if(count == length)
       setTimeout(reassignOnclickButtons, 500);
@@ -133,8 +134,12 @@ function reorder(isNext, clicked)
     let counter = 1;
   copy.forEach((item) => 
   {
-
     rootGallerySet.appendChild(item);
+    if(counter == 1)
+        {
+            let separator = document.createElement('hr');
+            rootGallerySet.appendChild(separator);   
+        }
     counter++;
   });
 
@@ -144,7 +149,6 @@ function reorder(isNext, clicked)
 
 function reassignOnclickButtons()
 {
-  console.log("REASSIGN");
   let rootGallerySet = document.getElementById('gallery');
 
   counter = 1;
