@@ -74,9 +74,15 @@ class Auction
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Offer::class, mappedBy="auction")
+     */
+    private $offers;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->offers = new ArrayCollection();
     }
 
     /** 
@@ -220,6 +226,36 @@ class Auction
             // set the owning side to null (unless already changed)
             if ($image->getAuction() === $this) {
                 $image->setAuction(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Offer[]
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): self
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers[] = $offer;
+            $offer->setAuction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): self
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getAuction() === $this) {
+                $offer->setAuction(null);
             }
         }
 
