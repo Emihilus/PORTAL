@@ -116,7 +116,7 @@ function previewFile(file, count, length)
 
 }
 
-function reorder(isNext, clicked)
+function reorder(task, clicked)
 {
   let rootGallerySet = document.getElementById('gallery');
   let items = rootGallerySet.getElementsByClassName('preview-container');
@@ -124,23 +124,27 @@ function reorder(isNext, clicked)
 
   for(let i = 0; i< items.length; i++)
   {
-    if(isNext)
+    switch (task)
     {
+    case 1:
       if(i == clicked-1)
         copy[i] = items[i+1].cloneNode(true);
       else if (i-1 == clicked-1)
         copy[i] = items[i-1].cloneNode(true);
       else
         copy[i] = items[i].cloneNode(true);
-    }
-    else
-    {
+    break;
+
+    case 0:
       if(i+1 == clicked-1)
         copy[i] = items[i+1].cloneNode(true);
       else if (i == clicked-1)
         copy[i] = items[i-1].cloneNode(true);
       else
         copy[i] = items[i].cloneNode(true);
+    break;
+
+    case 2:
     }
 
   }
@@ -244,8 +248,12 @@ function handleDrop(e) {
 
 function handleFiles(files) 
 {
-  document.getElementById('image-order').value != ''
   let count = 1;
+  if(document.getElementById('image-order').value != '')
+  count = 2;
+  else
+  count = 1;
+
   files = [...files]
   initializeProgress(files.length) 
   files.forEach(uploadFile);
