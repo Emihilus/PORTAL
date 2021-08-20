@@ -30,8 +30,8 @@ class AuctionRepository extends ServiceEntityRepository
     {
        return $this->createQueryBuilder('a')
             ->leftJoin('a.images', 'i')
-            ->addSelect('MIN(i.orderIndicator), i.filename')
-            ->groupBy('a.id, i.filename')
+            ->addSelect('MAX(i.orderIndicator) AS ds, i.filename')
+            ->groupBy('.id, i.filename')
             ->getQuery()
             ->getResult()
         ;
