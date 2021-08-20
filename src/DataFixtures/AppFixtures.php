@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Auction;
+use App\Entity\AuctionImage;
 use App\Entity\Offer;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
@@ -71,6 +72,13 @@ class AppFixtures extends Fixture
 
                 $manager->persist($offer);
             }
+
+            $auctionImage = new AuctionImage();
+            $auctionImage->setAuction($auction);
+            $auctionImage->set
+
+
+
             $manager->persist($auction);
         }
 

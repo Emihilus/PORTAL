@@ -7,12 +7,16 @@
 {% block body %}
 
 <h1>Aukcja pieca {{auction.title}}</h1>
+<BR>
+
+<h2> ENDS AT {{auction.endsAt|date('Y-m-d h:m')}} </h2>
+
 <p>{{auction.description}}</p>
 
 <br>
 
 {% for offer in auction.offers %}
-    <b>Emis: {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
+    <b>Emis offers {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
 {% endfor %}
 
 {% endblock %}
