@@ -85,6 +85,8 @@ class MainController extends AbstractController
                 $em->persist($auctionImage);
                 
                 rename($this->getParameter('tempImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename(),$this->getParameter('auctionImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename());
+
+                $this->processToThumbnail($this->getParameter('auctionImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename());
             }
 
             $em->persist($auction);
@@ -101,5 +103,10 @@ class MainController extends AbstractController
          return $this->render('main/auction_create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    private function processToThumbnail($path)
+    {
+        ;
     }
 }

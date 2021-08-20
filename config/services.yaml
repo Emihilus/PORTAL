@@ -6,7 +6,8 @@
 parameters:
     app.path.product_images: /img/auctions
     tempImagePath: '%kernel.project_dir%/tempImg/'
-    auctionImagePath: '%kernel.project_dir%/public/upload/'
+    auctionImagePath: '%kernel.project_dir%/public/u/f/'
+    auctionImagePathThumbnail: '%kernel.project_dir%/public/u/t/'
 
 services:
     # default configuration for services in *this* file
