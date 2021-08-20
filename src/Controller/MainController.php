@@ -51,6 +51,8 @@ class MainController extends AbstractController
     {
         $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneBy(['id' => $auctionId]);
 
+        dump($auction);
+
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
         ]);
