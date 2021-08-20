@@ -91,6 +91,7 @@ function previewFile(file, count, length)
 
 
     removeButton.innerHTML='delete';
+    removeButton.className = 'remove-pbutton';
     removeButton.setAttribute("onclick", "removeImage('iid-"+imgInitialIdentifier+"')");
     previewContainer.appendChild(removeButton);
 
@@ -148,12 +149,10 @@ function reorder(task, clicked)
 
       // REMOVE TASK
       case 2:
-        if(i == clicked-1)
-          ;
+        if(i < clicked-1)
+          copy[i] = items[i].cloneNode(true);
         else if (i > clicked-1)
           copy[i-1] = items[i].cloneNode(true);
-        else
-          copy[i] = items[i].cloneNode(true);
         break;
     }
 
@@ -199,6 +198,14 @@ function reassignOnclickButtonsAndCalcNewOrder()
     counter++;
   }
 
+  counter = 1;
+  setToReassignOnclickButtons = rootGallerySet.getElementsByClassName('remove-pbutton');
+  for (let item of setToReassignOnclickButtons) 
+  {
+    item.setAttribute("onclick", "reorder(2,"+counter+")");
+    counter++;
+  }
+
 
   // CALCULATE IMAGE NEW ORDER TO SEND IT TO THE SERVER
   let setToSaveNewOrder = rootGallerySet.getElementsByClassName('preview-container')
@@ -212,12 +219,12 @@ function reassignOnclickButtonsAndCalcNewOrder()
 }
 
 
-function removeImage(identifier)
+/*function removeImage(identifier)
 {
   let imageElement = document.getElementById(identifier);
   imageElement.parentNode.removeChild(imageElement);
   reassignOnclickButtonsAndCalcNewOrder();
-}
+}*/
 
 
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
