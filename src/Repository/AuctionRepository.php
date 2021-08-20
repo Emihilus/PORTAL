@@ -25,12 +25,12 @@ class AuctionRepository extends ServiceEntityRepository
     // /**
     //  * @return Auction[] Returns an array of Auction objects
     //  */
-    
+
     public function findAllWithFirstAuctionImage()
     {
        return $this->createQueryBuilder('a')
             ->leftJoin('a.images', 'i')
-            ->addSelect('MAX(i.orderIndicator) AS ds, i.filename')
+            ->addSelect('i.filename')
             ->groupBy('.id, i.filename')
             ->getQuery()
             ->getResult()
@@ -61,4 +61,15 @@ class AuctionRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function findAllWithFirstAuctionImageIncorrect()
+    {
+       return $this->createQueryBuilder('a')
+            ->leftJoin('a.images', 'i')
+            ->addSelect('MAX(i.orderIndicator) AS ds, i.filename')
+            ->groupBy('.id, i.filename')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
