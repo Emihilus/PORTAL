@@ -44,7 +44,7 @@ class EndPointsController extends AbstractController
        /*$auctionImage = $this->getDoctrine()->getRepository(AuctionImage::class)->findOneBy([
             'auction_id' => ''
         ])*/
-
+        dump($auctions);
         return $this->render('main/tools/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
         ]);
