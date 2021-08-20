@@ -24,6 +24,7 @@ class AuctionImage
 
     /**
      * @ORM\ManyToOne(targetEntity=Auction::class, inversedBy="images")
+     * @ORM\JoinColumn(name="auction_id", referencedColumnName="id")
      */
     private $auction;
 
