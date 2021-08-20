@@ -70,6 +70,7 @@ class EndPointsController extends AbstractController
         $tempImage = new TempImage();
         $tempImage->setToken($TOKEN);
         $tempImage->setFilename($filename);
+        $tempImage->setCreatedAt();
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($tempImage);
