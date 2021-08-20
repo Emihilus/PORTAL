@@ -6,6 +6,7 @@ use App\Repository\TempImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="temp_images")
  * @ORM\Entity(repositoryClass=TempImageRepository::class)
  */
 class TempImage

@@ -6,6 +6,7 @@ use App\Repository\AuctionImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="auction_images")
  * @ORM\Entity(repositoryClass=AuctionImageRepository::class)
  */
 class AuctionImage
