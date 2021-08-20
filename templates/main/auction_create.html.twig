@@ -92,7 +92,7 @@ function previewFile(file, count, length)
 
     removeButton.innerHTML='delete';
     removeButton.className = 'remove-pbutton';
-    removeButton.setAttribute("onclick", "removeImage('iid-"+imgInitialIdentifier+"')");
+    removeButton.setAttribute("onclick", "reorder(2,"+count+")");
     previewContainer.appendChild(removeButton);
 
   
@@ -127,7 +127,7 @@ function reorder(task, clicked)
   {
     switch (task)
     {
-      // NEXT TASK
+      // MOVE ITEM NEXT TASK
       case 1:
         if(i == clicked-1)
           copy[i] = items[i+1].cloneNode(true);
@@ -137,7 +137,7 @@ function reorder(task, clicked)
           copy[i] = items[i].cloneNode(true);
         break;
 
-      // BACK TASK
+      // MOVE ITEM BACK TASK
       case 0:
         if(i+1 == clicked-1)
           copy[i] = items[i+1].cloneNode(true);
@@ -147,7 +147,7 @@ function reorder(task, clicked)
           copy[i] = items[i].cloneNode(true);
       break;
 
-      // REMOVE TASK
+      // REMOVE ITEM TASK
       case 2:
         if(i < clicked-1)
           copy[i] = items[i].cloneNode(true);
@@ -218,7 +218,7 @@ function reassignOnclickButtonsAndCalcNewOrder()
   document.getElementById("image-order").setAttribute('value', newOrder)
 }
 
-
+// DELEGATED TO reorder
 /*function removeImage(identifier)
 {
   let imageElement = document.getElementById(identifier);
