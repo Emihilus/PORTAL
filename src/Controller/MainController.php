@@ -49,7 +49,7 @@ class MainController extends AbstractController
      */
     public function auctionDetails($auctionId): Response
     {
-        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithOffers($auctionId);
+        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffers($auctionId);
 
 
         return $this->render('main/auction_details.html.twig', [
