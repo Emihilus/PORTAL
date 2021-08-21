@@ -17,9 +17,11 @@
 
 <input id='offerInput' type="number" min="1" step="any" /> PLN  <button onclick='makeOffer()'>Offer</button><br>
 
+<div id='offers'>
 {% for offer in auction.offers %}
     <b>Emis offers {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
 {% endfor %}
+</div>
 
 {% endblock %}
 
@@ -41,6 +43,7 @@ function makeOffer()
         })
     .then((response) => 
     {
+        document.getElementById('offers').prepend(document.createTextNode('<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>'))
       console.log(response)
       response.json().then(function(data) {
         console.log(data);
