@@ -27,8 +27,6 @@
     <b>Emis offers {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
 {% endfor %}
 </div>
-1629649998
-1629587407927
 {% endblock %}
 
 {% block javascripts %}
@@ -48,26 +46,16 @@ function auctionTimer()
 
 function secondsToHms(d) {
     d = Number(d);
-    let h = Math.floor(d / 3600);
+    let da = Math.floor(d / 86400);
+    let h = Math.floor(d % 86400 / 3600);
     let m = Math.floor(d % 3600 / 60);
     let s = Math.floor(d % 3600 % 60);
 
-    let hDisplay = (h < 10 ? "0" : "") + h;
-    let mDisplay = (m < 10 ? "0" : "") + m;
-    let sDisplay = s + (s < 10 ? "0" : "");
-    return hDisplay + mDisplay + sDisplay; 
-}
-
-function secondsToHmsCut(d) {
-    d = Number(d);
-    let h = Math.floor(d / 3600);
-    let m = Math.floor(d % 3600 / 60);
-    let s = Math.floor(d % 3600 % 60);
-
-    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-    return hDisplay + mDisplay + sDisplay; 
+    let daDisplay = (da < 10 ? "0" : "") + da + ":";
+    let hDisplay = (h < 10 ? "0" : "") + h + ":";
+    let mDisplay = (m < 10 ? "0" : "") + m + ":";
+    let sDisplay = (s < 10 ? "0" : "") + s;
+    return daDisplay + hDisplay + mDisplay + sDisplay; 
 }
 
 function makeOffer()
@@ -95,5 +83,20 @@ function makeOffer()
     })
     .catch(() => { /* Error. Inform the user */ })
 }
+
+
+
+
+/*function secondsToHmsCut(d) { useful
+    d = Number(d);
+    let h = Math.floor(d / 3600);
+    let m = Math.floor(d % 3600 / 60);
+    let s = Math.floor(d % 3600 % 60);
+
+    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay + sDisplay; 
+}*/
 </script>
 {% endblock %}
