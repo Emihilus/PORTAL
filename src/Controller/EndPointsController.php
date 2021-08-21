@@ -92,4 +92,20 @@ class EndPointsController extends AbstractController
             return "[$token]$count.jpg";
     }
 
+
+
+    /**
+     * @Route("/ep/makeOffer", name="makeOffer", methods={"POST"})
+     */
+    public function makeOffer(Request $request)
+    {
+
+        $result = $request->get('offerValue');
+        dump($request);
+
+        return new JsonResponse([
+            'RECEIVED VALUE' => $result
+        ]);
+    }
+
 }
