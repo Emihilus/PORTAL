@@ -15,10 +15,17 @@
 
 <br>
 
-<input type=
+<input type="number" min="1" step="any" /> PLN  <button>Submit</button><br>
 
 {% for offer in auction.offers %}
     <b>Emis offers {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
 {% endfor %}
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+
+</script>
 {% endblock %}
