@@ -12,9 +12,9 @@
 {# {{ exampleVariableHijack }}   #}
 
 <h2> ENDS AT {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
-<h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
-<h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2>
-<h2> CALCULATED DIFFERENCE TIMER SECONDS: <div id='timer'></div> </h2>
+{# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
+<h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
+<h2> ENDS TIMER: <span id='timer'></span> </h2>
 
 <p>{{auction.description}}</p>
 
@@ -24,7 +24,7 @@
 
 <div id='offers'>
 {% for offer in auction.offers %}
-    <b>Emis offers {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
+    <b>Emis offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br>
 {% endfor %}
 </div>
 {% endblock %}
@@ -48,8 +48,8 @@ function secondsToHms(d) {
     d = Number(d);
     let da = Math.floor(d / 86400);
     let h = Math.floor(d % 86400 / 3600);
-    let m = Math.floor(d % 3600 / 60);
-    let s = Math.floor(d % 3600 % 60);
+    let m = Math.floor(d % 86400 % 3600 / 60);
+    let s = Math.floor(d % 86400 % 3600 % 60);
 
     let daDisplay = (da < 10 ? "0" : "") + da + ":";
     let hDisplay = (h < 10 ? "0" : "") + h + ":";
