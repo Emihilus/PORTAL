@@ -3,8 +3,8 @@
 	<a href="{{path('auction-details',{'auctionId': auction.0.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset('u/t/th-'~auction.filename)}}{% endif %}" width="100">
 		{{auction.0.title}}
 		| kończy się
-		<b>
-			{{ auction[0].endsAt|date('Y-m-d h:m') }}</b> | {{auction.hghst/100}} PLN
+		
+			{{ auction[0].endsAt|date('Y-m-d h:m') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b>
 	</a>
 	{#{{dump(auction)}} #}
 {% endfor %}
