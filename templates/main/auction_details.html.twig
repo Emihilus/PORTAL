@@ -12,6 +12,7 @@
 {# {{ exampleVariableHijack }}   #}
 
 <h2> ENDS AT {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
+<h2> ENDS FOR {{auction.endsAt | date_diff(date())}} </h2>
 
 <p>{{auction.description}}</p>
 
