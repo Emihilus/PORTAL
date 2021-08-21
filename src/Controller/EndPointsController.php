@@ -101,7 +101,8 @@ class EndPointsController extends AbstractController
     {
 
         $result = $request->get('offerValue');
-        dump($request);
+        //dump($request);
+        dump($request->getContent());
 
         return new JsonResponse([
             'RECEIVED VALUE' => $result
