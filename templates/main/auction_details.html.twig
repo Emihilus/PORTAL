@@ -14,6 +14,7 @@
 <h2> ENDS AT {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2>
+<h2> CALCULATED DIFFERENCE TIMER SECONDS: <div id='timer'></div> </h2>
 
 <p>{{auction.description}}</p>
 
@@ -35,7 +36,15 @@
 <script>
 
 let endsAt = "{{auction.endsAt | date('U')}}";
-document.getElementById('time').innerHTML = Date.now()+" difference: "+ (endsAt-Date.now());
+let timerElement = document.getElementById('timer');
+// document.getElementById('time').innerHTML = Date.now()+" difference: "+ difference;
+
+setTimeout(auctionTimer, 500)
+function auctionTimer()
+{
+    timerElement.innerHTML = endsAt-(Math.round(Date.now()/1000));
+    setTimeout(auctionTimer, 500)
+}
 
 function makeOffer()
 {
