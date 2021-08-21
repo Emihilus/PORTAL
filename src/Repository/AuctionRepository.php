@@ -91,4 +91,30 @@ class AuctionRepository extends ServiceEntityRepository
                 limit 1
             )
        */
+
+    /* 
+       SELECT AUTCIONS WITH HIGHEST OFFER VALUE WITHOUT ENTITY
+       select
+        auctions.id,
+        (
+            select max(offers.value)
+            from offers
+            where auctions.id = offers.auction_id
+        ) as hgh
+        from
+            auctions
+    */
+
+    public function findAllWithHighestOfferValue()
+    {
+        $expr = $this->getEntityManager()->getExpressionBuilder();
+       return $this->createQueryBuilder('a')
+            ->leftJoin('a.images', 'i')
+            ->addSelect('i.filename')
+            ->where('i.orderIndicator = 0')
+            ->orWhere('i.orderIndicator IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
