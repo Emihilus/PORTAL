@@ -36,8 +36,8 @@ function makeOffer()
     headers: {
         'Content-Type': 'application/json',
         },
-    body: JSON.stringify({offerValue,
-            'auctionId' : {{auction.id}} }) // moze byc 'offerValue': offerValue 
+    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
+            'auctionId' : {{auction.id}} }) 
         })
     .then((response) => 
     {

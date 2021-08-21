@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Auction;
+use App\Entity\User;
 use App\Entity\Offer;
+use App\Entity\Auction;
 use App\Entity\TempImage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EndPointsController extends AbstractController
 {
@@ -98,17 +99,22 @@ class EndPointsController extends AbstractController
      */
     public function makeOffer(Request $request)
     {
-
+        $em = $this->getDoctrine()->getManager();
         //$result = $request->getContent();
         //dump($request);
         //dump($request->getContent());
         $json = json_decode($request->getContent());
-        dump($json);
+        //dump($json);
+
+
         $offer = new Offer();
         $offer->setValue($json->offerValue);
         $offer->setCreatedAt(null);
-        $offer->setAuction($this->getDoctrine()->getRepository(Auction::class)->find($json->auctionId));
+        $offer->setAuction($em->getRepository(Auction::class)->find($json->auctionId));
+        $offer->setByUser($em->getRepository(User::class)->find(1));
 
+        $em->persist($offer);
+        $em->flush();
 
         return new JsonResponse([
             'RECEIVED VALUE' => $json->offerValue
