@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Auction;
+use App\Entity\Offer;
 use App\Entity\TempImage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -98,14 +99,17 @@ class EndPointsController extends AbstractController
     public function makeOffer(Request $request)
     {
 
-        $result = $request->getContent();
+        //$result = $request->getContent();
         //dump($request);
-        dump($request->getContent());
+        //dump($request->getContent());
         $json = json_decode($request->getContent());
+        dump($json);
+       // $offer = new Offer();
+       // $offer->setValue($json['offerValue']);
 
 
         return new JsonResponse([
-            'RECEIVED VALUE' => json_decode($result)
+            'RECEIVED VALUE' => $json['offerValue']
         ]);
     }
 
