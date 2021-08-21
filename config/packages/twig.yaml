@@ -4,6 +4,8 @@ twig:
     
     globals:
         exampleVariableHijack: '%auctionImagePath%'
+        fip: '/u/f/'
+        tip: '/u/t/th-'
 
 when@test:
     twig:
