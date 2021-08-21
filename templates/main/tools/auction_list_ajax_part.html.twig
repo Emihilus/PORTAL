@@ -4,7 +4,7 @@
 		{{auction.0.title}}
 		| kończy się
 		
-			{{ auction[0].endsAt|date('Y-m-d h:m') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b>
+			{{ auction[0].endsAt|date('Y-m-d H:m:s') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b>
 	</a>
 	{#{{dump(auction)}} #}
 {% endfor %}
