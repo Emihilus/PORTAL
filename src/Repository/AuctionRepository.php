@@ -75,4 +75,20 @@ class AuctionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+
+    /*
+    SELECT AUCTIONS WITH HIGHEST OFFER ENTITY
+
+    select a.*, b.* 
+from auctions a 
+  left join offers b
+    on b.auction_id =                        
+       ( select bb.auction_id                
+         from offers bb 
+         where a.id = bb.auction_id
+         ORDER BY bb.value
+         limit 1
+       )
+       */
 }
