@@ -12,8 +12,8 @@
 {# {{ exampleVariableHijack }}   #}
 
 <h2> ENDS AT {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
-<h2> ENDS {{auction.endsAt | ago}} </h2>
-<h2> ENDS raw: {{auction.endsAt | date('U')}} </h2>
+<h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
+<h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2>
 
 <p>{{auction.description}}</p>
 
@@ -26,12 +26,17 @@
     <b>Emis offers {{offer.value/100}} PLN</b> triggered at {{offer.createdAt|date('Y-m-d h:m')}} <br>
 {% endfor %}
 </div>
-
+1629649998
+1629587407927
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
 <script>
+
+let endsAt = "{{auction.endsAt | date('U')}}";
+document.getElementById('time').innerHTML = Date.now()+" difference: "+ (endsAt-Date.now());
+
 function makeOffer()
 {
     let offerValue = document.getElementById('offerInput').value;
