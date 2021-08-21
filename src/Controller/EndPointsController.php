@@ -37,7 +37,6 @@ class EndPointsController extends AbstractController
     public function getAuctions(Request $request)
     {
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOffer();
-        // dump();
 
         $_POST_requestedPage = $request->get('requestedPage');
         $itemsPerPage = $_COOKIE['itemsPerPage'];
@@ -45,7 +44,6 @@ class EndPointsController extends AbstractController
        /*$auctionImage = $this->getDoctrine()->getRepository(AuctionImage::class)->findOneBy([
             'auction_id' => ''
         ])*/
-        //dump($auctions);
         return $this->render('main/tools/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
         ]);
@@ -100,12 +98,14 @@ class EndPointsController extends AbstractController
     public function makeOffer(Request $request)
     {
 
-        $result = $request->get('offerValue');
+        $result = $request->getContent();
         //dump($request);
         dump($request->getContent());
+        $json = json_decode($request->getContent());
+
 
         return new JsonResponse([
-            'RECEIVED VALUE' => $result
+            'RECEIVED VALUE' => json_decode($result)
         ]);
     }
 

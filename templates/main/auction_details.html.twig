@@ -29,22 +29,23 @@
 function makeOffer()
 {
     let offerValue = document.getElementById('offerInput').value;
-  let url = "{{path ('makeOffer') }}";
+    let url = "{{path ('makeOffer') }}";
 
     fetch(url, {
     method: 'POST',
     headers: {
-    'Content-Type': 'application/json',
-  },
-    body: JSON.stringify({offerValue}) // moze byc 'offerValue': 
-  })
-  .then((response) => {
+        'Content-Type': 'application/json',
+        },
+    body: JSON.stringify({offerValue}) // moze byc 'offerValue': offerValue 
+        })
+    .then((response) => 
+    {
       console.log(response)
       response.json().then(function(data) {
         console.log(data);
       });
-  })
-  .catch(() => { /* Error. Inform the user */ })
+    })
+    .catch(() => { /* Error. Inform the user */ })
 }
 </script>
 {% endblock %}
