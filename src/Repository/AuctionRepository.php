@@ -109,7 +109,11 @@ class AuctionRepository extends ServiceEntityRepository
     {
         //$expr = $this->getEntityManager()->getExpressionBuilder();
        return $this->createQueryBuilder('a')
-            ->addSelect('(SELECT MAX(offers.value) from offers where auctions.id = offers.auction_id) as hgh')
+            ->addSelect('('.$this->createQueryBuilder('b')
+            ->select('MAX(o.Value)')
+            ->from('App\Entity\Offer', 'o')
+            ->where('a.id = o.auction')
+            ->getDQL(). ') as hghst')
             ->getQuery()
             ->getResult()
         ;
