@@ -4,6 +4,7 @@
 		{{auction.0.title}}
 		| kończy się
 		<b>
-			{{ auction[0].endsAt|date('Y-m-d h:m') }}</b>
+			{{ auction[0].endsAt|date('Y-m-d h:m') }}</b> | {{auction.hghst/100}} PLN
 	</a>
+	{#{{dump(auction)}} #}
 {% endfor %}
