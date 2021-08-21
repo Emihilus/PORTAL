@@ -104,12 +104,14 @@ class EndPointsController extends AbstractController
         //dump($request->getContent());
         $json = json_decode($request->getContent());
         dump($json);
-       // $offer = new Offer();
-       // $offer->setValue($json['offerValue']);
+        $offer = new Offer();
+        $offer->setValue($json->offerValue);
+        $offer->setCreatedAt(null);
+        $offer->setAuction($this->getDoctrine()->getRepository(Auction::class)->find($json->auctionId));
 
 
         return new JsonResponse([
-            'RECEIVED VALUE' => $json['offerValue']
+            'RECEIVED VALUE' => $json->offerValue
         ]);
     }
 
