@@ -43,6 +43,7 @@ function makeOffer()
         })
     .then((response) => 
     {
+        document.createElement('')
         document.getElementById('offers').prepend(document.createTextNode('<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>'))
       console.log(response)
       response.json().then(function(data) {
