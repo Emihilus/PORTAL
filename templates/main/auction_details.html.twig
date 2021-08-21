@@ -36,7 +36,7 @@ function makeOffer()
   headers: {
     'Content-Type': 'application/json',
   },
-    body: 'offerValue='+offerValue
+    body: JSON.serialize({'offerValue' : offerValue })
   })
   .then((response) => {
       console.log(response)
