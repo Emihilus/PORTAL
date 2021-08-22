@@ -117,6 +117,7 @@ class EndPointsController extends AbstractController
         
         $validatorErrors = $validator->validate($offer);
         dump($validatorErrors);
+        dump(count($validatorErrors));
 
         if(count($validatorErrors) == 0)
         {
@@ -130,10 +131,11 @@ class EndPointsController extends AbstractController
         {
             $rendered = $this->render('main/tools/auction_make_offer_errors_part.html.twig', [
                 'errors' => $validatorErrors
-             ])
+            ]);
+            dump($rendered);
             return new JsonResponse([
                 'RECEIVED VALUE' => $json->offerValue,
-                'errorsBody' => 
+                'errorsBody' => $rendered->getContent()
             ]);
         }
     }
