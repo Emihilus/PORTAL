@@ -63,7 +63,11 @@ function makeOffer()
     let offerValue = document.getElementById('offerInput').value;
     let url = "{{path ('makeOffer') }}";
 
-    fetch(url, {
+    
+
+
+   /*  ABADON FETCH
+   fetch(url, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -76,18 +80,39 @@ function makeOffer()
         let container = document.createElement('div');
         container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
         document.getElementById('offers').prepend(container);
+      console.log(response)
+      response.json().then(function(data) {
+        console.log(data);
+      });
+    })
+    .catch(() => { /* Error. Inform the user */ /*})
 
-        var jsson = JSON.parse(response);
+     fetch(url, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        },
+    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
+            'auctionId' : {{auction.id}} }) 
+        })
+    .then((response) => json())
+    .then((response) => 
+    {
+        let container = document.createElement('div');
+        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+        document.getElementById('offers').prepend(container);
+
+       //y var jsson = JSON.parse(response);
         console.log("WHOLE RESPONSE: "+response)
 
         console.log("RESPONSE ERRORSBODY: "+response[0]);
 
-        response.json().then(function(data) 
+       /* response.json().then(function(data) 
         {
             console.log("RESP JSON: "+data);
-      });
+      });*//*
     })
-    .catch(() => { /* Error. Inform the user */ })
+    .catch(() => { /* Error. Inform the user *//* })*/
 }
 
 
