@@ -122,12 +122,19 @@ class EndPointsController extends AbstractController
         {
             $em->persist($offer);
             $em->flush();
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue
+            ]);
         }
-
-        return new JsonResponse([
-            'RECEIVED VALUE' => $json->offerValue,
-            'validatorErrors' => (string) $validatorErrors
-        ]);
+        else
+        {
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue,
+                'errorsBody' => $this->render('main/tools/auction_make_offer_errors_part.html.twig', [
+                    'errors' => $validatorErrors
+                 ])
+            ]);
+        }
     }
 
 }
