@@ -64,6 +64,7 @@ class AuctionRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
     public function findOneByIdWithAuctionImagesAndOffers($value): ?Auction
     {
         return $this->createQueryBuilder('a')
@@ -74,6 +75,19 @@ class AuctionRepository extends ServiceEntityRepository
             ->Where('a.id = :val')
             ->setParameter('val', $value)
             ->orderBy('o.Value', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findOneByIdWithHighestOffer($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.offers', 'o')
+            ->addSelect('MAX(o.Value)')
+            ->Where('a.id = :val')
+            ->groupBy('a.id')
+            ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;

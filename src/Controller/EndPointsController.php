@@ -120,7 +120,8 @@ class EndPointsController extends AbstractController
         $offer = new Offer();
         $offer->setValue($json->offerValue);
         $offer->setCreatedAt(null);
-        $offer->setAuction($em->getRepository(Auction::class)->find($json->auctionId));
+        dump($em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId));
+        $offer->setAuction($em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId));
         $offer->setByUser($em->getRepository(User::class)->find(1));
 
         
