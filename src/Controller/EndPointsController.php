@@ -10,6 +10,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EndPointsController extends AbstractController
@@ -97,7 +98,7 @@ class EndPointsController extends AbstractController
     /**
      * @Route("/ep/makeOffer", name="makeOffer", methods={"POST"})
      */
-    public function makeOffer(Request $request)
+    public function makeOffer(Request $request, ValidatorInterface $validator)
     {
         $em = $this->getDoctrine()->getManager();
         //$result = $request->getContent();
@@ -112,6 +113,8 @@ class EndPointsController extends AbstractController
         $offer->setCreatedAt(null);
         $offer->setAuction($em->getRepository(Auction::class)->find($json->auctionId));
         $offer->setByUser($em->getRepository(User::class)->find(1));
+
+        dump($validator->validate($offer));
 
         $em->persist($offer);
         $em->flush();
