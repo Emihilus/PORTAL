@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="offers")
@@ -20,6 +21,7 @@ class Offer
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\LessThan(999)
      */
     private $Value;
 
