@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OfferRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Table(name="offers")
@@ -13,6 +14,20 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class Offer
 {
+    /**
+     * @Assert\Callback()
+     */
+    public function validateValue(ExecutionContextInterface $context)
+    {
+        $constraint = new ZipCodeConstraint(['country' => $this->country]);
+        $violations = $context->getValidator()->validate($this->zipcode, $constraint);
+
+        foreach ($violations as $violation) {
+            $context->getViolations()->add($violation);
+        }
+    }
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

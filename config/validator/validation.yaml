@@ -1,8 +1,8 @@
-imports:
-    - { resource: '/opt/web-projects/PORTAL/config/services.yaml' }
+# imports:
+#     - { resource: '/opt/web-projects/PORTAL/config/services.yaml' }
 
 
-App\Entity\Offer:
-    properties:
-        Value:
-             - LessThan: '%validation_OfferValueMax%'
+# App\Entity\Offer:
+#     properties:
+#         Value:
+#              - LessThan: '%validation_OfferValueMax%'

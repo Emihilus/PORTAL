@@ -9,8 +9,8 @@ parameters:
     auctionImagePath: '%kernel.project_dir%/public/u/f/'
     auctionImagePathThumbnail: '%kernel.project_dir%/public/u/t/'
     # VALIDATION VARIABLES
-    validation_OfferValueMin: '0.01'
-    validation_OfferValueMax: '9999999'
+    validation_OfferValueMin: 0.01
+    validation_OfferValueMax: 9999999
 
 
 services:
