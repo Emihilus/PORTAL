@@ -6,6 +6,11 @@ twig:
         exampleVariableHijack: '%auctionImagePath%'
         fip: '/u/f/'
         tip: '/u/t/th-'
+        # FRONTEND VALIDATION VARIABLES 
+        # OFFER MIN AND MAX VALUES
+        v_offer_value_min: '1'
+        v_offer_value_max: '9999999'
+
 
 when@test:
     twig:
