@@ -126,7 +126,7 @@ class EndPointsController extends AbstractController
 
         return new JsonResponse([
             'RECEIVED VALUE' => $json->offerValue,
-            'validatorErrors' => $validatorErrors
+            'validatorErrors' => (string) $validatorErrors
         ]);
     }
 
