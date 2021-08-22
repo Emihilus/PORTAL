@@ -21,7 +21,7 @@
 <br>
 
 <form id='offerForm'>
-<input id='offerInput' required="required" type="number" min="{{v_offer_value_min}}" max="{{v_offer_value_max}}" step="any" /> PLN  <button type='submit' >Offer</button>
+<input id='offerInput' required="required" type="number" min="{{v_offer_value_min}}" max="{{v_offer_value_max}}" step="any" /> PLN  <button onclick='makeOffer()' >Offer</button>
 {# onclick='makeOffer()' #}
 </form>
 
@@ -62,14 +62,14 @@ function secondsToHms(d) {
     let sDisplay = (s < 10 ? "0" : "") + s;
     return daDisplay + hDisplay + mDisplay + sDisplay; 
 }
-$('#offerForm').validate(
+/*$('#offerForm').validate(
     {
         submitHandler: function(form) 
         {
             makeOffer();
         }
     }
-)
+)*/
 function makeOffer()
 {
     let offerValue = document.getElementById('offerInput').value;

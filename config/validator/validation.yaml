@@ -1,0 +1,4 @@
+App\Entity\Offer:
+    properties:
+        Value:
+             - LessThan: '%validation_OfferValueMax%'

@@ -1,11 +1,6 @@
 framework:
     validation:
         email_validation_mode: html5
-        =App\Entity\Offer:
-                properties:
-                    Value:
-                        - LessThan: ~''
-
 
         # Enables validator auto-mapping support.
         # For instance, basic validation constraints will be inferred from Doctrine's metadata.
