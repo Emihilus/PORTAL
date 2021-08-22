@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\LessThan;
 
 class EndPointsController extends AbstractController
 {
@@ -139,7 +140,7 @@ class EndPointsController extends AbstractController
         {
             if ($auctionWithHghstOffer[1] < $json->offerValue)
             {
-                array_push($validatorErrors, );
+                $validatorErrors->add($valitator->context->buildViolation(new LessThan()))
             }
             $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
                 'errors' => $validatorErrors
