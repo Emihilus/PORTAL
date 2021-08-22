@@ -37,7 +37,7 @@ let endsAt = "{{auction.endsAt | date('U')}}";
 let timerElement = document.getElementById('timer');
 // document.getElementById('time').innerHTML = Date.now()+" difference: "+ difference;
 
-setTimeout(auctionTimer, 500)
+auctionTimer();
 function auctionTimer()
 {
     timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));

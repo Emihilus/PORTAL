@@ -47,7 +47,7 @@ class EndPointsController extends AbstractController
        /*$auctionImage = $this->getDoctrine()->getRepository(AuctionImage::class)->findOneBy([
             'auction_id' => ''
         ])*/
-        return $this->render('main/tools/auction_list_ajax_part.html.twig', [
+        return $this->render('main/ajax_parts/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
         ]);
     }
@@ -129,7 +129,7 @@ class EndPointsController extends AbstractController
         }
         else
         {
-            $rendered = $this->render('main/tools/auction_make_offer_errors_part.html.twig', [
+            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
                 'errors' => $validatorErrors
             ]);
             dump($rendered);
@@ -141,3 +141,26 @@ class EndPointsController extends AbstractController
     }
 
 }
+
+
+/* PART DESIGN ERRORS
+if(count($validatorErrors) == 0)
+        {
+            $em->persist($offer);
+            $em->flush();
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue
+            ]);
+        }
+        else
+        {
+            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
+                'errors' => $validatorErrors
+            ]);
+            dump($rendered);
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue,
+                'errorsBody' => $rendered->getContent()
+            ]);
+        }
+*/
