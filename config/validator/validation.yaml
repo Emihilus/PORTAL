@@ -1,3 +1,7 @@
+imports:
+    - { resource: '/opt/web-projects/PORTAL/config/services.yaml' }
+
+
 App\Entity\Offer:
     properties:
         Value:
