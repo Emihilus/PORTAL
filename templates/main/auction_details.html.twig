@@ -21,7 +21,7 @@
 <br>
 
 <form id='offerForm'>
-<input id='offerInput' required type="number" min="{{v_offer_value_min}}" max="{{v_offer_value_max}}" step="any" /> PLN  <button type='submit' >Offer</button>
+<input id='offerInput' required="required" type="number" min="{{v_offer_value_min}}" max="{{v_offer_value_max}}" step="any" /> PLN  <button type='submit' >Offer</button>
 {# onclick='makeOffer()' #}
 </form>
 
@@ -84,7 +84,12 @@ function makeOffer()
 	.done(res => 
 	{ 
 		console.log(res);
-        document.getElementById('backendErrors').innerHTML = res.errorsBody;
+        if(res.errorsBody != null)
+            document.getElementById('backendErrors').innerHTML = res.errorsBody;
+
+        let container = document.createElement('div');
+        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+        document.getElementById('offers').prepend(container);
 
 	});
 
