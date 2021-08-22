@@ -125,8 +125,6 @@ class EndPointsController extends AbstractController
 
         
         $validatorErrors = $validator->validate($offer);
-        dump($validatorErrors);
-        dump(count($validatorErrors));
 
         if(count($validatorErrors) == 0)
         {
@@ -152,8 +150,38 @@ class EndPointsController extends AbstractController
 }
 
 
-/* PART DESIGN ERRORS
-if(count($validatorErrors) == 0)
+/* PART DESIGN ERRORS without db hghest check
+public function makeOffer(Request $request, ValidatorInterface $validator)
+    {
+        $em = $this->getDoctrine()->getManager();
+        //$result = $request->getContent();
+        //dump($request);
+        //dump($request->getContent());
+        $json = json_decode($request->getContent());
+        //dump($json);
+
+       /* if($json->offerValue > 999999999)
+        {
+
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue,
+                'errorsBody' => "Oferta nie może być wieksza niż 10 mln PLN"
+            ]);
+        }
+
+
+        $offer = new Offer();
+        $offer->setValue($json->offerValue);
+        $offer->setCreatedAt(null);
+        $offer->setAuction($em->getRepository(Auction::class)->find($json->auctionId));
+        $offer->setByUser($em->getRepository(User::class)->find(1));
+
+        
+        $validatorErrors = $validator->validate($offer);
+        dump($validatorErrors);
+        dump(count($validatorErrors));
+
+        if(count($validatorErrors) == 0)
         {
             $em->persist($offer);
             $em->flush();
@@ -172,4 +200,5 @@ if(count($validatorErrors) == 0)
                 'errorsBody' => $rendered->getContent()
             ]);
         }
+    }
 */
