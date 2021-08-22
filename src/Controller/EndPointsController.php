@@ -87,7 +87,7 @@ class EndPointsController extends AbstractController
 
     private function getSaveFilename(string $token, int $count) :string
     {
-        if(file_exists($this->getP arameter('tempImagePath')."[$token]$count.jpg"))
+        if(file_exists($this->getParameter('tempImagePath')."[$token]$count.jpg"))
             return $this->getSaveFilename($token,$count+1);
         else
             return "[$token]$count.jpg";
