@@ -20,8 +20,9 @@
 
 <br>
 
-<form>
-<input id='offerInput' type="number" min="0.01" max="" step="any" /> PLN  <button onclick='makeOffer()'>Offer</button>
+<form id='offerForm'>
+<input id='offerInput' type="number" min="0.01" max="" step="any" /> PLN  <button type='submit' >Offer</button>
+{# onclick='makeOffer()' #}
 </form>
 
 <br>
@@ -61,7 +62,14 @@ function secondsToHms(d) {
     let sDisplay = (s < 10 ? "0" : "") + s;
     return daDisplay + hDisplay + mDisplay + sDisplay; 
 }
-
+$('#offerForm').validate(
+    {
+        submitHandler: function(form) 
+        {
+            makeOffer();
+        }
+    }
+)
 function makeOffer()
 {
     let offerValue = document.getElementById('offerInput').value;
