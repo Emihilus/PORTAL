@@ -27,11 +27,6 @@ class Offer
      */
     private $Value;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('name', new Assert\LessThan(999999999));
-    }
-
     /**
      * @ORM\Column(type="datetime")
      */
