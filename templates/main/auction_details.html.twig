@@ -21,7 +21,7 @@
 <br>
 
 <input id='offerInput' type="number" min="1" step="any" /> PLN  <button onclick='makeOffer()'>Offer</button><br>
-<div id='out'></div>
+<div id='backendErrors'></div>
 <div id='offers'>
 {% for offer in auction.offers %}
     <b>Emis offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br>
@@ -72,7 +72,7 @@ function makeOffer()
 	.done(res => 
 	{ 
 		console.log(res);
-        document.getElementById('out').innerHTML = res.errorsBody;
+        document.getElementById('backendErrors').innerHTML = res.errorsBody;
 
 	});
 
