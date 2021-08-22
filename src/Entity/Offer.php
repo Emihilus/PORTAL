@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Table(name="offers")
@@ -25,6 +26,11 @@ class Offer
      * @Assert\GreaterThan(0)
      */
     private $Value;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\LessThan(999999999));
+    }
 
     /**
      * @ORM\Column(type="datetime")

@@ -21,9 +21,9 @@ class GreaterThanHghstOfferValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_string($value)) {
+        if (!is_int($value)) {
             // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
-            throw new UnexpectedValueException($value, 'string');
+            throw new UnexpectedValueException($value, 'int');
 
             // separate multiple types using pipes
             // throw new UnexpectedValueException($value, 'string|int');
