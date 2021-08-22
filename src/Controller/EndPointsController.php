@@ -120,14 +120,14 @@ class EndPointsController extends AbstractController
         $offer = new Offer();
         $offer->setValue($json->offerValue);
         $offer->setCreatedAt(null);
-        dump($em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId));
-        $offer->setAuction($em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId));
+        $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
+        $offer->setAuction($auctionWithHghstOffer[0]);
         $offer->setByUser($em->getRepository(User::class)->find(1));
 
         
         $validatorErrors = $validator->validate($offer);
 
-        if(count($validatorErrors) == 0)
+        if(count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue)
         {
             $em->persist($offer);
             $em->flush();
@@ -137,6 +137,10 @@ class EndPointsController extends AbstractController
         }
         else
         {
+            if ($auctionWithHghstOffer[1] < $json->offerValue)
+            {
+                array_push($validatorErrors, );
+            }
             $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
                 'errors' => $validatorErrors
             ]);
