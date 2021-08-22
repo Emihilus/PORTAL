@@ -21,7 +21,7 @@ class Offer
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\LessThan(999)
+     * @Assert\LessThan(999999999)
      */
     private $Value;
 
