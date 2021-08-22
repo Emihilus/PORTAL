@@ -21,7 +21,7 @@
 <br>
 
 <input id='offerInput' type="number" min="1" step="any" /> PLN  <button onclick='makeOffer()'>Offer</button><br>
-
+<div id='out'></div>
 <div id='offers'>
 {% for offer in auction.offers %}
     <b>Emis offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br>
@@ -63,7 +63,18 @@ function makeOffer()
     let offerValue = document.getElementById('offerInput').value;
     let url = "{{path ('makeOffer') }}";
 
-    
+     $.ajax({
+   	 	url: url,
+    	method: "post", 
+    	data: JSON.stringify({'offerValue': offerValue*100,
+            'auctionId' : {{auction.id}} }) 
+		})
+	.done(res => 
+	{ 
+		console.log(res);
+        document.getElementById('out').innerHTML = res.errorsBody;
+
+	});
 
 
    /*  ABADON FETCH
