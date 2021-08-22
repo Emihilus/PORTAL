@@ -114,13 +114,19 @@ class EndPointsController extends AbstractController
         $offer->setAuction($em->getRepository(Auction::class)->find($json->auctionId));
         $offer->setByUser($em->getRepository(User::class)->find(1));
 
-        dump($validator->validate($offer));
+        
+        $validatorErrors = $validator->validate($offer);
+        dump($validatorErrors);
 
-        $em->persist($offer);
-        $em->flush();
+        if(count($validatorErrors) == 0)
+        {
+            $em->persist($offer);
+            $em->flush();
+        }
 
         return new JsonResponse([
-            'RECEIVED VALUE' => $json->offerValue
+            'RECEIVED VALUE' => $json->offerValue,
+            'validatorErrors' => $validatorErrors
         ]);
     }
 
