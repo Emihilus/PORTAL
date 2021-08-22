@@ -76,12 +76,15 @@ function makeOffer()
         let container = document.createElement('div');
         container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
         document.getElementById('offers').prepend(container);
-      console.log(response)
 
-          console.log(response.errorsBody);
+        var jsson = JSON.parse(response);
+        console.log("WHOLE RESPONSE: "+response)
 
-      response.json().then(function(data) {
-        console.log(data);
+        console.log("RESPONSE ERRORSBODY: "+response[0]);
+
+        response.json().then(function(data) 
+        {
+            console.log("RESP JSON: "+data);
       });
     })
     .catch(() => { /* Error. Inform the user */ })
