@@ -53,6 +53,10 @@
 					<li class="nav-item">
 						<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">ZALOZYCIELS</a>
 					</li>
+
+					<li class="nav-item">
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">You are not logged in</a>
+					</li>
 				</ul>
 
 				<form class="d-none d-flex me-1">
