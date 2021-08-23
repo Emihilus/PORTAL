@@ -55,7 +55,11 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">You are not logged in</a>
+						<a class="nav-link active" href="{% if not app.user %}
+							{{path('app_login')}}">You are not logged in
+						{% else %}
+							{{path('app_logout')}}">Logged as {{app.user.username}}
+						{% endif %}</a>
 					</li>
 				</ul>
 
