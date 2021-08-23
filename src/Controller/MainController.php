@@ -54,14 +54,14 @@ class MainController extends AbstractController
         $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffers($auctionId);
 
 
-        $meta = $validator->getMetadataFor(Offer::class);
-        $constraints = $meta->getConstraints();
-        dump($meta->properties['Value']->constraints[0]->value);
-        dump($meta);
-        dump($meta->getPropertyMetadata("Value"));
+        $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
+        
+        /*dump($meta);
+        dump($meta->getPropertyMetadata("Value")[0]->getConstraints()[0]->value);*/
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
+            'validation_maxValue' => $constraintValue
         ]);
     }
 
