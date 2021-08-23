@@ -74,6 +74,9 @@ class MainController extends AbstractController
 
          $form = $this->createForm(AuctionCreateFormType::class, $auction);
          $form->handleRequest($request);
+
+         if()
+
          if ($form->isSubmitted() && $form->isValid())
          {
             $TOKEN = $request->request->get('auction_create_form')['token'];
