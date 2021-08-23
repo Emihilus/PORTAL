@@ -56,7 +56,8 @@ class MainController extends AbstractController
 
         $meta = $validator->getMetadataFor(Offer::class);
         $constraints = $meta->getConstraints();
-        dump($meta->properties['Value']['constraints']);
+        dump($meta->properties['Value']->constraints[0]->value);
+        dump($meta);
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
