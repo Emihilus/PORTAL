@@ -5,4 +5,4 @@ imports:
 App\Entity\Offer:
     properties:
         Value:
-             - LessThan: '%~value%'
+             - LessThan: '{%name%}'

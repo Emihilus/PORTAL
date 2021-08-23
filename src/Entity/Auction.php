@@ -81,6 +81,7 @@ class Auction
 
     public function __construct()
     {
+        $this->container->getParameters('sad');
         $this->images = new ArrayCollection();
         $this->offers = new ArrayCollection();
     }
