@@ -30,7 +30,7 @@ class MainController extends AbstractController
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
         $allCount = count($auctions);
 
-        if(!isset($_COOKIE['itemsPerPage']))
+        if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
             $_COOKIE['itemsPerPage'] = 20;
@@ -55,7 +55,7 @@ class MainController extends AbstractController
 
 
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
-        
+
         /*dump($meta);
         dump($meta->getPropertyMetadata("Value")[0]->getConstraints()[0]->value);*/
 
@@ -70,57 +70,68 @@ class MainController extends AbstractController
      */
     public function createAuctionForm(Request $request): Response
     {
-         $auction = new Auction();
+        $auction = new Auction();
 
-         $form = $this->createForm(AuctionCreateFormType::class, $auction);
-         $form->handleRequest($request);
+        $form = $this->createForm(AuctionCreateFormType::class, $auction);
+        $form->handleRequest($request);
 
-         if()
-
-         if ($form->isSubmitted() && $form->isValid())
-         {
-            $TOKEN = $request->request->get('auction_create_form')['token'];
-            $NEW_ORDER = explode(",",$request->request->get('auction_create_form')['image-order']);
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository(User::class)->findOneBy(['id'=> 1]);
-            $auction = $form->getData();
-            $auction->setByUser($user);
-            $auction->setCreatedAt(null);
-
+            $TOKEN = $request->request->get('auction_create_form')['token'];
             $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
-            for ($i = 0 ; $i < count($NEW_ORDER); $i++)
+
+            if ($tempImages != null) 
             {
-                $auctionImage = new AuctionImage();
-                $auctionImage->setFilename($tempImages[$NEW_ORDER[$i]]->getFilename());
-                $auctionImage->setOrderIndicator($i);
-                $auctionImage->setAuction($auction);
-                $em->persist($auctionImage);
-                
-                rename($this->getParameter('tempImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename(),$this->getParameter('auctionImagePath').$tempImages[$NEW_ORDER[$i]]->getFilename());
 
-                $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
+                $NEW_ORDER = explode(",", $request->request->get('auction_create_form')['image-order']);
+                $user = $em->getRepository(User::class)->findOneBy(['id' => 1]);
+                $auction = $form->getData();
+                $auction->setByUser($user);
+                $auction->setCreatedAt(null);
+
+
+                for ($i = 0; $i < count($NEW_ORDER); $i++) 
+                {
+                    $auctionImage = new AuctionImage();
+                    $auctionImage->setFilename($tempImages[$NEW_ORDER[$i]]->getFilename());
+                    $auctionImage->setOrderIndicator($i);
+                    $auctionImage->setAuction($auction);
+                    $em->persist($auctionImage);
+
+                    rename($this->getParameter('tempImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename(), $this->getParameter('auctionImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename());
+
+                    $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
+                }
+
+                $em->persist($auction);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Your changes were saved! "
+                );
+
+                return $this->redirectToRoute('create-auction');
             }
+            else
+            {
+                $this->addFlash(
+                    'danger',
+                    "At least one image must be uploaded"
+                );
+            }
+        }
 
-            $em->persist($auction);
-            $em->flush();
-
-            $this->addFlash(
-                'success',
-                "Your changes were saved! "
-            );
-
-            return $this->redirectToRoute('create-auction');
-         }
-
-         return $this->render('main/auction_create.html.twig', [
+        return $this->render('main/auction_create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     private function processToThumbnail($filename)
     {
-                //Your Image
-        $imgSrc = $this->getParameter('auctionImagePath').$filename;
+        //Your Image
+        $imgSrc = $this->getParameter('auctionImagePath') . $filename;
 
         //getting the image dimensions
         list($width, $height) = getimagesize($imgSrc);
@@ -130,13 +141,13 @@ class MainController extends AbstractController
 
         // calculating the part of the image to use for thumbnail
         if ($width > $height) {
-        $y = 0;
-        $x = ($width - $height) / 2;
-        $smallestSide = $height;
+            $y = 0;
+            $x = ($width - $height) / 2;
+            $smallestSide = $height;
         } else {
-        $x = 0;
-        $y = ($height - $width) / 2;
-        $smallestSide = $width;
+            $x = 0;
+            $y = ($height - $width) / 2;
+            $smallestSide = $width;
         }
 
         // copying the part into thumbnail
@@ -146,6 +157,6 @@ class MainController extends AbstractController
 
         //final output
         // header('Content-type: image/jpeg');
-        imagejpeg($thumb, $this->getParameter('auctionImagePathThumbnail').'th-'.$filename);
-            }
+        imagejpeg($thumb, $this->getParameter('auctionImagePathThumbnail') . 'th-' . $filename);
+    }
 }
