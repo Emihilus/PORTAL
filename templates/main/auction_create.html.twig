@@ -297,12 +297,20 @@ function uploadFile(file)
     method: 'POST',
     body: formData
   })
-  .then((response) => {
+  .then((response) => 
+  {
       progressDone
-      console.log(response)
-      console.log(JSON.parse(response));
-      response.json().then(function(data) {
-        console.log(data);
+      response.json().then(function(data)
+      {
+        if(data['errors'] == "")
+        {
+          console.log('success');
+        }
+        else
+        {
+          console.log('failure');
+          reorder(2,1)
+        }
       });
   })
   .catch(() => { /* Error. Inform the user */ })
