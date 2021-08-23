@@ -140,16 +140,17 @@ class EndPointsController extends AbstractController
         }
         else
         {
-            $
-            if ($auctionWithHghstOffer[1] < $json->offerValue)
+            $payloadArray = ['errors' => $validatorErrors];
+            if ($auctionWithHghstOffer[1] > $json->offerValue)
             {
-               ;/* $validatorErrors->add(new ConstraintViolationInterface(new LessThan($auctionWithHghstOffer[1], null, 'msg')));*///$validator->context->buildViolation(new LessThan($auctionWithHghstOffer[1], null, )));
+               $payloadArray['offerError']  = "The value of your offer ($json->offerValue) is smaller than the highest offer for this auction ($auctionWithHghstOffer[1])";
             }
-            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
-                'errors' => $validatorErrors
-                'offerError' => 
-            ]);
-            dump($rendered);
+            else
+            {
+                $payloadArray['offerError'] = "";
+            }
+            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', $payloadArray);
+            
             return new JsonResponse([
                 'RECEIVED VALUE' => $json->offerValue,
                 'errorsBody' => $rendered->getContent()
