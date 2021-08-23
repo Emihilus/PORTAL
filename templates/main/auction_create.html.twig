@@ -300,6 +300,7 @@ function uploadFile(file)
   .then((response) => {
       progressDone
       console.log(response)
+      console.log(JSON.parse(response));
       response.json().then(function(data) {
         console.log(data);
       });
