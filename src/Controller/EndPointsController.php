@@ -10,11 +10,10 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 class EndPointsController extends AbstractController
 {
@@ -140,17 +139,14 @@ class EndPointsController extends AbstractController
         }
         else
         {
-            $payloadArray = ['errors' => $validatorErrors];
             if ($auctionWithHghstOffer[1] > $json->offerValue)
             {
-               $payloadArray['offerError']  = "The value of your offer ($json->offerValue) is smaller than the highest offer for this auction ($auctionWithHghstOffer[1])";
+                $validatorErrors->add(new ConstraintViolation('msg',null,['param'=>'param'],$json->offerValue,null,45,null,null new LessThan($auctionWithHghstOffer[1])));
             }
-            else
-            {
-                $payloadArray['offerError'] = "";
-            }
-            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', $payloadArray);
-            
+            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
+                'errors' => $validatorErrors
+            ]);
+            dump($rendered);
             return new JsonResponse([
                 'RECEIVED VALUE' => $json->offerValue,
                 'errorsBody' => $rendered->getContent()
