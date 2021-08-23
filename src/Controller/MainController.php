@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Offer;
 use App\Entity\Auction;
-use App\Entity\AuctionImage;
 use App\Entity\TempImage;
+use App\Entity\AuctionImage;
 use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
@@ -47,13 +49,14 @@ class MainController extends AbstractController
     /**
      * @Route("/auction-details/{auctionId}", name="auction-details")
      */
-    public function auctionDetails($auctionId): Response
+    public function auctionDetails($auctionId, ValidatorInterface $validator): Response
     {
         $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffers($auctionId);
 
 
-        $validator = $this->get('validator');
-        $meta = $validator->getMetadataFor(YourEntity::class);
+        $meta = $validator->getMetadataFor(Offer::class);
+        $constraints = $meta->getConstraints();
+        dump($meta->properties['Value']['constraints']);
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,

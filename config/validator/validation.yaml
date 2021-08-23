@@ -1,8 +1,8 @@
-imports:
-    - { resource: '/opt/web-projects/PORTAL/config/vars.yaml' }
+# imports:
+#     - { resource: '/opt/web-projects/PORTAL/config/vars.yaml' }
 
 
-App\Entity\Offer:
-    properties:
-        Value:
-             - LessThan: '{%name%}'
+# App\Entity\Offer:
+#     properties:
+#         Value:
+#              - LessThan: '{%name%}'

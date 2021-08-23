@@ -48,10 +48,6 @@ class Offer
      */
     private $byUser;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('Offer', new Assert\LessThan(\App\Service\CBagService::$exVar));
-    }
 
     public function getId(): ?int
     {
