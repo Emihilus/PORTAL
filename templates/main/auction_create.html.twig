@@ -58,8 +58,10 @@ let filesToDo = 0
 let progressBar = document.getElementById('progress-bar')
 let imgInitialIdentifier=0;
 
+var count;
 
-function previewFile(file, count, length) 
+
+function previewFile(file, length) 
 {
   let reader = new FileReader()
   reader.readAsDataURL(file)
@@ -258,7 +260,7 @@ function handleDrop(e) {
 
 function handleFiles(files) 
 {
-  let count = 1;
+  count = 1;
   if(document.getElementById('image-order').value != '')
   count = 2;
   else
@@ -267,21 +269,20 @@ function handleFiles(files)
   files = [...files]
   initializeProgress(files.length) 
 
-  
+
   files.forEach((file) =>
   {
-    uploadFile(file, count)
+    uploadFile(file, files.length)
   });
   files.forEach((file) => 
   {
-    previewFile(file,count,files.length);
-    count++;
+    ;
   })
 }
 
 
 
-function uploadFile(file,count) 
+function uploadFile(file,filesLength) 
 {
   let url = "{{path ('uploadTemporary') }}"
   let formData = new FormData()
@@ -303,11 +304,13 @@ function uploadFile(file,count)
         if(data['errors'] == "")
         {
           console.log('success');
+          previewFile(file,filesLength);
+          count++;
         }
         else
         {
           console.log('failure');
-          reorder(2,count)
+          
         }
       });
   })
