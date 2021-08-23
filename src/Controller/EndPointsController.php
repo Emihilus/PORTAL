@@ -63,7 +63,9 @@ class EndPointsController extends AbstractController
         $filename = '';
         if ( 0 < $_FILES['file']['error'] ) 
         {
-            echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+            return new JsonResponse([
+                'errors' => 'Error: ' . $_FILES['file']['error']
+            ]);
         }
         else 
         {
@@ -82,8 +84,7 @@ class EndPointsController extends AbstractController
 
 
         return new JsonResponse([
-            'resulkt' => session_id(),
-            'resp' => $TOKEN
+            'errors' => ''
         ]);
     }
 
