@@ -21,7 +21,7 @@
 <br>
 
 <form id='offerForm'>
-<input id='offerInput' required="required" type="number" min="{% if auction.offers is not null %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_max}}{% endif %}" max="{{validation_maxValue/100}}" step="any" /> PLN  <button type='submit' >Offer</button>
+<input id='offerInput' required="required" type="number" min="{% if auction.offers is not null %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}" max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" step="any" value="{% if auction.offers is not null %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}"/> PLN  <button type='submit' >Offer</button>
 {# onclick='makeOffer()' #}
 </form>
 
