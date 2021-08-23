@@ -103,47 +103,52 @@ class EndPointsController extends AbstractController
      */
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
-        $em = $this->getDoctrine()->getManager();
-        $json = json_decode($request->getContent());
-
-
-        $offer = new Offer();
-        $offer->setValue($json->offerValue);
-        $offer->setCreatedAt(null);
-        $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
-        $offer->setAuction($auctionWithHghstOffer[0]);
-        $offer->setByUser($em->getRepository(User::class)->find(1));
-
-        
-        $validatorErrors = $validator->validate($offer);
-
-        if(count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue)
+        $this->denyAccessUnlessGranted('ROLE_USER');
         {
-            $em->persist($offer);
-            $em->flush();
-            return new JsonResponse([
-                'RECEIVED VALUE' => $json->offerValue
-            ]);
-        }
-        else
-        {
-            if ($auctionWithHghstOffer[1] > $json->offerValue)
-            {
-                $validatorErrors->add(new ConstraintViolation('The value of your offer ('.($json->offerValue/100).' PLN) is smaller than the highest offer for this auction ('.($auctionWithHghstOffer[1]/100).' PLN)', null, ['param'=>'param'],$json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]),'null'));
+                $em = $this->getDoctrine()->getManager();
+                $json = json_decode($request->getContent());
+
+
+                $offer = new Offer();
+                $offer->setValue($json->offerValue);
+                $offer->setCreatedAt(null);
+                $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
+                $offer->setAuction($auctionWithHghstOffer[0]);
+                $offer->setByUser($em->getRepository(User::class)->find(1));
+
+                
+                $validatorErrors = $validator->validate($offer);
+
+                if(count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue)
+                {
+                    $em->persist($offer);
+                    $em->flush();
+                    return new JsonResponse([
+                        'RECEIVED VALUE' => $json->offerValue
+                    ]);
+                }
+                else
+                {
+                    if ($auctionWithHghstOffer[1] > $json->offerValue)
+                    {
+                        $validatorErrors->add(new ConstraintViolation('The value of your offer ('.($json->offerValue/100).' PLN) is smaller than the highest offer for this auction ('.($auctionWithHghstOffer[1]/100).' PLN)', null, ['param'=>'param'],$json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]),'null'));
+                    }
+                    $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
+                        'errors' => $validatorErrors
+                    ]);
+
+                    dump($validatorErrors);
+                    return new JsonResponse([
+                        'RECEIVED VALUE' => $json->offerValue,
+                        'errorsBody' => $rendered->getContent()
+                    ]);
+                }
+
+
+                }
             }
-            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
-                'errors' => $validatorErrors
-            ]);
 
-            dump($validatorErrors);
-            return new JsonResponse([
-                'RECEIVED VALUE' => $json->offerValue,
-                'errorsBody' => $rendered->getContent()
-            ]);
-        }
     }
-
-}
 
 
 /* PART DESIGN ERRORS without db hghest check
