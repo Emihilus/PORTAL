@@ -52,6 +52,9 @@ class MainController extends AbstractController
         $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffers($auctionId);
 
 
+        $validator = $this->get('validator');
+        $meta = $validator->getMetadataFor(YourEntity::class);
+
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
         ]);
