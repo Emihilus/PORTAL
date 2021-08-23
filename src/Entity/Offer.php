@@ -50,12 +50,7 @@ class Offer
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('Offer', new Assert\LessThan(static::$valuea));
-    }
-
-    public function __construct()
-    {
-        static::$valuea = $this->getParameters('validation_OfferValueMax');
+        $metadata->addPropertyConstraint('Offer', new Assert\LessThan(\App\Service\CBagService::$exVar));
     }
 
     public function getId(): ?int
