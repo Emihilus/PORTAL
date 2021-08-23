@@ -58,6 +58,7 @@ class MainController extends AbstractController
         $constraints = $meta->getConstraints();
         dump($meta->properties['Value']->constraints[0]->value);
         dump($meta);
+        dump($meta->getPropertyMetadata("Value"));
 
         return $this->render('main/auction_details.html.twig', [
             'auction' => $auction,
