@@ -103,20 +103,7 @@ class EndPointsController extends AbstractController
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
         $em = $this->getDoctrine()->getManager();
-        //$result = $request->getContent();
-        //dump($request);
-        //dump($request->getContent());
         $json = json_decode($request->getContent());
-        //dump($json);
-
-       /* if($json->offerValue > 999999999)
-        {
-
-            return new JsonResponse([
-                'RECEIVED VALUE' => $json->offerValue,
-                'errorsBody' => "Oferta nie może być wieksza niż 10 mln PLN"
-            ]);
-        }*/
 
 
         $offer = new Offer();
