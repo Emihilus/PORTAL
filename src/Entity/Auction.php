@@ -26,8 +26,8 @@ class Auction
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank
      * @Assert\Length(min = 2, max = 30,
-     * minMessage = "Nazwa of piec wendarniczy should be at least {{ limit }} characters long")
-     * maxMessage = "
+     * minMessage = "Nazwa of piec wendarniczy should be at least {{ limit }} characters long",
+     * maxMessage = "Nazwa of piec wendarniczy cannot be longer than {{ limit }} characters")
      */
     private $title;
 
@@ -43,6 +43,10 @@ class Auction
 
     /**
      * @ORM\Column(type="text", nullable=true, length=2000)
+     * @Assert\NotBlank
+     * @Assert\Length(min = 10, max = 2000,
+     * minMessage = "Description of piec wendzarniczy should be at least {{ limit }} characters long",
+     * maxMessage = "Description of piec wendzarniczy cannot be longer than {{ limit }} characters")
      */
     private $description;
 
