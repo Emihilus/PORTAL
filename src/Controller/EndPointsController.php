@@ -141,12 +141,13 @@ class EndPointsController extends AbstractController
         {
             if ($auctionWithHghstOffer[1] > $json->offerValue)
             {
-                $validatorErrors->add(new ConstraintViolation('The value of your offer ('.($json->offerValue/100).') is smaller than the highest offer for this auction ('.$auctionWithHghstOffer[1]/100,null,['param'=>'param'],$json->offerValue,null,45,null,null, new LessThan($auctionWithHghstOffer[1]),'null'));
+                $validatorErrors->add(new ConstraintViolation('The value of your offer ('.($json->offerValue/100).' PLN) is smaller than the highest offer for this auction ('.($auctionWithHghstOffer[1]/100).' PLN)', null, ['param'=>'param'],$json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]),'null'));
             }
             $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', [
                 'errors' => $validatorErrors
             ]);
-            dump($rendered);
+
+            dump($validatorErrors);
             return new JsonResponse([
                 'RECEIVED VALUE' => $json->offerValue,
                 'errorsBody' => $rendered->getContent()
@@ -208,4 +209,26 @@ public function makeOffer(Request $request, ValidatorInterface $validator)
             ]);
         }
     }
+
+
+
+    manual hghhst offer validation
+    else
+        {
+            $payloadArray = ['errors' => $validatorErrors];
+            if ($auctionWithHghstOffer[1] > $json->offerValue)
+            {
+               $payloadArray['offerError']  = "The value of your offer ($json->offerValue) is smaller than the highest offer for this auction ($auctionWithHghstOffer[1])";
+            }
+            else
+            {
+                $payloadArray['offerError'] = "";
+            }
+            $rendered = $this->render('main/ajax_parts/auction_make_offer_errors_part.html.twig', $payloadArray);
+            
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue,
+                'errorsBody' => $rendered->getContent()
+            ]);
+        }
 */

@@ -21,10 +21,13 @@
 <br>
 
 <form id='offerForm'>
-<input id='offerInput' required="required" type="number" min="{{v_offer_value_min}}" max="{{v_offer_value_max}}" step="any" /> PLN  <button type='submit'>Offer</button>
+<input id='offerInput' required="required" type="number" min="{{v_offer_value_min}}" max="{{v_offer_value_max}}" step="any" /> PLN  <button type='submit' >Offer</button>
 {# onclick='makeOffer()' #}
 </form>
-
+{% if auction.offers is not null %}
+    {{ auction.offers[0] }}
+{% else %}
+    {{v_offer_value_max}}{% endif %}
 <br>
 <div id='backendErrors'></div>
 <div id='offers'>
