@@ -114,6 +114,7 @@ function previewFile(file, length)
 //  if(count == length)
   //{
    // console.log(count +" " + length);
+   reorder(-1,-1);
       setTimeout(reassignOnclickButtonsAndCalcNewOrder, 500);
   //}
 
@@ -158,6 +159,11 @@ function reorder(task, clicked)
           copy[i] = items[i].cloneNode(true);
         else if (i > clicked-1)
           copy[i-1] = items[i].cloneNode(true);
+        break;
+
+      // JUST REBUILD
+      default:
+        copy[i] = items[i].cloneNode(true);
         break;
     }
 
