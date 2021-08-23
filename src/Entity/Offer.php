@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Offer
 {
+    static $valuea;
 
     /**
      * @ORM\Id
@@ -46,6 +47,16 @@ class Offer
      * @ORM\JoinColumn(nullable=false)
      */
     private $byUser;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('Offer', new Assert\LessThan(static::$valuea));
+    }
+
+    public function __construct()
+    {
+        static::$valuea = $this->getParameters('validation_OfferValueMax');
+    }
 
     public function getId(): ?int
     {

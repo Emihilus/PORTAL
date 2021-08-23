@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\AuctionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Repository\AuctionRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Table(name="auctions")
@@ -16,7 +18,6 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class Auction
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -79,11 +80,13 @@ class Auction
      */
     private $offers;
 
+    
+
     public function __construct()
     {
-        $this->container->getParameters('sad');
         $this->images = new ArrayCollection();
         $this->offers = new ArrayCollection();
+        
     }
 
     /** 
