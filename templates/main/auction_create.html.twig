@@ -110,9 +110,12 @@ function previewFile(file, length)
     imgInitialIdentifier++;
 
     
-  if(count == length)
+  //  console.log(count +" " + length);
+//  if(count == length)
+  //{
+   // console.log(count +" " + length);
       setTimeout(reassignOnclickButtonsAndCalcNewOrder, 500);
-
+  //}
 
   }
 
@@ -222,41 +225,6 @@ function reassignOnclickButtonsAndCalcNewOrder()
 
 
 
-;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, preventDefaults, false)
-})
-
-function preventDefaults (e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
-
-;['dragenter', 'dragover'].forEach(eventName => {
-  dropArea.addEventListener(eventName, highlight, false)
-})
-
-;['dragleave', 'drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, unhighlight, false)
-})
-
-function highlight(e) {
-  dropArea.classList.add('highlight')
-}
-
-function unhighlight(e) {
-  dropArea.classList.remove('highlight')
-}
-
-dropArea.addEventListener('drop', handleDrop, false)
-
-function handleDrop(e) {
-  let dt = e.dataTransfer
-  let files = dt.files
-
-  handleFiles(files)
-
-}
-
 
 function handleFiles(files) 
 {
@@ -274,10 +242,10 @@ function handleFiles(files)
   {
     uploadFile(file, files.length)
   });
-  files.forEach((file) => 
+  /*files.forEach((file) => 
   {
     ;
-  })
+  })*/
 }
 
 
@@ -316,6 +284,47 @@ function uploadFile(file,filesLength)
   })
   .catch(() => { /* Error. Inform the user */ })
 }
+
+
+
+
+;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false)
+})
+
+function preventDefaults (e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
+
+;['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, highlight, false)
+})
+
+;['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, unhighlight, false)
+})
+
+function highlight(e) {
+  dropArea.classList.add('highlight')
+}
+
+function unhighlight(e) {
+  dropArea.classList.remove('highlight')
+}
+
+dropArea.addEventListener('drop', handleDrop, false)
+
+function handleDrop(e) {
+  let dt = e.dataTransfer
+  let files = dt.files
+
+  handleFiles(files)
+
+}
+
+
+
 
 
 
