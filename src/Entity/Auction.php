@@ -22,10 +22,12 @@ class Auction
      */
     private $id;
 
-
-
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
+     * @Assert\Length(min = 2, max = 30,
+     * minMessage = "Nazwa of piec wendarniczy should be at least {{ limit }} characters long")
+     * maxMessage = "
      */
     private $title;
 

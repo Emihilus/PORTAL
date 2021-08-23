@@ -8,7 +8,7 @@
 
 <h1>Formularz dodawania aukcji</h1>
 
- {{ form_start(form) }} 
+ {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }} 
 {# <div class="my-custom-class-for-errors">
         {{ form_errors(form) }}
 </div> #}
@@ -17,11 +17,11 @@
 </pre> #}
 
 
-{{ form_row(form.title) }}
+{{ form_row(form.title, {'attr': {'novalidate': 'novalidate'}})  }}
     <input id="upload-token" type="hidden" name="auction_create_form[token]">
     <input id="image-order" type="hidden" name="auction_create_form[image-order]">
-{{ form_row(form.description) }}
-{{ form_row(form.endsAt) }}
+{{ form_row(form.description, {'attr': {'novalidate': 'novalidate'}})  }}
+{{ form_row(form.endsAt, {'attr': {'novalidate': 'novalidate'}})  }}
 
 {{form_end(form)}}
 
