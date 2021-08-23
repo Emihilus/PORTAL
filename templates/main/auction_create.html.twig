@@ -218,13 +218,6 @@ function reassignOnclickButtonsAndCalcNewOrder()
   document.getElementById("image-order").setAttribute('value', newOrder)
 }
 
-// DELEGATED TO reorder
-/*function removeImage(identifier)
-{
-  let imageElement = document.getElementById(identifier);
-  imageElement.parentNode.removeChild(imageElement);
-  reassignOnclickButtonsAndCalcNewOrder();
-}*/
 
 
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -273,7 +266,12 @@ function handleFiles(files)
 
   files = [...files]
   initializeProgress(files.length) 
-  files.forEach(uploadFile);
+
+  
+  files.forEach((file) =>
+  {
+    uploadFile(file, count)
+  });
   files.forEach((file) => 
   {
     previewFile(file,count,files.length);
@@ -283,7 +281,7 @@ function handleFiles(files)
 
 
 
-function uploadFile(file) 
+function uploadFile(file,count) 
 {
   let url = "{{path ('uploadTemporary') }}"
   let formData = new FormData()
@@ -309,7 +307,7 @@ function uploadFile(file)
         else
         {
           console.log('failure');
-          reorder(2,1)
+          reorder(2,count)
         }
       });
   })
