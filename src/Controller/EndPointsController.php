@@ -185,7 +185,7 @@ class EndPointsController extends AbstractController
         else
         {
             return new JsonResponse([
-                'result' => "This action is permitted for logged in users only"
+                'result' => "This action is permitted for logged in users only you dumbass hacker"
             ]);
         }
     }

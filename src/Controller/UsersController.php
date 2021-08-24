@@ -14,12 +14,7 @@ class UsersController extends AbstractController
      */
     public function myProfile(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
-        
-        return $this->render('userprofile/my_profile.html.twig', [
-            'auctions' => $auctions
-        ]);
+        return $this->render('userprofile/my_profile.html.twig');
     }
 
 
