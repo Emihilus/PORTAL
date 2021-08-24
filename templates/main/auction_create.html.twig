@@ -3,18 +3,11 @@
 {% block title %}Nowa aukcja{% endblock %}
 
 
-
 {% block body %}
 
 <h1>Formularz dodawania aukcji</h1>
 
  {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }} 
-{# <div class="my-custom-class-for-errors">
-        {{ form_errors(form) }}
-</div> #}
-{# <pre>
-    {{ dump(form) }}
-</pre> #}
 
 
 {{ form_row(form.title) }}
@@ -24,9 +17,6 @@
 {{ form_row(form.endsAt) }}
 
 {{form_end(form)}}
-
-   {# <input id="upload-file" type="file" name="imageFile"> #}
-
 
 <div id="drop-area">
   <form class="my-form">
@@ -261,8 +251,6 @@ function uploadFile(file,filesLength)
 
   formData.append('file', file)
   formData.append('TOKEN',TOKEN);
-
-  //let dropArea = document.getElementById('drop-area')
 
   fetch(url, {
     method: 'POST',
