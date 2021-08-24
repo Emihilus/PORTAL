@@ -29,6 +29,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 <br>
 <div id='backendErrors'></div>
 <div id='offers'>
+
+{% if auction.offers|length == 0 %}There are no offers yet{% endif %}
+
 {% for offer in auction.offers %}
     <b>Emis offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br>
 {% endfor %}
@@ -41,7 +44,6 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 let endsAt = "{{auction.endsAt | date('U')}}";
 let timerElement = document.getElementById('timer');
-// document.getElementById('time').innerHTML = Date.now()+" difference: "+ difference;
 
 auctionTimer();
 function auctionTimer()
@@ -86,12 +88,15 @@ function makeOffer()
 	{ 
 		console.log(res);
         if(res.errorsBody != null)
+        {
             document.getElementById('backendErrors').innerHTML = res.errorsBody;
-
-        let container = document.createElement('div');
-        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-        document.getElementById('offers').prepend(container);
-
+        }
+        else
+        {
+            let container = document.createElement('div');
+            container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+            document.getElementById('offers').prepend(container);
+        }
 	});
 
 

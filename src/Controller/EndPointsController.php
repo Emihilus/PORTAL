@@ -103,7 +103,6 @@ class EndPointsController extends AbstractController
      */
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
-        //dump($this->getUser());
         if($this->getUser() != null)
         {
                 $em = $this->getDoctrine()->getManager();
@@ -124,9 +123,7 @@ class EndPointsController extends AbstractController
                 {
                     $em->persist($offer);
                     $em->flush();
-                    return new JsonResponse([
-                        'RECEIVED VALUE' => $json->offerValue
-                    ]);
+                    return new JsonResponse([]);
                 }
                 else
                 {
@@ -150,8 +147,7 @@ class EndPointsController extends AbstractController
         else
         {
             return new JsonResponse([
-                'RECEIVED VALUE' => $json->offerValue,
-                'errorsBody' => "$rendered->getContent()"
+                'errorsBody' => "This action is for logged in users only"
             ]);
         }
     }
