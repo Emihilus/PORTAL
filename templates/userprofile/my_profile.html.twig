@@ -86,7 +86,7 @@
 
     function deleteAuction()
     {
-        console.log(clickedId);
+        {# console.log(clickedId); #}
         $('.modal-body').html('EXECUTING...');
 
          fetch("{{path('deleteAuction')}}", 
@@ -98,16 +98,17 @@
         })
         .then((response) => 
         {
-            response.json().then(function(data)
+            response.json().then(function(json)
             {
-                
-            $('.modal-body').html(data);
-                
-            }
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
+
+                if(json.result == 'Success')
+                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1500);
             });
         })
         .catch(() => { /* Error. Inform the user */ })
-                //$('#exampleModalCenter').modal('hide')
+                
     }
     </script>
 {% endblock %}

@@ -168,20 +168,24 @@ class EndPointsController extends AbstractController
             if($auction->getByUser() == $this->getUser())
             {
                 ;// DELETE AUCTION
+                return new JsonResponse([
+                    'result' => "Success"
+                ]);
             }
             else
             {
                 ;// WRONG USER
+                return new JsonResponse([
+                    'result' => "Wrong user"
+                ]);
             }
             
-            return new JsonResponse([
-                'errorsBody' => "no bidy"
-            ]);
+            
         }
         else
         {
             return new JsonResponse([
-                'errorsBody' => "This action is permitted for logged in users only"
+                'result' => "This action is permitted for logged in users only"
             ]);
         }
     }
