@@ -33,17 +33,47 @@
   </div>
 </div>
 
-{% for auction in auctions %}
 
 
-	<a href="#" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="70">
-		{{auction.0.title}}
-		| kończy się
-		
-			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task({{auction.0.id}})">Tasks</button>
-	</a> 
-{% endfor %}
+<div class="container-fluid">
+		<div class="row">
+			<ul id="auctions"
+				class="list-group col">
+				{# jQuery.ajax populated dynamic content #}
+			</ul>
 
+
+		</div>
+		<div class="row">
+			<nav class="mt-2" aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+
+					<li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
+						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">Previous</a>
+					</li>
+
+
+					{% for i in 1.. pages %}
+						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
+						</li>
+					{% endfor %}
+
+
+					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
+						<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">Next</a>
+					</li>
+
+					<span class="my-auto ms-3"><b>Items per page:</b></span>
+					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
+						{% for i in 1.. 5 %}
+							<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
+						{% endfor %}
+					</select>
+				</ul>
+			</nav>
+		</div>
+	</div>
 
 
 
@@ -101,5 +131,74 @@
         .catch(() => { /* Error. Inform the user */ })
                 
     }
+
+
+
+// LIST BLOCK
+
+
+
+window.onLoad = getAuctions({{app.request.get('page')}});
+
+function onChangeHandler (selectedObject)
+{
+	$.ajax({
+		url: "{{path ('setPerPage') }}",
+		method: "post", 
+		dataType: "json", 
+		data: { 
+			itemsPerPage: selectedObject
+    }
+	})
+	.done(res => 
+	{ 
+		console.log(res);
+		location.reload();
+	});
+}
+
+function getAuctions(requestedPage)
+{
+    $.ajax({
+   	 	url: "{{path ('getAuctions') }}",
+    	method: "post", 
+    	dataType: "html", 
+    	data: { 
+        requestedPage: requestedPage
+    }
+		})
+	.done(res => 
+	{ 
+		$('#auctions').html(res);
+		let pageElementsArray = $('.page-item').toArray();
+		pageElementsArray.forEach(function (pageItemElement) 
+		{
+			if(requestedPage == pageItemElement.children[0].innerHTML)
+				$(pageItemElement).addClass('active');
+			else
+				$(pageItemElement).removeClass('active');
+
+			if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage == 1)
+				$(pageItemElement).addClass('disabled');
+			else if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage > 1)
+			{
+				$(pageItemElement).removeClass('disabled');
+				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage-1)+')');
+			}
+			
+			if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage == pageElementsArray.length-2)
+				$(pageItemElement).addClass('disabled');
+			else if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage < pageElementsArray.length-2)
+			{
+				$(pageItemElement).removeClass('disabled');
+				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
+			}
+		});
+		window.history.pushState('page2', 'Title', '{{path('auction-list')}}/'+requestedPage);
+	});
+}
+
+
+
     </script>
 {% endblock %}
