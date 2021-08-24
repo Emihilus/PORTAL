@@ -55,15 +55,22 @@
 					</li>
 
 					{# <form> #}
+					{% if not app.user %}
 					<li class="nav-item">
-						<a class="nav-link active" href="{% if not app.user %}
-							{{path('app_login')}}">You are not logged in
-						{% else %}
-							{{path('app_logout')}}">Logged as {{app.user.username}}
-						{% endif %}</a>
-						{# <input type='hidden' name='refferer'> #}
+						<a class="nav-link active" href="
+							{{path('app_login')}}">You are not logged in</a>
 					</li>
-					{# <form> #}
+						{% else %}
+					<li class="nav-item">
+						<a class="nav-link active" href="
+							{{path('app_login')}}">Logged as <b>{{app.user.username}}</b></a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link active" href="
+							{{path('app_login')}}">Logout{{app.user.username}}</b></a>
+					</li>
+						{% endif %}
 				</ul>
 
 				<form class="d-none d-flex me-1">
