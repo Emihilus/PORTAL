@@ -13,16 +13,16 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header  text-dark">
         <h5 class="modal-title" id="exampleModalLongTitle">Whot U want 2 do?</h5>
         <button  onclick="$('#exampleModalCenter').modal('hide')" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center ">
+      <div class="modal-body text-center">
         <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
         <button type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">End now</button>
-        <button type="button" class="btn btn-primary">Delete</button>
+        <button type="button" class="btn btn-primary" onclick="deleteAuction()">Delete</button>
       </div>
       {# <div class="modal-footer">
         
@@ -73,10 +73,14 @@
             window.location.href = link;
     }
 
-
     $('#exampleModalCenter').on('hidden.bs.modal', function (e) 
     {
         optionsClicked = false;
     })
+
+    function delete()
+    {
+        
+    }
     </script>
 {% endblock %}
