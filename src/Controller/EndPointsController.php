@@ -53,6 +53,7 @@ class EndPointsController extends AbstractController
             'auctions' => $auctions
         ]);
     }
+    // WE NEED TO AVOID REDUNDANCY SO PUT IN HERE CONDTION FOR SELECTING AUCTIONS CREATED ONLY BY SPECIFIED USER, USEFUL FOR FUTURE OPTION SHOW SPECIFIC USER AUCTIONS
 
     /**
      * @Route("/ep/uploadTemporary", name="uploadTemporary", methods={"POST"})
