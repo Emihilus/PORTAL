@@ -54,13 +54,16 @@
 						<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">ZALOZYCIELS</a>
 					</li>
 
+					{# <form> #}
 					<li class="nav-item">
 						<a class="nav-link active" href="{% if not app.user %}
 							{{path('app_login')}}">You are not logged in
 						{% else %}
 							{{path('app_logout')}}">Logged as {{app.user.username}}
 						{% endif %}</a>
+						{# <input type='hidden' name='refferer'> #}
 					</li>
+					{# <form> #}
 				</ul>
 
 				<form class="d-none d-flex me-1">
