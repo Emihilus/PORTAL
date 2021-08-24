@@ -103,7 +103,8 @@ class EndPointsController extends AbstractController
      */
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        //dump($this->getUser());
+        if($this->getUser() != null)
         {
                 $em = $this->getDoctrine()->getManager();
                 $json = json_decode($request->getContent());
@@ -145,10 +146,17 @@ class EndPointsController extends AbstractController
                 }
 
 
-                }
-            }
-
+        }
+        else
+        {
+            return new JsonResponse([
+                'RECEIVED VALUE' => $json->offerValue,
+                'errorsBody' => "$rendered->getContent()"
+            ]);
+        }
     }
+
+}
 
 
 /* PART DESIGN ERRORS without db hghest check
