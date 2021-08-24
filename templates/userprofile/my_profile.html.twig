@@ -3,28 +3,36 @@
 {% block title %}My profile{% endblock %}
 
 {% block body %}
+
 <h1>My profile</h1>
-{# <UL> #}
+
 {% for auction in auctions %}
 
-    <div class=""> 
-	<a href="{{path('auction-details',{'auctionId': auction.0.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="70">
+
+	<a href="#" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="70">
 		{{auction.0.title}}
 		| kończy się
 		
 			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task()">Options</button>
 	</a> 
-	{#{{dump(auction)}} #}
 {% endfor %}
-{# </ul> #}
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
-<script>
-function task()
-{
-    alert('ALert! Our control poion has being captured!')
-}
-</script>
+    <script>
+    let optionsClicked = false;
+    function task()
+    {
+        optionsClicked = true;
+        alert('ALert! Our control poion has being captured!')
+        optionsClicked = false;
+    }
+
+    function link(link)
+    {
+        if(!optionsClicked)
+            window.location.href = link;
+    }
+    </script>
 {% endblock %}
