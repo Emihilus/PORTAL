@@ -59,6 +59,7 @@
     <script>
     let optionsClicked = false;
     let clickedId;
+
     function task(clickedId)
     {
         optionsClicked = true;
@@ -80,7 +81,7 @@
 
     function deleteAuction()
     {
-         fetch({{path('deleteAuction')}}, 
+         fetch("{{path('deleteAuction')}}", 
          {
             method: 'POST',
             body: JSON.stringify({
@@ -89,7 +90,6 @@
         })
         .then((response) => 
         {
-            progressDone
             response.json().then(function(data)
             {
                 if(data['errors'] == "")
@@ -107,6 +107,6 @@
         })
         .catch(() => { /* Error. Inform the user */ })
                 $('#exampleModalCenter').modal('hide')
-            }
+    }
     </script>
 {% endblock %}

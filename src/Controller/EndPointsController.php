@@ -161,12 +161,15 @@ class EndPointsController extends AbstractController
 
         if($this->getUser() != null)
         {
-            ;
+            dump($request->getContent());
+            return new JsonResponse([
+                'errorsBody' => "no bidy"
+            ]);
         }
         else
         {
             return new JsonResponse([
-                'errorsBody' => "This action is permitted "
+                'errorsBody' => "This action is permitted for logged in users only"
             ]);
         }
     }
