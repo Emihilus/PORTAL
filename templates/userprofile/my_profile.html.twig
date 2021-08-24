@@ -30,10 +30,10 @@
   </div>
 </div>
 
-<!-- Button trigger modal -->
+{# <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="$('#exampleModalCenter').modal('show')">
   Launch demo modal
-</button>
+</button> #}
 
 
 {% for auction in auctions %}
@@ -43,7 +43,7 @@
 		{{auction.0.title}}
 		| kończy się
 		
-			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task()">Options</button>
+			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task({{auction.0.id}})">Options</button>
 	</a> 
 {% endfor %}
 
@@ -57,11 +57,13 @@
 {{ parent() }}
     <script>
     let optionsClicked = false;
-    function task()
+    let clickedId;
+    function task(clickedId)
     {
         optionsClicked = true;
-        alert('ALert! Our control poion has being captured!')
-        optionsClicked = false;
+        this.clickedId = clickedId;
+        $('.modal-body').html('You have clicked '+clickedId);
+        $('#exampleModalCenter').modal('show')
     }
 
     function link(link)

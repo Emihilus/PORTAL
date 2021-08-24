@@ -16,7 +16,7 @@ class UsersController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
-        dump($auctions);
+        
         return $this->render('userprofile/my_profile.html.twig', [
             'auctions' => $auctions
         ]);
