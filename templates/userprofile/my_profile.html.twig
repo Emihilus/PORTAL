@@ -80,7 +80,33 @@
 
     function deleteAuction()
     {
-
-    }
+         fetch({{path('deleteAuction')}}, 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId 
+            })
+        })
+        .then((response) => 
+        {
+            progressDone
+            response.json().then(function(data)
+            {
+                if(data['errors'] == "")
+                {
+                console.log('success');
+                previewFile(file,filesLength);
+                count++;
+                }
+                else
+                {
+                console.log('failure');
+                
+                }
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
+                $('#exampleModalCenter').modal('hide')
+            }
     </script>
 {% endblock %}

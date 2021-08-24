@@ -152,6 +152,25 @@ class EndPointsController extends AbstractController
         }
     }
 
+
+    /**
+     * @Route("/ep/deleteAuction", name="deleteAuction", methods={"POST"})
+     */
+    public function deleteAuction(Request $request)
+    {
+
+        if($this->getUser() != null)
+        {
+            ;
+        }
+        else
+        {
+            return new JsonResponse([
+                'errorsBody' => "This action is permitted "
+            ]);
+        }
+    }
+
 }
 
 
