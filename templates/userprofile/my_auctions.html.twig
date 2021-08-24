@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My auctions{% endblock %}
+
+{% block body %}
+
+<h1>My auctions</h1>
+<h2>Back to dashboard</h2>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <div class="modal-content text-dark">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Whot U want 2 do?</h5>
+        <button  onclick="$('#exampleModalCenter').modal('hide')" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+       Choose your action
+      </div>
+
+      <div class="modal-footer text-center">
+         <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
+        <button type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">End now</button>
+        <button type="button" class="btn btn-primary" onclick="deleteAuction()">Delete</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% for auction in auctions %}
+
+
+	<a href="#" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="70">
+		{{auction.0.title}}
+		| kończy się
+		
+			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task({{auction.0.id}})">Tasks</button>
+	</a> 
+{% endfor %}
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+    <script>
+    let optionsClicked = false;
+    var clickedId;
+
+    function task(clickedId)
+    {
+        optionsClicked = true;
+        this.clickedId = clickedId;
+        //$('.modal-body').html('You have clicked '+clickedId);
+        $('#exampleModalCenter').modal('show')
+    }
+
+    function link(link)
+    {
+        if(!optionsClicked)
+            window.location.href = link;
+    }
+
+    $('#exampleModalCenter').on('hidden.bs.modal', function (e) 
+    {
+        optionsClicked = false;
+    })
+
+    function deleteAuction()
+    {
+        {# console.log(clickedId); #}
+        $('.modal-body').html('EXECUTING...');
+
+         fetch("{{path('deleteAuction')}}", 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId
+            })
+        })
+        .then((response) => 
+        {
+            response.json().then(function(json)
+            {
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
+
+                if(json.result == 'Success')
+                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1500);
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
+                
+    }
+    </script>
+{% endblock %}

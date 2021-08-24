@@ -21,4 +21,18 @@ class UsersController extends AbstractController
             'auctions' => $auctions
         ]);
     }
+
+
+    /**
+     * @Route("/my-auctions", name="my-auctions")
+     */
+    public function myAuctions(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+        
+        return $this->render('userprofile/my_auctions.html.twig', [
+            'auctions' => $auctions
+        ]);
+    }
 }
