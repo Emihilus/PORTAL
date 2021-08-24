@@ -12,21 +12,26 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header  text-dark">
+
+    <div class="modal-content text-dark">
+
+      <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Whot U want 2 do?</h5>
         <button  onclick="$('#exampleModalCenter').modal('hide')" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
-        <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
+
+      <div class="modal-body">
+       Choose your action
+      </div>
+
+      <div class="modal-footer text-center">
+         <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
         <button type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">End now</button>
         <button type="button" class="btn btn-primary" onclick="deleteAuction()">Delete</button>
       </div>
-      {# <div class="modal-footer">
-        
-      </div> #}
+
     </div>
   </div>
 </div>
@@ -82,6 +87,8 @@
     function deleteAuction()
     {
         console.log(clickedId);
+        $('.modal-body').html('EXECUTING...');
+
          fetch("{{path('deleteAuction')}}", 
          {
             method: 'POST',
@@ -93,21 +100,14 @@
         {
             response.json().then(function(data)
             {
-                if(data['errors'] == "")
-                {
-                console.log('success');
-                previewFile(file,filesLength);
-                count++;
-                }
-                else
-                {
-                console.log('failure');
                 
-                }
+            $('.modal-body').html(data);
+                
+            }
             });
         })
         .catch(() => { /* Error. Inform the user */ })
-                $('#exampleModalCenter').modal('hide')
+                //$('#exampleModalCenter').modal('hide')
     }
     </script>
 {% endblock %}

@@ -164,10 +164,15 @@ class EndPointsController extends AbstractController
             $json = json_decode($request->getContent());
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
+
             if($auction->getByUser() == $this->getUser())
-                dump('user equals');
-                else
-                dump('user NOT equals');
+            {
+                ;// DELETE AUCTION
+            }
+            else
+            {
+                ;// WRONG USER
+            }
             
             return new JsonResponse([
                 'errorsBody' => "no bidy"
