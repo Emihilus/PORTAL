@@ -161,7 +161,14 @@ class EndPointsController extends AbstractController
 
         if($this->getUser() != null)
         {
-            dump($request->getContent());
+            $json = json_decode($request->getContent());
+            $em = $this->getDoctrine()->getManager();
+            $auction = $em->getRepository(Auction::class)->find($json->auctionId);
+            if($auction->getByUser() == $this->getUser())
+                dump('user equals');
+                else
+                dump('user NOT equals');
+            
             return new JsonResponse([
                 'errorsBody' => "no bidy"
             ]);

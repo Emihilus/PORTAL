@@ -58,7 +58,7 @@
 {{ parent() }}
     <script>
     let optionsClicked = false;
-    let clickedId;
+    var clickedId;
 
     function task(clickedId)
     {
@@ -81,11 +81,12 @@
 
     function deleteAuction()
     {
+        console.log(clickedId);
          fetch("{{path('deleteAuction')}}", 
          {
             method: 'POST',
             body: JSON.stringify({
-            'auctionId' : clickedId 
+            'auctionId' : clickedId
             })
         })
         .then((response) => 
