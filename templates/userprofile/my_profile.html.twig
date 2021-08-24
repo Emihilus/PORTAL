@@ -19,7 +19,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center ">
         <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
         <button type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">End now</button>
         <button type="button" class="btn btn-primary">Delete</button>
@@ -72,5 +72,11 @@
         if(!optionsClicked)
             window.location.href = link;
     }
+
+
+    $('#exampleModalCenter').on('hidden.bs.modal', function (e) 
+    {
+        optionsClicked = false;
+    })
     </script>
 {% endblock %}
