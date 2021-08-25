@@ -197,10 +197,11 @@ class AuctionRepository extends ServiceEntityRepository
         ->leftJoin('a.byUser', 'u')
         ->addSelect('u.username');
 
+        // IMPERFECT
         if($user)
         {
-            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.user = :user')
-            ->setParameter('user', $user)
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
             ->addSelect('l');
         }
         $query = $query->getQuery()->getResult();
