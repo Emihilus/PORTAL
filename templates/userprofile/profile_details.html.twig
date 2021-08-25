@@ -4,7 +4,7 @@
 
 {% block body %}
 <h1>Details of user {{USR}}</h1>
-<a href="{{path('user-auctions', {'user': USR})}}"><h2>Show auctions of this user</h2></a>
+<a href="{{path('user-auctions', {'username': USR})}}"><h2>Show auctions of this user</h2></a>
 <h1> Stats in here </h1>
 <pre>
     {{ dump(USR) }}

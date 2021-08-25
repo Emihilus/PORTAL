@@ -40,7 +40,7 @@ class UsersController extends AbstractController
      * @Route("/my-auctions/{page}", name="my-auctions", defaults = {"page": "1" })
      * @Route("/user-auctions/{username}/{page}", name="user-auctions", defaults = {"page": "1" })
      */
-    public function myAuctions($page, User $user, Request $request): Response
+    public function myAuctions($page, ?User $user, Request $request): Response
     {
         $auctions = "";
         $em = $this->getDoctrine()->getManager();
