@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Auction;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method Auction|null find($id, $lockMode = null, $lockVersion = null)
@@ -199,11 +200,10 @@ class AuctionRepository extends ServiceEntityRepository
         if($user)
         {
             $query->leftJoin('a.likedByUsers', 'l')
-            ->addSelect('l')
-            ->Where('l.id = :val')
-            ->setParameter('val', $user->getId());
+            ->addSelect('l');
         }
         $query = $query->getQuery()->getResult();
+
 
        return $query;
     }
