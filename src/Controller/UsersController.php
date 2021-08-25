@@ -29,7 +29,7 @@ class UsersController extends AbstractController
      */
     public function profileDetails($user): Response
     {
-        $USR = $this->getDoctrine()->getRepository(User::class)->find($user);
+        $USR = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $user]);
 
         return $this->render('userprofile/profile_details.html.twig', ['USR' => $USR]);
     }

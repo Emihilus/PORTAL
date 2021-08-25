@@ -3,12 +3,11 @@
 {% block title %}My profile{% endblock %}
 
 {% block body %}
-
-<h1>Details of user {{USR.</h1>
+<h1>Details of user {{USR}}</h1>
 <a href="{{path('my-auctions')}}"><h2>Show auctions of this user</h2></a>
-<h2>Change pwd</h2>
 <h1> Stats in here </h1>
 <pre>
-    {{ dump(0) }}
+    {{ dump(USR) }}
 </pre>
+
 {% endblock %}
