@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Auction;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,9 @@ class UsersController extends AbstractController
      */
     public function profileDetails($user): Response
     {
-        return $this->render('userprofile/profile-details.html.twig');
+        $USR = $this->getDoctrine()->getRepository(User::class)->find($user);
+
+        return $this->render('userprofile/profile_details.html.twig', ['USR' => $USR]);
     }
 
 
