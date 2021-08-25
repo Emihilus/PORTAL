@@ -215,6 +215,9 @@ class EndPointsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
+            $user = $th
+
+
             if($auction->getByUser() == $this->getUser())
             {
                 ;// DELETE AUCTION
