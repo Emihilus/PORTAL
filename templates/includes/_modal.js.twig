@@ -1,10 +1,10 @@
 let optionsClicked = false;
     var clickedId;
 
-    function task(clickedId)
+    function task(clickedAId)
     {
         optionsClicked = true;
-        this.clickedId = clickedId;
+        this.clickedId = clickedAId;
         //$('.modal-body').html('You have clicked '+clickedId);
         $('#exampleModalCenter').modal('show')
     }
@@ -46,4 +46,27 @@ let optionsClicked = false;
         })
         .catch(() => { /* Error. Inform the user */ })
                 
+    }
+
+    function toggleFavorite(clickedAId)
+    {
+        optionsClicked = true;
+        this.clickedId = clickedAId;
+
+        fetch("{{path('toggleFavoirteAuction')}}", 
+        {
+           method: 'POST',
+           body: JSON.stringify({
+           'auctionId' : clickedId
+           })
+       })
+       .then((response) => 
+       {
+           response.json().then(function(json)
+           {
+               if(json.result == 'Success')
+                   setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+           });
+       })
+       .catch(() => { /* Error. Inform the user */ })
     }

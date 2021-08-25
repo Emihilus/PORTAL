@@ -202,6 +202,44 @@ class EndPointsController extends AbstractController
         }
     }
 
+
+     /**
+     * @Route("/ep/toggleFavoriteAuction", name="toggleFavoriteAuction", methods={"POST"})
+     */
+    public function toggleFavoriteAuction(Request $request)
+    {
+
+        if($this->getUser() != null)
+        {
+            $json = json_decode($request->getContent());
+            $em = $this->getDoctrine()->getManager();
+            $auction = $em->getRepository(Auction::class)->find($json->auctionId);
+
+            if($auction->getByUser() == $this->getUser())
+            {
+                ;// DELETE AUCTION
+                return new JsonResponse([
+                    'result' => "Success"
+                ]);
+            }
+            else
+            {
+                ;// WRONG USER
+                return new JsonResponse([
+                    'result' => "Wrong user"
+                ]);
+            }
+            
+            
+        }
+        else
+        {
+            return new JsonResponse([
+                'result' => "This action is permitted for logged in users only you dumbass hacker"
+            ]);
+        }
+    }
+
 }
 
 
