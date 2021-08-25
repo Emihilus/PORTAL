@@ -123,7 +123,7 @@ class MainController extends AbstractController
             }
         }
 
-        return $this->render('main/auction_create.html.twig', [
+        return $this->render('auction/auction_create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
