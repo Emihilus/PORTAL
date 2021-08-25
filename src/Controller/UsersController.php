@@ -44,14 +44,16 @@ class UsersController extends AbstractController
     {
         $auctions = "";
         $em = $this->getDoctrine()->getManager();
-
+        dump($request->get('_route'));
         switch ($request->get('_route'))
         {
             case 'my-auctions';
+            dump(1);
                 $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
                 break;
 
             case 'user-auctions':
+                dump($user);
                 $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
                 break;
         }
