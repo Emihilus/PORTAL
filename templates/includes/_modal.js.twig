@@ -47,8 +47,18 @@ let optionsClicked = false;
                 
     }
 
-    function toggleFavorite(clickedAId, add)
+    function toggleFavorite(clickedAId)
     {
+        let add;
+        if($("#fid_"+clickedAId).attr('src').contains('favd.png'))
+        {
+            add = true;
+        }
+        else
+        {
+            add = false;
+        }
+
         optionsClicked = true;
         this.clickedId = clickedAId;
 
@@ -73,7 +83,8 @@ let optionsClicked = false;
                console.log(json);
                if(json.result == 'Success')
                    {
-                       $("#fid_"+clickedAId).attr('src',)
+                       add ? $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png')) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('favd.png', 'fave.png'));
+                       
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
                    }
            });
