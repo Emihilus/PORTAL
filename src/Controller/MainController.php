@@ -39,7 +39,7 @@ class MainController extends AbstractController
 
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
-        return $this->render('main/auction_list.html.twig', [
+        return $this->render('auction/auction_list.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage
@@ -59,7 +59,7 @@ class MainController extends AbstractController
         /*dump($meta);
         dump($meta->getPropertyMetadata("Value")[0]->getConstraints()[0]->value);*/
 
-        return $this->render('main/auction_details.html.twig', [
+        return $this->render('auction/auction_details.html.twig', [
             'auction' => $auction,
             'validation_maxValue' => $constraintValue
         ]);
