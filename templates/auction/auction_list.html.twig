@@ -7,8 +7,11 @@
 	<h1>PORTAL DO PRZEPROWADZANIA AUKCJI PIECY WĘDZARNICZYCH</h1>
 
 
-
+	{% if app.user %}
     {{ include('includes/_modal.html.twig')  }}
+	{% else %}
+		
+	{% endif %}
 
 
 

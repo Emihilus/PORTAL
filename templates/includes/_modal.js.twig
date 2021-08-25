@@ -50,6 +50,12 @@ let optionsClicked = false;
 
     function toggleFavorite(clickedAId)
     {
+        if({% if not app.user %}true{% else %}false{% endif %})
+        {
+            $('#exampleModalCenter').modal('show');
+           // return;
+        }
+
         optionsClicked = true;
         this.clickedId = clickedAId;
 

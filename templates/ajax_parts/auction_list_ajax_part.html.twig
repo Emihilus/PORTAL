@@ -11,8 +11,6 @@
 			<button onclick="task({{auction.0.id}},true)">Tasks</button> {% endif %}
 			<img src="{{asset('interface/favd.png')}}" onclick='toggleFavorite({{auction.0.id}})' />
 
-			<pre>
-				{{ dump(auction) }}
-			</pre>
+				{# {{ dump(auction) }} #}
 	</a>
 {% endfor %}
