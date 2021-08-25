@@ -7,14 +7,10 @@
 <h1>My auctions</h1>
 <h2>Back to dashboard</h2>
 
-
-
 {{ include('includes/_modal.html.twig')  }}
 
 
-
-
-<div class="container-fluid">
+<div id='list-content' class="container-fluid">
 		<div class="row">
 			<ul id="auctions"
 				class="list-group col">
@@ -65,8 +61,6 @@
     
 {{ include('includes/_modal.js.twig')  }}
 
-
-
 window.onLoad = getAuctions({{app.request.get('page')}});
 
 function onChangeHandler (selectedObject)
@@ -99,7 +93,15 @@ function getAuctions(requestedPage)
 		})
 	.done(res => 
 	{ 
+		if(res == 'none')
+		{
+			console.log(res);
+			$('#list-content').html("You have no any auctions");
+			return;
+		}
+
 		$('#auctions').html(res);
+
 		let pageElementsArray = $('.page-item').toArray();
 		pageElementsArray.forEach(function (pageItemElement) 
 		{

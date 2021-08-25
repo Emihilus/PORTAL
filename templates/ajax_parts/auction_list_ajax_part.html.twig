@@ -1,5 +1,4 @@
-{% if auctions|length == 0%} length = 0{% endif %}
-
+{% if auctions|length == 0%}none{% endif %}
 {% for auction in auctions %}
 
 	<a href="#" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
