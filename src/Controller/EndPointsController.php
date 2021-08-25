@@ -243,13 +243,15 @@ class EndPointsController extends AbstractController
             ]);
         }*/
 
+        $json = json_decode($request->getContent());
+
         $em = $this->getDoctrine()->getManager();
-        $auction = $em->getRepository(Auction::class)->find(1);
+        $auction = $em->getRepository(Auction::class)->find($json->auctionId);
         $user1 = $em->getRepository(User::class)->find(1);
         $user2 = $em->getRepository(User::class)->find(2);
-        $user1->addFavoriteAuction($auction);
         $user2->addFavoriteAuction($auction);
-        $em->persist($user2);
+        $user1->addFavoriteAuction($auction);
+        //$em->persist($user2);
         $em->persist($user1);
         $em->flush();
 

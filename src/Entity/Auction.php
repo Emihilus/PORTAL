@@ -66,11 +66,6 @@ class Auction
      */
     private $offers;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="FavoriteAuctions")
-     */
-    private $likedByUser;
-
     
 
     public function __construct()
@@ -216,18 +211,6 @@ class Auction
                 $offer->setAuction(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getLikedByUser(): ?User
-    {
-        return $this->likedByUser;
-    }
-
-    public function setLikedByUser(?User $likedByUser): self
-    {
-        $this->likedByUser = $likedByUser;
 
         return $this;
     }
