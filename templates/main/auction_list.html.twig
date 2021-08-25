@@ -81,6 +81,58 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
+let optionsClicked = false;
+    var clickedId;
+
+    function task(clickedId)
+    {
+        optionsClicked = true;
+        this.clickedId = clickedId;
+        //$('.modal-body').html('You have clicked '+clickedId);
+        $('#exampleModalCenter').modal('show')
+    }
+
+    function link(link)
+    {
+        if(!optionsClicked)
+            window.location.href = link;
+    }
+
+    $('#exampleModalCenter').on('hidden.bs.modal', function (e) 
+    {
+        optionsClicked = false;
+        $('.modal-body').html('Choose your action');
+    })
+
+    function deleteAuction()
+    {
+        {# console.log(clickedId); #}
+        $('.modal-body').html('EXECUTING...');
+
+         fetch("{{path('deleteAuction')}}", 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId
+            })
+        })
+        .then((response) => 
+        {
+            response.json().then(function(json)
+            {
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
+
+                if(json.result == 'Success')
+                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
+                
+    }
+
+
+
 
 window.onLoad = getAuctions({{app.request.get('page')}});
 

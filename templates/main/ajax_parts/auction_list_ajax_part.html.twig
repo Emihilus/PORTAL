@@ -1,6 +1,6 @@
 {% for auction in auctions %}
 
-	<a href="{{path('auction-details',{'auctionId': auction.0.id})}}" class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="100">
+	<a href="#" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
 		{{auction.0.title}}
 		| kończy się
 		
