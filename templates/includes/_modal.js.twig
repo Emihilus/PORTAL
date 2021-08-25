@@ -47,7 +47,7 @@ let optionsClicked = false;
                 
     }
 
-    function toggleFavorite(clickedAId)
+    function toggleFavorite(clickedAId, add)
     {
         optionsClicked = true;
         this.clickedId = clickedAId;
@@ -62,7 +62,8 @@ let optionsClicked = false;
         {
            method: 'POST',
            body: JSON.stringify({
-           'auctionId' : clickedAId
+           'auctionId' : clickedAId,
+           add
            })
        })
        .then((response) => 
@@ -71,7 +72,10 @@ let optionsClicked = false;
            {
                console.log(json);
                if(json.result == 'Success')
-                   setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+                   {
+                       $("#fid_"+clickedAId).attr('src',)
+                       setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+                   }
            });
        })
        .catch(() => { /* Error. Inform the user */ })
