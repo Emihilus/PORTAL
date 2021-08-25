@@ -53,10 +53,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $offers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Auction::class, mappedBy="likedByUser")
+     */
+    private $FavoriteAuctions;
+
     public function __construct()
     {
         $this->Auctions = new ArrayCollection();
         $this->offers = new ArrayCollection();
+        $this->FavoriteAuctions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,6 +220,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($offer->getByUser() === $this) {
                 $offer->setByUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Auction[]
+     */
+    public function getFavoriteAuctions(): Collection
+    {
+        return $this->FavoriteAuctions;
+    }
+
+    public function addFavoriteAuction(Auction $favoriteAuction): self
+    {
+        if (!$this->FavoriteAuctions->contains($favoriteAuction)) {
+            $this->FavoriteAuctions[] = $favoriteAuction;
+            $favoriteAuction->setLikedByUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteAuction(Auction $favoriteAuction): self
+    {
+        if ($this->FavoriteAuctions->removeElement($favoriteAuction)) {
+            // set the owning side to null (unless already changed)
+            if ($favoriteAuction->getLikedByUser() === $this) {
+                $favoriteAuction->setLikedByUser(null);
             }
         }
 

@@ -15,6 +15,7 @@ class AppFixtures extends Fixture
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->tempUserArray = [];
     }
 
 
@@ -34,7 +35,7 @@ class AppFixtures extends Fixture
             $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setRoles($roles);
             $manager->persist($user);
-            $this->tempUser = $user;
+            array_push($this->tempUserArray, $user);
         }
 
         $manager->flush();
@@ -55,8 +56,8 @@ class AppFixtures extends Fixture
         foreach ($this->getAuctionData() as [$title,  $createdAt, $PEROID, $description])
         {
             $auction = new Auction();
-            $auction->setByUser($this->tempUser);
-            $auction->setTitle("Piec ".$this->names[random_int(0,count($this->names))]);
+            $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
+            $auction->setTitle("Piec ".$this->names[random_int(0,count($this->names)-1)]);
             $createdAtCurrent = clone $createdAt;
             $auction->setCreatedAt(new \DateTime('-10 days'));
             $createdAt->modify($PEROID);
@@ -67,7 +68,7 @@ class AppFixtures extends Fixture
             for ($i = 0; $i< random_int(1,10); $i++)
             {
                 $offer = new Offer();
-                $offer->setByUser($this->tempUser);
+                $offer->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
                 $offer->setAuction($auction);
                 $offer->setCreatedAt(new \DateTime('-'.random_int(1,1000000).' seconds'));
                 $offer->setValue(random_int(0,454543));
