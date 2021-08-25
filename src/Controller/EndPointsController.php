@@ -54,6 +54,11 @@ class EndPointsController extends AbstractController
             case 1: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
                 break;
+
+            // AUCTIONS OF SPECIFIC USER LIST
+            case 2: 
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                break;
         }
         
 
