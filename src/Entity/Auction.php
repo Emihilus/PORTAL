@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping\JoinTable;
 
 /**
  * @ORM\Table(name="auctions")
@@ -69,7 +68,7 @@ class Auction
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="likedAuctions")
-     * @JoinTable(name="user_auctions")
+   * @ORM\JoinTable(name="user_auctions")
      */
     private $likedByUsers;
 
