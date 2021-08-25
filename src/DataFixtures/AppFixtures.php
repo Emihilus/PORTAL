@@ -43,7 +43,8 @@ class AppFixtures extends Fixture
     public function getUserData(): array
     {
         return[
-            ['Emis', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']]
+            ['Emis', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']],
+            ['Emazemhs', 'emazemhs@gmail.com', '12345', ['ROLE_USER']]
         ];
     }
 
