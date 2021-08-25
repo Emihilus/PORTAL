@@ -42,18 +42,20 @@ class EndPointsController extends AbstractController
     public function getAuctions(Request $request)
     {
         $auctions = '';
+        $template = '';
         switch ($request->get('type'))
         {
             case 0:
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOffer();
+                $template = 'main/ajax_parts/auction_list_ajax_part.html.twig';
                 break;
 
             case 1: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                $template = 'main/ajax_parts/my_auctions_list_part.html.twig';
                 break;
         }
         
-        dump($request->get('type'));
 
         $_POST_requestedPage = $request->get('requestedPage');
         $itemsPerPage = $_COOKIE['itemsPerPage'];
@@ -61,7 +63,7 @@ class EndPointsController extends AbstractController
        /*$auctionImage = $this->getDoctrine()->getRepository(AuctionImage::class)->findOneBy([
             'auction_id' => ''
         ])*/
-        return $this->render('main/ajax_parts/auction_list_ajax_part.html.twig', [
+        return $this->render($template, [
             'auctions' => $auctions
         ]);
     }
