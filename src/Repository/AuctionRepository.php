@@ -194,17 +194,16 @@ class AuctionRepository extends ServiceEntityRepository
         ->orWhere('i.orderIndicator IS NULL')
 
         ->leftJoin('a.byUser', 'u')
-        ->addSelect('u.username')
+        ->addSelect('u.username');
 
         if($user)
         {
-            ->leftJoin('a.likedByUsers', 'l')
+            $query->leftJoin('a.likedByUsers', 'l')
             ->addSelect('l')
-            ->Where('l.user_id = :val')
+            ->Where('l.id = :val')
             ->setParameter('val', $user->getId());
-
-            $query = $query->getQuery()->getResult();
         }
+        $query = $query->getQuery()->getResult();
 
        return $query;
     }
