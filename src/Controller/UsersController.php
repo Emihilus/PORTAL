@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Auction;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
 
 class UsersController extends AbstractController
 {
@@ -38,9 +38,9 @@ class UsersController extends AbstractController
 
     /**
      * @Route("/my-auctions/{page}", name="my-auctions", defaults = {"page": "1" })
-     * @Route("/user-auctions/{user}/{page}", name="user-auctions", defaults = {"page": "1" })
+     * @Route("/user-auctions/{username}/{page}", name="user-auctions", defaults = {"page": "1" })
      */
-    public function myAuctions($page, $user, Request $request): Response
+    public function myAuctions($page, User $user, Request $request): Response
     {
         $auctions = "";
         $em = $this->getDoctrine()->getManager();
@@ -52,7 +52,7 @@ class UsersController extends AbstractController
                 break;
 
             case 'user-auctions':
-                $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
                 break;
         }
         
