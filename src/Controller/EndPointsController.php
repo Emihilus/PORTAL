@@ -180,7 +180,6 @@ class EndPointsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
-            sleep(5);
 
             if($auction->getByUser() == $this->getUser())
             {

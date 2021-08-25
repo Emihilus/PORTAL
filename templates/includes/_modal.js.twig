@@ -86,6 +86,7 @@ let optionsClicked = false;
                        //console.log('entered' + add);
                        add ? $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('favd.png', 'fave.png')) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png'));
 
+                       optionsClicked = false;
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
                    }
            });

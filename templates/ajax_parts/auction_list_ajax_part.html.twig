@@ -3,9 +3,9 @@
 
 	<a onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
 		{{auction.0.title}}
-		| kończy się
+		{# | kończy się
 		
-			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b>
+			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} #}| HO: <b>{{auction.hghst/100}} PLN</b> 
 
 			{% if app.user and (auction.username is not defined or app.user.username == auction.username) %}
 			<button onclick="task({{auction.0.id}},true)">Tasks</button> {% endif %}
