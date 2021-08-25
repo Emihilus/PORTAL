@@ -16,7 +16,7 @@
 
       <div class="modal-footer text-center">
          <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
-        <button type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Log in</button>
+        <button type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="() => {$('#exampleModalCenter').modal('hide')}; location.href='{{path('app_login')}}'">Log in</button>
       </div>
 
     </div>

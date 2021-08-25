@@ -230,7 +230,6 @@ class EndPointsController extends AbstractController
             ]);
         }
     }
-
 }
 
 

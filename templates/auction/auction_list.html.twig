@@ -10,7 +10,7 @@
 	{% if app.user %}
     {{ include('includes/_modal.html.twig')  }}
 	{% else %}
-		
+    {{ include('includes/_modal_not_logged_in.html.twig')  }}
 	{% endif %}
 
 

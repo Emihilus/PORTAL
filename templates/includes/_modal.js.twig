@@ -18,7 +18,7 @@ let optionsClicked = false;
     $('#exampleModalCenter').on('hidden.bs.modal', function (e) 
     {
         optionsClicked = false;
-        $('.modal-body').html('Choose your action');
+        //$('.modal-body').html('Choose your action');
     })
 
     function deleteAuction()
@@ -50,14 +50,14 @@ let optionsClicked = false;
 
     function toggleFavorite(clickedAId)
     {
+        optionsClicked = true;
+        this.clickedId = clickedAId;
+
         if({% if not app.user %}true{% else %}false{% endif %})
         {
             $('#exampleModalCenter').modal('show');
-           // return;
+            return;
         }
-
-        optionsClicked = true;
-        this.clickedId = clickedAId;
 
         fetch("{{path('toggleFavoriteAuction')}}", 
         {
