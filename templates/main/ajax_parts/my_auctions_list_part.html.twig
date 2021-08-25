@@ -4,6 +4,6 @@
 		{{auction.0.title}}
 		| kończy się
 		
-			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task({{auction.0.id}})">Tasks</button>
+			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b> <button onclick="task({{auction.0.id}},{% if app.user and app.user.username  })">Tasks</button>
 	</a> 
 {% endfor %}
