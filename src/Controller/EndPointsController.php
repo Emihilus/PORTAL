@@ -208,17 +208,18 @@ class EndPointsController extends AbstractController
      */
     public function toggleFavoriteAuction(Request $request)
     {
-
+        /*
         if($this->getUser() != null)
         {
             $json = json_decode($request->getContent());
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
-            $user = $th
+           /* $user = $this->getUser()
+            $user->addFavoriteAuction
 
-
-            if($auction->getByUser() == $this->getUser())
+*/
+            /*if($auction->getByUser() == $this->getUser())
             {
                 ;// DELETE AUCTION
                 return new JsonResponse([
@@ -240,7 +241,21 @@ class EndPointsController extends AbstractController
             return new JsonResponse([
                 'result' => "This action is permitted for logged in users only you dumbass hacker"
             ]);
-        }
+        }*/
+
+        $em = $this->getDoctrine()->getManager();
+        $auction = $em->getRepository(Auction::class)->find(1);
+        $user1 = $em->getRepository(User::class)->find(1);
+        $user2 = $em->getRepository(User::class)->find(2);
+        $user1->addFavoriteAuction($auction);
+        $user2->addFavoriteAuction($auction);
+        $em->persist($user2);
+        $em->persist($user1);
+        $em->flush();
+
+        return new JsonResponse([
+            'result' => "This action is permitted for logged in users only you dumbass hacker"
+        ]);
     }
 
 }

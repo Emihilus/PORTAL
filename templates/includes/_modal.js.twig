@@ -64,6 +64,7 @@ let optionsClicked = false;
        {
            response.json().then(function(json)
            {
+               console.log(json);
                if(json.result == 'Success')
                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
            });
