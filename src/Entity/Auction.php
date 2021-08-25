@@ -68,7 +68,6 @@ class Auction
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="likedAuctions")
-   * @ORM\JoinTable(name="user_auctions")
      */
     private $likedByUsers;
 
