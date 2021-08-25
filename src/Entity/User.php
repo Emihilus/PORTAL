@@ -53,10 +53,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $offers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Auction::class, inversedBy="likedByUsers")
+     */
+    private $likedAuctions;
+
     public function __construct()
     {
         $this->Auctions = new ArrayCollection();
         $this->offers = new ArrayCollection();
+        $this->likedAuctions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,6 +222,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $offer->setByUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Auction[]
+     */
+    public function getLikedAuctions(): Collection
+    {
+        return $this->likedAuctions;
+    }
+
+    public function addLikedAuction(Auction $likedAuction): self
+    {
+        if (!$this->likedAuctions->contains($likedAuction)) {
+            $this->likedAuctions[] = $likedAuction;
+        }
+
+        return $this;
+    }
+
+    public function removeLikedAuction(Auction $likedAuction): self
+    {
+        $this->likedAuctions->removeElement($likedAuction);
 
         return $this;
     }

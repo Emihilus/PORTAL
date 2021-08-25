@@ -66,12 +66,18 @@ class Auction
      */
     private $offers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="likedAuctions")
+     */
+    private $likedByUsers;
+
     
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->offers = new ArrayCollection();
+        $this->likedByUsers = new ArrayCollection();
         
     }
 
@@ -210,6 +216,33 @@ class Auction
             if ($offer->getAuction() === $this) {
                 $offer->setAuction(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikedByUsers(): Collection
+    {
+        return $this->likedByUsers;
+    }
+
+    public function addLikedByUser(User $likedByUser): self
+    {
+        if (!$this->likedByUsers->contains($likedByUser)) {
+            $this->likedByUsers[] = $likedByUser;
+            $likedByUser->addLikedAuction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedByUser(User $likedByUser): self
+    {
+        if ($this->likedByUsers->removeElement($likedByUser)) {
+            $likedByUser->removeLikedAuction($this);
         }
 
         return $this;

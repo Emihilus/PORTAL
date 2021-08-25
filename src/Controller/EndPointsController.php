@@ -208,56 +208,27 @@ class EndPointsController extends AbstractController
      */
     public function toggleFavoriteAuction(Request $request)
     {
-        /*
         if($this->getUser() != null)
         {
             $json = json_decode($request->getContent());
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
-           /* $user = $this->getUser()
-            $user->addFavoriteAuction
-
-*/
-            /*if($auction->getByUser() == $this->getUser())
-            {
-                ;// DELETE AUCTION
-                return new JsonResponse([
-                    'result' => "Success"
-                ]);
-            }
-            else
-            {
-                ;// WRONG USER
-                return new JsonResponse([
-                    'result' => "Wrong user"
-                ]);
-            }
-            
+            $user = $this->getUser();
+            $user->addLikedAuction($auction);
+            $em->persist($user);
+            $em->flush();
+            return new JsonResponse([
+                'result' => "Success"
+            ]);
             
         }
         else
         {
             return new JsonResponse([
-                'result' => "This action is permitted for logged in users only you dumbass hacker"
+                'result' => "This action is permitted for logged in users"
             ]);
-        }*/
-
-        $json = json_decode($request->getContent());
-
-        $em = $this->getDoctrine()->getManager();
-        $auction = $em->getRepository(Auction::class)->find($json->auctionId);
-        $user1 = $em->getRepository(User::class)->find(1);
-        $user2 = $em->getRepository(User::class)->find(2);
-        $user2->addFavoriteAuction($auction);
-        $user1->addFavoriteAuction($auction);
-        //$em->persist($user2);
-        $em->persist($user1);
-        $em->flush();
-
-        return new JsonResponse([
-            'result' => "This action is permitted for logged in users only you dumbass hacker"
-        ]);
+        }
     }
 
 }
