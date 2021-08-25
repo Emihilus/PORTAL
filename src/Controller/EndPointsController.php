@@ -44,10 +44,13 @@ class EndPointsController extends AbstractController
         $auctions = '';
         switch ($request->get('type'))
         {
+
+            // PUBLIC LIST
             case 0:
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner();
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getUser());
                 break;
 
+            // MY AUCTIONS LIST
             case 1: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
                 break;

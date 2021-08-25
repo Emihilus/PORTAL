@@ -9,8 +9,8 @@
 
 			{% if app.user and (auction.username is not defined or app.user.username == auction.username) %}
 			<button onclick="task({{auction.0.id}},true)">Tasks</button> {% endif %}
-			<img src="{{asset('interface/favd.png')}}" onclick='toggleFavorite({{auction.0.id}})' />
+			<img src="{% if not app.user %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/favd.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' />
 
-				{# {{ dump(auction) }} #}
+				{{ dump(auction) }} 
 	</a>
 {% endfor %}

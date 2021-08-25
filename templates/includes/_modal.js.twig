@@ -5,7 +5,6 @@ let optionsClicked = false;
     {
         optionsClicked = true;
         this.clickedId = clickedAId;
-        //$('.modal-body').html('You have clicked '+clickedId);
         $('#exampleModalCenter').modal('show')
     }
 
@@ -18,7 +17,7 @@ let optionsClicked = false;
     $('#exampleModalCenter').on('hidden.bs.modal', function (e) 
     {
         optionsClicked = false;
-        //$('.modal-body').html('Choose your action');
+        {% if app.user %}$('.modal-body').html('Choose your action');{% endif %}
     })
 
     function deleteAuction()

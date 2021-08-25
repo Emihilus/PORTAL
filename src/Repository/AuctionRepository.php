@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Auction;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Auction|null find($id, $lockMode = null, $lockVersion = null)
@@ -175,8 +176,11 @@ class AuctionRepository extends ServiceEntityRepository
     }
 
 
-    public function findAllWithFirstImageAndHighestOfferWithOwner()
+    public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user)
     {
+        
+
+
        return $this->createQueryBuilder('a')
             ->addSelect('('.$this->createQueryBuilder('b')
             ->select('MAX(o.Value)')
