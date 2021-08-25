@@ -199,7 +199,8 @@ class AuctionRepository extends ServiceEntityRepository
 
         if($user)
         {
-            $query->leftJoin('a.likedByUsers', 'l')
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.user = :user')
+            ->setParameter('user', $user)
             ->addSelect('l');
         }
         $query = $query->getQuery()->getResult();
