@@ -178,26 +178,24 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user)
     {
-        
+        $query = $this->createQueryBuilder('a')
+        ->addSelect('('.$this->createQueryBuilder('b')
+        ->select('MAX(o.Value)')
+        ->from('App\Entity\Offer', 'o')
+        ->where('a.id = o.auction')
+        ->getDQL(). ') as hghst')
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+        ->where('i.orderIndicator = 0')
+        ->orWhere('i.orderIndicator IS NULL')
+
+        ->leftJoin('a.byUser', 'u')
+        ->addSelect('u.username');
+
+        $query = $query->getQuery()->getResult();
 
 
-       return $this->createQueryBuilder('a')
-            ->addSelect('('.$this->createQueryBuilder('b')
-            ->select('MAX(o.Value)')
-            ->from('App\Entity\Offer', 'o')
-            ->where('a.id = o.auction')
-            ->getDQL(). ') as hghst')
-
-            ->leftJoin('a.images', 'i')
-            ->addSelect('i.filename')
-            ->where('i.orderIndicator = 0')
-            ->orWhere('i.orderIndicator IS NULL')
-
-            ->leftJoin('a.byUser', 'u')
-            ->addSelect('u.username')
-
-            ->getQuery()
-            ->getResult()
-        ;
+       return $query;
     }
 }
