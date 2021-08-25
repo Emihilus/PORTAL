@@ -74,8 +74,7 @@ function onChangeHandler (selectedObject)
 		method: "post", 
 		dataType: "json", 
 		data: { 
-			itemsPerPage: selectedObject,
-			type: 0
+			itemsPerPage: selectedObject
     }
 	})
 	.done(res => 
@@ -92,7 +91,8 @@ function getAuctions(requestedPage)
     	method: "post", 
     	dataType: "html", 
     	data: { 
-        requestedPage: requestedPage
+        requestedPage: requestedPage,
+			type: 0
     }
 		})
 	.done(res => 
