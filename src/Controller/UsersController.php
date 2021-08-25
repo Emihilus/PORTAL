@@ -23,9 +23,17 @@ class UsersController extends AbstractController
         return $this->render('userprofile/my_profile.html.twig');
     }
 
+    /**
+     * @Route("/profile-details/{user}", name="profile-details")
+     */
+    public function profileDetails($user): Response
+    {
+        return $this->render('userprofile/profile-details.html.twig');
+    }
+
 
     /**
-     * @Route("/my-auctions/{page}", name="my-auctions", defaults ={"page": "1" })
+     * @Route("/my-auctions/{page}", name="my-auctions", defaults = {"page": "1" })
      */
     public function myAuctions($page): Response
     {
