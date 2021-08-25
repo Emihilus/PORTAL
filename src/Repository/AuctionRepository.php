@@ -189,11 +189,8 @@ class AuctionRepository extends ServiceEntityRepository
             ->where('i.orderIndicator = 0')
             ->orWhere('i.orderIndicator IS NULL')
 
-            ->leftJoin('a.images', 'i')
-            ->addSelect('i.filename')
-            ->where('i.orderIndicator = 0')
-            ->orWhere('i.orderIndicator IS NULL')
-
+            ->leftJoin('a.byUser', 'u')
+            ->addSelect('u.username')
 
             ->getQuery()
             ->getResult()

@@ -46,7 +46,7 @@ class EndPointsController extends AbstractController
         switch ($request->get('type'))
         {
             case 0:
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOffer();
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner();
                 $template = 'main/ajax_parts/auction_list_ajax_part.html.twig';
                 break;
 

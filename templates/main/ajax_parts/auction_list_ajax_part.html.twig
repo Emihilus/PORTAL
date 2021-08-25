@@ -5,6 +5,9 @@
 		| kończy się
 		
 			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b>
+			<button onclick="task({{auction.0.id}},{% if app.user and app.user.username == auction.username %}true{% else %}false{% endif %})">Tasks</button>
 	</a>
-	
+	<pre>
+		{{ dump(auction) }}
+	</pre>
 {% endfor %}
