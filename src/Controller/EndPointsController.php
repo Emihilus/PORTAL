@@ -180,6 +180,8 @@ class EndPointsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
+            sleep(5);
+
             if($auction->getByUser() == $this->getUser())
             {
                 ;// DELETE AUCTION
@@ -218,7 +220,9 @@ class EndPointsController extends AbstractController
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
             $user = $this->getUser();
-            $user->addLikedAuction($auction);
+
+            $json->add ? $user->addLikedAuction($auction) : $user->removeLikedAuction($auction);
+
             $em->persist($user);
             $em->flush();
             return new JsonResponse([

@@ -50,7 +50,7 @@ let optionsClicked = false;
     function toggleFavorite(clickedAId)
     {
         let add;
-        if($("#fid_"+clickedAId).attr('src').contains('favd.png'))
+        if($("#fid_"+clickedAId).attr('src').includes('favd.png'))
         {
             add = true;
         }
@@ -80,11 +80,12 @@ let optionsClicked = false;
        {
            response.json().then(function(json)
            {
-               console.log(json);
+               //console.log(json);
                if(json.result == 'Success')
                    {
-                       add ? $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png')) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('favd.png', 'fave.png'));
-                       
+                       //console.log('entered' + add);
+                       add ? $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('favd.png', 'fave.png')) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png'));
+
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
                    }
            });
