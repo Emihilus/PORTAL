@@ -41,7 +41,19 @@ class EndPointsController extends AbstractController
      */
     public function getAuctions(Request $request)
     {
-        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOffer();
+        $auctions = '';
+        switch ($request->get('type'))
+        {
+            case 0:
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOffer();
+                break;
+
+            case 1: 
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                break;
+        }
+        
+        dump($request->get('type'));
 
         $_POST_requestedPage = $request->get('requestedPage');
         $itemsPerPage = $_COOKIE['itemsPerPage'];

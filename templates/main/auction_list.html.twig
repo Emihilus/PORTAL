@@ -62,7 +62,8 @@ function onChangeHandler (selectedObject)
 		method: "post", 
 		dataType: "json", 
 		data: { 
-			itemsPerPage: selectedObject
+			itemsPerPage: selectedObject,
+			type: 0
     }
 	})
 	.done(res => 
