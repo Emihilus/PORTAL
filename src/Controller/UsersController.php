@@ -8,6 +8,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\BrowserKit\Request;
 
 class UsersController extends AbstractController
 {
@@ -37,11 +38,23 @@ class UsersController extends AbstractController
 
     /**
      * @Route("/my-auctions/{page}", name="my-auctions", defaults = {"page": "1" })
+     * @Route("/user-auctions/{user}/{page}", name="user-auctions", defaults = {"page": "1" })
      */
-    public function myAuctions($page): Response
+    public function myAuctions($page, $user, Request $request): Response
     {
+        $auctions = "";
         $em = $this->getDoctrine()->getManager();
-        $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+
+        switch ($request->get('_route'))
+        {
+            case 'my-auctions';
+                $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                break;
+
+            case 'user-auctions':
+                $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                break;
+        }
         
         $allCount = count($auctions);
 
@@ -54,7 +67,7 @@ class UsersController extends AbstractController
 
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
-        return $this->render('userprofile/my_auctions.html.twig', [
+        return $this->render('userprofile/user_auctions.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage
