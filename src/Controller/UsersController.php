@@ -31,7 +31,8 @@ class UsersController extends AbstractController
     public function profileDetails(User $user): Response
     {
         $USR = $this->getDoctrine()->getRepository(User::class)->findOneWithAuctions($user);
-
+        dump($user);
+        dump($USR);
         return $this->render('userprofile/profile_details.html.twig', ['USR' => $USR]);
     }
 

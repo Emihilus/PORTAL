@@ -86,9 +86,9 @@ class MainController extends AbstractController
             {
 
                 $NEW_ORDER = explode(",", $request->request->get('auction_create_form')['image-order']);
-                $user = $em->getRepository(User::class)->findOneBy(['id' => 1]);
+                // $user = $em->getRepository(User::class)->findOneBy(['id' => 1]);
                 $auction = $form->getData();
-                $auction->setByUser($user);
+                $auction->setByUser($this->getUser());
                 $auction->setCreatedAt(null);
 
 
