@@ -243,6 +243,8 @@ class AJAXController extends AbstractController
      */
     public function toggleVerification(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         dump($this->getUser()->getRoles());
 
         return new JsonResponse([
