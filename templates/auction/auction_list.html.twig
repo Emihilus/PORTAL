@@ -7,11 +7,10 @@
 
 	{# modal for tasks or notify user is not logged in #}
 	{% if app.user %}
-    {{ include('parts/include/_modal_tasks.html.twig')  }}
+    {{ include('parts/include/ht_modal_tasks.twig')  }}
 	{% else %}
-    {{ include('parts/include/_modal_not_logged_in.html.twig')  }}
+    {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
 	{% endif %}
-
 
 
 	<div class="container-fluid">
@@ -21,11 +20,9 @@
 				{# jQuery.ajax populated dynamic content #}
 			</ul>
 
-
 		</div>
-
 		{# pagination section #}
-		{{ include('parts/include/_pagination.html.twig') }}
+		{{ include('parts/include/ht_pagination.twig') }}
 
 	</div>
 {% endblock %}
@@ -36,68 +33,18 @@
 {{ parent() }}
 <script>
 
-{{ include('parts/include/_modal.js.twig')  }}
+{# modal code #}
+{{ include('parts/include/js_modal.twig')  }}
 
 
-window.onLoad = getAuctions({{app.request.get('page')}});
+{# only dynamic data for getAuctions #}
+let GAJArray = {type: 0};
+let historyString = '{{path('auction-list')}}/';
 
-function onChangeHandler (selectedObject)
-{
-	$.ajax({
-		url: "{{path ('setPerPage') }}",
-		method: "post", 
-		dataType: "json", 
-		data: { 
-			itemsPerPage: selectedObject
-    }
-	})
-	.done(res => 
-	{ 
-		console.log(res);
-		location.reload();
-	});
-}
 
-function getAuctions(requestedPage)
-{
-    $.ajax({
-   	 	url: "{{path ('getAuctions') }}",
-    	method: "post", 
-    	dataType: "html", 
-    	data: { 
-        requestedPage: requestedPage,
-			type: 0
-    }
-		})
-	.done(res => 
-	{ 
-		$('#auctions').html(res);
-		let pageElementsArray = $('.page-item').toArray();
-		pageElementsArray.forEach(function (pageItemElement) 
-		{
-			if(requestedPage == pageItemElement.children[0].innerHTML)
-				$(pageItemElement).addClass('active');
-			else
-				$(pageItemElement).removeClass('active');
+{# getAuctions code #}
+{{ include('parts/include/js_getAuctions.twig')  }}
 
-			if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage == 1)
-				$(pageItemElement).addClass('disabled');
-			else if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage > 1)
-			{
-				$(pageItemElement).removeClass('disabled');
-				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage-1)+')');
-			}
-			
-			if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage == pageElementsArray.length-2)
-				$(pageItemElement).addClass('disabled');
-			else if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage < pageElementsArray.length-2)
-			{
-				$(pageItemElement).removeClass('disabled');
-				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
-			}
-		});
-		window.history.pushState('page2', 'Title', '{{path('auction-list')}}/'+requestedPage);
-	});
-}
+
 </script>
 {% endblock %}
