@@ -46,7 +46,10 @@ class EndPointsController extends AbstractController
         dump($request->getContent());
         dump($request->get('type'));
         dump($request->get('username'));
-        switch ($request->get('type'))
+
+        $json = json_decode($request->getContent());
+        dump($json);
+        switch ($json->type)
         {
             // PUBLIC LIST
             case 0:
@@ -60,13 +63,13 @@ class EndPointsController extends AbstractController
 
             // AUCTIONS OF SPECIFIC USER LIST
             case 2: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $request->get('username')]),$this->getUser());
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$this->getUser());
                 dump(count($auctions));
                 break;
         }
         
 
-        $_POST_requestedPage = $request->get('requestedPage');
+        $_POST_requestedPage = $json->requestedPage;
         $itemsPerPage = $_COOKIE['itemsPerPage'];
         $auctions = $this->paginator->paginate($auctions, $_POST_requestedPage, $itemsPerPage);
        /*$auctionImage = $this->getDoctrine()->getRepository(AuctionImage::class)->findOneBy([

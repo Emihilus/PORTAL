@@ -43,9 +43,9 @@
     
 {{ include('parts/include/_modal.js.twig')  }}
 
-let GAJArray = [{ requestedPage: '',
+let GAJArray = { 'requestedPage': '',
 		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
-				}];
+				};
 
 
 window.onLoad = getAuctions({{app.request.get('page')}});
@@ -69,11 +69,11 @@ function onChangeHandler (selectedObject)
 
 function getAuctions(requestedPage)
 {
-	GAJArray['requestedPage'] = requestedPage;
+	GAJArray[0]['requestedPage'] = requestedPage;
     $.ajax({
    	 	url: "{{path ('getAuctions') }}",
     	method: "post", 
-    	dataType: "html", 
+    	dataType: "json", 
     	data: JSON.stringify(GAJArray) })
 	.done(res => 
 	{ 
