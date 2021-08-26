@@ -8,9 +8,9 @@
 
 
 	{% if app.user %}
-    {{ include('includes/_modal.html.twig')  }}
+    {{ include('parts/include/_modal.html.twig')  }}
 	{% else %}
-    {{ include('includes/_modal_not_logged_in.html.twig')  }}
+    {{ include('parts/include/_modal_not_logged_in.html.twig')  }}
 	{% endif %}
 
 
@@ -62,7 +62,7 @@
 {{ parent() }}
 <script>
 
-{{ include('includes/_modal.js.twig')  }}
+{{ include('parts/include/_modal.js.twig')  }}
 
 
 window.onLoad = getAuctions({{app.request.get('page')}});

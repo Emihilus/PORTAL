@@ -8,7 +8,7 @@
 
 {# <h2>Back to dashboard</h2> #}
 
-{{ include('includes/_modal.html.twig')  }}
+{{ include('parts/include/_modal.html.twig')  }}
 
 
 <div id='list-content' class="container-fluid">
@@ -60,7 +60,7 @@
 {{ parent() }}
 <script>
     
-{{ include('includes/_modal.js.twig')  }}
+{{ include('parts/include/_modal.js.twig')  }}
 
 window.onLoad = getAuctions({{app.request.get('page')}});
 
