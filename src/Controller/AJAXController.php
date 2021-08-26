@@ -237,4 +237,34 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+
+    /**
+     * @Route("/ep/toggleVerification", name="toggleVerification", methods={"POST"})
+     */
+    public function toggleVerification(Request $request)
+    {
+        if($this->getUser() != null)
+        {
+            $json = json_decode($request->getContent());
+            $em = $this->getDoctrine()->getManager();
+            $auction = $em->getRepository(Auction::class)->find($json->auctionId);
+
+            $user = $this->getUser();
+
+            $json->add ? $user->addLikedAuction($auction) : $user->removeLikedAuction($auction);
+
+            $em->persist($user);
+            $em->flush();
+            return new JsonResponse([
+                'result' => "Success"
+            ]);
+            
+        }
+        else
+        {
+            return new JsonResponse([
+                'result' => "This action is permitted for admin only"
+            ]);
+        }
+    }
 }
