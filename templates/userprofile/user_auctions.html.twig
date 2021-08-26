@@ -43,6 +43,10 @@
     
 {{ include('parts/include/_modal.js.twig')  }}
 
+let GAJArray = { 
+		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %};
+
+
 window.onLoad = getAuctions({{app.request.get('page')}});
 
 function onChangeHandler (selectedObject)
@@ -64,15 +68,12 @@ function onChangeHandler (selectedObject)
 
 function getAuctions(requestedPage)
 {
+	GAJArray.push(requestedPage);
     $.ajax({
    	 	url: "{{path ('getAuctions') }}",
     	method: "post", 
     	dataType: "html", 
-    	data: { 
-        requestedPage: requestedPage,
-		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
-				}
-		})
+    	data: GAJArray })
 	.done(res => 
 	{ 
 		if(res == 'none')
