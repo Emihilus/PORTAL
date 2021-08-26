@@ -2,15 +2,16 @@
 {% for auction in auctions %}
 
 	<a onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
-		{{auction.0.title}}
-		| kończy się
+	<div class='d-inline-block align-middle bg-secondary '>
+		<span class='d-block'>{{auction.0.title}}</span>
+		<span> ends
 		
-			{{ auction[0].endsAt|date('H:m:s d-m-Y') }} | Najwyższa oferta: <b>{{auction.hghst/100}} PLN</b>
+			{{ auction[0].endsAt|ago }} </span></div> HO: <b>{{auction.hghst/100}} PLN</b>
 
 			{% if app.user and (auction.username is not defined or app.user.username == auction.username) %}
 			<button onclick="task({{auction.0.id}},true)">Tasks</button> {% endif %}
 			<img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length==0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' />
 
-				{# {{ dump(auction) }}  #}
+				{# {{ dump(auction) }}  {{ auction[0].endsAt|date('H:m:s d-m-Y') }}#}
 	</a>
 {% endfor %}

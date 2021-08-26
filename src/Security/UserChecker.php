@@ -32,6 +32,11 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
+
+        if ($user->isVerified()) {
+            // the message passed to this exception is meant to be displayed to the user
+            throw new CustomUserMessageAccountStatusException('Your user account is not verified.');
+        }
         // user account is expired, the user may be notified
        /* if ($user->isExpired()) {
             throw new AccountExpiredException('...');
