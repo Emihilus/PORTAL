@@ -58,7 +58,8 @@ class AppFixtures extends Fixture
         $counter = 1;
 
         $array = $this->getAuctionData();
-        array_push($array, [['Piec Moon Card', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']]);
+        array_push($array, ['Piec Moon Card', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']);
+        //dump($array);
 
         foreach ($array as [$title,  $createdAt, $PEROID, $description])
         {
