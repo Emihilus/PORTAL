@@ -43,17 +43,17 @@ class UsersController extends AbstractController
     public function myAuctions($page, ?User $user, Request $request): Response
     {
         $auctions = "";
+        $type = 1;
         $em = $this->getDoctrine()->getManager();
-        dump($request->get('_route'));
         switch ($request->get('_route'))
         {
             case 'my-auctions';
-            dump(1);
                 $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                $type = 1;
                 break;
 
             case 'user-auctions':
-                dump($user);
+                $type = 2;
                 $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
                 break;
         }
@@ -70,9 +70,9 @@ class UsersController extends AbstractController
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
         return $this->render('userprofile/user_auctions.html.twig', [
-            'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
-            'itemsPerPage' => $itemsPerPage
+            'itemsPerPage' => $itemsPerPage,
+            'type' => $type
         ]);
     }
 }
