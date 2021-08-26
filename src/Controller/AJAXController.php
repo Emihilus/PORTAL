@@ -243,7 +243,7 @@ class AJAXController extends AbstractController
      */
     public function toggleVerification(Request $request)
     {
-        dump($this->getUser()->get);
+        dump($this->getUser()->getRoles());
         if($this->getUser() != null)
         {
             $json = json_decode($request->getContent());

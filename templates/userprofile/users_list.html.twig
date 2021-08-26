@@ -10,7 +10,7 @@
 
     {# admin options #}
     {% if is_granted('ROLE_ADMIN') %}
-    | is Verified? {% if user.isVerified == 1 %}<b class="text-success">yes</b> <a href='#'>cancel verification</a>{% else %}<b class='text-danger'>no</b> <a href='#'>verify</a>{% endif %} | 
+    | is Verified? {% if user.isVerified == 1 %}<b class="text-success">yes</b> <a href='#' onclick="toggleVerification(true)">cancel verification</a>{% else %}<b class='text-danger'>no</b> <a href='#'>verify</a>{% endif %} | 
     is Banned? <b class="text-success">no</b> <a href='#'>BAN</a> 
     {% endif %}
 
@@ -20,4 +20,12 @@
 <pre>
     {{ dump(users) }}
 </pre>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script>
+
+</script>
 {% endblock %}
