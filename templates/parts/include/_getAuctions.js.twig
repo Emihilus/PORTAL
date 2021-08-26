@@ -1,0 +1,64 @@
+window.onLoad = getAuctions({{app.request.get('page')}});
+
+function onChangeHandler (selectedObject)
+{
+	$.ajax({
+		url: "{{path ('setPerPage') }}",
+		method: "post", 
+		dataType: "json", 
+		data: { 
+			itemsPerPage: selectedObject
+    }
+	})
+	.done(res => 
+	{ 
+		console.log(res);
+		location.reload();
+	});
+}
+
+function getAuctions(requestedPage)
+{
+	GAJArray.requestedPage = requestedPage;
+    $.ajax({
+   	 	url: "{{path ('getAuctions') }}",
+    	method: "post", 
+    	dataType: "html", 
+    	data: JSON.stringify(GAJArray) })
+	.done(res => 
+	{ 
+		if(res == 'none')
+		{
+			console.log(res);
+			$('#list-content').html("No auctions");
+			return;
+		}
+
+		$('#auctions').html(res);
+
+		let pageElementsArray = $('.page-item').toArray();
+		pageElementsArray.forEach(function (pageItemElement) 
+		{
+			if(requestedPage == pageItemElement.children[0].innerHTML)
+				$(pageItemElement).addClass('active');
+			else
+				$(pageItemElement).removeClass('active');
+
+			if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage == 1)
+				$(pageItemElement).addClass('disabled');
+			else if(pageItemElement.children[0].innerHTML == 'Previous' && requestedPage > 1)
+			{
+				$(pageItemElement).removeClass('disabled');
+				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage-1)+')');
+			}
+			
+			if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage == pageElementsArray.length-2)
+				$(pageItemElement).addClass('disabled');
+			else if(pageItemElement.children[0].innerHTML == 'Next' && requestedPage < pageElementsArray.length-2)
+			{
+				$(pageItemElement).removeClass('disabled');
+				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
+			}
+		});
+		window.history.pushState('page2', 'Title', historyStirng+requestedPage);
+	});
