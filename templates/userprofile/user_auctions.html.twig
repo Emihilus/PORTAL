@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Auctions of {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %} - {{ parent() }}{% endblock %}
+{% block title %}Auctions of {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}{{ parent() }}{% endblock %}
 
 {% block body %}
 
@@ -39,7 +39,7 @@
 {# modal code #}
 {{ include('parts/include/js_modal.twig')  }}
 
-{# only dynamic data for getAuctions #}
+{# the only dynamic data for getAuctions #}
 let GAJArray = { 
 		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
 				};

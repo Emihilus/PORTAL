@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}PDAPW.PL{% endblock %}</title>
+        <title>{% block title %} - PDAPW.PL{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
@@ -123,6 +123,76 @@
 		<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 		
 		{# <script src="{{asset('dist/dropzone.js')}}"></script> #}
+
+
+
         {% endblock %}
 
 </html>
+
+{#  
+from auction details
+
+/*  ABADON FETCH
+   fetch(url, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        },
+    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
+            'auctionId' : {{auction.id}} }) 
+        })
+    .then((response) => 
+    {
+        let container = document.createElement('div');
+        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+        document.getElementById('offers').prepend(container);
+      console.log(response)
+      response.json().then(function(data) {
+        console.log(data);
+      });
+    })
+    .catch(() => { /* Error. Inform the user */ /*})
+
+     fetch(url, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        },
+    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
+            'auctionId' : {{auction.id}} }) 
+        })
+    .then((response) => json())
+    .then((response) => 
+    {
+        let container = document.createElement('div');
+        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+        document.getElementById('offers').prepend(container);
+
+       //y var jsson = JSON.parse(response);
+        console.log("WHOLE RESPONSE: "+response)
+
+        console.log("RESPONSE ERRORSBODY: "+response[0]);
+
+       /* response.json().then(function(data) 
+        {
+            console.log("RESP JSON: "+data);
+      });*//*
+    })
+    .catch(() => { /* Error. Inform the user *//* })*/
+}
+
+
+
+
+/*function secondsToHmsCut(d) { useful
+    d = Number(d);
+    let h = Math.floor(d / 3600);
+    let m = Math.floor(d % 3600 / 60);
+    let s = Math.floor(d % 3600 % 60);
+
+    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay + sDisplay; 
+}*/ #}

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class EndPointsController extends AbstractController
+class AJAXController extends AbstractController
 {
     public function __construct(PaginatorInterface $paginator)
     {

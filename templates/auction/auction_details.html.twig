@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Aukcja pieca {{auction.title}}{% endblock %}
+{% block title %}Aukcja pieca {{auction.title}}{{parent()}}{% endblock %}
 
 
 
 {% block body %}
 <h1>Aukcja pieca {{auction.title}}</h1>
-<BR>
+<br>
 
 <img src="{{asset (fip~auction.images[0].filename)}}" alt='jakialt' width="300">
 {# {{ exampleVariableHijack }}   #}
@@ -46,35 +46,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 let endsAt = "{{auction.endsAt | date('U')}}";
 let timerElement = document.getElementById('timer');
-
 auctionTimer();
-function auctionTimer()
-{
-    timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));
-    setTimeout(auctionTimer, 500)
-}
 
-function secondsToHms(d) {
-    d = Number(d);
-    let da = Math.floor(d / 86400);
-    let h = Math.floor(d % 86400 / 3600);
-    let m = Math.floor(d % 86400 % 3600 / 60);
-    let s = Math.floor(d % 86400 % 3600 % 60);
 
-    let daDisplay = (da < 10 ? "0" : "") + da + ":";
-    let hDisplay = (h < 10 ? "0" : "") + h + ":";
-    let mDisplay = (m < 10 ? "0" : "") + m + ":";
-    let sDisplay = (s < 10 ? "0" : "") + s;
-    return daDisplay + hDisplay + mDisplay + sDisplay; 
-}
-$('#offerForm').validate(
-    {
-        submitHandler: function(form) 
-        {
-            makeOffer();
-        }
-    }
-)
 function makeOffer()
 {
     let offerValue = document.getElementById('offerInput').value;
@@ -102,68 +76,33 @@ function makeOffer()
 	});
 
 
-   /*  ABADON FETCH
-   fetch(url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        },
-    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
-            'auctionId' : {{auction.id}} }) 
-        })
-    .then((response) => 
+$('#offerForm').validate(
     {
-        let container = document.createElement('div');
-        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-        document.getElementById('offers').prepend(container);
-      console.log(response)
-      response.json().then(function(data) {
-        console.log(data);
-      });
-    })
-    .catch(() => { /* Error. Inform the user */ /*})
-
-     fetch(url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        },
-    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
-            'auctionId' : {{auction.id}} }) 
-        })
-    .then((response) => json())
-    .then((response) => 
-    {
-        let container = document.createElement('div');
-        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-        document.getElementById('offers').prepend(container);
-
-       //y var jsson = JSON.parse(response);
-        console.log("WHOLE RESPONSE: "+response)
-
-        console.log("RESPONSE ERRORSBODY: "+response[0]);
-
-       /* response.json().then(function(data) 
+        submitHandler: function(form) 
         {
-            console.log("RESP JSON: "+data);
-      });*//*
-    })
-    .catch(() => { /* Error. Inform the user *//* })*/
+            makeOffer();
+        }
+    }
+)
+
+function auctionTimer()
+{
+    timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));
+    setTimeout(auctionTimer, 500)
 }
 
-
-
-
-/*function secondsToHmsCut(d) { useful
+function secondsToHms(d) {
     d = Number(d);
-    let h = Math.floor(d / 3600);
-    let m = Math.floor(d % 3600 / 60);
-    let s = Math.floor(d % 3600 % 60);
+    let da = Math.floor(d / 86400);
+    let h = Math.floor(d % 86400 / 3600);
+    let m = Math.floor(d % 86400 % 3600 / 60);
+    let s = Math.floor(d % 86400 % 3600 % 60);
 
-    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-    return hDisplay + mDisplay + sDisplay; 
-}*/
+    let daDisplay = (da < 10 ? "0" : "") + da + ":";
+    let hDisplay = (h < 10 ? "0" : "") + h + ":";
+    let mDisplay = (m < 10 ? "0" : "") + m + ":";
+    let sDisplay = (s < 10 ? "0" : "") + s;
+    return daDisplay + hDisplay + mDisplay + sDisplay; 
+}
 </script>
 {% endblock %}
