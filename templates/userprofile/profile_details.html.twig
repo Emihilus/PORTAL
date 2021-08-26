@@ -4,7 +4,7 @@
 
 {% block body %}
 <h1>Details of user {{USR}}</h1>
-Number of auctions issued by this user : <b>{{USR.auctions|length}}</b> <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a><br>
+Number of auctions issued by this user : <b>{% if USR.auctions is defined %}{{USR.auctions|length}}{% else %}No auctions{% endif %}</b> <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a><br>
 Leading in the following number of aucions : 30 <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a><br>
 Number of auctions the user is participating in  : 30 <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a><br>
 All issued offers : 30 
