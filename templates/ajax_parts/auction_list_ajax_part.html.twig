@@ -2,8 +2,8 @@
 {% for auction in auctions %}
 
 	<a onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
-	<div class='d-inline-block align-middle bg-secondary '>
-		<span class='d-block'>{{auction.0.title}}</span>
+	<div class='d-inline-block align-middle m-1 p-1'>
+		<span class='d-block'><b>{{auction.0.title}}</b></span>
 		<span> ends
 		
 			{{ auction[0].endsAt|ago }} </span></div> HO: <b>{{auction.hghst/100}} PLN</b>
