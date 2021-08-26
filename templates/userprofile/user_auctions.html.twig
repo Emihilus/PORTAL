@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My auctions{% endblock %}
+{% block title %}Auctions of {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %} - {{ parent() }}{% endblock %}
 
 {% block body %}
 
-<h1>Auctions of user {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</h1>
+<h1>Auctions of the user {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</h1>
 
-<h2>Back to dashboard</h2>
+{# <h2>Back to dashboard</h2> #}
 
 {{ include('includes/_modal.html.twig')  }}
 
