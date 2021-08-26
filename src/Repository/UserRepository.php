@@ -64,4 +64,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+    public function findOneWithAuctions($user)
+    {
+        //$em = $this->getEntityManager();
+       return $this->createQueryBuilder('u')
+            ->leftJoin('u.Auctions', 'a')
+            ->addSelect('a')
+            ->andWhere('a.byUser = :val')
+            ->setParameter('val', $user)
+            ->getQuery()
+            ->getResult()
+        ;
+        //return $em->createQuery('SELECT a, i FROM auction a LEFT JOIN a.auction_image i')->getResult();
+    }
 }
