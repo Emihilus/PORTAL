@@ -4,8 +4,10 @@
 
 {% block body %}
 <h1>Details of user {{USR}}</h1>
-<a href="{{path('user-auctions', {'username': USR})}}"><h2>Show auctions of this user</h2></a>
-<h1> Stats in here </h1>
+Number of auctions issued by this user : 30 <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a>
+Leading in the following number of aucions : 30 <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a>
+Number of actions  : 30 <a href="{{path('user-auctions', {'username': USR})}}">--->Show</a>
+
 <pre>
     {{ dump(USR) }}
 </pre>
