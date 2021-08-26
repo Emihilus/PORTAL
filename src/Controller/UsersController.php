@@ -78,4 +78,12 @@ class UsersController extends AbstractController
             'type' => $type
         ]);
     }
+
+    /**
+     * @Route("/users-list", name="users-list")
+     */
+    public function usersList(): Response
+    {
+        return $this->render('userprofile/users_list.html.twig');
+    }
 }
