@@ -10,7 +10,7 @@
 
     {# admin options #}
     {% if is_granted('ROLE_ADMIN') %}
-    | is Verified? {% if user.isVerified == 1 %}<b class="text-success">yes</b> <a href='#' onclick="toggleVerification(true)">cancel verification</a>{% else %}<b class='text-danger'>no</b> <a href='#' onclick="toggleVerification(false)">verify</a>{% endif %} | 
+    | is Verified? {% if user.isVerified == 1 %}<b class="text-success">yes</b> <a href='#' onclick="toggleVerification({{user}},true)">cancel verification</a>{% else %}<b class='text-danger'>no</b> <a href='#' onclick="toggleVerification({{user}},false)">verify</a>{% endif %} | 
     is Banned? <b class="text-success">no</b> <a href='#'>BAN</a> 
     {% endif %}
 
@@ -26,24 +26,23 @@
 {{ parent() }}
 
 <script>
-function toggleVerification(action)
+function toggleVerification(username, action)
 {
-fetch("{{path('toggleVerification')}}", 
-         {
+        fetch("{{path('toggleVerification')}}", 
+        {
             method: 'POST',
-            body: JSON.stringify({
-            'auctionId' : clickedId
-            })
+            body: JSON.stringify(
+                {
+                    action,
+                    username
+                })
         })
         .then((response) => 
         {
             response.json().then(function(json)
             {
-                {# console.log(json); #}
-                $('.modal-body').html(json.result);
+                console.log(json);
 
-                if(json.result == 'Success')
-                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
             });
         })
         .catch(() => { /* Error. Inform the user */ })

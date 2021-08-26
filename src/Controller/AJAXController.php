@@ -244,6 +244,11 @@ class AJAXController extends AbstractController
     public function toggleVerification(Request $request)
     {
         dump($this->getUser()->getRoles());
+
+        return new JsonResponse([
+            'result' => "Success"
+        ]);
+/*
         if($this->getUser() != null)
         {
             $json = json_decode($request->getContent());
@@ -266,6 +271,6 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "This action is permitted for admin only"
             ]);
-        }
+        }*/
     }
 }
