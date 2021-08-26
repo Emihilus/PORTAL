@@ -10,8 +10,13 @@
 
     {# admin options section #}
     {% if true %}
-    | is Verified? {% if user.isVerified == 1 %}<b id="vs-{{user}}" class="text-success">yes</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">cancel verification</a>{% else %}<b id="vs-{{user}}" class='text-danger'>no</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %} | 
-    is Banned? <b class="text-success">no</b> <a href='#'>BAN</a> 
+    
+    | is Verified? {% if user.isVerified == 1 %}<b id="vc-{{user}}" class="text-success">yes</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">cancel verification</a>{% else %}<b id="vc-{{user}}" class='text-danger'>no</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %}
+
+     | is Banned? {% if user.isBanned == 0 %}<b id="bc-{{user}}" class="text-success">yes</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">cancel verification</a>{% else %}<b id="vc-{{user}}" class='text-danger'>no</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %}
+    
+    <b class="text-success">no</b> <a href='#'>BAN</a>
+
     {% endif %}
     {# admin options section #}
     
@@ -44,19 +49,19 @@ function toggleVerification(username, action)
             {
                 if(json.result == 'Success')
                 {
-                    $("#vs-"+username).toggleClass('text-danger');
-                    $("#vs-"+username).toggleClass('text-success');
+                    $("#vc-"+username).toggleClass('text-danger');
+                    $("#vc-"+username).toggleClass('text-success');
                     if(action)
                     {
-                        $("#vs-"+username).html('no');
-                        $("#li-"+username).attr('onclick', 'toggleVerification("'+username+'",false)');
-                        $("#li-"+username).html('verify');
+                        $("#vc-"+username).html('no');
+                        $("#vl-"+username).attr('onclick', 'toggleVerification("'+username+'",false)');
+                        $("#vl-"+username).html('verify');
                     }
                     else
                     {
-                        $("#vs-"+username).html('yes');
-                        $("#li-"+username).attr('onclick', 'toggleVerification("'+username+'",true)');
-                        $("#li-"+username).html('cancel verification');
+                        $("#vc-"+username).html('yes');
+                        $("#vl-"+username).attr('onclick', 'toggleVerification("'+username+'",true)');
+                        $("#vl-"+username).html('cancel verification');
                     }
                 }
 
