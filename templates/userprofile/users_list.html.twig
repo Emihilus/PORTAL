@@ -6,7 +6,9 @@
 <h1>Users list</h1>
 {% for user in users %}
 
-{{user}} | is Verified? {% if user.isVerified == 1 %}<b>yes
+<a href="{{path('user-auctions',{username: user} )}}">{{user}}</a> | is Verified? {% if user.isVerified == 1 %}<b class="text-success">yes</b> <a href='#'>cancel verification</a>{% else %}<b class='text-danger'>no</b> <a href='#'>verify</a>{% endif %} | 
+is Banned? <b class="text-success">no</b> <a href='#'>BAN</a>
+
 <hr>
 {% endfor %}
 
