@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<h1>Auctions of user {% if app.request.get('username') %}{{app.request.get('username')}}{% elseif %}{{app.user}}{% endif %}</h1>
+<h1>Auctions of user {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</h1>
 
 <h2>Back to dashboard</h2>
 

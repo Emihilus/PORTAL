@@ -43,6 +43,7 @@ class EndPointsController extends AbstractController
     {
         $auctions = '';
         dump($request->get('type'));
+        dump($request->get('username'));
         switch ($request->get('type'))
         {
             // PUBLIC LIST
@@ -57,7 +58,8 @@ class EndPointsController extends AbstractController
 
             // AUCTIONS OF SPECIFIC USER LIST
             case 2: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getDoctrine()->getRepository(user::class)->findOneBy(['username'=> $request->get('username')]));
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $request->get('username')]));
+                dump(count($auctions));
                 break;
         }
         
