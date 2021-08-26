@@ -8,12 +8,13 @@
 {% for user in users %}
     {{user}} <a href="{{path('user-auctions',{username: user} )}}">show auctions</a> 
 
-    {# admin options #}
+    {# admin options section #}
     {% if true %}
-    | is Verified? {% if user.isVerified == 1 %}<b id="vs-{{user}}" class="text-success">yes</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">toggle</a>{% else %}<b id="vs-{{user}}" class='text-danger'>no</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">toggle</a>{% endif %} | 
+    | is Verified? {% if user.isVerified == 1 %}<b id="vs-{{user}}" class="text-success">yes</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">cancel verification</a>{% else %}<b id="vs-{{user}}" class='text-danger'>no</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %} | 
     is Banned? <b class="text-success">no</b> <a href='#'>BAN</a> 
     {% endif %}
-
+    {# admin options section #}
+    
     <hr>
 {% endfor %}
 
@@ -43,18 +44,19 @@ function toggleVerification(username, action)
             {
                 if(json.result == 'Success')
                 {
+                    $("#vs-"+username).toggleClass('text-danger');
+                    $("#vs-"+username).toggleClass('text-success');
                     if(action)
                     {
                         $("#vs-"+username).html('no');
-                        $("#vs-"+username).toggleClass('text-succes');
-                        $("#vs-"+username).toggleClass('text-danger');
-                        $("#li-"+username).
+                        $("#li-"+username).attr('onclick', 'toggleVerification("'+username+'",false)');
+                        $("#li-"+username).html('verify');
                     }
                     else
                     {
                         $("#vs-"+username).html('yes');
-                        $("#vs-"+username).toggleClass('text-succes');
-                        $("#vs-"+username).toggleClass('text-danger');
+                        $("#li-"+username).attr('onclick', 'toggleVerification("'+username+'",true)');
+                        $("#li-"+username).html('cancel verification');
                     }
                 }
 
