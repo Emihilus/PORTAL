@@ -16,7 +16,7 @@
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
 <h2> ENDS TIMER: <span id='timer'></span> </h2>
 
-<h2> ISSUED BY: <a href="{{path('profile-details', {'user': auction.byUser})}}">{{auction.byUser}}</a></h2>
+<h2> ISSUED BY: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
 
 <p>{{auction.description}}</p>
 

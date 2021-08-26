@@ -14,3 +14,6 @@ All issued offers : 30
 </pre>
 
 {% endblock %}
+
+
+{# SELECT auctions.id, username, (SELECT offers.id FROM offers) as leads FROM users left join auctions on users.id=auctions.by_user_id WHERE users.username = 'Emis' GROUP by auctions.id #}
