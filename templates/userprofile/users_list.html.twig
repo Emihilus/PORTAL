@@ -10,7 +10,7 @@
 
     {# admin options #}
     {% if true %}
-    | is Verified? {% if user.isVerified == 1 %}<b id="vs-{{user}}" class="text-success">yes</b> <a href='#' onclick="toggleVerification('{{user}}',true)">cancel verification</a>{% else %}<b id="vs-{{user}}" class='text-danger'>no</b> <a href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %} | 
+    | is Verified? {% if user.isVerified == 1 %}<b id="vs-{{user}}" class="text-success">yes</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">toggle</a>{% else %}<b id="vs-{{user}}" class='text-danger'>no</b> <a id="li-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">toggle</a>{% endif %} | 
     is Banned? <b class="text-success">no</b> <a href='#'>BAN</a> 
     {% endif %}
 
@@ -39,11 +39,24 @@ function toggleVerification(username, action)
         })
         .then((response) => 
         {
-            
             response.json().then(function(json)
             {
                 if(json.result == 'Success')
-                    $("#vs-"+username).html('')
+                {
+                    if(action)
+                    {
+                        $("#vs-"+username).html('no');
+                        $("#vs-"+username).toggleClass('text-succes');
+                        $("#vs-"+username).toggleClass('text-danger');
+                        $("#li-"+username).
+                    }
+                    else
+                    {
+                        $("#vs-"+username).html('yes');
+                        $("#vs-"+username).toggleClass('text-succes');
+                        $("#vs-"+username).toggleClass('text-danger');
+                    }
+                }
 
             });
         })
