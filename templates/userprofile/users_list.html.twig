@@ -26,9 +26,27 @@
 {{ parent() }}
 
 <script>
-function toggleVerification()
+function toggleVerification(action)
 {
+fetch("{{path('toggleVerification')}}", 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId
+            })
+        })
+        .then((response) => 
+        {
+            response.json().then(function(json)
+            {
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
 
+                if(json.result == 'Success')
+                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
 }
 </script>
 {% endblock %}
