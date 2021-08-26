@@ -88,7 +88,8 @@ function getAuctions(requestedPage)
     	dataType: "html", 
     	data: { 
         requestedPage: requestedPage,
-		type: 1
+		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
+		
     }
 		})
 	.done(res => 
