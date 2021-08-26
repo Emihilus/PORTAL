@@ -4,7 +4,8 @@
 
 {% block body %}
 
-<h1>My auctions</h1>
+<h1>Auctions of user {% if app.request.get('username') %}{{app.request.get('username')}}{% elseif %}{{app.user}}{% endif %}</h1>
+
 <h2>Back to dashboard</h2>
 
 {{ include('includes/_modal.html.twig')  }}
