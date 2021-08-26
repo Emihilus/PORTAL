@@ -4,5 +4,13 @@
 
 {% block body %}
 <h1>Users list</h1>
+{% for user in users %}
 
+{{user}} | is Verified? {% if user.isVerified == 1 %}<b>yes
+<hr>
+{% endfor %}
+
+<pre>
+    {{ dump(users) }}
+</pre>
 {% endblock %}

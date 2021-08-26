@@ -84,6 +84,11 @@ class UsersController extends AbstractController
      */
     public function usersList(): Response
     {
-        return $this->render('userprofile/users_list.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository(User::class)->findAll();
+
+        return $this->render('userprofile/users_list.html.twig',[
+            'users' => $users
+        ]);
     }
 }
