@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('system@emazemhs.com', 'PDAPW.PL'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('parts_mail/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
 

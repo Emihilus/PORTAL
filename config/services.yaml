@@ -28,6 +28,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/ZNotUsed/'
 
     App\Service:
         arguments:

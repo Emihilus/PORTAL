@@ -34,6 +34,7 @@ class AppFixtures extends Fixture
             $user->setEmail($email);
             $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setRoles($roles);
+            $user->setIsVerified(true);
             $manager->persist($user);
             array_push($this->tempUserArray, $user);
         }
@@ -45,7 +46,9 @@ class AppFixtures extends Fixture
     {
         return[
             ['Emis', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']],
-            ['Emazemhs', 'emazemhs@gmail.com', '12345', ['ROLE_USER']]
+            ['Emazemhs', 'emazemhs@gmail.com', '12345', ['ROLE_USER']],
+            ['CoColiono', 'emazemhs@gmail.com', '12345', ['ROLE_USER']],
+            ['Masterklas', 'emazemhs@gmail.com', '12345', ['ROLE_USER']]
         ];
     }
 
@@ -53,7 +56,11 @@ class AppFixtures extends Fixture
     private function loadAuctions(ObjectManager $manager) : void
     {
         $counter = 1;
-        foreach ($this->getAuctionData() as [$title,  $createdAt, $PEROID, $description])
+
+        $array = $this->getAuctionData();
+        array_push($array, [['Piec Moon Card', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']]);
+
+        foreach ($array as [$title,  $createdAt, $PEROID, $description])
         {
             $auction = new Auction();
             $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
