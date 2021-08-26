@@ -243,26 +243,24 @@ class AJAXController extends AbstractController
      */
     public function toggleVerification(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        dump($this->getUser()->getRoles());
+        // dump($this->isGranted('ROLE_ADMIN'));
 
-        return new JsonResponse([
-            'result' => "Success"
-        ]);
-/*
-        if($this->getUser() != null)
+        if($this->isGranted('ROLE_ADMIN'))
         {
             $json = json_decode($request->getContent());
+
             $em = $this->getDoctrine()->getManager();
-            $auction = $em->getRepository(Auction::class)->find($json->auctionId);
+            $user = $em->getRepository(User::class)->findOneBy([
+                'username' => $json->username
+            ]);
 
-            $user = $this->getUser();
-
-            $json->add ? $user->addLikedAuction($auction) : $user->removeLikedAuction($auction);
+            $json->action ? $user->setIsVerified(false) : $user->setIsVerified(true);
 
             $em->persist($user);
             $em->flush();
+
             return new JsonResponse([
                 'result' => "Success"
             ]);
@@ -271,8 +269,8 @@ class AJAXController extends AbstractController
         else
         {
             return new JsonResponse([
-                'result' => "This action is permitted for admin only"
+                'result' => "Forbidden"
             ]);
-        }*/
+        }
     }
 }
