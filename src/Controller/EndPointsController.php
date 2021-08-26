@@ -42,6 +42,8 @@ class EndPointsController extends AbstractController
     public function getAuctions(Request $request)
     {
         $auctions = '';
+        dump($request);
+        dump($request->getContent());
         dump($request->get('type'));
         dump($request->get('username'));
         switch ($request->get('type'))
