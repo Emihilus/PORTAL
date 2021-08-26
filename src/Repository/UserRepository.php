@@ -73,7 +73,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('a.byUser = :val')
             ->setParameter('val', $user)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
         //return $em->createQuery('SELECT a, i FROM auction a LEFT JOIN a.auction_image i')->getResult();
     }

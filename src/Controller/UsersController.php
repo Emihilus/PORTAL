@@ -26,9 +26,9 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/profile-details/{user}", name="profile-details")
+     * @Route("/profile-details/{username}", name="profile-details")
      */
-    public function profileDetails($user): Response
+    public function profileDetails(User $user): Response
     {
         $USR = $this->getDoctrine()->getRepository(User::class)->findOneWithAuctions($user);
 
