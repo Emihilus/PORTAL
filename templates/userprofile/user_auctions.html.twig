@@ -128,7 +128,7 @@ function getAuctions(requestedPage)
 				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
 			}
 		});
-		{# window.history.pushState('page2', 'Title', '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/'+requestedPage); #}
+		window.history.pushState('page2', 'Title', '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/'+requestedPage);
 	});
 }
 

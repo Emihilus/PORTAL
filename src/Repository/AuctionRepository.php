@@ -209,4 +209,40 @@ class AuctionRepository extends ServiceEntityRepository
 
        return $query;
     }
+
+    public function findAllWithFirstImageAndHighestOfferWithOwner2(?User $user, ?User $currentUser)
+    {
+        $query = $this->createQueryBuilder('a')
+        ->addSelect('('.$this->createQueryBuilder('b')
+        ->select('MAX(o.Value)')
+        ->from('App\Entity\Offer', 'o')
+        ->where('a.id = o.auction')
+        ->getDQL(). ') as hghst')
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+        ->where('i.orderIndicator = 0')
+        ->orWhere('i.orderIndicator IS NULL')
+
+        ->leftJoin('a.byUser', 'u')
+        ->addSelect('u.username')
+        
+        ->andWhere('a.byUser = :val')
+        ->setParameter('val', $user)
+        ;
+
+        // IMPERFECT
+        if($user)
+        {
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
+            ->addSelect('l');
+        }
+
+
+        $query = $query->getQuery()->getResult();
+
+
+       return $query;
+    }
 }

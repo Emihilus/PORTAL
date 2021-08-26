@@ -53,12 +53,12 @@ class EndPointsController extends AbstractController
 
             // MY AUCTIONS LIST
             case 1: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getUser(),$this->getUser());
                 break;
 
             // AUCTIONS OF SPECIFIC USER LIST
             case 2: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $request->get('username')]));
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $request->get('username')]),$this->getUser());
                 dump(count($auctions));
                 break;
         }
