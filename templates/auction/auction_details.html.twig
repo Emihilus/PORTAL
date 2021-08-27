@@ -46,8 +46,13 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 let endsAt = "{{auction.endsAt | date('U')}}";
 let timerElement = document.getElementById('timer');
-auctionTimer();
 
+function auctionTimer()
+{
+    timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));
+    setTimeout(auctionTimer, 500)
+}
+auctionTimer();
 
 function makeOffer()
 {
@@ -85,11 +90,6 @@ $('#offerForm').validate(
     }
 )
 
-function auctionTimer()
-{
-    timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));
-    setTimeout(auctionTimer, 500)
-}
 
 function secondsToHms(d) {
     d = Number(d);

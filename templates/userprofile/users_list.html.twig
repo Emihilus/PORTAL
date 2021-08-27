@@ -11,7 +11,7 @@
     {# admin options section #}
     {% if true %}
     
-    | is Verified? {% if user.isVerified == 1 %}<b id="vc-{{user}}" class="text-success">yes</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">cancel verification</a>{% else %}<b id="vc-{{user}}" class='text-danger'>no</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %}
+    | is Verified? {% if user.isVerified == 1 %}<b id="vc-{{user}}" class="text-success">yes</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',true)">cancel verification</a>{% else %}<b id="vc-{{user}}" class='text-danger'>no</b> <a id="vl-{{user}}" href='#' onclick="toggleVerification('{{user}}',false)">verify</a>{% endif %}
 
      | is Banned? {% if user.isBanned == 0 %}<b id="bc-{{user}}" class="text-success">no</b> <a id="bl-{{user}}" href='#' onclick="toggleBan('{{user}}',true)">ban</a>{% else %}<b id="bc-{{user}}" class='text-danger'>yes</b> <a id="bl-{{user}}" href='#' onclick="toggleBan('{{user}}',false)">unban</a>{% endif %}
     
