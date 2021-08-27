@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
+use App\Entity\Comment;
 use App\Entity\TempImage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -321,12 +322,13 @@ class AJAXController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
 
-            $comment = 
+            $comment = new Comment();
+            $comment->setContent($json->content);
+            $comment->setByUser($this->getUser());
 
 
-            $json->action ? $user->setIsBanned(true) : $user->setIsBanned(false);
 
-            $em->persist($user);
+            $em->persist($comment);
             $em->flush();
 
 

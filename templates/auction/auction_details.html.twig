@@ -139,7 +139,9 @@ function submitComment()
     $.ajax({
    	 	url: url,
     	method: "post", 
-    	data: JSON.stringify({'content': $("#commentTA").val() }) 
+    	data: JSON.stringify(
+            {'content': $("#commentTA").val(),
+            'auctionId': {{auction.id}}}) 
 		})
 	.done(res => 
 	{ 

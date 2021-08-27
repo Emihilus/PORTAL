@@ -131,8 +131,22 @@ class Comment
         return $this;
     }
 
+    /**
+     * @ORM\PrePersist
+     */
     private function autoSetCreatedAt()
     {
-        
+        $this->createdAt = new \DateTime();
+        $this->modifiedAt = new \DateTime();
     }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    private function autoSetModifiedAt()
+    {
+        $this->modifiedAt = new \DateTime();
+    }
+
+
 }
