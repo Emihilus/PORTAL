@@ -332,8 +332,6 @@ class AJAXController extends AbstractController
             $em->persist($comment);
             $em->flush();
 
-
-
             return new JsonResponse([
                 'result' => "Success"
             ]);
@@ -344,9 +342,5 @@ class AJAXController extends AbstractController
                 'result' => "Forbidden"
             ]);
         }
-
-        return new JsonResponse([
-            'itemsPerPage' => $result 
-        ]);
     }
 }

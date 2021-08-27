@@ -38,6 +38,13 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 {% endfor %}
 </div>
 <hr>
+
+
+{% for comment in auction.comments %}
+    <b>{{comment.byUser.username}}</b> says {{comment.content}}  {{comment.createdAt|ago}} <br>
+{% endfor %}
+
+
 <form class="mt-3">
   <div class="form-group">
     <label for="commentTA">Comments about this auction</label>
