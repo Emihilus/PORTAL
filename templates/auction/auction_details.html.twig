@@ -139,7 +139,7 @@ function submitComment()
     $.ajax({
    	 	url: url,
     	method: "post", 
-    	data: JSON.stringify({'content': $("#commentTA").attr('value') }) 
+    	data: JSON.stringify({'content': $("#commentTA").val() }) 
 		})
 	.done(res => 
 	{ 

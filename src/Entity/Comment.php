@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -128,5 +129,10 @@ class Comment
         $this->byUser = $byUser;
 
         return $this;
+    }
+
+    private function autoSetCreatedAt()
+    {
+        
     }
 }

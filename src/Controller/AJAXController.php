@@ -315,8 +315,32 @@ class AJAXController extends AbstractController
      */
     public function postComment(Request $request)
     {
-        dump($request->getContent());
-        $result = $request->getContent();
+        $json = json_decode($request->getContent());
+
+        if($this->getUser() != null)
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $comment = 
+
+
+            $json->action ? $user->setIsBanned(true) : $user->setIsBanned(false);
+
+            $em->persist($user);
+            $em->flush();
+
+
+
+            return new JsonResponse([
+                'result' => "Success"
+            ]);
+        }
+        else
+        {
+            return new JsonResponse([
+                'result' => "Forbidden"
+            ]);
+        }
 
         return new JsonResponse([
             'itemsPerPage' => $result 
