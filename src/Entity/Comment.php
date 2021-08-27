@@ -38,13 +38,13 @@ class Comment
 
      /**
      * @ORM\ManyToOne(targetEntity=Auction::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $auction;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -134,7 +134,7 @@ class Comment
     /**
      * @ORM\PrePersist
      */
-    private function autoSetCreatedAt()
+    public function autoSetCreatedAt()
     {
         $this->createdAt = new \DateTime();
         $this->modifiedAt = new \DateTime();
@@ -143,7 +143,7 @@ class Comment
     /**
      * @ORM\PreUpdate
      */
-    private function autoSetModifiedAt()
+    public function autoSetModifiedAt()
     {
         $this->modifiedAt = new \DateTime();
     }
