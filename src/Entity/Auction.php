@@ -128,9 +128,9 @@ class Auction
 
         return $this;
     }*/
-    public function setEndsAtManually(?\DateTimeInterface $createdAt): self
+    public function setEndsAtManually(?\DateTimeInterface $endsAt): self
     {
-        $createdAt == null ? $this->createdAt = new \DateTime('now') : $this->createdAt = $createdAt;
+        $endsAt == null ? $this->endsAt = new \DateTime('now') : $this->endsAt = $endsAt;
 
         return $this;
     }

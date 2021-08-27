@@ -62,7 +62,8 @@ class AppFixtures extends Fixture
         array_push($array, ['MEDUSA', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']);
         //dump($array);
 
-        foreach ($array as [$title,  $createdAt, $PEROID, $description])
+        // foreach ($array as [$title,  $createdAt, $PEROID, $description])
+        for($j = 0; $j < 40 ; $j++)
         {
             $auction = new Auction();
             $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
@@ -70,7 +71,7 @@ class AppFixtures extends Fixture
             // $createdAtCurrent = clone $createdAt;
             $auction->setCreatedAt(new \DateTime(random_int(-15,-1).' days'));
             // $createdAt->modify($PEROID);
-            $auction->setEndsAtManually(new \DateTime(random_int(-1,10).' days'));
+            $auction->setEndsAtManually(new \DateTime(random_int(-4,4).' days'));
             $auction->setDescription(RandomGenerator::generateRandomSentence(200));
 
             // ADD OFFERS WITH RANDOM VALUE AND PAST DATE
