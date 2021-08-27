@@ -311,9 +311,9 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/setPerPage", name="setPerPage", methods={"POST"})
+     * @Route("/ep/postComment", name="postComm", methods={"POST"})
      */
-    public function setPerPageCookie(Request $request)
+    public function postComment(Request $request)
     {
 
         $result = $request->get('itemsPerPage');
