@@ -14,7 +14,7 @@
 <h2> ENDS AT {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
-<h2> ENDS TIMER: <span id='timer'></span> </h2>
+<h2> ENDS TIMER: <span class="text-success" id='timer'></span> </h2>
 
 <h2> ISSUED BY: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
 
@@ -52,7 +52,13 @@ auctionTimer();
 function auctionTimer()
 {
     timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));
-    setTimeout(auctionTimer, 500)
+    if(endsAt-(Math.round(Date.now()/1000))> 0)
+        setTimeout(auctionTimer, 500)
+    else
+        {
+            timerElement.innerHTML = "Auction ended {{auction.endsAt|ago}}.";
+            $("#offerForm").toggleClass('d-none');
+        }
 }
 
 function secondsToHms(d) {

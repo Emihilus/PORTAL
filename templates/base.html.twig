@@ -34,7 +34,7 @@
 			<div class="collapse navbar-collapse" id="mainmenu">
 				<ul class="navbar-nav me-auto">
 					<li class="nav-item">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'auction-list' %}active{% endif %}" href="/">Start</a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'auction-list' %}active{% endif %}" href="/">Aukcje</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link d-none dropdown-toggle" data-bs-toggle="dropdown" role="button" href="#">Nested</a>
@@ -51,7 +51,7 @@
 
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">ZALOZYCIELS</a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">Stwórz aukcję</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {% if app.request.attributes.get('_route') == 'users-list' %}active{% endif %}" href="{{path('users-list')}}">Users list</a>

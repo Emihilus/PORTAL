@@ -5,7 +5,8 @@
 {% block body %}
 <form method="post">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }} 
+        {% if error.messageKey =="You have been banned." %}<br><img src="{{asset('/u/permabanned.gif')}}">{% endif %}</div>
     {% endif %}
 
     {% if app.user %}
