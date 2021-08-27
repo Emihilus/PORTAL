@@ -58,7 +58,9 @@
         "symfony/phpunit-bridge": "^5.3",
         "symfony/stopwatch": "^5.3",
         "symfony/var-dumper": "^5.3",
-        "symfony/web-profiler-bundle": "^5.3"
+        "symfony/web-profiler-bundle": "^5.3",
+        "ext-intl": "*",
+        "ext-sqlite3": "*"
     },
     "config": {
         "optimize-autoloader": true,
