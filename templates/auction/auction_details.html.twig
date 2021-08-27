@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Aukcja pieca {{auction.title}}{{parent()}}{% endblock %}
+{% block title %}Aukcja pieca {{auction.title}}{% endblock %}
 
 
 
 {% block body %}
 <h1>Aukcja pieca {{auction.title}}</h1>
-<br>
+<BR>
 
 <img src="{{asset (fip~auction.images[0].filename)}}" alt='jakialt' width="300">
 {# {{ exampleVariableHijack }}   #}
@@ -44,16 +44,48 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 {{ parent() }}
 <script>
 
+ // TIMER SECTION ///
 let endsAt = "{{auction.endsAt | date('U')}}";
 let timerElement = document.getElementById('timer');
 
+auctionTimer();
 function auctionTimer()
 {
     timerElement.innerHTML = secondsToHms(endsAt-(Math.round(Date.now()/1000)));
     setTimeout(auctionTimer, 500)
 }
-auctionTimer();
 
+function secondsToHms(d) {
+    d = Number(d);
+    let da = Math.floor(d / 86400);
+    let h = Math.floor(d % 86400 / 3600);
+    let m = Math.floor(d % 86400 % 3600 / 60);
+    let s = Math.floor(d % 86400 % 3600 % 60);
+
+    let daDisplay = (da < 10 ? "0" : "") + da + ":";
+    let hDisplay = (h < 10 ? "0" : "") + h + ":";
+    let mDisplay = (m < 10 ? "0" : "") + m + ":";
+    let sDisplay = (s < 10 ? "0" : "") + s;
+    return daDisplay + hDisplay + mDisplay + sDisplay; 
+}
+ // TIMER SECTION ///
+
+
+
+ // VALIDATE OFFER ///
+$('#offerForm').validate(
+    {
+        submitHandler: function(form) 
+        {
+            makeOffer();
+        }
+    }
+)
+ // VALIDATE OFFER ///
+
+
+
+ // OFFER AJAX CALL ///
 function makeOffer()
 {
     let offerValue = document.getElementById('offerInput').value;
@@ -79,30 +111,7 @@ function makeOffer()
             document.getElementById('offers').prepend(container);
         }
 	});
-
-
-$('#offerForm').validate(
-    {
-        submitHandler: function(form) 
-        {
-            makeOffer();
-        }
-    }
-)
-
-
-function secondsToHms(d) {
-    d = Number(d);
-    let da = Math.floor(d / 86400);
-    let h = Math.floor(d % 86400 / 3600);
-    let m = Math.floor(d % 86400 % 3600 / 60);
-    let s = Math.floor(d % 86400 % 3600 % 60);
-
-    let daDisplay = (da < 10 ? "0" : "") + da + ":";
-    let hDisplay = (h < 10 ? "0" : "") + h + ":";
-    let mDisplay = (m < 10 ? "0" : "") + m + ":";
-    let sDisplay = (s < 10 ? "0" : "") + s;
-    return daDisplay + hDisplay + mDisplay + sDisplay; 
 }
+ // OFFER AJAX CALL ///
 </script>
 {% endblock %}

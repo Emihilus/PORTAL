@@ -17,9 +17,11 @@ class UserAuthRejectorSubscriber implements EventSubscriberInterface
 
         $user = $event->getPassport()->getUser();
         
+        // NOT VERIFIED?
         if(!$user->isVerified())
             throw new CustomUserMessageAccountStatusException('Your user account is not verified.');
 
+        // BANNED?
         if($user->isBanned())
             throw new CustomUserMessageAccountStatusException('You have been banned.');
     }
