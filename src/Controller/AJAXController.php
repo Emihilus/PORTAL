@@ -273,4 +273,40 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+
+    /**
+     * @Route("/ep/toggleBan", name="toggleBan", methods={"POST"})
+     */
+    public function toggleBan(Request $request)
+    {
+        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        // dump($this->isGranted('ROLE_ADMIN'));
+
+        if($this->isGranted('ROLE_ADMIN'))
+        {
+            $json = json_decode($request->getContent());
+
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository(User::class)->findOneBy([
+                'username' => $json->username
+            ]);
+
+            $json->action ? $user->setIsBanned(true) : $user->setIsBanned(false);
+
+            $em->persist($user);
+            $em->flush();
+
+            return new JsonResponse([
+                'result' => "Success"
+            ]);
+            
+        }
+        else
+        {
+            return new JsonResponse([
+                'result' => "Forbidden"
+            ]);
+        }
+    }
 }
