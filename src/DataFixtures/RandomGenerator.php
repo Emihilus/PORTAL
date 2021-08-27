@@ -107586,7 +107586,7 @@ const words = [
             $result .= static::words[random_int(0,107565)];
             if($i%$long == 0)
             {
-                $result .= lcfirst(static::words[random_int(0,107565)].". ");
+                $result .= ". ".ucwords(static::words[random_int(0,107565)]." ");
             }
             else
             {

@@ -67,9 +67,9 @@ class AppFixtures extends Fixture
             $auction = new Auction();
             $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
             $auction->setTitle("Piec ".$this->names[random_int(0,count($this->names)-1)]);
-            $createdAtCurrent = clone $createdAt;
-            $auction->setCreatedAt(new \DateTime('-10 days'));
-            $createdAt->modify($PEROID);
+            // $createdAtCurrent = clone $createdAt;
+            $auction->setCreatedAt(new \DateTime((random_int(0,15)-5).' days'));
+            // $createdAt->modify($PEROID);
             $auction->setEndsAt('146400');
             $auction->setDescription(RandomGenerator::generateRandomSentence(200));
 
