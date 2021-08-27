@@ -45,16 +45,6 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function getUserData(): array
-    {
-        return[
-            ['Emis', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']],
-            ['Emazemhs', 'emazemhs@gmail.com', '12345', ['ROLE_USER']],
-            ['CoColiono', 'emazemhs@gmail.com', '12345', ['ROLE_USER']],
-            ['Masterklas', 'emazemhs@gmail.com', '12345', ['ROLE_USER']]
-        ];
-    }
-
 
     private function loadAuctions(ObjectManager $manager) : void
     {
@@ -64,7 +54,6 @@ class AppFixtures extends Fixture
         array_push($array, ['MEDUSA', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']);
        
         
-
         // foreach ($array as [$title,  $createdAt, $PEROID, $description])
         for($j = 0; $j < static::numAuctions ; $j++)
         {
@@ -104,6 +93,17 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+
+    public function getUserData(): array
+    {
+        return[
+            ['Emis', 'jahael@gmail.com', '12345', ['ROLE_ADMIN']],
+            ['Emazemhs', 'emazemhs@gmail.com', '12345', ['ROLE_USER']],
+            ['CoColiono', 'emazemhs@gmail.com', '12345', ['ROLE_USER']],
+            ['Masterklas', 'emazemhs@gmail.com', '12345', ['ROLE_USER']]
+        ];
+    }
+    
     public function getAuctionData(): array
     {
         return[
