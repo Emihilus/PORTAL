@@ -2,10 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
+use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\AuctionImage;
-use App\Entity\Offer;
-use App\Entity\User;
+use App\DataFixtures\RandomGenerator;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -70,7 +71,7 @@ class AppFixtures extends Fixture
             $auction->setCreatedAt(new \DateTime('-10 days'));
             $createdAt->modify($PEROID);
             $auction->setEndsAt('146400');
-            $auction->setDescription($description);
+            $auction->setDescription(RandomGenerator::generateRandomSentence(200));
 
             // ADD OFFERS WITH RANDOM VALUE AND PAST DATE
             for ($i = 0; $i< random_int(1,10); $i++)

@@ -3,15 +3,18 @@ namespace App\DataFixtures;
 
 class RandomGenerator
 {
-    public static function generateRandomDescription(int $howMuchWords) : string
+    public static function generateRandomSentence(int $howMuchWords) : string
     {
-return 'gówno';
+        $result = '';
+        $wordsCount = count(static::words);
+        for($i = 0; $i < $howMuchWords; $i++)
+        {
+            $result += static::words[random_int(0,$wordsCount)];
+        }
+        return $result;
     }
 
-
-
-    private $words = [
-        "",
+const words = [
         "OK",
         "a",
         "aah",
@@ -107578,5 +107581,7 @@ return 'gówno';
         "\ufffdtudes",
         "\ufffdtui",
         "\ufffdtuis"
-      ];
+    ];
+
+    
 }
