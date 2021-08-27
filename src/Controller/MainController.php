@@ -52,9 +52,9 @@ class MainController extends AbstractController
      */
     public function auctionDetails($auctionId, ValidatorInterface $validator): Response
     {
-        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffers($auctionId);
+        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndComments($auctionId);
 
-
+        dump($auction);
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
 
         /*dump($meta);

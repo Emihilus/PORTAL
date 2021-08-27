@@ -82,6 +82,23 @@ class AuctionRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findOneByIdWithAuctionImagesAndOffersAndComments($value): ?Auction
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.images', 'i')
+            ->addSelect('i')
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.offers', 'o')
+            ->addSelect('o')
+            ->Where('a.id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('o.Value', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     public function findOneByIdWithHighestOffer($value)
     {
         return $this->createQueryBuilder('a')
