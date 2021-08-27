@@ -13,6 +13,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    const numAuctions = 50;
+
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
@@ -56,18 +58,19 @@ class AppFixtures extends Fixture
 
     private function loadAuctions(ObjectManager $manager) : void
     {
-        $counter = 1;
+        //$counter = 1;
 
         $array = $this->getAuctionData();
         array_push($array, ['MEDUSA', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']);
        
+        
 
         // foreach ($array as [$title,  $createdAt, $PEROID, $description])
-        for($j = 0; $j < 40 ; $j++)
+        for($j = 0; $j < static::numAuctions ; $j++)
         {
             $auction = new Auction();
             $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
-            $auction->setTitle("Piec ".$this->names[random_int(0,count($this->names)-1)]);
+            $auction->setTitle("Piec ".RandomGenerator::generateRandomName());
 
             $auction->setCreatedAt(new \DateTime(random_int(-15,-1).' days'));
             $auction->setEndsAtManually(new \DateTime(random_int(-4,4).' days'));
@@ -89,13 +92,13 @@ class AppFixtures extends Fixture
             // ADD FIRST IMAGE
             $auctionImage = new AuctionImage();
             $auctionImage->setAuction($auction);
-            $auctionImage->setFilename($counter.'.jpg');
+            $auctionImage->setFilename(($j+1).'.jpg');
             $auctionImage->setOrderIndicator(0);
             $manager->persist($auctionImage);
 
 
             $manager->persist($auction);
-            $counter++;
+            //$counter++;
         }
 
         $manager->flush();
