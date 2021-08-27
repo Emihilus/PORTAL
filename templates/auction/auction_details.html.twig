@@ -129,5 +129,24 @@ function makeOffer()
 	});
 }
  // OFFER AJAX CALL ///
+
+
+ // POST COMMENT AJAX CALL ///
+function submitComment()
+{
+    let url = "{{path ('postComment') }}";
+
+    $.ajax({
+   	 	url: url,
+    	method: "post", 
+    	data: JSON.stringify({'content': $("#commentTA").attr('value') }) 
+		})
+	.done(res => 
+	{ 
+		console.log(res);
+	});
+}
+ // POST COMMENT AJAX CALL ///
+
 </script>
 {% endblock %}

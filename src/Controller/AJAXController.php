@@ -311,13 +311,12 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/postComment", name="postComm", methods={"POST"})
+     * @Route("/ep/postComment", name="postComment", methods={"POST"})
      */
     public function postComment(Request $request)
     {
-
-        $result = $request->get('itemsPerPage');
-        setcookie('itemsPerPage', $result, time() + (86400 * 30), "/");
+        dump($request->getContent());
+        $result = $request->getContent();
 
         return new JsonResponse([
             'itemsPerPage' => $result 
