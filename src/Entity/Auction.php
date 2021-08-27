@@ -128,6 +128,12 @@ class Auction
 
         return $this;
     }*/
+    public function setEndsAtManually(?\DateTimeInterface $createdAt): self
+    {
+        $createdAt == null ? $this->createdAt = new \DateTime('now') : $this->createdAt = $createdAt;
+
+        return $this;
+    }
 
     public function setEndsAt(string $secondsOffest): self
     {
