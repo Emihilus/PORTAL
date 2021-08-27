@@ -32,7 +32,7 @@
 
 <script>
 
-
+{# admin options js code section #}
 {% if is_granted('ROLE_ADMIN') %}
 function toggleVerification(username, action)
 {
@@ -110,6 +110,7 @@ function toggleBan(username, action)
         .catch(() => { /* Error. Inform the user */ })
 }
 {% endif %}
+{# admin options js code section #}
 
 </script>
 {% endblock %}
