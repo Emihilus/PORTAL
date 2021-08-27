@@ -309,4 +309,18 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+
+    /**
+     * @Route("/ep/setPerPage", name="setPerPage", methods={"POST"})
+     */
+    public function setPerPageCookie(Request $request)
+    {
+
+        $result = $request->get('itemsPerPage');
+        setcookie('itemsPerPage', $result, time() + (86400 * 30), "/");
+
+        return new JsonResponse([
+            'itemsPerPage' => $result 
+        ]);
+    }
 }

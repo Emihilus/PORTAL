@@ -37,12 +37,12 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
     <b>{{offer.byUser.username}} offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br>
 {% endfor %}
 </div>
-
+<hr>
 <form class="mt-3">
   <div class="form-group">
-    <label for="exampleFormControlTextarea1">Comments</label>
+    <label for="exampleFormControlTextarea1">Comments about this auction</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-    <button class="btn-primary btn" type="">Post comment</button>
+    <button class="btn-primary btn" type="button">Post comment</button>
   </div>
 </form>
 
