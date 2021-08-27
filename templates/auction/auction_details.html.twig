@@ -24,11 +24,10 @@
 
 <form id='offerForm'>
 <input id='offerInput' required="required" type="number" min="{% if auction.offers|length > 0 %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}" 
-max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" step="any" value="{% if auction.offers|length > 0 %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}"/> PLN  <button type='submit' >Offer</button>
+max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" step="any" value="{% if auction.offers|length > 0 %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}"/> PLN  <button class="btn-primary btn" type='submit' >Offer</button>
 {# onclick='makeOffer()' #}
 </form>
 
-<br>
 <div id='backendErrors'></div>
 <div id='offers'>
 
@@ -38,6 +37,17 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
     <b>{{offer.byUser.username}} offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br>
 {% endfor %}
 </div>
+
+<form class="mt-3">
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Comments</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <button class="btn-primary btn" type="">Post comment</button>
+  </div>
+</form>
+
+
+
 {% endblock %}
 
 {% block javascripts %}
