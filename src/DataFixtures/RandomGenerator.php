@@ -3,16 +3,6 @@ namespace App\DataFixtures;
 
 class RandomGenerator
 {
-    public static function generateRandomSentence(int $howMuchWords) : string
-    {
-        $result = '';
-        $wordsCount = count(static::words);
-        for($i = 0; $i < $howMuchWords; $i++)
-        {
-            $result += static::words[random_int(0,$wordsCount)];
-        }
-        return $result;
-    }
 
 const words = [
         "OK",
@@ -107584,4 +107574,29 @@ const words = [
     ];
 
     
+
+    public static function generateRandomSentence(int $howMuchWords) : string
+    {
+        $result = 'Begin ';
+        // $wordsCount = count(static::words);
+        // dump($wordsCount);
+        $long = 9;
+        for($i = 0; $i < $howMuchWords; $i++)
+        {
+            $result .= static::words[random_int(0,107565)];
+            if($i%$long == 0)
+            {
+                $result .= lcfirst(static::words[random_int(0,107565)].". ");
+            }
+            else
+            {
+                $result .= " ";
+            }
+
+
+        }
+        return $result;
+    }
+
+
 }
