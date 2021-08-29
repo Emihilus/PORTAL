@@ -53,7 +53,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 
  <div class="row">
- <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>if( %{{auction.comments|length}} comments</h3></div>
+ <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if auction.comments|length == 0 %}No{% else %} {{auction.comments|length}}{% endif %} comments</h3></div>
 <div id="comments-section">
 {% for comment in auction.comments|sort %}
     <div class="list-group-item-dark rounded p-3">
