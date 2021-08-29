@@ -6,6 +6,7 @@
 
 {% block body %}
 
+<div class="container">
 {# modal for notify user is not logged in #}
 	{% if not app.user %}
     {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
@@ -123,7 +124,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                     
                 </div>
             </div>
-
+</div>
 {% endblock %}
 
 {% block javascripts %}
