@@ -53,17 +53,19 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 
  <div class="row">
- <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>45 comments</h3></div>
+ <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{{auction.comments|length}} comments</h3></div>
 
+{% for comment in auction.comments|reverse %}
     <div class="list-group-item-dark rounded p-3">
-        <small class='float-end'> 5 days ago </small>
+        <small class='float-end'>{{comment.createdAt|ago}}</small>
         <div>
-        <b>Ernesciak</b><br>
-        <span>Nieniszczącej wyglansowaniami debetujcie palu bezwładnieję dotropionych szabelkówkom płynni pociskowi dziwłach .</span><br>
+        <b>{{comment.byUser.username}}</b><br>
+        <span> {{comment.content}} </span><br>
         <small class="text-success">upvote</small>
         </div>
     </div> 
 
+{% endfor %}
 </div>
 
 
