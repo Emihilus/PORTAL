@@ -172,7 +172,7 @@ function makeOffer()
 // POST COMMENT AJAX CALL ///
 function submitComment()
 {
-    if({% if app.user %}true{% else %}false{% endif %})
+    if({% if app.user %}true{% else %}false{% endif %} && $("#commentTA").val() != "")
     {
         let url = "{{path ('postComment') }}";
 
