@@ -117,29 +117,36 @@ $('#offerForm').validate(
  // OFFER AJAX CALL ///
 function makeOffer()
 {
-    let offerValue = document.getElementById('offerInput').value;
-    let url = "{{path ('makeOffer') }}";
+    if({{app.user}})
+    {
+        let offerValue = document.getElementById('offerInput').value;
+        let url = "{{path ('makeOffer') }}";
 
-     $.ajax({
-   	 	url: url,
-    	method: "post", 
-    	data: JSON.stringify({'offerValue': offerValue*100,
-            'auctionId' : {{auction.id}} }) 
-		})
-	.done(res => 
-	{ 
-		console.log(res);
-        if(res.errorsBody != null)
-        {
-            document.getElementById('backendErrors').innerHTML = res.errorsBody;
-        }
-        else
-        {
-            let container = document.createElement('div');
-            container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-            document.getElementById('offers').prepend(container);
-        }
-	});
+        $.ajax({
+            url: url,
+            method: "post", 
+            data: JSON.stringify({'offerValue': offerValue*100,
+                'auctionId' : {{auction.id}} }) 
+            })
+        .done(res => 
+        { 
+            console.log(res);
+            if(res.errorsBody != null)
+            {
+                document.getElementById('backendErrors').innerHTML = res.errorsBody;
+            }
+            else
+            {
+                let container = document.createElement('div');
+                container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+                document.getElementById('offers').prepend(container);
+            }
+        });
+    }
+    else
+    {
+
+    }
 }
  // OFFER AJAX CALL ///
 
