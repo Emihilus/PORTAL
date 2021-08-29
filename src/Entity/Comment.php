@@ -56,12 +56,20 @@ class Comment
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likedComments")
+     * @ORM\JoinTable(name="likes")
      */
     private $likedBy;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="dislikedComments")
+     * @ORM\JoinTable(name="dislikes")
+     */
+    private $dislikedBy;
 
     public function __construct()
     {
         $this->likedBy = new ArrayCollection();
+        $this->dislikedBy = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -178,6 +186,30 @@ class Comment
     public function removeLikedBy(User $likedBy): self
     {
         $this->likedBy->removeElement($likedBy);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getDislikedBy(): Collection
+    {
+        return $this->dislikedBy;
+    }
+
+    public function addDislikedBy(User $dislikedBy): self
+    {
+        if (!$this->dislikedBy->contains($dislikedBy)) {
+            $this->dislikedBy[] = $dislikedBy;
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedBy(User $dislikedBy): self
+    {
+        $this->dislikedBy->removeElement($dislikedBy);
 
         return $this;
     }

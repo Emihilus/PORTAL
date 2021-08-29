@@ -82,8 +82,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Comment::class, mappedBy="likedBy")
+     * @ORM\JoinTable(name="likes")
      */
     private $likedComments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Comment::class, mappedBy="dislikedBy")
+     * @ORM\JoinTable(name="dislikes")
+     */
+    private $dislikedComments;
 
     public function __construct()
     {
@@ -92,6 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->likedAuctions = new ArrayCollection();
         $this->userComments = new ArrayCollection();
         $this->likedComments = new ArrayCollection();
+        $this->dislikedComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -385,6 +393,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->likedComments->removeElement($likedComment)) {
             $likedComment->removeLikedBy($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getDislikedComments(): Collection
+    {
+        return $this->dislikedComments;
+    }
+
+    public function addDislikedComment(Comment $dislikedComment): self
+    {
+        if (!$this->dislikedComments->contains($dislikedComment)) {
+            $this->dislikedComments[] = $dislikedComment;
+            $dislikedComment->addDislikedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedComment(Comment $dislikedComment): self
+    {
+        if ($this->dislikedComments->removeElement($dislikedComment)) {
+            $dislikedComment->removeDislikedBy($this);
         }
 
         return $this;
