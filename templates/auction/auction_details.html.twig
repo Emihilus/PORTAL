@@ -53,8 +53,8 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 
  <div class="row">
- <div id="comments-section"><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{{auction.comments|length}} comments</h3></div>
-
+ <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{{auction.comments|length}} comments</h3></div>
+<div id="comments-section">
 {% for comment in auction.comments|reverse %}
     <div class="list-group-item-dark rounded p-3">
         <small class='float-end'>{{comment.createdAt|ago}}</small>
@@ -66,6 +66,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
     </div> 
 
 {% endfor %}
+</div>
 </div>
 
 
@@ -185,9 +186,11 @@ function submitComment()
             })
         .done(res => 
         { 
-            if(res == "Success")
+            if(res.result == "Success")
             {
-                $("#comments-section").prepend('<div class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span> '+$("#commentTA").val()+' </span><br><small class="text-success">upvote</small></div></div>');
+                console.log(res);
+                    $("#comments-section").append('<div class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span> '+$("#commentTA").val()+' </span><br><small class="text-success">upvote</small></div></div>');
+                    $("#commentTA").val('');
             }
         });
     }
