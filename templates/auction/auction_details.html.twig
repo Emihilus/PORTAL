@@ -212,8 +212,7 @@ function like(commentId)
             url: url,
             method: "post", 
             data: JSON.stringify(
-                {'content': $("#commentTA").val(),
-                'auctionId': {{auction.id}}}) 
+                {commentId}) 
             })
         .done(res => 
         { 

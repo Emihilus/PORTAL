@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+/**
+ * @Route("/ep")
+ */
 class AJAXController extends AbstractController
 {
     public function __construct(PaginatorInterface $paginator)
@@ -24,7 +28,7 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/setPerPage", name="setPerPage", methods={"POST"})
+     * @Route("/setPerPage", name="setPerPage", methods={"POST"})
      */
     public function setPerPageCookie(Request $request)
     {
@@ -38,7 +42,7 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/getAuctions", name="getAuctions", methods={"POST"})
+     * @Route("/getAuctions", name="getAuctions", methods={"POST"})
      */
     public function getAuctions(Request $request)
     {
@@ -72,7 +76,7 @@ class AJAXController extends AbstractController
     // WE NEED TO AVOID REDUNDANCY SO PUT IN HERE CONDTION FOR SELECTING AUCTIONS CREATED ONLY BY SPECIFIED USER, USEFUL FOR FUTURE OPTION SHOW SPECIFIC USER AUCTIONS
 
     /**
-     * @Route("/ep/uploadTemporary", name="uploadTemporary", methods={"POST"})
+     * @Route("/uploadTemporary", name="uploadTemporary", methods={"POST"})
      */
     public function uploadTemp(Request $request)
     {
@@ -116,7 +120,7 @@ class AJAXController extends AbstractController
 
 
     /**
-     * @Route("/ep/makeOffer", name="makeOffer", methods={"POST"})
+     * @Route("/makeOffer", name="makeOffer", methods={"POST"})
      */
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
@@ -171,7 +175,7 @@ class AJAXController extends AbstractController
 
 
     /**
-     * @Route("/ep/deleteAuction", name="deleteAuction", methods={"POST"})
+     * @Route("/deleteAuction", name="deleteAuction", methods={"POST"})
      */
     public function deleteAuction(Request $request)
     {
@@ -210,7 +214,7 @@ class AJAXController extends AbstractController
 
 
      /**
-     * @Route("/ep/toggleFavoriteAuction", name="toggleFavoriteAuction", methods={"POST"})
+     * @Route("/toggleFavoriteAuction", name="toggleFavoriteAuction", methods={"POST"})
      */
     public function toggleFavoriteAuction(Request $request)
     {
@@ -240,7 +244,7 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/toggleVerification", name="toggleVerification", methods={"POST"})
+     * @Route("/toggleVerification", name="toggleVerification", methods={"POST"})
      */
     public function toggleVerification(Request $request)
     {
@@ -276,7 +280,7 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/toggleBan", name="toggleBan", methods={"POST"})
+     * @Route("/toggleBan", name="toggleBan", methods={"POST"})
      */
     public function toggleBan(Request $request)
     {
@@ -312,7 +316,7 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/ep/postComment", name="postComment", methods={"POST"})
+     * @Route("/postComment", name="postComment", methods={"POST"})
      */
     public function postComment(Request $request)
     {
@@ -346,7 +350,7 @@ class AJAXController extends AbstractController
 
 
     /**
-     * @Route("/ep/likeComment", name="likeComment", methods={"POST"})
+     * @Route("/likeComment", name="likeComment", methods={"POST"})
      */
     public function likeComment(Request $request)
     {
@@ -356,12 +360,8 @@ class AJAXController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
 
-            $comment = new Comment();
-            $comment->setContent($json->content);
-            $comment->setByUser($this->getUser());
-
-            $auction = $em->getRepository(Auction::class)->find($json->auctionId);
-            $comment->setAuction($auction);
+            $comment = $em->getRepository(Comment::class)->find($json->commentId);
+            $comment->addLikedBy($this->getUser());
 
             $em->persist($comment);
             $em->flush();
