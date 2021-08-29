@@ -117,7 +117,7 @@ $('#offerForm').validate(
  // OFFER AJAX CALL ///
 function makeOffer()
 {
-    if({{app.user}})
+    if({% if app.user %}true{% else %}false{% endif %})
     {
         let offerValue = document.getElementById('offerInput').value;
         let url = "{{path ('makeOffer') }}";
@@ -145,7 +145,7 @@ function makeOffer()
     }
     else
     {
-
+        $('#exampleModalCenter').modal('show');
     }
 }
  // OFFER AJAX CALL ///
@@ -170,9 +170,5 @@ function submitComment()
 }
  // POST COMMENT AJAX CALL ///
 
-
-
-{# modal code #}
-{{ include('parts/include/js_modal.twig')  }}
 </script>
 {% endblock %}
