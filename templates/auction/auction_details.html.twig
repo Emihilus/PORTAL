@@ -154,19 +154,26 @@ function makeOffer()
  // POST COMMENT AJAX CALL ///
 function submitComment()
 {
-    let url = "{{path ('postComment') }}";
+    if({% if app.user %}true{% else %}false{% endif %})
+    {
+        let url = "{{path ('postComment') }}";
 
-    $.ajax({
-   	 	url: url,
-    	method: "post", 
-    	data: JSON.stringify(
-            {'content': $("#commentTA").val(),
-            'auctionId': {{auction.id}}}) 
-		})
-	.done(res => 
-	{ 
-		console.log(res);
-	});
+        $.ajax({
+            url: url,
+            method: "post", 
+            data: JSON.stringify(
+                {'content': $("#commentTA").val(),
+                'auctionId': {{auction.id}}}) 
+            })
+        .done(res => 
+        { 
+            console.log(res);
+        });
+    }
+    else
+    {
+        $('#exampleModalCenter').modal('show');
+    }
 }
  // POST COMMENT AJAX CALL ///
 
