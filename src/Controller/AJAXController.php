@@ -377,4 +377,34 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+
+
+    /**
+     * @Route("/dislikeComment", name="dislikeComment", methods={"POST"})
+     */
+    public function dislikeComment(Request $request)
+    {
+        $json = json_decode($request->getContent());
+
+        if($this->getUser() != null)
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $comment = $em->getRepository(Comment::class)->find($json->commentId);
+            $comment->addDislikedBy($this->getUser());
+
+            $em->persist($comment);
+            $em->flush();
+
+            return new JsonResponse([
+                'result' => "Success"
+            ]);
+        }
+        else
+        {
+            return new JsonResponse([
+                'result' => "Forbidden"
+            ]);
+        }
+    }
 }
