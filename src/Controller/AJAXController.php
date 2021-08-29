@@ -148,7 +148,7 @@ class AJAXController extends AbstractController
                     {
                         $validatorErrors->add(new ConstraintViolation('The value of your offer ('.($json->offerValue/100).' PLN) is smaller than the highest offer for this auction ('.($auctionWithHghstOffer[1]/100).' PLN)', null, ['param'=>'param'],$json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]),'null'));
                     }
-                    $rendered = $this->render('ajax_parts/auction_make_offer_errors_part.html.twig', [
+                    $rendered = $this->render('parts/ajax/auction_make_offer_errors_part.html.twig', [
                         'errors' => $validatorErrors
                     ]);
 

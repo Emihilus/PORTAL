@@ -5,6 +5,12 @@
 
 
 {% block body %}
+
+{# modal for notify user is not logged in #}
+	{% if not app.user %}
+    {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
+	{% endif %}
+
 <h1>Aukcja pieca {{auction.title}}</h1>
 <BR>
 
@@ -157,5 +163,9 @@ function submitComment()
 }
  // POST COMMENT AJAX CALL ///
 
+
+
+{# modal code #}
+{{ include('parts/include/js_modal.twig')  }}
 </script>
 {% endblock %}

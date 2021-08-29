@@ -24,7 +24,6 @@ class MainController extends AbstractController
 
     /**
      * @Route("/auction-list/{page}", name="auction-list", defaults ={"page": "1" })
-     * @Route("/auction-list/{page}", name="auction-list", defaults ={"page": "1" })
      */
     public function index($page): Response
     {
