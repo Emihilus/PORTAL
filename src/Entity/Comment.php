@@ -53,6 +53,16 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $byUser;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likedComments")
+     */
+    private $likedBy;
+
+    public function __construct()
+    {
+        $this->likedBy = new ArrayCollection();
+    }
     
     public function getId(): ?int
     {
@@ -146,6 +156,30 @@ class Comment
     public function autoSetModifiedAt()
     {
         $this->modifiedAt = new \DateTime();
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikedBy(): Collection
+    {
+        return $this->likedBy;
+    }
+
+    public function addLikedBy(User $likedBy): self
+    {
+        if (!$this->likedBy->contains($likedBy)) {
+            $this->likedBy[] = $likedBy;
+        }
+
+        return $this;
+    }
+
+    public function removeLikedBy(User $likedBy): self
+    {
+        $this->likedBy->removeElement($likedBy);
+
+        return $this;
     }
 
 
