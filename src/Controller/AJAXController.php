@@ -343,4 +343,38 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+
+
+    /**
+     * @Route("/ep/likeComment", name="likeComment", methods={"POST"})
+     */
+    public function likeComment(Request $request)
+    {
+        $json = json_decode($request->getContent());
+
+        if($this->getUser() != null)
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $comment = new Comment();
+            $comment->setContent($json->content);
+            $comment->setByUser($this->getUser());
+
+            $auction = $em->getRepository(Auction::class)->find($json->auctionId);
+            $comment->setAuction($auction);
+
+            $em->persist($comment);
+            $em->flush();
+
+            return new JsonResponse([
+                'result' => "Success"
+            ]);
+        }
+        else
+        {
+            return new JsonResponse([
+                'result' => "Forbidden"
+            ]);
+        }
+    }
 }
