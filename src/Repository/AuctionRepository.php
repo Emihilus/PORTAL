@@ -268,7 +268,8 @@ class AuctionRepository extends ServiceEntityRepository
        return $this->createQueryBuilder('a')
        ->leftJoin('('.$this->createQueryBuilder('b')
        ->select('App\Entity\Offer')
-       ->select('')
+       ->from('App\Entity\Offer', 'r')
+       ->where('')
        )
 
 
