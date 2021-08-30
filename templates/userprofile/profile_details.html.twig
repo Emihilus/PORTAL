@@ -17,3 +17,7 @@ All issued offers : LA FAMILIA ES TODO
 
 
 {# SELECT auctions.id, username, (SELECT offers.id FROM offers) as leads FROM users left join auctions on users.id=auctions.by_user_id WHERE users.username = 'Emis' GROUP by auctions.id #}
+
+{# SELECT DISTINCT users.id, users.username, (SELECT COUNT(*) FROM auctions WHERE by_user_id=1) auccont, (SELECT COUNT(*) FROM offers WHERE by_user_id=1) off,(SELECT COUNT(*) FROM offers WHERE by_user_id=1 GROUP BY offers.auction_id) haha FROM users  
+
+WHERE users.id = 1 #}
