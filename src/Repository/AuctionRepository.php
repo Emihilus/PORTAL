@@ -266,7 +266,13 @@ class AuctionRepository extends ServiceEntityRepository
     public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
     {
        return $this->createQueryBuilder('a')
-       ->leftJoin('('.$this->createQueryBuilder('b'))
+       ->leftJoin('('.$this->createQueryBuilder('b')
+       ->select('App\Entity\Offer')
+       ->select('')
+       )
+
+
+
             ->where('e.Value=('.$this->createQueryBuilder('b')
                 ->select('MAX(r.Value)')
                 ->from('App\Entity\Offer', 'r')
@@ -304,4 +310,4 @@ LEFT JOIN auctions ON offers.auction_id=auctions.id
 
 where offers.by_user_id = 4 AND
 offers.value=(SELECT max(ofNE.value) FROM offers ofNE WHERE ofNE.auction_id=offers.auction_id)
-group BY auction_id
+group BY auction_id*/
