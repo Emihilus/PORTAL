@@ -30,7 +30,7 @@ class UsersController extends AbstractController
      */
     public function profileDetails(User $user): Response
     {
-        $USR = $this->getDoctrine()->getRepository(User::class)->findOneWithAuctions($user);
+        $USR = $this->getDoctrine()->getRepository(User::class)->findUserprofileInfoCollection($user);
         if($USR == null)
             $USR = $user;
         dump($user);
