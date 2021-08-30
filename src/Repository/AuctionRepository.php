@@ -263,10 +263,10 @@ class AuctionRepository extends ServiceEntityRepository
        return $query;
     }
 
-    public function queryUserprofileInfoCollection($user)
+    public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
     {
-    //$expr = $this->_em->getExpressionBuilder();
        return $this->createQueryBuilder('a')
+       ->leftJoin('('.$this->createQueryBuilder('b'))
             ->where('e.Value=('.$this->createQueryBuilder('b')
                 ->select('MAX(r.Value)')
                 ->from('App\Entity\Offer', 'r')
@@ -282,3 +282,26 @@ class AuctionRepository extends ServiceEntityRepository
     }
     
 }
+/* 2 posibiltes : auctions perspective
+select * from auctions
+
+right join (SELECT *
+FROM offers ofUP
+WHERE ofUP.value=(SELECT max(ofNE.value) FROM offers ofNE WHERE ofNE.auction_id=ofUP.auction_id)
+AND ofUP.by_user_id=4) as supa 
+
+on supa.auction_id=auctions.id
+
+
+ OR  offers perspective
+
+
+
+ SELECT auctions.*
+FROM offers 
+
+LEFT JOIN auctions ON offers.auction_id=auctions.id
+
+where offers.by_user_id = 4 AND
+offers.value=(SELECT max(ofNE.value) FROM offers ofNE WHERE ofNE.auction_id=offers.auction_id)
+group BY auction_id
