@@ -41,3 +41,17 @@ RIGHT JOIN
 FROM users  
 
 WHERE users.id = 1 #}
+
+{# SELECT users.id, users.username, 
+(SELECT COUNT(*) FROM auctions WHERE by_user_id=1) Auctions_Issued, 
+(SELECT COUNT(*) FROM offers WHERE by_user_id=1) All_Offers ,
+(SELECT COUNT(DISTINCT offers.auction_id) FROM offers WHERE by_user_id=1) Participating_In,
+
+(SELECT COUNT(DISTINCT auctions.id) FROM auctions
+RIGHT JOIN 
+ (SELECT DISTINCT ada.auction_id FROM offers ada where ada.by_user_id=1 and ada.value=(select max(t2.value) from offers t2 where t2.id=ada.id)) ofers
+ ON auctions.id=ofers.auction_id ) Leading_In
+
+FROM users  
+
+WHERE users.id = 1 #}
