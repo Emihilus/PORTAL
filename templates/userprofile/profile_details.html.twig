@@ -5,8 +5,8 @@
 {% block body %}
 <h1>Details of user {{USR[0][0].username}}</h1>
 Number of auctions issued by this user : <b>{% if USR[0]['Auctions_Issued'] != 0 %}{{USR[0]['Auctions_Issued']}}{% else %}No auctions{% endif %} </b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 1})}}">--->Show</a><br>
-Leading in the following number of aucions : {{USR[0]['Leading_In']}} <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">--->Show</a><br>
-Number of auctions the user is participating in  : {{USR[0]['Participating_In']}} <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">--->Show</a><br>
+Leading in the following number of aucions : <b>{{USR[0]['Leading_In']}}</b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">--->Show</a><br>
+Number of auctions the user is participating in  : <b>{{USR[0]['Participating_In']}}</b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">--->Show</a><br>
 All issued offers : {{USR[0]['All_Offers']}}
 
 <pre>

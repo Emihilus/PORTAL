@@ -56,10 +56,14 @@ class UsersController extends AbstractController
                 break;
 
             case 'user-auctions':
+                $type = 2;
                 switch($mode)
                 {
                     case 1:
-                        $type = 2;
+                        $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
+                        break;
+                    
+                    case 2:
                         $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
                         break;
                 }
