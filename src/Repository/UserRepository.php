@@ -83,7 +83,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     
     NEED TO ELIMINATE USERS SELECT FROM EACH SELECE, CAUSED BY CREATEQUERYBUILDER 'LITERAL'*/
 
-    public function findUserprofileInfoCollection($user)
+    public function queryUserprofileInfoCollection($user)
     {
     //$expr = $this->_em->getExpressionBuilder();
        return $this->createQueryBuilder('u')

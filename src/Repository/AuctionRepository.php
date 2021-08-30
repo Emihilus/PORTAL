@@ -263,6 +263,22 @@ class AuctionRepository extends ServiceEntityRepository
        return $query;
     }
 
+    public function queryUserprofileInfoCollection($user)
+    {
+    //$expr = $this->_em->getExpressionBuilder();
+       return $this->createQueryBuilder('a')
+            ->where('e.Value=('.$this->createQueryBuilder('b')
+                ->select('MAX(r.Value)')
+                ->from('App\Entity\Offer', 'r')
+                ->where('r.auction=e.auction')
+                ->getDQL().')')
 
+            ->andWhere('r.byUser =  :val')
+            ->setParameter('val', $user)
+            
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 }
