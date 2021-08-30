@@ -98,11 +98,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getDQL(). ') as All_Offers')
 
             ->addSelect('('.$this->createQueryBuilder('y')
-            ->select('COUNT(DISTINCT f.Auction)')
+            ->select('COUNT(DISTINCT f.auction)')
             ->from('App\Entity\Offer', 'f')
             ->where('f.byUser =  :val')
             ->setParameter('val', $user)
             ->getDQL(). ') as  Participating_In')
+
+
+            ->addSelect('('.$this->createQueryBuilder('v')
+            ->select('COUNT(DISTINCT e.id)')
+            ->from('App\Entity\Offer', 'e')
+            ->where('e.value=('.$this->createQueryBuilder('b')
+                ->select('MAX(r.value)')
+                ->from()
+
+            ->andWhere('e.byUser =  :val')
+            ->setParameter('val', $user)
+            ->getDQL(). ') as Leading_In')
 
             
             ->where('u = :val')
