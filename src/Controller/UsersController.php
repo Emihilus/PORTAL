@@ -41,9 +41,9 @@ class UsersController extends AbstractController
 
     /**
      * @Route("/my-auctions/{page}", name="my-auctions", defaults = {"page": "1" })
-     * @Route("/user-auctions/{username}/{page}", name="user-auctions", defaults = {"page": "1" })
+     * @Route("/user-auctions/{username}/{mode}/{page}", name="user-auctions", defaults = {"page": "1", "mode":"1" })
      */
-    public function myAuctions($page, ?User $user, Request $request): Response
+    public function myAuctions($mode, $page, ?User $user, Request $request): Response
     {
         $auctions = "";
         $type = 1;
@@ -56,8 +56,14 @@ class UsersController extends AbstractController
                 break;
 
             case 'user-auctions':
-                $type = 2;
-                $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
+                switch($mode)
+                {
+                    case 1:
+                        $type = 2;
+                        $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
+                        break;
+                }
+                
                 break;
         }
         
