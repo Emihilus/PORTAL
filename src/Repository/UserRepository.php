@@ -80,6 +80,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findUserprofileInfoCollection($user)
     {
+    $expr = $this->_em->getExpressionBuilder();
        return $this->createQueryBuilder('u')
 
             ->addSelect('('.$this->createQueryBuilder('z')
@@ -105,7 +106,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getDQL(). ') as  Participating_In')
 
 
-            ->addSelect('('.$this->createQueryBuilder('v')
+            ->addSelect('('.$this->createQueryBuilder('g')
             ->select('COUNT(DISTINCT e.id)')
             ->from('App\Entity\Offer', 'e')
             ->where('e.Value=('.$this->createQueryBuilder('b')
