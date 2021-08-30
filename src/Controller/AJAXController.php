@@ -135,7 +135,7 @@ class AJAXController extends AbstractController
                 $offer->setCreatedAt(null);
                 $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
                 $offer->setAuction($auctionWithHghstOffer[0]);
-                $offer->setByUser($em->getRepository(User::class)->find(1));
+                $offer->setByUser($this->getUser());
 
                 
                 $validatorErrors = $validator->validate($offer);

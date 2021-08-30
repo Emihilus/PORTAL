@@ -55,3 +55,18 @@ RIGHT JOIN
 FROM users  
 
 WHERE users.id = 1 #}
+
+{# WORKING:
+SELECT users.id, users.username, 
+(SELECT COUNT(*) FROM auctions WHERE by_user_id=1) Auctions_Issued, 
+(SELECT COUNT(*) FROM offers WHERE by_user_id=1) All_Offers ,
+(SELECT COUNT(DISTINCT offers.auction_id) FROM offers WHERE by_user_id=1) Participating_In,
+
+(SELECT COUNT(*)
+FROM offers ofUP
+WHERE value=(SELECT max(value) FROM offers ofNE WHERE ofNE.auction_id=ofUP.auction_id)
+AND by_user_id=1) Leading_In
+
+FROM users  
+
+WHERE users.id = 1 #}
