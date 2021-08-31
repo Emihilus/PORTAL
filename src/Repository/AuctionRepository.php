@@ -302,8 +302,20 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
     
-    
+    public function dqlParticipaAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a FROM App\Entity\Offer o 
+        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
+        WHERE o.byUser=?1 
+        AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction) 
+        GROUP BY o.auction';
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
 }
+
+
 /* 2 posibiltes : auctions perspective
 select * from auctions
 
