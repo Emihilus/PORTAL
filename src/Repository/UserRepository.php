@@ -147,7 +147,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         (SELECT SUM(s.Value) FROM App\Entity\Offer s 
         LEFT JOIN App\Entity\Auction c WITH s.auction=c
         WHERE s.byUser=?1
-        GROUP BY s.auction) AS Sum_Sold_All
+        GROUP BY s.auction) AS Sum_Sold_Selling
           
            FROM App\Entity\User u WHERE u = ?1";
 
