@@ -365,7 +365,7 @@ class AuctionRepository extends ServiceEntityRepository
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         WHERE o.byUser=?1 
         AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
-        AND o.Value!=(SELECT MAX(e.Value) FROM App\Entity\Offer e WHERE e.auction=o.auction)
+        AND (SELECT b FROM App\Entity\Offer e LEFT JOIN FROM App\Entity\Offer e WHERE e.auction=o.auction)
         AND a.endsAt>CURRENT_TIMESTAMP()
         GROUP BY o.auction';
         $query = $this->_em->createQuery($dql)
