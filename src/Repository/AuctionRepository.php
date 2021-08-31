@@ -366,11 +366,11 @@ class AuctionRepository extends ServiceEntityRepository
         WHERE o.byUser=?1 
         AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
 
-        AND 1=(SELECT b FROM App\Entity\Offer e 
-        LEFT JOIN App\Entity\Auction b WITH b=f.auction 
+        AND (SELECT b FROM App\Entity\Offer e 
+        LEFT JOIN App\Entity\Auction b WITH b=e.auction 
         WHERE b=a
         AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
-        AND e.byUser=?1)
+        AND e.byUser=?1) IS NULL 
 
         AND a.endsAt>CURRENT_TIMESTAMP()
         GROUP BY o.auction';
