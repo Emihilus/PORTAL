@@ -86,7 +86,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function queryUserprofileInfoCollection($user)
     {
     //$expr = $this->_em->getExpressionBuilder();
-       return $this->createQueryBuilder('u')
+       $exxp =  $this->createQueryBuilder('u')
 
             ->addSelect('('.$this->createQueryBuilder('z')
 
