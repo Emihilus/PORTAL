@@ -263,7 +263,7 @@ class AuctionRepository extends ServiceEntityRepository
        return $query;
     }
 
-    public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
+   /* public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
     {
        return $this->createQueryBuilder('a')
        ->leftJoin('('.$this->createQueryBuilder('b')
@@ -286,7 +286,24 @@ class AuctionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }*/
+
+   /* public function lDQL($user)
+    {
+        $dql = 'SELECT a FROM App\Entity\Auction a JOIN (SELECT o FROM App\Entity\Offer o WHERE o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE o=f)AND o.byUser= ?1) z ON z.auction_id=a.id';
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }*/
+
+    public function lDQL($user)
+    {
+        $dql = 'SELECT a FROM App\Entity\Auction a JOIN (SELECT o FROM App\Entity\Offer o WHERE o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE o=f)AND o.byUser= ?1) z ON z.auction_id=a.id';
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
     }
+    
     
 }
 /* 2 posibiltes : auctions perspective

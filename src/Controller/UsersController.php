@@ -17,6 +17,8 @@ class UsersController extends AbstractController
         $this->paginator = $paginator;
     }
 
+    
+
     /**
      * @Route("/my-profile", name="my-profile")
      */
@@ -99,6 +101,19 @@ class UsersController extends AbstractController
 
         return $this->render('userprofile/users_list.html.twig',[
             'users' => $users
+        ]);
+    }
+
+    /**
+     * @Route("/dql", name="dql")
+     */
+    public function dql(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $auc = $em->getRepository(Auction::class)->lDQL($this->getUser());
+
+        return $this->render('z_not_used/tst.twig',[
+            'auc' => $auc
         ]);
     }
 }
