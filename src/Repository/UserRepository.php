@@ -126,9 +126,30 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
             
             ->where('u = :val')
-            ->setParameter('val', $user)
-            ->getQuery()
-            ->getResult()
-        ;
+            ->setParameter('val', $user);
+            $DQL = $exxp->getDQL();
+            $exxp = $exxp->getQuery()
+            ->getResult();
+        return [$exxp, $DQL];
     }
+
+
+    public function dqlcollection($user)
+    {
+        $dql = "SELECT u, 
+
+        (SELECT COUNT(DISTINCT a.id) FROM App\Entity\User z, App\Entity\Auction a WHERE a.byUser =  ?1) as Auctions_Issued, (SELECT COUNT(DISTINCT o.id) FROM App\Entity\User x, App\Entity\Offer o WHERE o.byUser =  ?1) as All_Offers,
+
+        (SELECT COUNT(DISTINCT f.auction) FROM App\Entity\User y, App\Entity\Offer f WHERE f.byUser =  ?1) as  Participating_In,
+
+        (SELECT COUNT(DISTINCT e.id) FROM App\Entity\User g, App\Entity\Offer e WHERE e.Value=(SELECT MAX(r.Value) FROM App\Entity\User b, App\Entity\Offer r WHERE r.auction=e.auction) AND e.byUser =  ?1) as Leading_In
+          
+           FROM App\Entity\User u WHERE u = ?1";
+
+
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
+
 }
