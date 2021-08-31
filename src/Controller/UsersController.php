@@ -110,7 +110,7 @@ class UsersController extends AbstractController
     public function dql(): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $auc = $em->getRepository(Auction::class)->dqlLeadingAuctionsOfUser($this->getUser());
+        $auc = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($this->getUser());
 
         return $this->render('z_not_used/tst.twig',[
             'auc' => $auc
