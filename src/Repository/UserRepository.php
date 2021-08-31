@@ -142,7 +142,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         (SELECT COUNT(DISTINCT f.auction) FROM App\Entity\User y, App\Entity\Offer f WHERE f.byUser =  ?1) as  Participating_In,
 
-        (SELECT COUNT(DISTINCT e.id) FROM App\Entity\User g, App\Entity\Offer e WHERE e.Value=(SELECT MAX(r.Value) FROM App\Entity\User b, App\Entity\Offer r WHERE r.auction=e.auction) AND e.byUser =  ?1) as Leading_In
+        (SELECT COUNT(DISTINCT e.id) FROM App\Entity\User g, App\Entity\Offer e WHERE e.Value=(SELECT MAX(r.Value) FROM App\Entity\User b, App\Entity\Offer r WHERE r.auction=e.auction) AND e.byUser =  ?1) as Leading_In,
+
+        (SELECT SUM(s.Value) FROM App\Entity\Offer s ) AS Sum_All
           
            FROM App\Entity\User u WHERE u = ?1";
 
