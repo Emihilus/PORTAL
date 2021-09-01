@@ -9,10 +9,11 @@ Liczba sprzedanych aukcji: <b class='text-danger'>{{USR[0]['Sold']}}</b> , <b cl
 Obecnie sprzedaje: <b class='text-danger'>{{USR[0]['Selling']}}</b>, <b class='text-danger'>Suma $ sprzedawanych: {{USR[0]['Sum_Selling']/100}} PLN</b>, <B class="text-warning"->Show</b><br><BR>
 Leading in the following number of aucions : <b class='text-danger'>{{USR[0]['Leading_In']}}</b>, <span class="text-success">Suma $ in leading auctions: <b class='text-danger'>{{USR[0]['Sum_In_Leading']/100}} PLN</b></span> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}"><B class="text-warning">--->Show</b></a><br>
 Liczba wygranych aukcji: <b class='text-danger'>{{USR[0]['Won']}}</b>, Suma $ wygranych: <b class='text-danger'>{{USR[0]['Sum_Won']/100}} PLN</b> <B class="text-warning">-Show</b><br><BR>
-Number of auctions the user is participating in EVER(WRONG)  : <b></b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"><B class="text-warning"--->Show</b></a> <BR><span class="text-success">PARTICIPATING Bierze udział CURENTLUY: <b class='text-danger'>{{USR[0]['Participating_In']}}</b>, <B class="text-warning"-> Show</b></span><br>
-<span class="text-success">PARTICIPATING Bierze udział ale przegrywa: ?, <B class="text-warning"-> Show</b></span><br>
+{# Number of auctions the user is participating in EVER(WRONG)  : <b></b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"><B class="text-warning"--->Show</b></a>  #}
+<BR><span class="text-success">PARTICIPATING Bierze udział CURENTLUY: <b class='text-danger'>{{USR[0]['Participating_In']}}</b>, <B class="text-warning"-> Show</b></span><br>
+<span class="text-success">PARTICIPATING Bierze udział ale przegrywa: <b class='text-danger'>{{USR[0]['Participating_In_Not_Leading']}}</b>, <B class="text-warning"-> Show</b></span><br>
 <span class="text-success">PARTICIPATING Brał udział BRAŁ: <b class='text-danger'>{{USR[0]['Participated_In']}}</b>, <B class="text-warning"-> Show</b></span><br>
-<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ: ?, <B class="text-warning"-> Show</b></span><br>
+<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ: <b class='text-danger'>{{USR[0]['Participated_In_Not_Leading']}}</b>, <B class="text-warning"-> Show</b></span><br>
 All issued offers : {{USR[0]['All_Offers']}}
 <div class="text-success">
 <BR>TODO:<BR>

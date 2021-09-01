@@ -222,7 +222,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         AND abe.Value=(SELECT MAX(abr.Value) FROM App\Entity\Offer abr WHERE abr.auction=abe.auction) 
         AND abe.byUser=?1)
 
-        AND aba.endsAt>CURRENT_TIMESTAMP()) AS Partipating_Not_Leading
+        AND aba.endsAt>CURRENT_TIMESTAMP()) AS Participating_In_Not_Leading,
 
 
 
@@ -230,14 +230,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         (SELECT COUNT(zba) FROM App\Entity\Offer zbo 
         LEFT JOIN App\Entity\Auction zba WITH zba=zbo.auction 
         WHERE zbo.byUser=?1 
-        AND zbo.Value<(SELECT MAX(zbf.Value) FROM App\Entity\Offer abf WHERE abf.auction=abo.auction)
-        AND 0=(SELECT COUNT(abb) FROM App\Entity\Offer abe 
-        LEFT JOIN App\Entity\Auction abb WITH abb=abe.auction 
-        WHERE abb=aba
-        AND abe.Value=(SELECT MAX(abr.Value) FROM App\Entity\Offer abr WHERE abr.auction=abe.auction) 
-        AND abe.byUser=?1)
+        AND zbo.Value<(SELECT MAX(zbf.Value) FROM App\Entity\Offer zbf WHERE zbf.auction=zbo.auction)
+        AND 0=(SELECT COUNT(zbb) FROM App\Entity\Offer zbe 
+        LEFT JOIN App\Entity\Auction zbb WITH zbb=zbe.auction 
+        WHERE zbb=zba
+        AND zbe.Value=(SELECT MAX(zbr.Value) FROM App\Entity\Offer zbr WHERE zbr.auction=zbe.auction) 
+        AND zbe.byUser=?1)
 
-        AND aba.endsAt>CURRENT_TIMESTAMP()) AS Participated_Not_Leading
+        AND zba.endsAt<CURRENT_TIMESTAMP()) AS Participated_In_Not_Leading
 
 
 
