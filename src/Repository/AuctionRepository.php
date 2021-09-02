@@ -254,6 +254,28 @@ class AuctionRepository extends ServiceEntityRepository
                 {
                     case 1:
                         $query->orderBy('a.title', $orderity);
+                        break;
+
+                    case 2:
+                        $query->orderBy('a.createdAt', $orderity);
+                        break;
+
+                    case 3:
+                        $query->orderBy('a.endsAt', $orderity);
+                        break;
+
+                    case 4:
+                        $query->orderBy('hghst', $orderity);
+                        break;
+
+                    case 5:
+                        $query->orderBy('a.title', $orderity);
+                        break;
+
+                    case 1:
+                        $query->orderBy('a.title', $orderity);
+                        break;
+
                 }
             }
         }
