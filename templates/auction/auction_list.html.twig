@@ -17,44 +17,47 @@
 
 	<div class="row">
 	<h2>FILTERS SEKCJON </H2>
-	<input type="text" placeholder="Szukaj">
+	<input id='input_search' type="text" placeholder="Szukaj">
+
 	<label for="search">szukaj wg</label>
-		<select name="search" id="activity">
+	<select name="search" id="select_searchtype">
 		<option selected value="1">tytulu</option>
 		<option value="2">opisu</option>
-		</select>
+	</select>
 	
-	<label for="activity">Aktualnosc</label>
-		<select name="acitvity" id="activity">
+	<label for="liveness">Aktualnosc</label>
+	<select name="liveness" id="select_liveness">
 		<option selected value="1">Aktywne</option>
 		<option value="2">Zakończone</option>
 		<option value="3">Wszystkie</option>
 		<option value="4">bliskie zakonczenia 1h</option>
-		</select>
+	</select>
 
 
-	<input type="number" placeholder="cena od">
-	<input type="number" placeholder="Cena do">
+	<input id="input_price_s" type="number" placeholder="cena od">
+	<input id="input_price_e" type="number" placeholder="cena do">
 
-	<input type="number" placeholder="Użytkownika">
+	<input id="input_byuser" type="number" placeholder="użytkownika">
+
 	<h2>END WHERE<BR>ORDER BEGIN</h2>
-<label for="sort">Sortuj według</label>
-		<select name="sort" id="activity">
+	<label for="sort">Sortuj według</label>
+	<select name="sort" id="select_order">
 		<option selected value="1">Nazwy</option>
 		<option value="2">Utworzenia</option>
 		<option value="3">Daty Zakonczenia</option>
 		<option value="4">Ceny</option>
 		<option value="5">Ilosci ofert</option>
 		<option value="6">Ilosci komentarzy</option>
-		</select>
+	</select>
 
 
-<label for="order">Porzadek</label>
-		<select name="order" id="activity">
+	<label for="order">Porzadek</label>
+	<select name="order" id="select2_order">
 		<option selected value="1">Rosnaco</option>
 		<option value="2">Malejąco</option>
-		</select>
-		<button id='submitFilters'>SUBMIT</button>
+	</select>
+
+	<button onclick='submitFilters'>SUBMIT</button>
 
 	</div>
 
@@ -86,9 +89,11 @@ let historyString = '{{path('auction-list')}}/';
 
 
 
-$('#submitFilers').
 
-
+function submitFilters()
+{
+	GAJArray.filers = {}
+}
 
 
 
