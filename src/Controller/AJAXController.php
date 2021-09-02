@@ -72,6 +72,7 @@ class AJAXController extends AbstractController
                 break;
 
             case 3:
+                dump($dqlFunction);
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->$dqlFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$this->getUser());
                 break;
         }
