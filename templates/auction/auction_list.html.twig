@@ -97,6 +97,7 @@ let historyString = '{{path('auction-list')}}/';
 function submitFilters()
 {
 	GAJArray.filters.f_search = $('#input_search').val();
+	GAJArray.filters.fo_search = $('#select_searchtype').val();
 	getAuctions({{app.request.get('page')}});
 }
 

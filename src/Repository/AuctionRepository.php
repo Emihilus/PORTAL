@@ -186,8 +186,14 @@ class AuctionRepository extends ServiceEntityRepository
         {
             if(isset($filters->f_search))
             {
-                $query->andWhere('a.title LIKE :sQuery')
-                ->setParameter('sQuery', '%'.$filters->searchString.'%');
+                dump
+                if($filters->fo_search == 2)
+                    $byWhat = 'a.title';
+                else
+                    $byWhat = 'a.description';
+
+                $query->andWhere($byWhat.' LIKE :sQuery')
+                ->setParameter('sQuery', '%'.$filters->f_search.'%');
             }
 
             if(isset($filters->f_liveness))
