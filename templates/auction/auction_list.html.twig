@@ -84,7 +84,10 @@
 
 
 {# only dynamic data for getAuctions #}
-let GAJArray = {type: 0, filters: null};
+let GAJArray = {type: 0, filters: {
+	f_liveness: 1
+	o_orderBy: 'title',
+}};
 let historyString = '{{path('auction-list')}}/';
 
 
@@ -92,7 +95,7 @@ let historyString = '{{path('auction-list')}}/';
 
 function submitFilters()
 {
-	GAJArray.filters = {searchString: $('#input_search').val()};
+	GAJArray.filters.f_search = $('#input_search').val();
 	getAuctions({{app.request.get('page')}});
 }
 
