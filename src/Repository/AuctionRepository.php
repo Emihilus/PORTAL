@@ -456,6 +456,7 @@ class AuctionRepository extends ServiceEntityRepository
 
 /*[PROPERTIES]
 
+WHERE
 Filtry:
 szukaj wg nazwy
 Opisu
@@ -466,15 +467,17 @@ Zakonczone - endsAt<ctimespamt
 
 Zaraz się skoncza 1h - endsAt> ctimestamp and endsAt<ctimestamp+1h
 
-Od ceny do ceny - hgh
-By użytkownik lista
+Od ceny do ceny - hghest x - hghest x
+By użytkownik lista - auction.byUser = x 
+WSZYSTKO TO WHERE
 
+WSZYSTKO TO ORDER
 Sort:
-czasu zakon
-Ceny
- nazwy
-Ilości ofert
-Ilodci komentarzy
+czasu zakon - endsAt 
+Ceny - hghst
+ nazwy - auction.title
+Ilości ofert - count(offers)
+Ilosci komentarzy - count (comments)
 */
 
 /*
