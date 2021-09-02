@@ -58,7 +58,7 @@ class AJAXController extends AbstractController
         {
             // PUBLIC LIST
             case 0:
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getUser());
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getUser(),$json->filters);
                 break;
 
             // MY AUCTIONS LIST

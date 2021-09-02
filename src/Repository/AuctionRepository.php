@@ -157,7 +157,7 @@ class AuctionRepository extends ServiceEntityRepository
 
 // wybierz aukcje dolacz info czy ten auction id jest w liked auctions by specified usr
 
-    public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user)
+    public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user, $filters = null)
     {
         $query = $this->createQueryBuilder('a')
         ->addSelect('('.$this->createQueryBuilder('b')
@@ -449,7 +449,6 @@ class AuctionRepository extends ServiceEntityRepository
         
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
-        $query->
         return $query->getResult();
     }
 
