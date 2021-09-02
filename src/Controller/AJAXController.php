@@ -65,10 +65,18 @@ class AJAXController extends AbstractController
             case 2: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$this->getUser());
                 break;
+
+            case 3:
+                $function = 'dql'.$json->method;
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$function($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$this->getUser());
+                break;
         }
         
         $itemsPerPage = $_COOKIE['itemsPerPage'];
         $auctions = $this->paginator->paginate($auctions, $json->requestedPage, $itemsPerPage);
+
+        dump($auctions);
+
         return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
         ]);

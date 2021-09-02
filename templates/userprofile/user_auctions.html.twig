@@ -40,7 +40,7 @@
 {{ include('parts/include/js_modal.twig')  }}
 
 {# the only dynamic data for getAuctions #}
-let GAJArray = { 
+let GAJArray = { method: '{{method}}',
 		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
 				};
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';

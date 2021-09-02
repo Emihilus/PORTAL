@@ -47,6 +47,7 @@ class UsersController extends AbstractController
      */
     public function myAuctions($mode, $page, ?User $user, Request $request): Response
     {
+        $method = '';
         $auctions = "";
         $type = 1;
         $em = $this->getDoctrine()->getManager();
@@ -66,7 +67,9 @@ class UsersController extends AbstractController
                         break;
                     
                     case 2:
-                        dump('BAJSEZ');
+                        $type = 3;
+                        $method = "WonAuctionsOfUser";
+                        // dump('BAJSEZ');
                         $auctions = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($user);
                         break;
                 }
@@ -88,8 +91,8 @@ class UsersController extends AbstractController
         return $this->render('userprofile/user_auctions.html.twig', [
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage,
-            'type' => $type
-            'method' => 
+            'type' => $type,
+            'method' => $method
         ]);
     }
 
