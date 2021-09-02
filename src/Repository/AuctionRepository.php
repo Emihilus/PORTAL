@@ -454,6 +454,28 @@ class AuctionRepository extends ServiceEntityRepository
 
 }
 
+/*[PROPERTIES]
+
+Filtry:
+szukaj wg nazwy
+Opisu
+
+All   - no ctimestamp
+Aktywne - endsAt>ctimestamp
+Zakonczone - endsAt<ctimespamt
+
+Zaraz się skoncza 1h - endsAt
+Do ceny od ceny
+By użytkownik lista
+
+Sort:
+czasu zakon
+Ceny
+ nazwy
+Ilości ofert
+Ilodci komentarzy
+*/
+
 /*
 dql and qb design
   public function dqlSoldAuctionsOfUser($user)
