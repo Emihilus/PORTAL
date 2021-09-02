@@ -184,8 +184,28 @@ class AuctionRepository extends ServiceEntityRepository
 
         if($filters)
         {
-            $query->andWhere('a.title LIKE :sQuery')
-            ->setParameter('sQuery', '%'.$filters->searchString.'%');
+            if(isset($filters->f_search))
+            {
+                $query->andWhere('a.title LIKE :sQuery')
+                ->setParameter('sQuery', '%'.$filters->searchString.'%');
+            }
+
+            if(isset($filters->f_liveness))
+            {
+                switch($filters->f_liveness)
+                {
+                    case 1:
+                        $query->andWhere('a.endsAt > :date')
+                        ->setParameter('date', '%'.$filters->searchString.'%');
+                        break;
+                }
+            }
+
+            if(isset($filters->o_orderBys))
+            {
+                $query->andWhere('a.title LIKE :sQuery')
+                ->setParameter('sQuery', '%'.$filters->searchString.'%');
+            }
         }
 
         $query = $query->getQuery()->getResult();
