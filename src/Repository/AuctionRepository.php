@@ -219,16 +219,22 @@ class AuctionRepository extends ServiceEntityRepository
                 }
             }
 
-            if(isset($filters->f_prices))
+            if(isset($filters->f_prices) && $filters->f_prices > 0)
             {
-                $query->andWhere('hghst > :sval')
-                ->setParameter('sval', $filters->f_prices);
+                $query->andHaving('hghst > :sval')
+                ->setParameter('sval', $filters->f_prices*100);
             }
 
-            if(isset($filters->o_orderBys))
+            if(isset($filters->f_pricee) && $filters->f_pricee > 0)
             {
-                $query->andWhere('a.title LIKE :sQuery')
-                ->setParameter('sQuery', '%'.$filters->searchString.'%');
+                $query->andHaving('hghst < :enval')
+                ->setParameter('enval', $filters->f_pricee*100);
+            }
+
+            if(isset($filters->f_byuser))
+            {
+                $query->andWhere('a.byUser.username = :byusr')
+                ->setParameter('bysr', $filters->f_byuser);
             }
         }
 
