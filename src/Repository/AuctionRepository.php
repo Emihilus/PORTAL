@@ -186,8 +186,8 @@ class AuctionRepository extends ServiceEntityRepository
         {
             if(isset($filters->f_search))
             {
-                dump
-                if($filters->fo_search == 2)
+                dump($filters->fo_search);
+                if($filters->fo_search == 1)
                     $byWhat = 'a.title';
                 else
                     $byWhat = 'a.description';
@@ -204,6 +204,19 @@ class AuctionRepository extends ServiceEntityRepository
                         $query->andWhere('a.endsAt > :date')
                         ->setParameter('date', new \DateTime());
                         break;
+
+                    case 2:
+                        $query->andWhere('a.endsAt < :date')
+                        ->setParameter('date', new \DateTime());
+                        break;
+
+                    case 4:
+                        $query->andWhere('a.endsAt > :date')
+                        ->setParameter('date', new \DateTime())
+                        ->andWhere('a.endsAt < :dateN')
+                        ->setParameter('dateN', new \DateTime('+1 day'));
+                        break;
+
                 }
             }
 

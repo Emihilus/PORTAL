@@ -98,6 +98,12 @@ function submitFilters()
 {
 	GAJArray.filters.f_search = $('#input_search').val();
 	GAJArray.filters.fo_search = $('#select_searchtype').val();
+
+	GAJArray.filters.f_liveness = $('#select_liveness').val();
+
+
+	GAJArray.filters.f_liveness = $('#select_liveness').val();
+
 	getAuctions({{app.request.get('page')}});
 }
 
