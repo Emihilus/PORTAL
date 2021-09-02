@@ -15,7 +15,7 @@
 
 	<div class="container-fluid">
 
-	<div class="row">
+	<div class="row" id='filtersDiv'>
 	<h2>FILTERS SEKCJON </H2>
 	<input id='input_search' type="text" placeholder="Szukaj">
 
@@ -63,18 +63,18 @@
 
 
 
-		<div class="row mt-2">
+		{# <div class="row mt-2">
 			<ul id="auctions"
 				class="list-group col">
-				{# jQuery.ajax populated dynamic content #}
+				{# jQuery.ajax populated dynamic content 
 			</ul>
 
-		</div>
-		
-		{# pagination section #}
-		{{ include('parts/include/ht_pagination.twig') }}
+		</div> #}
 
-	</div>
+{# pagination section #}
+{# {{ include('parts/include/ht_pagination.twig') }} #}
+
+</div>
 {% endblock %}
 
 

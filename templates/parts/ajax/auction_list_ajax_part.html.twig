@@ -1,3 +1,8 @@
+<div class="row mt-2">
+	<ul id="auctions"
+				class="list-group col">
+
+				
 {% if auctions|length == 0 %}none{% endif %}
 {% for auction in auctions %}
 
@@ -15,3 +20,37 @@
 				{# {{ dump(auction) }}  {{ auction[0].endsAt|date('H:m:s d-m-Y') }}#}
 	</a>
 {% endfor %}
+
+	</ul>
+
+</div>
+
+
+<div class="row" id="paginationDiv">
+			<nav class="mt-2" aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+
+					<li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
+						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">Previous</a>
+					</li>
+
+					{% for i in 1.. pages %}
+						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
+						</li>
+					{% endfor %}
+
+
+					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
+						<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">Next</a>
+					</li>
+
+					<span class="my-auto ms-3"><b>Items per page:</b></span>
+					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
+						{% for i in 1.. 5 %}
+							<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
+						{% endfor %}
+					</select>
+				</ul>
+			</nav>
+</div>

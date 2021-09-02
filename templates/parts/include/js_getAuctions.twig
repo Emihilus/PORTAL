@@ -27,6 +27,7 @@ function getAuctions(requestedPage)
     	data: JSON.stringify(GAJArray) })
 	.done(res => 
 	{ 
+		console.log(res);
 		if(res == 'none')
 		{
 			console.log(res);
@@ -34,12 +35,9 @@ function getAuctions(requestedPage)
 			return;
 		}
 
-	
-		$('#paginationDiv').html("
-");
+		$('#filtersDiv').after(res);
 
-
-		$('#auctions').html(res);
+		//$('#auctions').html(res);
 
 		let pageElementsArray = $('.page-item').toArray();
 		pageElementsArray.forEach(function (pageItemElement) 
