@@ -57,7 +57,7 @@
 		<option value="2">Malejąco</option>
 	</select>
 
-	<button onclick='submitFilters'>SUBMIT</button>
+	<button onclick='submitFilters()'>SUBMIT</button>
 
 	</div>
 
@@ -92,7 +92,8 @@ let historyString = '{{path('auction-list')}}/';
 
 function submitFilters()
 {
-	GAJArray.filers = {}
+	GAJArray.filters = {searchString: $('#input_search').val()};
+	getAuctions({{app.request.get('page')}});
 }
 
 
