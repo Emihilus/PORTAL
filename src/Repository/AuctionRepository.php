@@ -478,6 +478,7 @@ Ceny - hghst
  nazwy - auction.title
 Ilości ofert - count(offers)
 Ilosci komentarzy - count (comments)
+WSZYSTKO TO ORDER
 */
 
 /*
