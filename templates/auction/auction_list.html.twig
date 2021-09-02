@@ -17,14 +17,27 @@
 
 	<div class="row">
 	<h2>FILTERS SEKCJON </H2>
-
+	<input type="text" placeholder="Szukaj">
+	<label for="search">szukaj wg</label>
+		<select name="search" id="activity">
+		<option selected value="1">tytulu</option>
+		<option value="2">opisu</option>
+		</select>
+	
 	<label for="activity">Aktualnosc</label>
-
 		<select name="acitvity" id="activity">
 		<option selected value="1">Aktywne</option>
 		<option value="2">Zakończone</option>
 		<option value="3">Wszystkie</option>
+		<option value="4">bliskie zakonczenia 1h</option>
 		</select>
+
+
+	<input type="number" placeholder="cena od">
+	<input type="number" placeholder="Cena do">
+
+	<input type="number" placeholder="Użytkownika">
+	<h2>END WHERE<BR>ORDER BEGIN</h2>
 
 		<button> Filtruj</button>
 
