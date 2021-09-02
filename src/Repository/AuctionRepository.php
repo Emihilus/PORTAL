@@ -269,7 +269,9 @@ class AuctionRepository extends ServiceEntityRepository
                         break;
 
                     case 5:
-                        $query->orderBy('a.title', $orderity);
+                        $query->orderBy('a.title', $orderity)
+                        ->leftJoin('a.offers', 'ofe')
+                        ->addSelect('ofe.Value');
                         break;
 
                     case 1:
