@@ -14,10 +14,25 @@
 
 
 	<div class="container-fluid">
+
 	<div class="row">
 	<h2>FILTERS SEKCJON </H2>
+
+	<label for="activity">Aktualnosc</label>
+
+		<select name="acitvity" id="activity">
+		<option selected value="1">Aktywne</option>
+		<option value="2">Zakończone</option>
+		<option value="3">Wszystkie</option>
+		</select>
+
+		<button> Filtruj</button>
+
 	</div>
-		<div class="row">
+
+
+
+		<div class="row mt-2">
 			<ul id="auctions"
 				class="list-group col">
 				{# jQuery.ajax populated dynamic content #}
