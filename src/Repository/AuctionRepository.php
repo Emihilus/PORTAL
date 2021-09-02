@@ -268,11 +268,20 @@ class AuctionRepository extends ServiceEntityRepository
                         $query->orderBy('hghst', $orderity);
                         break;
 
+                        
+                    // NESTED
                     case 5:
                         $query->orderBy('a.title', $orderity)
                         ->leftJoin('a.offers', 'ofe')
                         ->addSelect('ofe.Value');
                         break;
+
+                    // JOINED
+                   /* case 5:
+                        $query->orderBy('a.title', $orderity)
+                        ->leftJoin('a.offers', 'ofe')
+                        ->addSelect('ofe.Value');
+                        break;*/
 
                     case 1:
                         $query->orderBy('a.title', $orderity);
