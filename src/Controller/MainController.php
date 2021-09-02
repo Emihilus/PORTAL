@@ -27,23 +27,23 @@ class MainController extends AbstractController
      */
     public function index($page): Response
     {
-        $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
-        $allCount = count($auctions);
+        //$auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
+        //$allCount = count($auctions);
 
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
             $_COOKIE['itemsPerPage'] = 20;
         }
-        $itemsPerPage = $_COOKIE['itemsPerPage'];
+        //$itemsPerPage = $_COOKIE['itemsPerPage'];
 
-        $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
+        //$auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
-        return $this->render('auction/auction_list.html.twig', [
+        return $this->render('auction/auction_list.html.twig',['page' => $page ]/*, [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage
-        ]);
+        ]*/);
     }
 
     /**

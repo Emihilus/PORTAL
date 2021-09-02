@@ -77,13 +77,16 @@ class AJAXController extends AbstractController
                 break;
         }
         
+
+        $allCount = count($auctions);
         $itemsPerPage = $_COOKIE['itemsPerPage'];
         $auctions = $this->paginator->paginate($auctions, $json->requestedPage, $itemsPerPage);
 
-        dump($auctions);
 
         return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
-            'auctions' => $auctions
+            'auctions' => $auctions,
+            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
+            'itemsPerPage' => $itemsPerPage
         ]);
     }
     // WE NEED TO AVOID REDUNDANCY SO PUT IN HERE CONDTION FOR SELECTING AUCTIONS CREATED ONLY BY SPECIFIED USER, USEFUL FOR FUTURE OPTION SHOW SPECIFIC USER AUCTIONS
