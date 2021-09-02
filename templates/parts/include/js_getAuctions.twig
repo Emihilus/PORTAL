@@ -13,7 +13,8 @@ function onChangeHandler (selectedObject)
 	.done(res => 
 	{ 
 		console.log(res);
-		location.reload();
+		getAuctions(1);
+		//location.reload();
 	});
 }
 
@@ -35,7 +36,7 @@ function getAuctions(requestedPage)
 			return;
 		}
 
-		$('#filtersDiv').after(res);
+		$('#contener').html(res);
 
 		//$('#auctions').html(res);
 
