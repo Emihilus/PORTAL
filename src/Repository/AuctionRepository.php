@@ -292,7 +292,11 @@ class AuctionRepository extends ServiceEntityRepository
 // WORKING
     public function dqlLeadingAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Offer o 
+        $dql = 'SELECT a, i.filename, (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+        FROM App\Entity\Offer o 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction) 
@@ -304,7 +308,11 @@ class AuctionRepository extends ServiceEntityRepository
     
     public function dqlParticipatingAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Offer o 
+        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+        FROM App\Entity\Offer o 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         WHERE o.byUser=?1 
         GROUP BY o.auction';
@@ -315,7 +323,11 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlWonAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Offer o 
+        $dql = 'SELECT a,(SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+        FROM App\Entity\Offer o 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction) 
@@ -328,11 +340,10 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlSoldAuctionsOfUser($user)
     {
-        $dql = 'SELECT a, ('.$this->createQueryBuilder('ba')
-        ->select('MAX(oa.Value)')
-        ->from('App\Entity\Offer', 'oa')
-        ->where('a.id = oa.auction')
-        ->getDQL().') as hghst 
+        $dql = 'SELECT a,(SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
         FROM App\Entity\Auction a
         WHERE a.byUser=?1 
         AND a.endsAt<CURRENT_TIMESTAMP()';
@@ -343,7 +354,11 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlCurrentAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Auction a
+        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+        FROM App\Entity\Auction a
         WHERE a.byUser=?1 
         AND a.endsAt>CURRENT_TIMESTAMP()';
         $query = $this->_em->createQuery($dql)
@@ -353,7 +368,11 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlHasntWonAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Offer o 
+        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+        FROM App\Entity\Offer o 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         WHERE o.byUser=?1 
         AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
@@ -373,7 +392,11 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlParticipatingNotLeadingAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Offer o 
+        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+        FROM App\Entity\Offer o 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         WHERE o.byUser=?1 
         AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
@@ -392,6 +415,25 @@ class AuctionRepository extends ServiceEntityRepository
     }
 
 }
+
+/*
+dql and qb design
+  public function dqlSoldAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a, ('.$this->createQueryBuilder('ba')
+        ->select('MAX(oa.Value)')
+        ->from('App\Entity\Offer', 'oa')
+        ->where('a.id = oa.auction')
+        ->getDQL().') as hghst 
+        FROM App\Entity\Auction a
+        WHERE a.byUser=?1 
+        AND a.endsAt<CURRENT_TIMESTAMP()';
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
+*/
+
 /* 2 posibiltes : auctions perspective
 select * from auctions
 
