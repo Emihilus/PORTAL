@@ -47,12 +47,10 @@ class AJAXController extends AbstractController
     public function getAuctions(Request $request)
     {
         $auctions = '';
-        $templateType = 'parts/ajax/auction_list_ajax_part.html.twig';
         $json = json_decode($request->getContent());
 
         if($json->type > 2)
          {
-             $templateType = 'parts/ajax/auction_list_ajax_part_dql.html.twig';
              $dqlFunction = 'dql'.$json->method;
          }
 
@@ -83,7 +81,7 @@ class AJAXController extends AbstractController
 
         dump($auctions);
 
-        return $this->render($templateType, [
+        return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions
         ]);
     }

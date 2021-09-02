@@ -328,7 +328,12 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlSoldAuctionsOfUser($user)
     {
-        $dql = 'SELECT a FROM App\Entity\Auction a
+        $dql = 'SELECT a, ('.$this->createQueryBuilder('ba')
+        ->select('MAX(oa.Value)')
+        ->from('App\Entity\Offer', 'oa')
+        ->where('a.id = oa.auction')
+        ->getDQL().') as hghst 
+        FROM App\Entity\Auction a
         WHERE a.byUser=?1 
         AND a.endsAt<CURRENT_TIMESTAMP()';
         $query = $this->_em->createQuery($dql)
