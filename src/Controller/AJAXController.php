@@ -53,7 +53,7 @@ class AJAXController extends AbstractController
          {
              $dqlFunction = 'dql'.$json->method;
          }
-
+         dump($json->filters);
         switch ($json->type)
         {
             // PUBLIC LIST

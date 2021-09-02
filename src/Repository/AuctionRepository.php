@@ -181,6 +181,13 @@ class AuctionRepository extends ServiceEntityRepository
             ->setParameter('user', $user->getId())
             ->addSelect('l');
         }
+
+        if($filters)
+        {
+            $query->andWhere('a.title LIKE :sQuery')
+            ->setParameter('sQuery', '%'.$filters->searchString.'%');
+        }
+
         $query = $query->getQuery()->getResult();
 
 
