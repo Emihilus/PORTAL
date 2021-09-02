@@ -112,45 +112,6 @@ class AuctionRepository extends ServiceEntityRepository
         ;
     }
     
-   /* public function findAllWithFirstAuctionImageIncorrect()
-    {
-       return $this->createQueryBuilder('a')
-            ->leftJoin('a.images', 'i')
-            ->addSelect('MAX(i.orderIndicator) AS ds, i.filename')
-            ->groupBy('.id, i.filename')
-            ->getQuery()
-            ->getResult()
-        ;
-    }*/
-
-
-    /* mysql correct query
-    SELECT AUCTIONS WITH HIGHEST OFFER ENTITY
-
-        select a.*, b.* 
-        from auctions a 
-        left join offers b
-            on b.auction_id =                        
-            ( select bb.auction_id                
-                from offers bb 
-                where a.id = bb.auction_id
-                ORDER BY bb.value
-                limit 1
-            )
-       */
-
-    /* 
-       SELECT AUTCIONS WITH HIGHEST OFFER VALUE WITHOUT ENTITY
-       select
-        auctions.id,
-        (
-            select max(offers.value)
-            from offers
-            where auctions.id = offers.auction_id
-        ) as hgh
-        from
-            auctions
-    */
 
     public function findAllWithFirstImageAndHighestOffer()
     {
@@ -430,30 +391,6 @@ class AuctionRepository extends ServiceEntityRepository
         ->setParameter(1, $user);
         return $query->getResult();
     }
-
-   /* public function dqlHasntWonAuctionsOfUser($user)
-    {
-        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-        FROM App\Entity\Offer o 
-        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
-        WHERE o.byUser=?1 
-        AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
-
-        AND 0=(SELECT COUNT(b) FROM App\Entity\Offer e 
-        LEFT JOIN App\Entity\Auction b WITH b=e.auction 
-        WHERE b=a
-        AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
-        AND e.byUser=?1)
-
-        AND a.endsAt<CURRENT_TIMESTAMP()
-        GROUP BY o.auction';
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $user);
-        return $query->getResult();
-    }*/
 
     public function dqlParticipatingNotLeadingAuctionsOfUser($user)
     {

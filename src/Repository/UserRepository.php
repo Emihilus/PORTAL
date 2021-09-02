@@ -36,34 +36,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
     public function findOneWithAuctions($user)
     {
         //$em = $this->getEntityManager();
@@ -78,10 +50,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         //return $em->createQuery('SELECT a, i FROM auction a LEFT JOIN a.auction_image i')->getResult();
     }
 
-
-    /*SELECT u0_.id AS id_0, u0_.username AS username_1, u0_.roles AS roles_2, u0_.password AS password_3, u0_.email AS email_4, u0_.is_verified AS is_verified_5, u0_.is_banned AS is_banned_6, (SELECT COUNT(DISTINCT a1_.id) AS sclr_8 FROM users u2_, auctions a1_ WHERE a1_.by_user_id = ?) AS sclr_7, (SELECT COUNT(DISTINCT o3_.id) AS sclr_10 FROM users u4_, offers o3_ WHERE o3_.by_user_id = ?) AS sclr_9, (SELECT COUNT(DISTINCT o5_.auction_id) AS sclr_12 FROM users u6_, offers o5_ WHERE o5_.by_user_id = ?) AS sclr_11, (SELECT COUNT(DISTINCT o7_.id) AS sclr_14 FROM users u8_, offers o7_ WHERE o7_.value = (SELECT MAX(o9_.value) AS sclr_15 FROM users u10_, offers o9_ WHERE o9_.auction_id = o7_.auction_id) AND o7_.by_user_id = ?) AS sclr_13 FROM users u0_ WHERE u0_.id = ? 
-    
-    NEED TO ELIMINATE USERS SELECT FROM EACH SELECE, CAUSED BY CREATEQUERYBUILDER 'LITERAL'*/
 
     public function queryUserprofileInfoCollection($user)
     {
@@ -134,7 +102,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-    public function dqlcollection($user)
+    public function dqlUserInfoCollection($user)
     {
         $dql = "SELECT u, 
 
@@ -239,9 +207,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         AND zba.endsAt<CURRENT_TIMESTAMP()) AS Participated_In_Not_Leading
 
 
-
-
-          
         FROM App\Entity\User u WHERE u = ?1";
 
 
@@ -251,12 +216,3 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 }
-
-
-/*SELECT SUM(offers.value) FROM auctions
-        LEFT JOIN offers ON offers.auction_id=auctions.id
-        AND auctions.by_user_id=1
-        GROUP BY auctions.id*/
-
-
-        /*(SELECT COUNT(DISTINCT e.id) FROM App\Entity\User g, App\Entity\Offer e WHERE e.Value=(SELECT MAX(r.Value) FROM App\Entity\User b, App\Entity\Offer r WHERE r.auction=e.auction) AND e.byUser =  ?1) as Leading_In_All,*/

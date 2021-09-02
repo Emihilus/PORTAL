@@ -32,11 +32,9 @@ class UsersController extends AbstractController
      */
     public function profileDetails(User $user): Response
     {
-        $USR = $this->getDoctrine()->getRepository(User::class)->dqlcollection($user);
+        $USR = $this->getDoctrine()->getRepository(User::class)->dqlUserInfoCollection($user);
         if($USR == null)
             $USR = $user;
-        dump($USR);
-        dump($USR);
         return $this->render('userprofile/profile_details.html.twig', ['USR' => $USR]);
     }
 
@@ -60,8 +58,6 @@ class UsersController extends AbstractController
 
             case 'user-auctions':
                 $type = 2;
-                if($mode>1)
-                    $type=3;
                 switch($mode)
                 {
                     case 1:
@@ -70,46 +66,43 @@ class UsersController extends AbstractController
                     
                     case 2:
                         $method = "SoldAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($user);
                         break;
 
 
                     case 3:
                         $method = "CurrentAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlCurrentAuctionsOfUser($user);
                         break;
 
                     case 4:
                         $method = "LeadingAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlLeadingAuctionsOfUser($user);
                         break;
 
                     case 5:
                         $method = "WonAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($user);
                         break;
 
                     case 6:
                         $method = "ParticipatingAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlParticipatingAuctionsOfUser($user);
                         break;
 
                     case 7:
                         $method = "ParticipatingNotLeadingAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlParticipatingNotLeadingAuctionsOfUser($user);
                         break;
 
                     case 8:
                         $method = "ParticipatedAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlParticipatedAuctionsOfUser($user);
                         break;
 
                     case 9:
                         $method = "ParticipatedNotLeadingAuctionsOfUser";
-                        $auctions = $em->getRepository(Auction::class)->dqlParticipatedNotLeadingAuctionsOfUser($user);
                         break;
                 }
-                
+                if($mode>1)
+                {
+                    $type=3;
+                    $assembliedMehtod='dql'.$method;
+                    $auctions = $em->getRepository(Auction::class)->$assembliedMehtod($user);
+                }
                 break;
         }
         
