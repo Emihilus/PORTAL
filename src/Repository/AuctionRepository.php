@@ -461,7 +461,7 @@ class AuctionRepository extends ServiceEntityRepository
         
         (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
-        WHERE  a.id = oa.auction
+        WHERE  a = oa.auction
         ) as hghst 
 
         FROM App\Entity\Offer o 
