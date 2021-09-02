@@ -464,7 +464,7 @@ All   - no ctimestamp
 Aktywne - endsAt>ctimestamp
 Zakonczone - endsAt<ctimespamt
 
-Zaraz się skoncza 1h - endsAt
+Zaraz się skoncza 1h - endsAt> ctimestamp and endsAt<ctimestamp+1h
 Do ceny od ceny
 By użytkownik lista
 
