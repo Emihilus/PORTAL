@@ -54,7 +54,7 @@
 		<option selected value="1">Rosnaco</option>
 		<option value="2">Malejąco</option>
 		</select>
-		<button> Filtruj</button>
+		<button id='submitFilters'>SUBMIT</button>
 
 	</div>
 
@@ -79,14 +79,21 @@
 {{ parent() }}
 <script>
 
-{# modal code #}
-{{ include('parts/include/js_modal.twig')  }}
-
 
 {# only dynamic data for getAuctions #}
 let GAJArray = {type: 0};
 let historyString = '{{path('auction-list')}}/';
 
+
+
+$('#submitFilers').
+
+
+
+
+
+{# modal code #}
+{{ include('parts/include/js_modal.twig')  }}
 
 {# getAuctions code #}
 {{ include('parts/include/js_getAuctions.twig')  }}
