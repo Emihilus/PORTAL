@@ -60,6 +60,8 @@ class UsersController extends AbstractController
 
             case 'user-auctions':
                 $type = 2;
+                if($mode>1)
+                    $type=3;
                 switch($mode)
                 {
                     case 1:
@@ -67,18 +69,19 @@ class UsersController extends AbstractController
                         break;
                     
                     case 2:
-                        $type = 3;
                         $method = "SoldAuctionsOfUser";
-                        // dump('BAJSEZ');
                         $auctions = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($user);
                         break;
 
 
                     case 3:
-                        $type = 3;
                         $method = "CurrentAuctionsOfUser";
-                        // dump('BAJSEZ');
                         $auctions = $em->getRepository(Auction::class)->dqlCurrentAuctionsOfUser($user);
+                        break;
+
+                    case 4:
+                        $method = "LeadingAuctionsOfUser";
+                        $auctions = $em->getRepository(Auction::class)->dqlLeadingAuctionsOfUser($user);
                         break;
                 }
                 
