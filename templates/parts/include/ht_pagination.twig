@@ -6,7 +6,6 @@
 						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">Previous</a>
 					</li>
 
-
 					{% for i in 1.. pages %}
 						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
