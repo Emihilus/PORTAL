@@ -21,9 +21,9 @@ Liczba wygranych aukcji: <b class='text-danger'>{{USR[0]['Won']}}</b>, Suma $ wy
 
 <span class="text-success">PARTICIPATING Bierze udział ale przegrywa: <b class='text-danger'>{{USR[0]['Participating_In_Not_Leading']}}</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}">--->Show</a></b></span><br>
 
-<span class="text-success">PARTICIPATING Brał udział BRAŁ: <b class='text-danger'>{{USR[0]['Participated_In']}}</b>, <B class="text-warning"-> Show</b></span><br>
+<span class="text-success">PARTICIPATING Brał udział BRAŁ: <b class='text-danger'>{{USR[0]['Participated_In']}}</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}">--->Show</a></b></span><br>
 
-<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ: <b class='text-danger'>{{USR[0]['Participated_In_Not_Leading']}}</b>, <B class="text-warning"-> Show</b></span><br>
+<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ: <b class='text-danger'>{{USR[0]['Participated_In_Not_Leading']}}</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}">--->Show</a></b></span><br>
 
 All issued offers : {{USR[0]['All_Offers']}}
 

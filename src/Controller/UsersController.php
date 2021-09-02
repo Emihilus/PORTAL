@@ -98,6 +98,16 @@ class UsersController extends AbstractController
                         $method = "ParticipatingNotLeadingAuctionsOfUser";
                         $auctions = $em->getRepository(Auction::class)->dqlParticipatingNotLeadingAuctionsOfUser($user);
                         break;
+
+                    case 8:
+                        $method = "ParticipatedAuctionsOfUser";
+                        $auctions = $em->getRepository(Auction::class)->dqlParticipatedAuctionsOfUser($user);
+                        break;
+
+                    case 9:
+                        $method = "ParticipatedNotLeadingAuctionsOfUser";
+                        $auctions = $em->getRepository(Auction::class)->dqlParticipatedNotLeadingAuctionsOfUser($user);
+                        break;
                 }
                 
                 break;

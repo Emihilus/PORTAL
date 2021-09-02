@@ -339,6 +339,29 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function dqlParticipatedAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a, i.filename, 
+        (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+
+        FROM App\Entity\Offer o 
+
+        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
+        LEFT JOIN a.images i
+
+        WHERE o.byUser=?1
+        AND a.endsAt<CURRENT_TIMESTAMP()
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
+
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
+
     public function dqlWonAuctionsOfUser($user)
     {
         $dql = 'SELECT a, i.filename, 
@@ -408,7 +431,7 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function dqlHasntWonAuctionsOfUser($user)
+   /* public function dqlHasntWonAuctionsOfUser($user)
     {
         $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
@@ -430,7 +453,7 @@ class AuctionRepository extends ServiceEntityRepository
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
         return $query->getResult();
-    }
+    }*/
 
     public function dqlParticipatingNotLeadingAuctionsOfUser($user)
     {
@@ -454,6 +477,37 @@ class AuctionRepository extends ServiceEntityRepository
         AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
         AND e.byUser=?1)
         AND a.endsAt>CURRENT_TIMESTAMP()
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
+
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
+    
+    /// hasnt won
+    public function dqlParticipatedNotLeadingAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a, i.filename, 
+        
+        (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+
+        FROM App\Entity\Offer o 
+
+        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
+        LEFT JOIN a.images i
+
+        WHERE o.byUser=?1 
+        AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
+        AND 0=(SELECT COUNT(b) FROM App\Entity\Offer e 
+        LEFT JOIN App\Entity\Auction b WITH b=e.auction 
+        WHERE b=a
+        AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
+        AND e.byUser=?1)
+        AND a.endsAt<CURRENT_TIMESTAMP()
         AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
 
         
