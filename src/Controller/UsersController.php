@@ -89,6 +89,7 @@ class UsersController extends AbstractController
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage,
             'type' => $type
+            'method' => 
         ]);
     }
 
