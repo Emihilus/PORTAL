@@ -96,16 +96,23 @@ let historyString = '{{path('auction-list')}}/';
 
 function submitFilters()
 {
-	GAJArray.filters.f_search = $('#input_search').val();
-	GAJArray.filters.fo_search = $('#select_searchtype').val();
+	if($('#input_search').val() != "")
+	{
+		GAJArray.filters.f_search = $('#input_search').val();
+		GAJArray.filters.fo_search = $('#select_searchtype').val();
+	}
 
 	GAJArray.filters.f_liveness = $('#select_liveness').val();
 
 
-	GAJArray.filters.f_prices = $('#input_price_s').val();
-	GAJArray.filters.f_pricee = $('#input_price_e').val();
+	if($('#input_price_s').val() != '')
+		GAJArray.filters.f_prices = $('#input_price_s').val();
 
-	GAJArray.filters.f_byuser = $('#input_byuser').val();
+	if($('#input_price_e').val() != '')
+		GAJArray.filters.f_pricee = $('#input_price_e').val();
+
+	if($('#input_byuser').val() != '')
+		GAJArray.filters.f_byuser = $('#input_byuser').val();
 
 	// sort
 	GAJArray.filters.s_criteria = $('#select_criteria').val();

@@ -233,8 +233,28 @@ class AuctionRepository extends ServiceEntityRepository
 
             if(isset($filters->f_byuser))
             {
-                $query->andWhere('a.byUser.username = :byusr')
-                ->setParameter('bysr', $filters->f_byuser);
+                $query->andWhere('u.username = :byusr')
+                ->setParameter('byusr', $filters->f_byuser);
+            }
+
+            $orderity = 'ASC';
+            if(isset($filters->s_order))
+            {
+                switch($filters->s_order)
+                {
+                    case 2:
+                        $orderity = 'DESC';
+                        break;
+                }
+            }
+
+            if(isset($filters->s_criteria))
+            {
+                switch($filters->s_criteria)
+                {
+                    case 1:
+                        $query->orderBy('a.title', $orderity);
+                }
             }
         }
 
