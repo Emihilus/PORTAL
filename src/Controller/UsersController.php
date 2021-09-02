@@ -49,6 +49,7 @@ class UsersController extends AbstractController
         $auctions = "";
         $type = 1;
         $em = $this->getDoctrine()->getManager();
+        
         switch ($request->get('_route'))
         {
             case 'my-auctions';

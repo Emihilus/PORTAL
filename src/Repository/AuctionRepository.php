@@ -157,7 +157,6 @@ class AuctionRepository extends ServiceEntityRepository
 
 // wybierz aukcje dolacz info czy ten auction id jest w liked auctions by specified usr
 
-/*SELECT a0_.id AS id_0, a0_.title AS title_1, a0_.created_at AS created_at_2, a0_.ends_at AS ends_at_3, a0_.description AS description_4, (SELECT MAX(o1_.value) AS sclr_6 FROM auctions a2_, offers o1_ WHERE a0_.id = o1_.auction_id) AS sclr_5, a3_.filename AS filename_7, u4_.username AS username_8, a0_.by_user_id AS by_user_id_9, ttta.cresult FROM auctions a0_, (SELECT user_auction.user_id as cresult FROM user_auction, auctions WHERE user_auction.auction_id=a0_.id AND user_auction.user_id=1) ttta LEFT JOIN auction_images a3_ ON a0_.id = a3_.auction_id LEFT JOIN users u4_ ON a0_.by_user_id = u4_.id WHERE a3_.order_indicator = 0 OR a3_.order_indicator IS NULL*/
     public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user)
     {
         $query = $this->createQueryBuilder('a')
