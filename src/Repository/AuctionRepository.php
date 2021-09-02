@@ -292,14 +292,28 @@ class AuctionRepository extends ServiceEntityRepository
 // WORKING
     public function dqlLeadingAuctionsOfUser($user)
     {
-        $dql = 'SELECT a, i.filename, (SELECT MAX(oa.Value) FROM
+        $dql = 'SELECT a, i.filename, 
+
+        (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
+
         FROM App\Entity\Offer o 
+
+
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
+
+        LEFT JOIN a.images i
+
+
         WHERE o.byUser=?1 
-        AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction) 
+        AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
+
+
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
+
+
         GROUP BY o.auction';
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
@@ -340,13 +354,15 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlSoldAuctionsOfUser($user)
     {
-        $dql = 'SELECT a,(SELECT MAX(oa.Value) FROM
+        $dql = 'SELECT a, i.filename, (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
         FROM App\Entity\Auction a
+        LEFT JOIN a.images i
         WHERE a.byUser=?1 
-        AND a.endsAt<CURRENT_TIMESTAMP()';
+        AND a.endsAt<CURRENT_TIMESTAMP()
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
         return $query->getResult();
@@ -354,13 +370,20 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlCurrentAuctionsOfUser($user)
     {
-        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
+        $dql = 'SELECT a, i.filename, 
+        
+        (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
+
         FROM App\Entity\Auction a
+        LEFT JOIN a.images i
+
         WHERE a.byUser=?1 
-        AND a.endsAt>CURRENT_TIMESTAMP()';
+        AND a.endsAt>CURRENT_TIMESTAMP()
+
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
         return $query->getResult();
