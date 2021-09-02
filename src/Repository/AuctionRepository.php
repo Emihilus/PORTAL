@@ -196,7 +196,7 @@ class AuctionRepository extends ServiceEntityRepository
                 {
                     case 1:
                         $query->andWhere('a.endsAt > :date')
-                        ->setParameter('date', '%'.$filters->searchString.'%');
+                        ->setParameter('date', new \DateTime());
                         break;
                 }
             }
