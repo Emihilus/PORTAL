@@ -34,6 +34,11 @@ function getAuctions(requestedPage)
 			return;
 		}
 
+	
+		$('#paginationDiv').html("
+");
+
+
 		$('#auctions').html(res);
 
 		let pageElementsArray = $('.page-item').toArray();
