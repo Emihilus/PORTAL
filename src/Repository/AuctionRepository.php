@@ -465,7 +465,8 @@ Aktywne - endsAt>ctimestamp
 Zakonczone - endsAt<ctimespamt
 
 Zaraz się skoncza 1h - endsAt> ctimestamp and endsAt<ctimestamp+1h
-Do ceny od ceny
+
+Od ceny do ceny - hgh
 By użytkownik lista
 
 Sort:
