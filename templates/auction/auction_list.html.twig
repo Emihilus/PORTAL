@@ -41,7 +41,7 @@
 
 	<h2>END WHERE<BR>ORDER BEGIN</h2>
 	<label for="sort">Sortuj według</label>
-	<select name="sort" id="select_order">
+	<select name="sort" id="select_criteria">
 		<option selected value="1">Nazwy</option>
 		<option value="2">Utworzenia</option>
 		<option value="3">Daty Zakonczenia</option>
@@ -52,7 +52,7 @@
 
 
 	<label for="order">Porzadek</label>
-	<select name="order" id="select2_order">
+	<select name="order" id="select_order">
 		<option selected value="1">Rosnaco</option>
 		<option value="2">Malejąco</option>
 	</select>
@@ -102,7 +102,14 @@ function submitFilters()
 	GAJArray.filters.f_liveness = $('#select_liveness').val();
 
 
-	GAJArray.filters.f_liveness = $('#select_liveness').val();
+	GAJArray.filters.f_prices = $('#input_price_s').val();
+	GAJArray.filters.f_pricee = $('#input_price_e').val();
+
+	GAJArray.filters.f_byuser = $('#input_byuser').val();
+
+	// sort
+	GAJArray.filters.s_criteria = $('#select_criteria').val();
+	GAJArray.filters.s_order = $('#select_order').val();
 
 	getAuctions({{app.request.get('page')}});
 }

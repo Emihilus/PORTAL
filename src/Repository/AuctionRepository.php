@@ -186,7 +186,6 @@ class AuctionRepository extends ServiceEntityRepository
         {
             if(isset($filters->f_search))
             {
-                dump($filters->fo_search);
                 if($filters->fo_search == 1)
                     $byWhat = 'a.title';
                 else
@@ -218,6 +217,12 @@ class AuctionRepository extends ServiceEntityRepository
                         break;
 
                 }
+            }
+
+            if(isset($filters->f_prices))
+            {
+                $query->andWhere('hghst > :sval')
+                ->setParameter('sval', $filters->f_prices);
             }
 
             if(isset($filters->o_orderBys))
