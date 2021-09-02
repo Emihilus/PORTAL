@@ -303,7 +303,6 @@ class AuctionRepository extends ServiceEntityRepository
 
 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
-
         LEFT JOIN a.images i
 
 
@@ -323,14 +322,22 @@ class AuctionRepository extends ServiceEntityRepository
     
     public function dqlParticipatingAuctionsOfUser($user)
     {
-        $dql = 'SELECT a, (SELECT MAX(oa.Value) FROM
+        $dql = 'SELECT a, i.filename, 
+        (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
+
         FROM App\Entity\Offer o 
+
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
-        WHERE o.byUser=?1 
-        GROUP BY o.auction';
+        LEFT JOIN a.images i
+
+        WHERE o.byUser=?1
+        AND a.endsAt>CURRENT_TIMESTAMP()
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
+        
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
         return $query->getResult();
@@ -338,16 +345,25 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlWonAuctionsOfUser($user)
     {
-        $dql = 'SELECT a,(SELECT MAX(oa.Value) FROM
+        $dql = 'SELECT a, i.filename, 
+        
+        (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
+
         FROM App\Entity\Offer o 
+
+
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
+        LEFT JOIN a.images i
+
+
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction) 
         AND a.endsAt<CURRENT_TIMESTAMP()
-        GROUP BY o.auction';
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
         return $query->getResult();
@@ -355,15 +371,21 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlSoldAuctionsOfUser($user)
     {
-        $dql = 'SELECT a, i.filename, (SELECT MAX(oa.Value) FROM
+        $dql = 'SELECT a, i.filename, 
+
+        (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
+
         FROM App\Entity\Auction a
         LEFT JOIN a.images i
+
         WHERE a.byUser=?1 
         AND a.endsAt<CURRENT_TIMESTAMP()
         AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
+
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
         return $query->getResult();
