@@ -68,7 +68,15 @@ class UsersController extends AbstractController
                     
                     case 2:
                         $type = 3;
-                        $method = "WonAuctionsOfUser";
+                        $method = "SoldAuctionsOfUser";
+                        // dump('BAJSEZ');
+                        $auctions = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($user);
+                        break;
+
+
+                    case 3:
+                        $type = 3;
+                        $method = "SoldAuctionsOfUser";
                         // dump('BAJSEZ');
                         $auctions = $em->getRepository(Auction::class)->dqlWonAuctionsOfUser($user);
                         break;
