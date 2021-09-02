@@ -449,6 +449,7 @@ class AuctionRepository extends ServiceEntityRepository
         
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
+        $query->
         return $query->getResult();
     }
 
