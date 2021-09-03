@@ -49,13 +49,58 @@ class AJAXController extends AbstractController
         $auctions = '';
         $json = json_decode($request->getContent());
 
+
+        switch($json->mode)
+                {
+                    case 0:
+                        $method = "ListAllAuctions";
+                        break;
+
+                    case 1:
+                        $method = "AuctionsOfSpecificUser";
+                        break;
+                    
+                    case 2:
+                        $method = "SoldAuctionsOfUser";
+                        break;
+
+                    case 3:
+                        $method = "CurrentAuctionsOfUser";
+                        break;
+
+                    case 4:
+                        $method = "LeadingAuctionsOfUser";
+                        break;
+
+                    case 5:
+                        $method = "WonAuctionsOfUser";
+                        break;
+
+                    case 6:
+                        $method = "ParticipatingAuctionsOfUser";
+                        break;
+
+                    case 7:
+                        $method = "ParticipatingNotLeadingAuctionsOfUser";
+                        break;
+
+                    case 8:
+                        $method = "ParticipatedAuctionsOfUser";
+                        break;
+
+                    case 9:
+                        $method = "ParticipatedNotLeadingAuctionsOfUser";
+                        break;
+                }
+
+
         /*if($json->type > 2)
          {*/
-             $queryFunction = 'qBuilder'.$json->method;
+             $queryFunction = 'qBuilder'.$method;
          //}
          dump($json->filters);
-        switch (0)
-        {
+       /* switch (0)
+        {*/
             // PUBLIC LIST
             //case 0:
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
@@ -70,11 +115,11 @@ class AJAXController extends AbstractController
             /*case 2: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$json->filters);
                 break;*/
-
+/*
             case 3:
                 dump($dqlFunction);
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]));
-                break;
+                break;*/
        // }
         
         if (!isset($_COOKIE['itemsPerPage'])) 

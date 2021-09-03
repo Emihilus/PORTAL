@@ -58,7 +58,7 @@ class UsersController extends AbstractController
 
             case 'user-auctions':*/
                // $type = 2;
-                switch($mode)
+                /*switch($mode)
                 {
                     case 1:
                         $method = "AuctionsOfSpecificUser";
@@ -95,7 +95,7 @@ class UsersController extends AbstractController
                     case 9:
                         $method = "ParticipatedNotLeadingAuctionsOfUser";
                         break;
-                }
+                }*/
                 // if($mode>1)
                 // {
                 //     $type=3;
@@ -120,7 +120,7 @@ class UsersController extends AbstractController
             /*'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage,*/
             //'type' => $type,
-            'method' => $method
+            'mMode' => $mode
         ]);
     }
 
