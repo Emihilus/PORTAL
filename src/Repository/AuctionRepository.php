@@ -347,7 +347,9 @@ class AuctionRepository extends ServiceEntityRepository
 
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
 
-        ->andWhere('o.byUser')
+        ->andWhere('o.byUser.username = :offerIssuer')
+        ->setParameter('offerIssuer', $filters->f_byuser)
+        ->andWhere('o.Value = (SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)')
         ;
         if($user)
         {

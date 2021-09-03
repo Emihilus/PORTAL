@@ -71,7 +71,7 @@ class AJAXController extends AbstractController
                         break;
 
                     case 4:
-                        $method = "LeadingAuctionsOfUser";
+                        $method = "OfferOriented";
                         break;
 
                     case 5:
