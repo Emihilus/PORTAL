@@ -269,22 +269,25 @@ class AuctionRepository extends ServiceEntityRepository
                         break;
 
                         
-                    // NESTED
+                    // NESTED SOLUTION
                     case 5:
-                        $query->addSelect('(SELECT COUNT(ofa.Value) 
+                        $query->addSelect('(SELECT COUNT(ofa) 
                         FROM App\Entity\Offer ofa WHERE ofa.auction = a) as offerCount')
                         ->orderBy('offerCount', $orderity);
                         break;
 
-                    // JOINED - NEEDS FULL GROUP BY 
+                    // JOINED - NEEDS FULL GROUP BY OFF
                    /* case 5:
                         $query->orderBy('a.title', $orderity)
                         ->leftJoin('a.offers', 'ofe')
                         ->addSelect('ofe.Value');
                         break;*/
 
-                    case 1:
-                        $query->orderBy('a.title', $orderity);
+                    // NESTED SOLUTION
+                    case 6:
+                        $query->addSelect('(SELECT COUNT(ofa) 
+                        FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
+                        ->orderBy('commentCount', $orderity);
                         break;
 
                 }
