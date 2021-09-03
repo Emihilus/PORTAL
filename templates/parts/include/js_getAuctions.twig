@@ -1,5 +1,17 @@
-window.onLoad = setTimeout(submitFilters(), 5500);//getAuctions({{app.request.get('page')}});
+
 //window.onbeforeunload = function () { }
+
+if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+    alert('Got here using the browser "Back" or "Forward" button.');
+}
+else
+	window.onLoad = getAuctions({{app.request.get('page')}});
+	
+window.onpopstate = function (e) 
+{
+   processSuccess(localStorage.getItem('getAuctionsResponse'));         
+   
+}
 
 
 function onChangeHandler (selectedObject)
@@ -30,17 +42,21 @@ function getAuctions(requestedPage)
     	data: JSON.stringify(GAJArray) })
 	.done(res => 
 	{ 
-		console.log(res);
+		localStorage.setItem("getAuctionsResponse", res);
+		processSuccess(res);
+		//window.history.pushState('page2', 'Title', historyString+requestedPage);
+	});
+
+	function processSuccess(res)
+	{
 		if(res == 'none')
 		{
-			console.log(res);
 			$('#list-content').html("No auctions");
 			return;
 		}
 
 		$('#contener').html(res);
 
-		//$('#auctions').html(res);
 
 		let pageElementsArray = $('.page-item').toArray();
 		pageElementsArray.forEach(function (pageItemElement) 
@@ -66,6 +82,5 @@ function getAuctions(requestedPage)
 				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
 			}
 		});
-		//window.history.pushState('page2', 'Title', historyString+requestedPage);
-	});
+	}
 }
