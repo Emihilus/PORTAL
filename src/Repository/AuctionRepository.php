@@ -158,7 +158,7 @@ class AuctionRepository extends ServiceEntityRepository
     private function processFilters($filtersJson, $queryBuilder)
     {
         if($filtersJson)
-        {
+
             if(isset($filtersJson->f_search))
             {
                 if($filtersJson->fo_search == 1)
@@ -277,17 +277,18 @@ class AuctionRepository extends ServiceEntityRepository
     public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user, $filters = null)
     {
         $query = $this->createQueryBuilder('a')
-        ->addSelect('(SELECT MAX(o.Value) FROM App\Entity\Offer o
-        WHERE a.id = o.auction
-         ) as hghst')
+
+        ->addSelect('(SELECT MAX(o.Value) 
+        FROM App\Entity\Offer o
+        WHERE a.id = o.auction ) as hghst')
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
-        ->where('i.orderIndicator = 0')
-        ->orWhere('i.orderIndicator IS NULL')
-
         ->leftJoin('a.byUser', 'u')
-        ->addSelect('u.username');
+        ->addSelect('u.username')
+
+        ->where('i.orderIndicator = 0')
+        ->orWhere('i.orderIndicator IS NULL');
 
         // IMPERFECT
         if($user)
@@ -297,31 +298,30 @@ class AuctionRepository extends ServiceEntityRepository
             ->addSelect('l');
         }
 
-        $query = $this->processFilters($filters, $query);
+        if($filters)
+            $query = $this->processFilters($filters, $query);
 
         return $query->getQuery()->getResult();
     }
 
-    public function findAllWithFirstImageAndHighestOfferWithOwner2(?User $user, ?User $currentUser)
+    public function findAllWithFirstImageAndHighestOfferWithOwner2(?User $user, $filters = null)
     {
         $query = $this->createQueryBuilder('a')
-        ->addSelect('('.$this->createQueryBuilder('b')
-        ->select('MAX(o.Value)')
-        ->from('App\Entity\Offer', 'o') 
-        ->where('a.id = o.auction')
-        ->getDQL(). ') as hghst')
+
+        ->addSelect('(SELECT MAX(o.Value) 
+        FROM App\Entity\Offer o
+        WHERE a.id = o.auction ) as hghst')
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
+        ->leftJoin('a.byUser', 'u')
+        ->addSelect('u.username')
+
         ->where('i.orderIndicator = 0')
         ->orWhere('i.orderIndicator IS NULL')
 
-        ->leftJoin('a.byUser', 'u')
-        ->addSelect('u.username')
-        
         ->andWhere('a.byUser = :val')
-        ->setParameter('val', $user)
-        ;
+        ->setParameter('val', $user);
 
         // IMPERFECT
         if($user)
@@ -332,10 +332,10 @@ class AuctionRepository extends ServiceEntityRepository
         }
 
 
-        $query = $query->getQuery()->getResult();
+        if($filters)
+            $query = $this->processFilters($filters, $query);
 
-
-       return $query;
+        return $query->getQuery()->getResult();
     }
 
    /* public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
@@ -637,3 +637,33 @@ LEFT JOIN auctions ON offers.auction_id=auctions.id
 where offers.by_user_id = 4 AND
 offers.value=(SELECT max(ofNE.value) FROM offers ofNE WHERE ofNE.auction_id=offers.auction_id)
 group BY auction_id*/
+
+/*public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user, $filters = null)
+    {
+        $query = $this->createQueryBuilder('a')
+        ->addSelect('('.$this->createQueryBuilder('b')
+        ->select('MAX(o.Value)')
+        ->from('App\Entity\Offer', 'o')
+        ->where('a.id = o.auction')
+        ->getDQL(). ') as hghst')
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+        ->where('i.orderIndicator = 0')
+        ->orWhere('i.orderIndicator IS NULL')
+
+        ->leftJoin('a.byUser', 'u')
+        ->addSelect('u.username');
+
+        // IMPERFECT
+        if($user)
+        {
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
+            ->addSelect('l');
+        }
+
+        $query = $this->processFilters($filters, $query);
+
+        return $query->getQuery()->getResult();
+    }*/
