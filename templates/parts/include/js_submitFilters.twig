@@ -1,6 +1,5 @@
 function submitFilters()
 {	
-	
 	reStoreInputsState();
 	getAuctions( {{ app.request.get('page') }} );
 }
@@ -36,4 +35,8 @@ if($('#input_search').val() != '')
 	GAJArray.filters.s_order = $('#select_order').val();
 }
 
-functionb
+function resetFilters()
+{
+    document.getElementById('filterz').reset();
+    submitFilters();
+}
