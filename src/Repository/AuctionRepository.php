@@ -333,7 +333,7 @@ class AuctionRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder(null)
 
-        ->addSelect('(SELECT MAX(oa.Value) 
+        ->select('(SELECT MAX(oa.Value) 
         FROM App\Entity\Offer oa
         WHERE a.id = oa.auction ) as hghst')
 
