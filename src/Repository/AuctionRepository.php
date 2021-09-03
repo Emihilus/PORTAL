@@ -369,6 +369,7 @@ class AuctionRepository extends ServiceEntityRepository
         $leftJoinString = '';
         $whereString = '';
         $havingString = '';
+        $orderByString = '';
         $paramsArray = [];
         if($filtersJson)
         {
@@ -435,6 +436,67 @@ class AuctionRepository extends ServiceEntityRepository
                 $leftJoinString = ' LEFT JOIN a.byUser u ';
                 $whereString .= ' AND u.username = ?7 ';
                 array_push($paramsArray,[7, $filtersJson->f_byuser]);
+            }
+
+
+
+            // //////////////////// ORDERITY    //////////////////
+            $orderity = 'ASC';
+            if(isset($filtersJson->s_order))
+            {
+                switch($filtersJson->s_order)
+                {
+                    case 2:
+                        $orderity = 'DESC';
+                        break;
+                }
+            }
+
+            if(isset($filtersJson->s_criteria))
+            {
+                switch($filtersJson->s_criteria)
+                {
+                    case 1:
+                        $orderBy = " ORDER BY a.title $orderity ";
+                        break;
+
+                    case 2:
+                        $orderBy = " ORDER BY a.createdAt $orderity ";
+                        break;
+
+                    case 3:
+                        $orderBy = " ORDER BY a.endsAt $orderity ";
+                        $queryBuilder->orderBy('a.endsAt', $orderity);
+                        break;
+
+                    case 4:
+                        $orderBy = " ORDER BY hghst $orderity ";
+                        $queryBuilder->orderBy('hghst', $orderity);
+                        break;
+
+                        
+                    // NESTED SOLUTION
+                    case 5:
+                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
+                        FROM App\Entity\Offer ofa WHERE ofa.auction = a) as offerCount')
+                        ->orderBy('offerCount', $orderity);
+                        break;
+
+                    // JOINED - NEEDS FULL GROUP BY OFF
+                   /* case 5:
+                        $queryBuilder->orderBy('a.title', $orderity)
+                        ->leftJoin('a.offers', 'ofe')
+                        ->addSelect('ofe.Value');
+                        break;*/
+
+                    // NESTED SOLUTION
+                    case 6:
+                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
+                        FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
+                        ->orderBy('commentCount', $orderity);
+                        break;
+
+                }
             }
 
         }
