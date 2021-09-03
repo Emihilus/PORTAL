@@ -61,12 +61,10 @@ let historyString = '{{path(app.request.get('_route'),{'username' : app.request.
 
 
 function submitFilters()
-{
-	if($('#input_search').val() != "")
-	{
+{	
 		GAJArray.filters.f_search = $('#input_search').val();
 		GAJArray.filters.fo_search = $('#select_searchtype').val();
-	}
+	
 
 	GAJArray.filters.f_liveness = $('#select_liveness').val();
 
@@ -85,6 +83,7 @@ function submitFilters()
 	GAJArray.filters.s_order = $('#select_order').val();
 
 	getAuctions({{app.request.get('page')}});
+	console.log (GAJArray);
 }
 
 const processChange = debounce(() => submitFilters());
