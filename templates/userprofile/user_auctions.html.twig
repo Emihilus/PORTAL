@@ -92,8 +92,8 @@
 {{ include('parts/include/js_modal.twig')  }}
 
 {# the only dynamic data for getAuctions #}
-let GAJArray = { method: '{{method}}',
-		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
+let GAJArray = { method: '{{method}}'
+		{% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
 				, filters: {
 	f_liveness: 1,
 	o_orderBy: 'title'

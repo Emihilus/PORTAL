@@ -44,10 +44,10 @@ class UsersController extends AbstractController
      */
     public function myAuctions($mode, $page, ?User $user, Request $request): Response
     {
-        $method = '';
-        $auctions = "";
-        $type = 1;
-        $em = $this->getDoctrine()->getManager();
+       // $method = '';
+       // $auctions = "";
+        //$type = 1;
+       // $em = $this->getDoctrine()->getManager();
         
         /*switch ($request->get('_route'))
         {
@@ -57,11 +57,11 @@ class UsersController extends AbstractController
                 break;
 
             case 'user-auctions':*/
-                $type = 2;
+               // $type = 2;
                 switch($mode)
                 {
                     case 1:
-                        //$auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
+                        $method = "AuctionsOfSpecificUser";
                         break;
                     
                     case 2:
@@ -96,12 +96,12 @@ class UsersController extends AbstractController
                         $method = "ParticipatedNotLeadingAuctionsOfUser";
                         break;
                 }
-                if($mode>1)
-                {
-                    $type=3;
-                    $assembliedMehtod='dql'.$method;
+                // if($mode>1)
+                // {
+                //     $type=3;
+                    //$assembliedMehtod='dql'.$method;
                     //$auctions = $em->getRepository(Auction::class)->$assembliedMehtod($user);
-                }
+                //}
                /* break;
         }*/
         
@@ -119,7 +119,7 @@ class UsersController extends AbstractController
         return $this->render('userprofile/user_auctions.html.twig', [
             /*'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage,*/
-            'type' => $type,
+            //'type' => $type,
             'method' => $method
         ]);
     }

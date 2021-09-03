@@ -49,17 +49,17 @@ class AJAXController extends AbstractController
         $auctions = '';
         $json = json_decode($request->getContent());
 
-        if($json->type > 2)
-         {
-             $dqlFunction = 'dql'.$json->method;
-         }
+        /*if($json->type > 2)
+         {*/
+             $queryFunction = 'qBuilder'.$json->method;
+         //}
          dump($json->filters);
-        switch ($json->type)
+        switch (0)
         {
             // PUBLIC LIST
-            case 0:
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getUser(),$json->filters);
-                break;
+            //case 0:
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
+               // break;
 
             // MY AUCTIONS LIST
             /*case 1: 
@@ -67,15 +67,15 @@ class AJAXController extends AbstractController
                 break;*/
 
             // AUCTIONS OF SPECIFIC USER LIST
-            case 2: 
+            /*case 2: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$json->filters);
-                break;
+                break;*/
 
             case 3:
                 dump($dqlFunction);
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$dqlFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]));
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]));
                 break;
-        }
+       // }
         
         if (!isset($_COOKIE['itemsPerPage'])) 
         {

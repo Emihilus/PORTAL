@@ -303,7 +303,7 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function findAllWithFirstImageAndHighestOfferWithOwner2(?User $user, $filters = null)
+    public function qBuilderAuctionsOfSpecificUser(?User $user, $filters = null)
     {
         $query = $this->createQueryBuilder('a')
 
