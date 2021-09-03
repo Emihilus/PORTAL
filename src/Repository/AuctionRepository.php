@@ -289,7 +289,6 @@ class AuctionRepository extends ServiceEntityRepository
 
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL');
 
-        // IMPERFECT
         if($user)
         {
             $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
@@ -329,39 +328,7 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function qBuilderOfferOriented(?User $user, $filters = null)
-    {
-        $query = $this->createQueryBuilder(null)
 
-        ->select('(SELECT MAX(oa.Value) 
-        FROM App\Entity\Offer oa
-        WHERE a.id = oa.auction ) as hghst')
-
-        ->from('App\Entity\Offer', 'o')
-
-        ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
-        ->addSelect('a')
-
-        ->leftJoin('a.images', 'i')
-        ->addSelect('i.filename')
-
-        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
-
-        ->andWhere('o.byUser = :offerIssuer')
-        ->setParameter('offerIssuer', $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId())
-        ->andWhere('o.Value = (SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)')
-        ;
-        if($user)
-        {
-            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
-            ->setParameter('user', $user->getId())
-            ->addSelect('l');
-        }
-
-        $query = $this->processFilters($filters, $query);
-
-        return $query->getQuery()->getResult();
-    }
 
     private function processFiltersDQL($filtersJson)
     {
@@ -511,23 +478,20 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function dqlLeadingAuctionsOfUser($user, $filters = null)
     {
-
         $fil = $this->processFiltersDQL($filters);
 
-        $dql = "SELECT a, i.filename, {$fil['selectString']}
-
+        $dql = "SELECT a, i.filename, 
         (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE  a.id = oa.auction
         ) as hghst 
+        {$fil['selectString']}
 
         FROM App\Entity\Offer o 
-
 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         LEFT JOIN a.images i
         {$fil['leftJoinString']}
-
 
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
@@ -852,6 +816,40 @@ group BY auction_id*/
             ->addSelect('l');
         }
 
+
+        $query = $this->processFilters($filters, $query);
+
+        return $query->getQuery()->getResult();
+    }
+    
+        public function qBuilderOfferOriented(?User $user, $filters = null)
+    {
+        $query = $this->createQueryBuilder(null)
+
+        ->select('(SELECT MAX(oa.Value) 
+        FROM App\Entity\Offer oa
+        WHERE a.id = oa.auction ) as hghst')
+
+        ->from('App\Entity\Offer', 'o')
+
+        ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
+        ->addSelect('a')
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+
+        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
+
+        ->andWhere('o.byUser = :offerIssuer')
+        ->setParameter('offerIssuer', $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId())
+        ->andWhere('o.Value = (SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)')
+        ;
+        if($user)
+        {
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
+            ->addSelect('l');
+        }
 
         $query = $this->processFilters($filters, $query);
 
