@@ -1,6 +1,6 @@
 window.onLoad = getAuctions({{app.request.get('page')}});
-window.onbeforeunload  = submitFilters();
-//setTimeout(submitFilters(), 1500);
+window.onbeforeunload = function () { }
+setTimeout(submitFilters(), 1500);
 
 function onChangeHandler (selectedObject)
 {
