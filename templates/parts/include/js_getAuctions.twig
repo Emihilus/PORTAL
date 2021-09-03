@@ -1,4 +1,6 @@
-window.onLoad = getAuctions({{app.request.get('page')}});
+//window.onLoad = getAuctions({{app.request.get('page')}});
+//window.onLoad = submitFilters();
+setTimeout(submitFilters(), 500);
 
 function onChangeHandler (selectedObject)
 {
