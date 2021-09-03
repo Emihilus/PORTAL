@@ -1,17 +1,13 @@
 
-//window.onbeforeunload = function () { }
-
-if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
-    alert('Got here using the browser "Back" or "Forward" button.');
+if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) 
+{
+    processSuccess(localStorage.getItem('getAuctionsResponse'),localStorage.getItem('getAuctionsRqPage')); 
 }
 else
-	window.onLoad = getAuctions({{app.request.get('page')}});
-	
-window.onpopstate = function (e) 
 {
-   processSuccess(localStorage.getItem('getAuctionsResponse'));         
-   
+	window.onLoad = getAuctions({{app.request.get('page')}});
 }
+
 
 
 function onChangeHandler (selectedObject)
@@ -43,11 +39,14 @@ function getAuctions(requestedPage)
 	.done(res => 
 	{ 
 		localStorage.setItem("getAuctionsResponse", res);
-		processSuccess(res);
+		localStorage.setItem("getAuctionsRqPage", requestedPage);
+
+		processSuccess(res, requestedPage);
 		//window.history.pushState('page2', 'Title', historyString+requestedPage);
 	});
+}
 
-	function processSuccess(res)
+function processSuccess(res, requestedPage)
 	{
 		if(res == 'none')
 		{
@@ -83,4 +82,3 @@ function getAuctions(requestedPage)
 			}
 		});
 	}
-}
