@@ -47,7 +47,7 @@ let GAJArray = { mMode: '{{mMode}}'
 }};
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
 
-	{% if mMode < 3 %}
+	{% if mMode < 4 %}
 		GAJArray.filters.f_byuser = '{{app.request.get('username')}}';
 	{% else %}
 		GAJArray.filters.oo_byuser = '{{app.request.get('username')}}';
@@ -68,8 +68,6 @@ function submitFilters()
 		delete(GAJArray.filters.f_search);
 
 	GAJArray.filters.fo_search = $('#select_searchtype').val();
-	
-
 	GAJArray.filters.f_liveness = $('#select_liveness').val();
 
 
@@ -92,11 +90,10 @@ function submitFilters()
 	GAJArray.filters.s_criteria = $('#select_criteria').val();
 	GAJArray.filters.s_order = $('#select_order').val();
 
-	getAuctions({{app.request.get('page')}});
-	console.log (GAJArray);
+	getAuctions( {{ app.request.get('page') }} );
 }
 
-const processChange = debounce(() => submitFilters());
+{# const processChange = debounce(() => submitFilters());
 
 function debounce(func, timeout = 1000){
   let timer;
@@ -104,7 +101,7 @@ function debounce(func, timeout = 1000){
     clearTimeout(timer);
     timer = setTimeout(() => { func.apply(this, args); }, timeout);
   };
-}
+} #}
 
 {# getAuctions code #}
 {{ include('parts/include/js_getAuctions.twig')  }}
