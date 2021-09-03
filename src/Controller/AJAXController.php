@@ -74,7 +74,6 @@ class AJAXController extends AbstractController
                 $method = "LeadingAuctionsOfUser";
                 break;
 
-
             case 5: /// WON
                 $method = "LeadingAuctionsOfUser";
                 break;
