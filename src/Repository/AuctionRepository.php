@@ -317,10 +317,10 @@ class AuctionRepository extends ServiceEntityRepository
         ->addSelect('u.username')
 
         ->where('i.orderIndicator = 0')
-        ->orWhere('i.orderIndicator IS NULL')
+        ->orWhere('i.orderIndicator IS NULL');
 
-        ->andWhere('a.byUser = :val')
-        ->setParameter('val', $user);
+       /* ->andWhere('a.byUser = :val')
+        ->setParameter('val', $user);*/
 
         // IMPERFECT
         if($user)

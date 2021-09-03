@@ -50,7 +50,7 @@ class AJAXController extends AbstractController
         $json = json_decode($request->getContent());
 
 
-        switch($json->mode)
+        switch($json->mMode)
                 {
                     case 0:
                         $method = "ListAllAuctions";
