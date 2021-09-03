@@ -117,9 +117,9 @@ class UsersController extends AbstractController
         $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
         return $this->render('userprofile/user_auctions.html.twig', [
-            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
+            /*'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage,
-            'type' => $type,
+            'type' => $type,*/
             'method' => $method
         ]);
     }

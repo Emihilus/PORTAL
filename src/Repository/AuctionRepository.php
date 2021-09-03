@@ -155,16 +155,131 @@ class AuctionRepository extends ServiceEntityRepository
     }
 
 
+    private function processFilters($filtersJson, $queryBuilder)
+    {
+        if($filtersJson)
+        {
+            if(isset($filtersJson->f_search))
+            {
+                if($filtersJson->fo_search == 1)
+                    $byWhat = 'a.title';
+                else
+                    $byWhat = 'a.description';
+
+                $queryBuilder->andWhere($byWhat.' LIKE :sQuery')
+                ->setParameter('sQuery', '%'.$filtersJson->f_search.'%');
+            }
+
+            if(isset($filtersJson->f_liveness))
+            {
+                switch($filtersJson->f_liveness)
+                {
+                    case 1:
+                        $queryBuilder->andWhere('a.endsAt > :date')
+                        ->setParameter('date', new \DateTime());
+                        break;
+
+                    case 2:
+                        $queryBuilder->andWhere('a.endsAt < :date')
+                        ->setParameter('date', new \DateTime());
+                        break;
+
+                    case 4:
+                        $queryBuilder->andWhere('a.endsAt > :date')
+                        ->setParameter('date', new \DateTime())
+                        ->andWhere('a.endsAt < :dateN')
+                        ->setParameter('dateN', new \DateTime('+1 day'));
+                        break;
+
+                }
+            }
+
+            if(isset($filtersJson->f_prices) && $filtersJson->f_prices > 0)
+            {
+                $queryBuilder->andHaving('hghst > :sval')
+                ->setParameter('sval', $filtersJson->f_prices*100);
+            }
+
+            if(isset($filtersJson->f_pricee) && $filtersJson->f_pricee > 0)
+            {
+                $queryBuilder->andHaving('hghst < :enval')
+                ->setParameter('enval', $filtersJson->f_pricee*100);
+            }
+
+            if(isset($filtersJson->f_byuser))
+            {
+                $queryBuilder->andWhere('u.username = :byusr')
+                ->setParameter('byusr', $filtersJson->f_byuser);
+            }
+
+            $orderity = 'ASC';
+            if(isset($filtersJson->s_order))
+            {
+                switch($filtersJson->s_order)
+                {
+                    case 2:
+                        $orderity = 'DESC';
+                        break;
+                }
+            }
+
+            if(isset($filtersJson->s_criteria))
+            {
+                switch($filtersJson->s_criteria)
+                {
+                    case 1:
+                        $queryBuilder->orderBy('a.title', $orderity);
+                        break;
+
+                    case 2:
+                        $queryBuilder->orderBy('a.createdAt', $orderity);
+                        break;
+
+                    case 3:
+                        $queryBuilder->orderBy('a.endsAt', $orderity);
+                        break;
+
+                    case 4:
+                        $queryBuilder->orderBy('hghst', $orderity);
+                        break;
+
+                        
+                    // NESTED SOLUTION
+                    case 5:
+                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
+                        FROM App\Entity\Offer ofa WHERE ofa.auction = a) as offerCount')
+                        ->orderBy('offerCount', $orderity);
+                        break;
+
+                    // JOINED - NEEDS FULL GROUP BY OFF
+                   /* case 5:
+                        $queryBuilder->orderBy('a.title', $orderity)
+                        ->leftJoin('a.offers', 'ofe')
+                        ->addSelect('ofe.Value');
+                        break;*/
+
+                    // NESTED SOLUTION
+                    case 6:
+                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
+                        FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
+                        ->orderBy('commentCount', $orderity);
+                        break;
+
+                }
+            }
+        }
+        return $queryBuilder;
+    }
+
+
 // wybierz aukcje dolacz info czy ten auction id jest w liked auctions by specified usr
 
     public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user, $filters = null)
     {
         $query = $this->createQueryBuilder('a')
-        ->addSelect('('.$this->createQueryBuilder('b')
-        ->select('MAX(o.Value)')
-        ->from('App\Entity\Offer', 'o')
-        ->where('a.id = o.auction')
-        ->getDQL(). ') as hghst')
+        ->addSelect('(SELECT MAX(o.Value) FROM App\Entity\Offer o
+        WHERE a.id = o.auction
+         ) as hghst')
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
@@ -182,122 +297,9 @@ class AuctionRepository extends ServiceEntityRepository
             ->addSelect('l');
         }
 
-        if($filters)
-        {
-            if(isset($filters->f_search))
-            {
-                if($filters->fo_search == 1)
-                    $byWhat = 'a.title';
-                else
-                    $byWhat = 'a.description';
+        $query = $this->processFilters($filters, $query);
 
-                $query->andWhere($byWhat.' LIKE :sQuery')
-                ->setParameter('sQuery', '%'.$filters->f_search.'%');
-            }
-
-            if(isset($filters->f_liveness))
-            {
-                switch($filters->f_liveness)
-                {
-                    case 1:
-                        $query->andWhere('a.endsAt > :date')
-                        ->setParameter('date', new \DateTime());
-                        break;
-
-                    case 2:
-                        $query->andWhere('a.endsAt < :date')
-                        ->setParameter('date', new \DateTime());
-                        break;
-
-                    case 4:
-                        $query->andWhere('a.endsAt > :date')
-                        ->setParameter('date', new \DateTime())
-                        ->andWhere('a.endsAt < :dateN')
-                        ->setParameter('dateN', new \DateTime('+1 day'));
-                        break;
-
-                }
-            }
-
-            if(isset($filters->f_prices) && $filters->f_prices > 0)
-            {
-                $query->andHaving('hghst > :sval')
-                ->setParameter('sval', $filters->f_prices*100);
-            }
-
-            if(isset($filters->f_pricee) && $filters->f_pricee > 0)
-            {
-                $query->andHaving('hghst < :enval')
-                ->setParameter('enval', $filters->f_pricee*100);
-            }
-
-            if(isset($filters->f_byuser))
-            {
-                $query->andWhere('u.username = :byusr')
-                ->setParameter('byusr', $filters->f_byuser);
-            }
-
-            $orderity = 'ASC';
-            if(isset($filters->s_order))
-            {
-                switch($filters->s_order)
-                {
-                    case 2:
-                        $orderity = 'DESC';
-                        break;
-                }
-            }
-
-            if(isset($filters->s_criteria))
-            {
-                switch($filters->s_criteria)
-                {
-                    case 1:
-                        $query->orderBy('a.title', $orderity);
-                        break;
-
-                    case 2:
-                        $query->orderBy('a.createdAt', $orderity);
-                        break;
-
-                    case 3:
-                        $query->orderBy('a.endsAt', $orderity);
-                        break;
-
-                    case 4:
-                        $query->orderBy('hghst', $orderity);
-                        break;
-
-                        
-                    // NESTED SOLUTION
-                    case 5:
-                        $query->addSelect('(SELECT COUNT(ofa) 
-                        FROM App\Entity\Offer ofa WHERE ofa.auction = a) as offerCount')
-                        ->orderBy('offerCount', $orderity);
-                        break;
-
-                    // JOINED - NEEDS FULL GROUP BY OFF
-                   /* case 5:
-                        $query->orderBy('a.title', $orderity)
-                        ->leftJoin('a.offers', 'ofe')
-                        ->addSelect('ofe.Value');
-                        break;*/
-
-                    // NESTED SOLUTION
-                    case 6:
-                        $query->addSelect('(SELECT COUNT(ofa) 
-                        FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
-                        ->orderBy('commentCount', $orderity);
-                        break;
-
-                }
-            }
-        }
-
-        $query = $query->getQuery()->getResult();
-
-
-       return $query;
+        return $query->getQuery()->getResult();
     }
 
     public function findAllWithFirstImageAndHighestOfferWithOwner2(?User $user, ?User $currentUser)
