@@ -76,6 +76,11 @@ class Auction
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted = false;
+
     
 
     public function __construct()
@@ -285,6 +290,18 @@ class Auction
                 $comment->setAuction(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

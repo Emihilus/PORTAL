@@ -226,22 +226,34 @@ class AJAXController extends AbstractController
     public function deleteAuction(Request $request)
     {
 
-        if ($this->getUser() != null) {
+        if ($this->getUser() != null) 
+        {
             $json = json_decode($request->getContent());
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
 
-            if ($auction->getByUser() == $this->getUser()) {; // DELETE AUCTION
+            if ($auction->getByUser() == $this->getUser()) 
+            {
+                $auction->setIsDeleted(true);
+                $em->persist($auction);
+                $em->flush();
+
                 return new JsonResponse([
                     'result' => "Success"
                 ]);
-            } else {; // WRONG USER
+            } 
+            else 
+            {
+                ; // WRONG USER
                 return new JsonResponse([
                     'result' => "Wrong user"
                 ]);
             }
-        } else {
+
+        } 
+        else 
+        {
             return new JsonResponse([
                 'result' => "This action is permitted for logged in users only you dumbass hacker"
             ]);
