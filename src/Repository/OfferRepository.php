@@ -170,13 +170,13 @@ class OfferRepository extends ServiceEntityRepository
 
     public function qBuilderOfferOriented(?User $user, $filters = null)
     {
-        $query = $this->createQueryBuilder('a')
+        $query = $this->createQueryBuilder('o')
 
         ->addSelect('(SELECT MAX(oa.Value) 
         FROM App\Entity\Offer oa
         WHERE a.id = oa.auction ) as hghst')
 
-        ->from('App\Entity\Offer', 'o')
+        /*->from('App\Entity\Offer', 'o')*/
 
         ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
         ->addSelect('a')
@@ -186,8 +186,8 @@ class OfferRepository extends ServiceEntityRepository
 
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
 
-        ->andWhere('o.byUser.username = :offerIssuer')
-        ->setParameter('offerIssuer', $filters->oo_byuser)
+        ->andWhere('o.byUser = :offerIssuer')
+        ->setParameter('offerIssuer', $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])
         ->andWhere('o.Value = (SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)')
         ;
         if($user)
