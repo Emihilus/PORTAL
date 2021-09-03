@@ -25,7 +25,7 @@ class MainController extends AbstractController
     /**
      * @Route("/auction-list/{page}", name="auction-list", defaults ={"page": "1" })
      */
-    public function index($page): Response
+    public function index(): Response
     {
         //$auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
         //$allCount = count($auctions);
@@ -39,7 +39,7 @@ class MainController extends AbstractController
 
         //$auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
-        return $this->render('auction/auction_list.html.twig',['page' => $page ]/*, [
+        return $this->render('auction/auction_list.html.twig',/*['page' => $page ], [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage

@@ -61,7 +61,7 @@ class UsersController extends AbstractController
                 switch($mode)
                 {
                     case 1:
-                        $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
+                        //$auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($user);
                         break;
                     
                     case 2:
@@ -105,7 +105,7 @@ class UsersController extends AbstractController
                /* break;
         }*/
         
-        $allCount = count($auctions);
+        //$allCount = count($auctions);
 
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
@@ -114,7 +114,7 @@ class UsersController extends AbstractController
         }
         $itemsPerPage = $_COOKIE['itemsPerPage'];
 
-        $auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
+        //$auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 
         return $this->render('userprofile/user_auctions.html.twig', [
             /*'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
