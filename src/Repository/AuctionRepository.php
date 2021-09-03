@@ -366,6 +366,7 @@ class AuctionRepository extends ServiceEntityRepository
     private function processFiltersDQL($filtersJson)
     {
         $whereString = '';
+        $havingString = '';
         $paramsArray = [];
         if($filtersJson)
         {
@@ -376,11 +377,43 @@ class AuctionRepository extends ServiceEntityRepository
                 else
                     $byWhat = 'a.description';
 
-                $whereString = " AND WHERE $byWhat LIKE ?2 ";
-                array_push($paramsArray,[1, ])
-                $query->andWhere($byWhat.' LIKE :sQuery')
-                ->setParameter('sQuery', '%'.$filtersJson->f_search.'%');
+                $whereString .= " AND $byWhat LIKE ?2 ";
+                array_push($paramsArray,[2, '%'.$filtersJson->f_search.'%']);
+               /* $query->andWhere($byWhat.' LIKE :sQuery')
+                ->setParameter('sQuery', '%'.$filtersJson->f_search.'%');*/
             }
+
+            if(isset($filtersJson->f_liveness))
+            {
+                switch($filtersJson->f_liveness)
+                {
+                    case 1:
+                        $whereString .= " AND a.endsAt > ?3 ";
+                        array_push($paramsArray,[3, new \DateTime()]);
+                        break;
+
+                    case 2:
+                        $whereString .= " AND a.endsAt < ?3 ";
+                        array_push($paramsArray,[3, new \DateTime()]);
+                        break;
+
+                    case 4:
+                        $whereString .= " AND a.endsAt > ?3 ";
+                        array_push($paramsArray,[3, new \DateTime()]);
+                        $whereString .= " AND a.endsAt < ?4 ";
+                        array_push($paramsArray,[4, new \DateTime('+1 day')]);
+                        break;
+
+                }
+            }
+
+            if(isset($filtersJson->f_prices) && $filtersJson->f_prices > 0)
+            {
+                $havingString = " HAVING hghst > ?5";
+                $queryBuilder->andHaving('hghst > :sval')
+                ->setParameter('sval', $filtersJson->f_prices*100);
+            }
+
         }
     }
 
