@@ -1,4 +1,5 @@
 <div class="row" id='filtersDiv'>
+<form>
 	<h2>FILTERS SEKCJON </H2>
 	<input id='input_search' type="text" placeholder="Szukaj"{# onkeyup="processChange()"#}>
 
@@ -41,5 +42,6 @@
 	</select>
 
 	<button onclick='submitFilters()' type='button'>SUBMIT</button>
-	<input type="reset">
-	</div>
+	<input type="reset" onclick="resetFilters()">
+</form>
+</div>
