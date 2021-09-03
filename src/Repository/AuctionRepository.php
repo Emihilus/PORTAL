@@ -330,6 +330,42 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function qBuilderOfferOriented(?User $user, $filters = null)
+    {
+        $query = $this->createQueryBuilder('a')
+
+        ->addSelect('(SELECT MAX(oa.Value) 
+        FROM App\Entity\Offer oa
+        WHERE a.id = oa.auction ) as hghst')
+
+        ->from('App\Entity\Offer', 'o')
+
+
+        ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
+        ->addSelect('a')
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+        ->leftJoin('a.byUser', 'u')
+        ->addSelect('u.username')
+
+        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
+        //->orWhere('');
+
+        ->andWhere('o.byUser')
+        ;
+        if($user)
+        {
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
+            ->addSelect('l');
+        }
+
+        $query = $this->processFilters($filters, $query);
+
+        return $query->getQuery()->getResult();
+    }
+
     public function dqlLeadingAuctionsOfUser($user)
     {
         $dql = 'SELECT a, i.filename, 
@@ -361,7 +397,7 @@ class AuctionRepository extends ServiceEntityRepository
         $dql = 'SELECT a, i.filename, 
         (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
-        WHERE  a.id = oa.auction
+        WHERE a.id = oa.auction
         ) as hghst 
 
         FROM App\Entity\Offer o 
