@@ -71,7 +71,7 @@ class AJAXController extends AbstractController
                         break;
 
                     case 4:
-                        $method = "OfferOriented";
+                        $method = "LeadingAuctionsOfUser";
                         break;
 
                     case 5:
@@ -98,7 +98,10 @@ class AJAXController extends AbstractController
 
         /*if($json->type > 2)
          {*/
-             $queryFunction = 'qBuilder'.$method;
+            if($json->mMode < 4)
+                $queryFunction = 'qBuilder'.$method;
+            else
+                $queryFunction = 'dql'.$method;
          //}
          dump($json->filters);
        /* switch (0)

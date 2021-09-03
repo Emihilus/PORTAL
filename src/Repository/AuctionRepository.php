@@ -369,7 +369,7 @@ class AuctionRepository extends ServiceEntityRepository
         $leftJoinString = '';
         $whereString = '';
         $havingString = '';
-        $orderByString = '';
+        $orderBy = '';
         $paramsArray = [];
         if($filtersJson)
         {
@@ -503,7 +503,7 @@ class AuctionRepository extends ServiceEntityRepository
         $assocObject['leftJoinString'] = $leftJoinString;
         $assocObject['whereString'] = $whereString;
         $assocObject['havingString'] = $havingString;
-        $assocObject['orderByString'] = $orderByString;
+        $assocObject['orderByString'] = $orderBy;
         $assocObject['paramsArray'] = $paramsArray;
         return $assocObject;
     }
@@ -513,7 +513,7 @@ class AuctionRepository extends ServiceEntityRepository
 
         $fil = $this->processFiltersDQL($filters);
 
-        $dql = "SELECT a, i.filename, {$fil['selectString]}
+        $dql = "SELECT a, i.filename, {$fil['selectString']}
 
         (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
@@ -525,15 +525,25 @@ class AuctionRepository extends ServiceEntityRepository
 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         LEFT JOIN a.images i
+        {$fil['leftJoinString']}
 
 
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
         AND a.endsAt>CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)";
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
+        {$fil['whereString']} 
+        {$fil['havingString']}
+        {$fil['orderByString']}";
         
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
+
+        foreach($fil['paramsArray'] as $params)
+        {
+            $query = $query->setParameter($params[0],$params[1]);
+        }
+
         return $query->getResult();
     }
     
