@@ -99,19 +99,21 @@ class AJAXController extends AbstractController
         /*if($json->type > 2)
          {*/
             if($json->mMode < 4)
-                $queryFunction = 'qBuilder'.$method;
+                {
+                    $queryFunction = 'qBuilder'.$method;
+                    $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
+                }
             else
-                $queryFunction = 'dql'.$method;
+                {
+                    $queryFunction = 'dql'.$method;
+                    $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($json->filters);
+                }
          //}
          dump($json->filters);
        /* switch (0)
         {*/
             // PUBLIC LIST
             //case 0:
-                if(true || $json->mMode < 4)
-                    $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
-                else 
-                    $auctions = $this->getDoctrine()->getRepository(Offer::class)->$queryFunction($this->getUser(),$json->filters);
                // break;
 
             // MY AUCTIONS LIST
