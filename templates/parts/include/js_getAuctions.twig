@@ -28,7 +28,7 @@ function onChangeHandler (selectedObject)
 
 function getAuctions(requestedPage)
 {
-	refr();
+	reStoreInputsState();
 	GAJArray.requestedPage = requestedPage;
     $.ajax({
    	 	url: "{{path ('getAuctions') }}",
@@ -41,7 +41,6 @@ function getAuctions(requestedPage)
 		localStorage.setItem("getAuctionsRqPage", requestedPage);
 
 		processSuccess(res, requestedPage);
-		//window.history.pushState('page2', 'Title', historyString+requestedPage);
 	});
 }
 

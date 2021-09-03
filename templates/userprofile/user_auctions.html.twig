@@ -84,43 +84,9 @@ let historyString = '{{path(app.request.get('_route'),{'username' : app.request.
 	{% endif %}
 
 
-function submitFilters()
-{	
-	
-	refr();
-	getAuctions( {{ app.request.get('page') }} );
-}
-
-function refr ()
-{
-if($('#input_search').val() != '')
-		GAJArray.filters.f_search = $('#input_search').val();
-	else
-		delete(GAJArray.filters.f_search);
-
-	GAJArray.filters.fo_search = $('#select_searchtype').val();
-	GAJArray.filters.f_liveness = $('#select_liveness').val();
+{{ include('parts/include/js_submitFilters.twig')  }}
 
 
-	if($('#input_price_s').val() != '')
-		GAJArray.filters.f_prices = $('#input_price_s').val();
-	else
-		delete(GAJArray.filters.f_prices);
-
-	if($('#input_price_e').val() != '')
-		GAJArray.filters.f_pricee = $('#input_price_e').val();
-	else
-		delete(GAJArray.filters.f_pricee);
-
-	if($('#input_byuser').val() != '')
-		GAJArray.filters.f_byuser = $('#input_byuser').val();
-	else
-		delete(GAJArray.filters.f_byuser);
-
-	// sort
-	GAJArray.filters.s_criteria = $('#select_criteria').val();
-	GAJArray.filters.s_order = $('#select_order').val();
-}
 
 {# const processChange = debounce(() => submitFilters());
 
