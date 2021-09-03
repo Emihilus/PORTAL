@@ -274,7 +274,7 @@ class AuctionRepository extends ServiceEntityRepository
 
 // wybierz aukcje dolacz info czy ten auction id jest w liked auctions by specified usr
 
-    public function findAllWithFirstImageAndHighestOfferWithOwner(?User $user, $filters = null)
+    public function qBuilderListAllAuctions(?User $user, $filters = null)
     {
         $query = $this->createQueryBuilder('a')
 

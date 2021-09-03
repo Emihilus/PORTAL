@@ -100,7 +100,7 @@ class UsersController extends AbstractController
                 {
                     $type=3;
                     $assembliedMehtod='dql'.$method;
-                    $auctions = $em->getRepository(Auction::class)->$assembliedMehtod($user);
+                    //$auctions = $em->getRepository(Auction::class)->$assembliedMehtod($user);
                 }
                /* break;
         }*/
@@ -112,7 +112,7 @@ class UsersController extends AbstractController
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
             $_COOKIE['itemsPerPage'] = 20;
         }
-        $itemsPerPage = $_COOKIE['itemsPerPage'];
+        // $itemsPerPage = $_COOKIE['itemsPerPage'];
 
         //$auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
 

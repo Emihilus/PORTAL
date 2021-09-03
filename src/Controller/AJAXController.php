@@ -68,7 +68,7 @@ class AJAXController extends AbstractController
 
             // AUCTIONS OF SPECIFIC USER LIST
             case 2: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]));
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$json->filters);
                 break;
 
             case 3:
@@ -77,6 +77,11 @@ class AJAXController extends AbstractController
                 break;
         }
         
+        if (!isset($_COOKIE['itemsPerPage'])) 
+        {
+            setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
+            $_COOKIE['itemsPerPage'] = 20;
+        }
 
         $allCount = count($auctions);
         $itemsPerPage = $_COOKIE['itemsPerPage'];
