@@ -363,6 +363,27 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    private function processFiltersDQL($filtersJson)
+    {
+        $whereString = '';
+        $paramsArray = [];
+        if($filtersJson)
+        {
+            if(isset($filtersJson->f_search))
+            {
+                if($filtersJson->fo_search == 1)
+                    $byWhat = 'a.title';
+                else
+                    $byWhat = 'a.description';
+
+                $whereString = " AND WHERE $byWhat LIKE ?2 ";
+                array_push($paramsArray,[1, ])
+                $query->andWhere($byWhat.' LIKE :sQuery')
+                ->setParameter('sQuery', '%'.$filtersJson->f_search.'%');
+            }
+        }
+    }
+
     public function dqlLeadingAuctionsOfUser($user)
     {
         $dql = 'SELECT a, i.filename, 
