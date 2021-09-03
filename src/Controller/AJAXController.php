@@ -74,9 +74,9 @@ class AJAXController extends AbstractController
                         $method = "LeadingAuctionsOfUser";
                         break;
 
-                        //
-                    case 5:
-                        $method = "WonAuctionsOfUser";
+                        
+                    case 5: /// WON
+                        $method = "LeadingAuctionsOfUser";
                         break;
 
                     case 6:
@@ -87,12 +87,12 @@ class AJAXController extends AbstractController
                         $method = "ParticipatingNotLeadingAuctionsOfUser";
                         break;
 
-                    case 8:
-                        $method = "ParticipatedAuctionsOfUser";
+                    case 8: //PARTICIPATED
+                        $method = "ParticipatingAuctionsOfUser";
                         break;
 
-                    case 9:
-                        $method = "ParticipatedNotLeadingAuctionsOfUser";
+                    case 9: //PARTICIPATED
+                        $method = "ParticipatingNotLeadingAuctionsOfUser";
                         break;
                 }
 
