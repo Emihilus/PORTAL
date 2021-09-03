@@ -55,7 +55,7 @@ let historyString = '{{path(app.request.get('_route'),{'username' : app.request.
 
 	{% if mMode == 1 %}
 		GAJArray.filters.f_liveness = 3;
-	{% elseif mMode == 2 or mMode == 5 %}
+	{% elseif mMode == 2 or mMode == 5 or mMode > 7 %}
 		GAJArray.filters.f_liveness = 2;
 	{% endif %}
 
