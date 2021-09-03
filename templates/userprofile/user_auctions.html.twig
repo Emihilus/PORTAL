@@ -18,17 +18,69 @@
 
 
 <div id='list-content' class="container-fluid">
-		<div class="row">
+
+
+
+<div class="row" id='filtersDiv'>
+	<h2>FILTERS SEKCJON </H2>
+	<input id='input_search' type="text" placeholder="Szukaj">
+
+	<label for="search">szukaj wg</label>
+	<select name="search" id="select_searchtype">
+		<option selected value="1">tytulu</option>
+		<option value="2">opisu</option>
+	</select>
+	
+	<label for="liveness">Aktualnosc</label>
+	<select name="liveness" id="select_liveness">
+		<option selected value="1">Aktywne</option>
+		<option value="2">Zakończone</option>
+		<option value="3">Wszystkie</option>
+		<option value="4">bliskie zakonczenia 1h</option>
+	</select>
+
+
+	<input id="input_price_s" type="number" placeholder="cena od">
+	<input id="input_price_e" type="number" placeholder="cena do">
+
+	<input id="input_byuser" type="text" placeholder="użytkownika">
+
+	<h2>END WHERE ORDER BEGIN</h2>
+	<label for="sort">Sortuj według</label>
+	<select name="sort" id="select_criteria">
+		<option selected value="1">Nazwy</option>
+		<option value="2">Utworzenia</option>
+		<option value="3">Daty Zakonczenia</option>
+		<option value="4">Ceny</option>
+		<option value="5">Ilosci ofert</option>
+		<option value="6">Ilosci komentarzy</option>
+	</select>
+
+
+	<label for="order">Porzadek</label>
+	<select name="order" id="select_order">
+		<option selected value="1">Rosnaco</option>
+		<option value="2">Malejąco</option>
+	</select>
+
+	<button onclick='submitFilters()'>SUBMIT</button>
+
+	</div>
+
+
+<div id='contener'></div>
+
+		{# <div class="row">
 			<ul id="auctions"
 				class="list-group col">
-				{# jQuery.ajax populated dynamic content #}
+				jQuery.ajax populated dynamic content 
 			</ul>
 		</div>
 
-		{# pagination section #}
-		{{ include('parts/include/ht_pagination.twig') }}
+		{# pagination section 
+		{{ include('parts/include/ht_pagination.twig') }}#}
 		
-	</div>
+</div>
 {% endblock %}
 
 
@@ -42,8 +94,40 @@
 {# the only dynamic data for getAuctions #}
 let GAJArray = { method: '{{method}}',
 		type: {{type}} {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
-				};
+				, filters: {
+	f_liveness: 1,
+	o_orderBy: 'title'
+}};
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
+
+
+function submitFilters()
+{
+	if($('#input_search').val() != "")
+	{
+		GAJArray.filters.f_search = $('#input_search').val();
+		GAJArray.filters.fo_search = $('#select_searchtype').val();
+	}
+
+	GAJArray.filters.f_liveness = $('#select_liveness').val();
+
+
+	if($('#input_price_s').val() != '')
+		GAJArray.filters.f_prices = $('#input_price_s').val();
+
+	if($('#input_price_e').val() != '')
+		GAJArray.filters.f_pricee = $('#input_price_e').val();
+
+	if($('#input_byuser').val() != '')
+		GAJArray.filters.f_byuser = $('#input_byuser').val();
+
+	// sort
+	GAJArray.filters.s_criteria = $('#select_criteria').val();
+	GAJArray.filters.s_order = $('#select_order').val();
+
+	getAuctions({{app.request.get('page')}});
+}
+
 
 {# getAuctions code #}
 {{ include('parts/include/js_getAuctions.twig')  }}

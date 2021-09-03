@@ -158,7 +158,7 @@ class AuctionRepository extends ServiceEntityRepository
     private function processFilters($filtersJson, $queryBuilder)
     {
         if($filtersJson)
-
+        {
             if(isset($filtersJson->f_search))
             {
                 if($filtersJson->fo_search == 1)
@@ -298,8 +298,7 @@ class AuctionRepository extends ServiceEntityRepository
             ->addSelect('l');
         }
 
-        if($filters)
-            $query = $this->processFilters($filters, $query);
+        $query = $this->processFilters($filters, $query);
 
         return $query->getQuery()->getResult();
     }
@@ -332,8 +331,7 @@ class AuctionRepository extends ServiceEntityRepository
         }
 
 
-        if($filters)
-            $query = $this->processFilters($filters, $query);
+        $query = $this->processFilters($filters, $query);
 
         return $query->getQuery()->getResult();
     }

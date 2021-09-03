@@ -118,8 +118,8 @@ class UsersController extends AbstractController
 
         return $this->render('userprofile/user_auctions.html.twig', [
             /*'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
-            'itemsPerPage' => $itemsPerPage,
-            'type' => $type,*/
+            'itemsPerPage' => $itemsPerPage,*/
+            'type' => $type,
             'method' => $method
         ]);
     }
