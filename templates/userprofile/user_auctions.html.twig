@@ -49,6 +49,12 @@ let GAJArray = { mMode: '{{mMode}}'
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
 
 
+{% switch mMode %}
+		{% case 1 %}
+		GAJArray.filters.f_liveness = 3;
+	{% endswitch %}
+
+
 function submitFilters()
 {
 	if($('#input_search').val() != "")
