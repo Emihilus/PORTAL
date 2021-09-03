@@ -62,9 +62,9 @@ class AJAXController extends AbstractController
                 break;
 
             // MY AUCTIONS LIST
-            case 1: 
+            /*case 1: 
                 $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getUser());
-                break;
+                break;*/
 
             // AUCTIONS OF SPECIFIC USER LIST
             case 2: 
@@ -73,7 +73,7 @@ class AJAXController extends AbstractController
 
             case 3:
                 dump($dqlFunction);
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$dqlFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$this->getUser());
+                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$dqlFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]));
                 break;
         }
         

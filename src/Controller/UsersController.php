@@ -40,7 +40,6 @@ class UsersController extends AbstractController
 
 
     /**
-     * @Route("/my-auctions/{page}", name="my-auctions", defaults = {"page": "1" })
      * @Route("/user-auctions/{username}/{mode}/{page}", name="user-auctions", defaults = {"page": "1", "mode":"1" })
      */
     public function myAuctions($mode, $page, ?User $user, Request $request): Response
@@ -50,14 +49,14 @@ class UsersController extends AbstractController
         $type = 1;
         $em = $this->getDoctrine()->getManager();
         
-        switch ($request->get('_route'))
+        /*switch ($request->get('_route'))
         {
             case 'my-auctions';
                 $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
                 $type = 1;
                 break;
 
-            case 'user-auctions':
+            case 'user-auctions':*/
                 $type = 2;
                 switch($mode)
                 {
@@ -68,7 +67,6 @@ class UsersController extends AbstractController
                     case 2:
                         $method = "SoldAuctionsOfUser";
                         break;
-
 
                     case 3:
                         $method = "CurrentAuctionsOfUser";
@@ -104,8 +102,8 @@ class UsersController extends AbstractController
                     $assembliedMehtod='dql'.$method;
                     $auctions = $em->getRepository(Auction::class)->$assembliedMehtod($user);
                 }
-                break;
-        }
+               /* break;
+        }*/
         
         $allCount = count($auctions);
 

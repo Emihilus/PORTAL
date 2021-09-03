@@ -5,7 +5,7 @@
 {% block body %}
 
 <h1>Managment</h1>
-<a href="{{path('my-auctions')}}"><h2>Show and manage my auctions</h2></a>
+<a href="{{path('user-auctions', {'username': app.user, 'mode': 1})}}"><h2>Show and manage my auctions</h2></a>
 <a href="{{path('my-auctions')}}"><h2>Show my favorite auctions</h2></a>
 <a href="{{path('my-auctions')}}"><h2>Modify pwd</h2></a>
 <h1> Stats in here </h1>
