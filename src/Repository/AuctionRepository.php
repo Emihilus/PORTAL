@@ -466,20 +466,18 @@ class AuctionRepository extends ServiceEntityRepository
 
                     case 3:
                         $orderBy = " ORDER BY a.endsAt $orderity ";
-                        $queryBuilder->orderBy('a.endsAt', $orderity);
                         break;
 
                     case 4:
                         $orderBy = " ORDER BY hghst $orderity ";
-                        $queryBuilder->orderBy('hghst', $orderity);
                         break;
 
                         
                     // NESTED SOLUTION
                     case 5:
-                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
-                        FROM App\Entity\Offer ofa WHERE ofa.auction = a) as offerCount')
-                        ->orderBy('offerCount', $orderity);
+                        $selectString .= " ,(SELECT COUNT(ofa) 
+                        FROM App\Entity\Offer ofa WHERE ofa.auction = a) as offerCount ";
+                        $orderBy = " ORDER BY offerCount $orderity ";
                         break;
 
                     // JOINED - NEEDS FULL GROUP BY OFF
@@ -491,20 +489,31 @@ class AuctionRepository extends ServiceEntityRepository
 
                     // NESTED SOLUTION
                     case 6:
-                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
-                        FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
-                        ->orderBy('commentCount', $orderity);
+                        $selectString .= " ,(SELECT COUNT(ofa) 
+                        FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount";
+                        $orderBy = " ORDER BY comment Count $orderity ";
                         break;
 
                 }
             }
 
         }
+
+        $assocObject['selectString'] = $selectString;
+        $assocObject['leftJoinString'] = $leftJoinString;
+        $assocObject['whereString'] = $whereString;
+        $assocObject['havingString'] = $havingString;
+        $assocObject['orderByString'] = $orderByString;
+        $assocObject['paramsArray'] = $paramsArray;
+        return $assocObject;
     }
 
-    public function dqlLeadingAuctionsOfUser($user)
+    public function dqlLeadingAuctionsOfUser($user, $filters = null)
     {
-        $dql = 'SELECT a, i.filename, 
+
+        $fil = $this->processFiltersDQL($filters);
+
+        $dql = "SELECT a, i.filename, {$fil['selectString]}
 
         (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
@@ -521,7 +530,7 @@ class AuctionRepository extends ServiceEntityRepository
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
         AND a.endsAt>CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)";
         
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
