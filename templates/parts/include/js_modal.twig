@@ -40,7 +40,10 @@ let optionsClicked = false;
                 $('.modal-body').html(json.result);
 
                 if(json.result == 'Success')
-                    setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+                    {
+                        $('#aid-'+clickedId).toggleClass('d-none');
+                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+                    }
             });
         })
         .catch(() => { /* Error. Inform the user */ })
