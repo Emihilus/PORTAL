@@ -22,9 +22,7 @@ function onChangeHandler (selectedObject)
 	})
 	.done(res => 
 	{ 
-		console.log(res);
 		getAuctions(1);
-		//location.reload();
 	});
 }
 
@@ -55,7 +53,6 @@ function processSuccess(res, requestedPage)
 		}
 
 		$('#contener').html(res);
-
 
 		let pageElementsArray = $('.page-item').toArray();
 		pageElementsArray.forEach(function (pageItemElement) 

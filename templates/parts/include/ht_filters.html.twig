@@ -1,15 +1,15 @@
 <div class="row" id='filtersDiv'>
 	<h2>FILTERS SEKCJON </H2>
-	<input id='input_search' type="text" placeholder="Szukaj" onkeyup="processChange()">
+	<input id='input_search' type="text" placeholder="Szukaj"{# onkeyup="processChange()"#}>
 
 	<label for="search">szukaj wg</label>
-	<select name="search" id="select_searchtype" onchange="processChange()">
+	<select name="search" id="select_searchtype"{# onchange="processChange()"#}>
 		<option selected value="1">tytulu</option>
 		<option value="2">opisu</option>
 	</select>
 	
 	<label for="liveness">Aktualnosc</label>
-	<select name="liveness" id="select_liveness" onchange="processChange()">
+	<select name="liveness" id="select_liveness"{# onchange="processChange()"#}>
 		<option selected value="1">Aktywne</option>
 		<option value="2">Zakończone</option>
 		<option value="3">Wszystkie</option>
@@ -17,14 +17,14 @@
 	</select>
 
 
-	<input id="input_price_s" type="number" placeholder="cena od" onkeyup="processChange()">
-	<input id="input_price_e" type="number" placeholder="cena do" onkeyup="processChange()">
+	<input id="input_price_s" type="number" placeholder="cena od"{# onkeyup="processChange()"#}>
+	<input id="input_price_e" type="number" placeholder="cena do"{# onkeyup="processChange()"#}>
 
-	<input id="input_byuser" type="text" placeholder="użytkownika" onkeyup="processChange()">
+	<input id="input_byuser" type="text" placeholder="użytkownika"{# onkeyup="processChange()"#}>
 
 	<h2>END WHERE ORDER BEGIN</h2>
 	<label for="sort">Sortuj według</label>
-	<select name="sort" id="select_criteria" onchange="processChange()">
+	<select name="sort" id="select_criteria"{# onchange="processChange()"#}>
 		<option selected value="1">Nazwy</option>
 		<option value="2">Utworzenia</option>
 		<option value="3">Daty Zakonczenia</option>
@@ -35,7 +35,7 @@
 
 
 	<label for="order">Porzadek</label>
-	<select name="order" id="select_order" onchange="processChange()">
+	<select name="order" id="select_order"{# onchange="processChange()"#}>
 		<option selected value="1">Rosnaco</option>
 		<option value="2">Malejąco</option>
 	</select>
