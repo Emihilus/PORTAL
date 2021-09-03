@@ -432,6 +432,7 @@ class AuctionRepository extends ServiceEntityRepository
 
             if(isset($filtersJson->f_byuser))
             {
+                dump('GIVEN');
                 $selectString = ' ,u.username ';
                 $leftJoinString = ' LEFT JOIN a.byUser u ';
                 $whereString .= ' AND u.username = ?7 ';
@@ -537,7 +538,7 @@ class AuctionRepository extends ServiceEntityRepository
         {$fil['orderByString']}";
         
         $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $user);
+        ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
 
         foreach($fil['paramsArray'] as $params)
         {
