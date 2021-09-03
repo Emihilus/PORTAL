@@ -28,6 +28,7 @@ function onChangeHandler (selectedObject)
 
 function getAuctions(requestedPage)
 {
+	refr();
 	GAJArray.requestedPage = requestedPage;
     $.ajax({
    	 	url: "{{path ('getAuctions') }}",
