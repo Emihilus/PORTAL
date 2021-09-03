@@ -1,7 +1,7 @@
 
 if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) 
 {
-    processSuccess(localStorage.getItem('getAuctionsResponse'),localStorage.getItem('getAuctionsRqPage')); 
+    processSuccess(sessionStorage.getItem('getAuctionsResponse'),sessionStorage.getItem('getAuctionsRqPage')); 
 }
 else
 {
@@ -37,8 +37,8 @@ function getAuctions(requestedPage)
     	data: JSON.stringify(GAJArray) })
 	.done(res => 
 	{ 
-		localStorage.setItem("getAuctionsResponse", res);
-		localStorage.setItem("getAuctionsRqPage", requestedPage);
+		sessionStorage.setItem("getAuctionsResponse", res);
+		sessionStorage.setItem("getAuctionsRqPage", requestedPage);
 
 		processSuccess(res, requestedPage);
 	});
