@@ -37,7 +37,7 @@ class AJAXController extends AbstractController
         setcookie('itemsPerPage', $result, time() + (86400 * 30), "/");
 
         return new JsonResponse([
-            'itemsPerPage' => $result 
+            'itemsPerPage' => $result
         ]);
     }
 
@@ -50,89 +50,65 @@ class AJAXController extends AbstractController
         $json = json_decode($request->getContent());
 
 
-        switch($json->mMode)
-                {
-                    case 0:
-                        $method = "ListAllAuctions";
-                        break;
+        switch ($json->mMode) 
+        {
+            case 0:
+                $method = "ListAllAuctions";
+                break;
 
-                    case 1: // of specific user
-                        $method = "ListAllAuctions";
-                        break;
-                    
-                    case 2:
-                        //$method = "SoldAuctionsOfUser";
-                        $method = "ListAllAuctions";
-                        break;
+            case 1: // of specific user
+                $method = "ListAllAuctions";
+                break;
 
-                    case 3:
-                        // $method = "CurrentAuctionsOfUser";
-                        $method = "ListAllAuctions";
-                        break;
+            case 2:
+                //$method = "SoldAuctionsOfUser";
+                $method = "ListAllAuctions";
+                break;
 
-                    case 4:
-                        $method = "LeadingAuctionsOfUser";
-                        break;
+            case 3:
+                // $method = "CurrentAuctionsOfUser";
+                $method = "ListAllAuctions";
+                break;
 
-                        
-                    case 5: /// WON
-                        $method = "LeadingAuctionsOfUser";
-                        break;
+            case 4:
+                $method = "LeadingAuctionsOfUser";
+                break;
 
-                    case 6:
-                        $method = "ParticipatingAuctionsOfUser";
-                        break;
 
-                    case 7:
-                        $method = "ParticipatingNotLeadingAuctionsOfUser";
-                        break;
+            case 5: /// WON
+                $method = "LeadingAuctionsOfUser";
+                break;
 
-                    case 8: //PARTICIPATED
-                        $method = "ParticipatingAuctionsOfUser";
-                        break;
+            case 6:
+                $method = "ParticipatingAuctionsOfUser";
+                break;
 
-                    case 9: //PARTICIPATED
-                        $method = "ParticipatingNotLeadingAuctionsOfUser";
-                        break;
-                }
+            case 7:
+                $method = "ParticipatingNotLeadingAuctionsOfUser";
+                break;
+
+            case 8: //PARTICIPATED
+                $method = "ParticipatingAuctionsOfUser";
+                break;
+
+            case 9: //PARTICIPATED
+                $method = "ParticipatingNotLeadingAuctionsOfUser";
+                break;
+        }
 
 
         /*if($json->type > 2)
          {*/
-            if($json->mMode < 4)
-                {
-                    $queryFunction = 'qBuilder'.$method;
-                    $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
-                }
-            else
-                {
-                    $queryFunction = 'dql'.$method;
-                    $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($json->filters);
-                }
-         //}
-         dump($json->filters);
-       /* switch (0)
-        {*/
-            // PUBLIC LIST
-            //case 0:
-               // break;
+        if ($json->mMode < 4) 
+        {
+            $queryFunction = 'qBuilder' . $method;
+            $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
+        } else 
+        {
+            $queryFunction = 'dql' . $method;
+            $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($json->filters);
+        }
 
-            // MY AUCTIONS LIST
-            /*case 1: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner($this->getUser());
-                break;*/
-
-            // AUCTIONS OF SPECIFIC USER LIST
-            /*case 2: 
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferWithOwner2($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]),$json->filters);
-                break;*/
-/*
-            case 3:
-                dump($dqlFunction);
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=> $json->username]));
-                break;*/
-       // }
-        
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
@@ -150,7 +126,6 @@ class AJAXController extends AbstractController
             'itemsPerPage' => $itemsPerPage
         ]);
     }
-    // WE NEED TO AVOID REDUNDANCY SO PUT IN HERE CONDTION FOR SELECTING AUCTIONS CREATED ONLY BY SPECIFIED USER, USEFUL FOR FUTURE OPTION SHOW SPECIFIC USER AUCTIONS
 
     /**
      * @Route("/uploadTemporary", name="uploadTemporary", methods={"POST"})
@@ -159,18 +134,16 @@ class AJAXController extends AbstractController
     {
         $TOKEN = $request->request->get('TOKEN');
         $filename = '';
-        if ( 0 < $_FILES['file']['error'] ) 
+        if (0 < $_FILES['file']['error']) 
         {
             return new JsonResponse([
                 'errors' => 'Error: ' . $_FILES['file']['error']
             ]);
+        } else {
+            $filename = $this->getSaveFilename($TOKEN, 1);
+            move_uploaded_file($_FILES['file']['tmp_name'], $this->getParameter('tempImagePath') . $filename);
         }
-        else 
-        {
-            $filename = $this->getSaveFilename($TOKEN,1);
-            move_uploaded_file($_FILES['file']['tmp_name'], $this->getParameter('tempImagePath').$filename);
-        }
-    
+
         $tempImage = new TempImage();
         $tempImage->setToken($TOKEN);
         $tempImage->setFilename($filename);
@@ -186,10 +159,10 @@ class AJAXController extends AbstractController
         ]);
     }
 
-    private function getSaveFilename(string $token, int $count) :string
+    private function getSaveFilename(string $token, int $count): string
     {
-        if(file_exists($this->getParameter('tempImagePath')."[$token]$count.jpg"))
-            return $this->getSaveFilename($token,$count+1);
+        if (file_exists($this->getParameter('tempImagePath') . "[$token]$count.jpg"))
+            return $this->getSaveFilename($token, $count + 1);
         else
             return "[$token]$count.jpg";
     }
@@ -201,48 +174,45 @@ class AJAXController extends AbstractController
      */
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
-        if($this->getUser() != null)
+        if ($this->getUser() != null) 
         {
-                $em = $this->getDoctrine()->getManager();
-                $json = json_decode($request->getContent());
+            $em = $this->getDoctrine()->getManager();
+            $json = json_decode($request->getContent());
 
 
-                $offer = new Offer();
-                $offer->setValue($json->offerValue);
-                $offer->setCreatedAt(null);
-                $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
-                $offer->setAuction($auctionWithHghstOffer[0]);
-                $offer->setByUser($this->getUser());
+            $offer = new Offer();
+            $offer->setValue($json->offerValue);
+            $offer->setCreatedAt(null);
+            $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
+            $offer->setAuction($auctionWithHghstOffer[0]);
+            $offer->setByUser($this->getUser());
 
-                
-                $validatorErrors = $validator->validate($offer);
 
-                if(count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue)
-                {
-                    $em->persist($offer);
-                    $em->flush();
-                    return new JsonResponse([]);
+            $validatorErrors = $validator->validate($offer);
+
+            if (count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue) 
+            {
+                $em->persist($offer);
+                $em->flush();
+                return new JsonResponse([]);
+            } 
+            else 
+            {
+                if ($auctionWithHghstOffer[1] > $json->offerValue) {
+                    $validatorErrors->add(new ConstraintViolation('The value of your offer (' . ($json->offerValue / 100) . ' PLN) is smaller than the highest offer for this auction (' . ($auctionWithHghstOffer[1] / 100) . ' PLN)', null, ['param' => 'param'], $json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]), 'null'));
                 }
-                else
-                {
-                    if ($auctionWithHghstOffer[1] > $json->offerValue)
-                    {
-                        $validatorErrors->add(new ConstraintViolation('The value of your offer ('.($json->offerValue/100).' PLN) is smaller than the highest offer for this auction ('.($auctionWithHghstOffer[1]/100).' PLN)', null, ['param'=>'param'],$json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]),'null'));
-                    }
-                    $rendered = $this->render('parts/ajax/auction_make_offer_errors_part.html.twig', [
-                        'errors' => $validatorErrors
-                    ]);
+                $rendered = $this->render('parts/ajax/auction_make_offer_errors_part.html.twig', [
+                    'errors' => $validatorErrors
+                ]);
 
-                    dump($validatorErrors);
-                    return new JsonResponse([
-                        'RECEIVED VALUE' => $json->offerValue,
-                        'errorsBody' => $rendered->getContent()
-                    ]);
-                }
-
-
-        }
-        else
+                dump($validatorErrors);
+                return new JsonResponse([
+                    'RECEIVED VALUE' => $json->offerValue,
+                    'errorsBody' => $rendered->getContent()
+                ]);
+            }
+        } 
+        else 
         {
             return new JsonResponse([
                 'errorsBody' => "This action is for logged in users only"
@@ -257,32 +227,22 @@ class AJAXController extends AbstractController
     public function deleteAuction(Request $request)
     {
 
-        if($this->getUser() != null)
-        {
+        if ($this->getUser() != null) {
             $json = json_decode($request->getContent());
             $em = $this->getDoctrine()->getManager();
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
 
-            if($auction->getByUser() == $this->getUser())
-            {
-                ;// DELETE AUCTION
+            if ($auction->getByUser() == $this->getUser()) {; // DELETE AUCTION
                 return new JsonResponse([
                     'result' => "Success"
                 ]);
-            }
-            else
-            {
-                ;// WRONG USER
+            } else {; // WRONG USER
                 return new JsonResponse([
                     'result' => "Wrong user"
                 ]);
             }
-            
-            
-        }
-        else
-        {
+        } else {
             return new JsonResponse([
                 'result' => "This action is permitted for logged in users only you dumbass hacker"
             ]);
@@ -290,12 +250,12 @@ class AJAXController extends AbstractController
     }
 
 
-     /**
+    /**
      * @Route("/toggleFavoriteAuction", name="toggleFavoriteAuction", methods={"POST"})
      */
     public function toggleFavoriteAuction(Request $request)
     {
-        if($this->getUser() != null)
+        if ($this->getUser() != null) 
         {
             $json = json_decode($request->getContent());
             $em = $this->getDoctrine()->getManager();
@@ -310,9 +270,8 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "Success"
             ]);
-            
         }
-        else
+        else 
         {
             return new JsonResponse([
                 'result' => "This action is permitted for logged in users"
@@ -329,7 +288,7 @@ class AJAXController extends AbstractController
 
         // dump($this->isGranted('ROLE_ADMIN'));
 
-        if($this->isGranted('ROLE_ADMIN'))
+        if ($this->isGranted('ROLE_ADMIN')) 
         {
             $json = json_decode($request->getContent());
 
@@ -346,9 +305,8 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "Success"
             ]);
-            
-        }
-        else
+        } 
+        else 
         {
             return new JsonResponse([
                 'result' => "Forbidden"
@@ -365,7 +323,7 @@ class AJAXController extends AbstractController
 
         // dump($this->isGranted('ROLE_ADMIN'));
 
-        if($this->isGranted('ROLE_ADMIN'))
+        if ($this->isGranted('ROLE_ADMIN')) 
         {
             $json = json_decode($request->getContent());
 
@@ -382,9 +340,8 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "Success"
             ]);
-            
-        }
-        else
+        } 
+        else 
         {
             return new JsonResponse([
                 'result' => "Forbidden"
@@ -399,7 +356,7 @@ class AJAXController extends AbstractController
     {
         $json = json_decode($request->getContent());
 
-        if($this->getUser() != null)
+        if ($this->getUser() != null) 
         {
             $em = $this->getDoctrine()->getManager();
 
@@ -416,8 +373,8 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "Success"
             ]);
-        }
-        else
+        } 
+        else 
         {
             return new JsonResponse([
                 'result' => "Forbidden"
@@ -433,7 +390,7 @@ class AJAXController extends AbstractController
     {
         $json = json_decode($request->getContent());
 
-        if($this->getUser() != null)
+        if ($this->getUser() != null) 
         {
             $em = $this->getDoctrine()->getManager();
 
@@ -446,8 +403,8 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "Success"
             ]);
-        }
-        else
+        } 
+        else 
         {
             return new JsonResponse([
                 'result' => "Forbidden"
@@ -463,7 +420,7 @@ class AJAXController extends AbstractController
     {
         $json = json_decode($request->getContent());
 
-        if($this->getUser() != null)
+        if ($this->getUser() != null) 
         {
             $em = $this->getDoctrine()->getManager();
 
@@ -476,8 +433,8 @@ class AJAXController extends AbstractController
             return new JsonResponse([
                 'result' => "Success"
             ]);
-        }
-        else
+        } 
+        else 
         {
             return new JsonResponse([
                 'result' => "Forbidden"
