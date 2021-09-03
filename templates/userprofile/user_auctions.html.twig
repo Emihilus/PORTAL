@@ -8,7 +8,23 @@
 
 {% if mMode == 1 %}
 Wszystkie aukcje
-
+{% elseif mMode == 2 %}
+Sprzedane aukcje
+{% elseif mMode == 3 %}
+Obecnie sprzedawane aukcje
+{% elseif mMode == 4 %}
+Prowadzi w aukcjach
+{% elseif mMode == 5 %}
+Wygrane aukcje
+{% elseif mMode == 6 %}
+Aktualnie bierze udział
+{% elseif mMode == 7 %}
+Aktualnie bierze udział, ale przegrywa
+{% elseif mMode == 8 %}
+Brał udział
+{% elseif mMode == 9 %}
+Przegrane aukcje
+{% endif %}
 
  of the user {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</h1>
 
