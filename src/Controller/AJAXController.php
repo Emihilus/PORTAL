@@ -105,7 +105,10 @@ class AJAXController extends AbstractController
         {*/
             // PUBLIC LIST
             //case 0:
-                $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
+                if($json->mMode < 4)
+                    $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(),$json->filters);
+                else 
+                    $auctions = $this->getDoctrine()->getRepository(Offer::class)->$queryFunction($this->getUser(),$json->filters);
                // break;
 
             // MY AUCTIONS LIST
