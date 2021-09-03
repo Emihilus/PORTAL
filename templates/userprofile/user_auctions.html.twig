@@ -43,11 +43,13 @@ let GAJArray = { mMode: '{{mMode}}'
 		{# {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %} #}
 ,filters: {
 	f_liveness: 1,
-	o_orderBy: 'title',
-	f_byuser: '{{app.request.get('username')}}'
+	o_orderBy: 'title'
 }};
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
 
+	{% if mMode < 3 %}
+		GAJArray.filters.f_byuser = '{{app.request.get('username')}}';
+	{% endif %}
 
 	{% if mMode == 1 %}
 		GAJArray.filters.f_liveness = 3;
