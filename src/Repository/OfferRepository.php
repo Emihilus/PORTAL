@@ -187,7 +187,7 @@ class OfferRepository extends ServiceEntityRepository
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
 
         ->andWhere('o.byUser = :offerIssuer')
-        ->setParameter('offerIssuer', $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])
+        ->setParameter('offerIssuer', $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId())
         ->andWhere('o.Value = (SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)')
         ;
         if($user)
