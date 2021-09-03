@@ -208,7 +208,9 @@ class AuctionRepository extends ServiceEntityRepository
 
             if(isset($filtersJson->f_byuser))
             {
-                $queryBuilder->andWhere('u.username = :byusr')
+                $queryBuilder->leftJoin('a.byUser', 'u')
+                ->addSelect('u.username')
+                ->andWhere('u.username = :byusr')
                 ->setParameter('byusr', $filtersJson->f_byuser);
             }
 
@@ -284,11 +286,8 @@ class AuctionRepository extends ServiceEntityRepository
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
-        ->leftJoin('a.byUser', 'u')
-        ->addSelect('u.username')
 
-        ->where('i.orderIndicator = 0')
-        ->orWhere('i.orderIndicator IS NULL');
+        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL');
 
         // IMPERFECT
         if($user)
@@ -340,17 +339,13 @@ class AuctionRepository extends ServiceEntityRepository
 
         ->from('App\Entity\Offer', 'o')
 
-
         ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
         ->addSelect('a')
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
-        ->leftJoin('a.byUser', 'u')
-        ->addSelect('u.username')
 
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
-        //->orWhere('');
 
         ->andWhere('o.byUser')
         ;
