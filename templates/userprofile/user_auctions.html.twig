@@ -49,10 +49,11 @@ let GAJArray = { mMode: '{{mMode}}'
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
 
 
-{% switch mMode %}
-		{% case 1 %}
+	{% if mMode == 1 %}
 		GAJArray.filters.f_liveness = 3;
-	{% endswitch %}
+	{% elseif mMode == 2 %}
+		GAJArray.filters.f_liveness = 2;
+	{% endif %}
 
 
 function submitFilters()
