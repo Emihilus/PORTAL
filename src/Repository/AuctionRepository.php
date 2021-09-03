@@ -365,6 +365,8 @@ class AuctionRepository extends ServiceEntityRepository
 
     private function processFiltersDQL($filtersJson)
     {
+        $selectString = '';
+        $leftJoinString = '';
         $whereString = '';
         $havingString = '';
         $paramsArray = [];
@@ -409,9 +411,30 @@ class AuctionRepository extends ServiceEntityRepository
 
             if(isset($filtersJson->f_prices) && $filtersJson->f_prices > 0)
             {
-                $havingString = " HAVING hghst > ?5";
-                $queryBuilder->andHaving('hghst > :sval')
-                ->setParameter('sval', $filtersJson->f_prices*100);
+                $havingString = " HAVING hghst > ?5 ";
+                array_push($paramsArray,[5, $filtersJson->f_prices*100]);
+            }
+
+            if(isset($filtersJson->f_pricee) && $filtersJson->f_pricee > 0)
+            {
+                if($havingString == "")
+                {
+                    $havingString = " HAVING hghst < ?6 ";
+                    array_push($paramsArray,[6, $filtersJson->f_pricee*100]);
+                }
+                else
+                {
+                    $havingString .= " AND hghst < ?6 ";
+                    array_push($paramsArray,[6, $filtersJson->f_pricee*100]);
+                }
+            }
+
+            if(isset($filtersJson->f_byuser))
+            {
+                $selectString = ' ,u.username ';
+                $leftJoinString = ' LEFT JOIN a.byUser u ';
+                $whereString .= ' AND u.username = ?7 ';
+                array_push($paramsArray,[7, $filtersJson->f_byuser]);
             }
 
         }
