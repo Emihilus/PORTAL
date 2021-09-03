@@ -49,7 +49,7 @@ class OfferRepository extends ServiceEntityRepository
         ;
     }
     */
-    private function processFilters($filtersJson, $queryBuilder)
+   /* private function processFilters($filtersJson, $queryBuilder)
     {
         if($filtersJson)
         {
@@ -155,7 +155,7 @@ class OfferRepository extends ServiceEntityRepository
                         break;*/
 
                     // NESTED SOLUTION
-                    case 6:
+                   /* case 6:
                         $queryBuilder->addSelect('(SELECT COUNT(ofa) 
                         FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
                         ->orderBy('commentCount', $orderity);
@@ -178,7 +178,7 @@ class OfferRepository extends ServiceEntityRepository
 
         /*->from('App\Entity\Offer', 'o')*/
 
-        ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
+       /* ->leftJoin('App\Entity\Auction', 'a', Expr\Join::WITH, 'a = o.auction')
         ->addSelect('a')
 
         ->leftJoin('a.images', 'i')
@@ -201,6 +201,6 @@ class OfferRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
-
+*/
     
 }
