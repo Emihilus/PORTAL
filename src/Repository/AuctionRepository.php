@@ -303,66 +303,33 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function qBuilderAuctionsOfSpecificUser(?User $user, $filters = null)
-    {
-        $query = $this->createQueryBuilder('a')
-
-        ->addSelect('(SELECT MAX(o.Value) 
-        FROM App\Entity\Offer o
-        WHERE a.id = o.auction ) as hghst')
-
-        ->leftJoin('a.images', 'i')
-        ->addSelect('i.filename')
-        ->leftJoin('a.byUser', 'u')
-        ->addSelect('u.username')
-
-        ->where('i.orderIndicator = 0')
-        ->orWhere('i.orderIndicator IS NULL');
-
-       /* ->andWhere('a.byUser = :val')
-        ->setParameter('val', $user);*/
-
-        // IMPERFECT
-        if($user)
-        {
-            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
-            ->setParameter('user', $user->getId())
-            ->addSelect('l');
-        }
-
-
-        $query = $this->processFilters($filters, $query);
-
-        return $query->getQuery()->getResult();
-    }
-
-   /* public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
-    {
-       return $this->createQueryBuilder('a')
-       ->leftJoin('('.$this->createQueryBuilder('b')
-       ->select('App\Entity\Offer')
-       ->from('App\Entity\Offer', 'r')
-       ->where('')
-       )
-
-
-
-            ->where('e.Value=('.$this->createQueryBuilder('b')
-                ->select('MAX(r.Value)')
-                ->from('App\Entity\Offer', 'r')
-                ->where('r.auction=e.auction')
-                ->getDQL().')')
-
-            ->andWhere('r.byUser =  :val')
-            ->setParameter('val', $user)
-            
-            ->getQuery()
-            ->getResult()
-        ;
-    }*/
+    
 
 
 // WORKING
+
+    public function dqlSoldAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a, i.filename, 
+
+        (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+
+        FROM App\Entity\Auction a
+        LEFT JOIN a.images i
+
+        WHERE a.byUser=?1 
+        AND a.endsAt<CURRENT_TIMESTAMP()
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
+
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
+
     public function dqlLeadingAuctionsOfUser($user)
     {
         $dql = 'SELECT a, i.filename, 
@@ -455,28 +422,6 @@ class AuctionRepository extends ServiceEntityRepository
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction) 
         AND a.endsAt<CURRENT_TIMESTAMP()
         AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
-
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $user);
-        return $query->getResult();
-    }
-
-    public function dqlSoldAuctionsOfUser($user)
-    {
-        $dql = 'SELECT a, i.filename, 
-
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-
-        FROM App\Entity\Auction a
-        LEFT JOIN a.images i
-
-        WHERE a.byUser=?1 
-        AND a.endsAt<CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
-
 
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
@@ -660,6 +605,61 @@ group BY auction_id*/
             ->setParameter('user', $user->getId())
             ->addSelect('l');
         }
+
+        $query = $this->processFilters($filters, $query);
+
+        return $query->getQuery()->getResult();
+    }*/
+
+    /* public function queryAuctionsWithSpecifiLeadingcUserCollection($user)
+    {
+       return $this->createQueryBuilder('a')
+       ->leftJoin('('.$this->createQueryBuilder('b')
+       ->select('App\Entity\Offer')
+       ->from('App\Entity\Offer', 'r')
+       ->where('')
+       )
+
+
+
+            ->where('e.Value=('.$this->createQueryBuilder('b')
+                ->select('MAX(r.Value)')
+                ->from('App\Entity\Offer', 'r')
+                ->where('r.auction=e.auction')
+                ->getDQL().')')
+
+            ->andWhere('r.byUser =  :val')
+            ->setParameter('val', $user)
+            
+            ->getQuery()
+            ->getResult()
+        ;
+    }*/
+
+    /*public function qBuilderAuctionsOfSpecificUser(?User $user, $filters = null)
+    {
+        $query = $this->createQueryBuilder('a')
+
+        ->addSelect('(SELECT MAX(o.Value) 
+        FROM App\Entity\Offer o
+        WHERE a.id = o.auction ) as hghst')
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+        ->leftJoin('a.byUser', 'u')
+        ->addSelect('u.username')
+
+        ->where('i.orderIndicator = 0')
+        ->orWhere('i.orderIndicator IS NULL');
+
+        // IMPERFECT
+        if($user)
+        {
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
+            ->addSelect('l');
+        }
+
 
         $query = $this->processFilters($filters, $query);
 

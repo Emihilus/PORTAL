@@ -56,8 +56,8 @@ class AJAXController extends AbstractController
                         $method = "ListAllAuctions";
                         break;
 
-                    case 1:
-                        $method = "AuctionsOfSpecificUser";
+                    case 1: // of specific user
+                        $method = "ListAllAuctions";
                         break;
                     
                     case 2:

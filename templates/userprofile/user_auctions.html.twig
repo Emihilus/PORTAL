@@ -40,10 +40,11 @@
 
 {# the only dynamic data for getAuctions #}
 let GAJArray = { mMode: '{{mMode}}'
-		{% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %}
-				, filters: {
+		{# {% if app.request.get('username') %}, username: '{{app.request.get('username')}}'{% endif %} #}
+,filters: {
 	f_liveness: 1,
-	o_orderBy: 'title',f_byuser: '{{app.request.get('username')}}'{% endif %}
+	o_orderBy: 'title',
+	f_byuser: '{{app.request.get('username')}}'
 }};
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
 
