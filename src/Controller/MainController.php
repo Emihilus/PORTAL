@@ -72,7 +72,8 @@ class MainController extends AbstractController
      */
     public function commentAuction($auctionId, ValidatorInterface $validator, Request $request): Response
     {
-        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndComments($auctionId);
+        $em = $this->getDoctrine()->getManager();
+        $auction = $em->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndComments($auctionId);
 
         dump($auction);
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
@@ -86,7 +87,8 @@ class MainController extends AbstractController
             // $form->getData() holds the submitted values
             // but, the original `$comment` variable has also been updated
             $comment = $form->getData();
-
+            $comment->setAuction($auction);
+            $comment->byUser($this->getUser())
             // ... perform some action, such as saving the comment to the database
             // for example, if comment is a Doctrine entity, save it!
             // $entityManager = $this->getDoctrine()->getManager();

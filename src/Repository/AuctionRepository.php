@@ -201,7 +201,6 @@ class AuctionRepository extends ServiceEntityRepository
         $dql = "SELECT a, i.filename, 
         ".self::hghstSelect.",
         ".self::hghstOfferOwnerSelect."
-
         {$fil['selectString']}
 
         FROM App\Entity\Offer o 
@@ -236,7 +235,6 @@ class AuctionRepository extends ServiceEntityRepository
         $dql = "SELECT a, i.filename, 
         ".self::hghstSelect.",
         ".self::hghstOfferOwnerSelect."
-
         {$fil['selectString']}
 
         FROM App\Entity\Offer o 
@@ -270,7 +268,6 @@ class AuctionRepository extends ServiceEntityRepository
         $dql = "SELECT a, i.filename, 
         ".self::hghstSelect.",
         ".self::hghstOfferOwnerSelect."
-        
         {$fil['selectString']}
 
         FROM App\Entity\Offer o 
