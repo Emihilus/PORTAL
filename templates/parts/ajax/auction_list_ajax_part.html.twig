@@ -14,10 +14,10 @@
 			{{ auction[0].endsAt|ago }} </span></div> HO: <b>{{auction.hghst/100}} PLN</b>
 
 			{% if app.user and app.user.username == auction.0.byUser.username %}
-			<button class="btn-primary btn" onclick="task({{auction.0.id}},true)">Tasks</button> {% endif %}
+			<button class="btn-primary btn" onclick="task({{auction.0.id}},true)">Opcje</button> {% endif %}
 			<img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length==0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' />
 
-				{{ dump(auction) }} 
+				{# {{ dump(auction) }}  #}
 	</a>
 {% endfor %}
 
