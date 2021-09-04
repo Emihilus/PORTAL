@@ -17,7 +17,7 @@
 			<button class="btn-primary btn" onclick="task({{auction.0.id}},true)">Tasks</button> {% endif %}
 			<img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length==0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' />
 
-				{# {{ dump(auction) }}  {{ auction[0].endsAt|date('H:m:s d-m-Y') }}#}
+				{{ dump(auction) }} 
 	</a>
 {% endfor %}
 

@@ -163,6 +163,12 @@ class AuctionRepository extends ServiceEntityRepository
         ->addSelect('(SELECT MAX(o.Value) 
         FROM App\Entity\Offer o
         WHERE a.id = o.auction ) as hghst')
+        ->addSelect("(SELECT zu.username 
+        FROM App\Entity\Offer zo
+        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
+        WHERE zo.auction=a
+        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
+        ) as hghstOfferOwner")
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
@@ -230,11 +236,13 @@ class AuctionRepository extends ServiceEntityRepository
         (SELECT MAX(oa.Value) FROM
         App\Entity\Offer oa
         WHERE a.id = oa.auction
-        ) as hghst 
+        ) as hghst,
 
         (SELECT zu.username 
-        FROM App\Entity\Offer zu
-        LEFT JOIN 
+        FROM App\Entity\Offer zo
+        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
+        WHERE zo.auction=a
+        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
         ) as hghstOfferOwner
 
         {$fil['selectString']}
