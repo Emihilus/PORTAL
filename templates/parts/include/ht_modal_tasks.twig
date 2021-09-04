@@ -16,7 +16,7 @@
 
       <div class="modal-footer text-center">
          <button type="button" class="btn btn-secondary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide')">Cancel</button>
-        <button id="cmt_btn" type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="() => $('#exampleModalCenter').modal('hide'); window.open({{path('place-acomment',{ 'auctionId': 1})}},'_blank');">Customer comment</button>
+        <button id="cmt_btn" type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="$('#exampleModalCenter').modal('hide'); window.open('{{path('place-acomment')}}','_blank');">Customer comment</button>
         <button id='end_btn' type="button" class="btn btn-primary me-2" data-dismiss="modal" onclick="endNowAuction()">End now</button>
         <button id='del_btn' type="button" class="btn btn-primary" onclick="deleteAuction()">Delete</button>
       </div>
