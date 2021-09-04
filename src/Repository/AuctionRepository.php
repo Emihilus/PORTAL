@@ -206,6 +206,7 @@ class AuctionRepository extends ServiceEntityRepository
         WHERE o.byUser=?1 
         AND o.Value=(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
         AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
+        AND a.isDeleted = false 
         {$fil['whereString']} 
         {$fil['havingString']}
         {$fil['orderByString']}";
@@ -240,6 +241,7 @@ class AuctionRepository extends ServiceEntityRepository
 
         WHERE o.byUser=?1
         AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
+        AND a.isDeleted = false 
         {$fil['whereString']} 
         {$fil['havingString']}
         {$fil['orderByString']}";
@@ -281,6 +283,7 @@ class AuctionRepository extends ServiceEntityRepository
         AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
         AND e.byUser=?1)
         AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
+        AND a.isDeleted = false 
         {$fil['whereString']} 
         {$fil['havingString']}
         {$fil['orderByString']}";
