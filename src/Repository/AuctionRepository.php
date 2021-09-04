@@ -16,13 +16,12 @@ use Doctrine\ORM\Query\Expr;
  */
 class AuctionRepository extends ServiceEntityRepository
 {
+    private const hghstSelect = 
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Auction::class);
     }
-
-
-
 
     // /**
     //  * @return Auction[] Returns an array of Auction objects
