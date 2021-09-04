@@ -1,7 +1,6 @@
 <button class="btn-primary btn" onclick="$('#filtersDiv').toggleClass('d-none')">Toggle Filters</button>
 <div class="row d-none" id='filtersDiv'>
 <form id="filterz">
-	<h2>FILTERS SEKCJON </H2>
 	<input id='input_search' type="text" placeholder="Szukaj"{# onkeyup="processChange()"#}>
 
 	<label for="search">szukaj wg</label>
@@ -23,8 +22,7 @@
 	<input id="input_price_e" type="number" placeholder="cena do"{# onkeyup="processChange()"#}>
 
 	<input id="input_byuser" type="text" placeholder="użytkownika"{# onkeyup="processChange()"#}>
-
-	<h2>END WHERE ORDER BEGIN</h2>
+<br>
 	<label for="sort">Sortuj według</label>
 	<select name="sort" id="select_criteria"{# onchange="processChange()"#}>
 		<option selected value="1">Nazwy</option>
@@ -41,8 +39,8 @@
 		<option selected value="1">Rosnaco</option>
 		<option value="2">Malejąco</option>
 	</select>
-
-	<button onclick='submitFilters()' type='button'>SUBMIT</button>
-	<input type="reset" onclick="resetFilters()">
+<br>
+	<button class="btn btn-secondary" onclick='submitFilters()' type='button'>SUBMIT</button>
+	<input class="btn btn-secondary" type="reset" onclick="resetFilters()">
 </form>
 </div>
