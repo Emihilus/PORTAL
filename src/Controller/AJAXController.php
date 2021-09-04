@@ -235,6 +235,14 @@ class AJAXController extends AbstractController
 
             if ($auction->getByUser() == $this->getUser()) 
             {
+
+                if($auction->getEndsAt() < new \DateTime())
+                {
+                    return new JsonResponse([
+                        'result' => "You can't delete already ended auction"
+                    ]);
+                }
+
                 $auction->setIsDeleted(true);
                 $em->persist($auction);
                 $em->flush();

@@ -67,6 +67,11 @@ class Comment
      */
     private $dislikedBy;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $value;
+
     public function __construct()
     {
         $this->likedBy = new ArrayCollection();
@@ -211,6 +216,18 @@ class Comment
     public function removeDislikedBy(User $dislikedBy): self
     {
         $this->dislikedBy->removeElement($dislikedBy);
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(?int $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }
