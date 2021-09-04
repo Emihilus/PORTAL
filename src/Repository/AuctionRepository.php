@@ -16,7 +16,17 @@ use Doctrine\ORM\Query\Expr;
  */
 class AuctionRepository extends ServiceEntityRepository
 {
-    private const hghstSelect = 
+    private const hghstSelect = '(SELECT MAX(oa.Value) FROM
+    App\Entity\Offer oa
+    WHERE a.id = oa.auction
+    ) as hghst';
+
+    private const hghstOfferOwnerSelect = '(SELECT zu.username 
+    FROM App\Entity\Offer zo
+    LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
+    WHERE zo.auction=a
+    AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
+    ) as hghstOfferOwner';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -159,15 +169,8 @@ class AuctionRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('a')
 
-        ->addSelect('(SELECT MAX(o.Value) 
-        FROM App\Entity\Offer o
-        WHERE a.id = o.auction ) as hghst')
-        ->addSelect("(SELECT zu.username 
-        FROM App\Entity\Offer zo
-        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
-        WHERE zo.auction=a
-        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
-        ) as hghstOfferOwner")
+        ->addSelect(self::hghstSelect)
+        ->addSelect(self::hghstOfferOwnerSelect)
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
@@ -196,17 +199,8 @@ class AuctionRepository extends ServiceEntityRepository
         $fil = $this->processFiltersDQL($filters);
 
         $dql = "SELECT a, i.filename, 
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst,
-
-        (SELECT zu.username 
-        FROM App\Entity\Offer zo
-        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
-        WHERE zo.auction=a
-        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
-        ) as hghstOfferOwner
+        ".self::hghstSelect.",
+        ".self::hghstOfferOwnerSelect."
 
         {$fil['selectString']}
 
@@ -240,17 +234,8 @@ class AuctionRepository extends ServiceEntityRepository
         $fil = $this->processFiltersDQL($filters);
 
         $dql = "SELECT a, i.filename, 
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE a.id = oa.auction
-        ) as hghst,
-
-        (SELECT zu.username 
-        FROM App\Entity\Offer zo
-        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
-        WHERE zo.auction=a
-        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
-        ) as hghstOfferOwner
+        ".self::hghstSelect.",
+        ".self::hghstOfferOwnerSelect."
 
         {$fil['selectString']}
 
@@ -283,18 +268,8 @@ class AuctionRepository extends ServiceEntityRepository
         $fil = $this->processFiltersDQL($filters);
 
         $dql = "SELECT a, i.filename, 
-        
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE a = oa.auction
-        ) as hghst,
-
-        (SELECT zu.username 
-        FROM App\Entity\Offer zo
-        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
-        WHERE zo.auction=a
-        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
-        ) as hghstOfferOwner
+        ".self::hghstSelect.",
+        ".self::hghstOfferOwnerSelect."
         
         {$fil['selectString']}
 
