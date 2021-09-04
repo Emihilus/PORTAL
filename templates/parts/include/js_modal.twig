@@ -1,8 +1,30 @@
 let optionsClicked = false;
     var clickedId;
 
-    function task(clickedAId)
+    function task(clickedAId,conditions)
     {
+        switch(conditions)
+        {
+            case 1:
+                $("#cmt_btn").removeClass('d-none');
+                $("#end_btn").removeClass("d-none");
+                $("#del_btn").removeClass("d-none");
+                break;
+                
+            case 2:
+                $("#cmt_btn").addClass('d-none');
+                $("#end_btn").removeClass("d-none");
+                $("#del_btn").removeClass("d-none");
+                break;
+
+            case 3:
+                $("#cmt_btn").removeClass("d-none");
+                $("#end_btn").addClass("d-none");
+                $("#del_btn").addClass("d-none");
+                break;
+        }
+
+
         optionsClicked = true;
         this.clickedId = clickedAId;
         $('#exampleModalCenter').modal('show')
