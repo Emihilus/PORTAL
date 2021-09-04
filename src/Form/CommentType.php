@@ -6,6 +6,8 @@ use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CommentType extends AbstractType
 {
@@ -13,14 +15,16 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('createdAt')
-            ->add('modifiedAt')
-            ->add('value')
-            ->add('auction')
-            ->add('user')
-            ->add('byUser')
-            ->add('likedBy')
-            ->add('dislikedBy')
+            ->add('value', ChoiceType::class, [
+                'choices' => [
+                    'Pozytywny' => 1,
+                    'Neutralny' => 0,
+                    'Negatywny' => -1
+                ],
+                'data' => 1,
+                'label' => 'Ocena'
+            ])
+            ->add('Submit', SubmitType::class)
         ;
     }
 

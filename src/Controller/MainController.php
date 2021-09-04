@@ -98,6 +98,7 @@ class MainController extends AbstractController
 
         return $this->render('userprofile/comment_auction.html.twig', [
             'form' => $form->createView(),
+            'auction' => $auction,
             'validation_maxValue' => $constraintValue
         ]);
     }
