@@ -231,6 +231,12 @@ class AuctionRepository extends ServiceEntityRepository
         App\Entity\Offer oa
         WHERE a.id = oa.auction
         ) as hghst 
+
+        (SELECT zu.username 
+        FROM App\Entity\Offer zu
+        LEFT JOIN 
+        ) as hghstOfferOwner
+
         {$fil['selectString']}
 
         FROM App\Entity\Offer o 
