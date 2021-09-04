@@ -88,14 +88,16 @@ class MainController extends AbstractController
             // but, the original `$comment` variable has also been updated
             $comment = $form->getData();
             $comment->setAuction($auction);
-            $comment->byUser($this->getUser())
-            // ... perform some action, such as saving the comment to the database
-            // for example, if comment is a Doctrine entity, save it!
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($comment);
-            // $entityManager->flush();
+            $comment->setByUser($this->getUser());
 
-            return $this->redirectToRoute('comment_success');
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                "Your changes were saved! "
+            );
+            //return $this->redirectToRoute('place-acomment',[$auctionId]);
         }
 
         return $this->render('userprofile/comment_auction.html.twig', [
