@@ -1,6 +1,12 @@
 let optionsClicked = false;
     var clickedId;
 
+    function placeAuctionComment()
+    {
+        $('#exampleModalCenter').modal('hide');
+        window.open('{{path('place-acomment')}}/'+clickedId,'_blank');
+    }
+
     function task(clickedAId,conditions)
     {
         switch(conditions)

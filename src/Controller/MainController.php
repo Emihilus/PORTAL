@@ -68,7 +68,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/place-acomment/{auctionId}", name="place-acomment")
+     * @Route("/place-acomment/{auctionId}", name="place-acomment", defaults ={"auctionId": "-1" })
      */
     public function commentAuction($auctionId, ValidatorInterface $validator, Request $request): Response
     {
@@ -77,23 +77,23 @@ class MainController extends AbstractController
         dump($auction);
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
 
-        $task = new Comment();
+        $comment = new Comment();
 
-        $form = $this->createForm(CommentType::class, $task);
+        $form = $this->createForm(CommentType::class, $comment);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $task = $form->getData();
+            // but, the original `$comment` variable has also been updated
+            $comment = $form->getData();
 
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
+            // ... perform some action, such as saving the comment to the database
+            // for example, if comment is a Doctrine entity, save it!
             // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($task);
+            // $entityManager->persist($comment);
             // $entityManager->flush();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('comment_success');
         }
 
         return $this->render('userprofile/comment_auction.html.twig', [
