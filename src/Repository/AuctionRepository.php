@@ -167,7 +167,8 @@ class AuctionRepository extends ServiceEntityRepository
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
 
-        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL');
+        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
+        ->andWhere('a.isDeleted = false');
 
         if($user)
         {
@@ -254,7 +255,7 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function dqlParticipatingNotLeadingAuctionsOfUser($filters = null)
+    public function dqlParticipatingNotLeadingAuctionsOfUser($filters = null) // OR PARTICIPATED
     {
         $fil = $this->processFiltersDQL($filters);
 
@@ -293,95 +294,6 @@ class AuctionRepository extends ServiceEntityRepository
             $query = $query->setParameter($params[0],$params[1]);
         }
 
-        return $query->getResult();
-    }
-    
-    /// hasnt won
-    /*public function dqlParticipatedNotLeadingAuctionsOfUser($filters = null)
-    {
-        $fil = $this->processFiltersDQL($filters);
-
-        $dql = "SELECT a, i.filename, 
-        
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-        {$fil['selectString']}
-
-        FROM App\Entity\Offer o 
-
-        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
-        LEFT JOIN a.images i
-        {$fil['leftJoinString']}
-
-        WHERE o.byUser=?1 
-        AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
-        AND 0=(SELECT COUNT(b) FROM App\Entity\Offer e 
-        LEFT JOIN App\Entity\Auction b WITH b=e.auction 
-        WHERE b=a
-        AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
-        AND e.byUser=?1)
-        AND a.endsAt<CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
-        {$fil['whereString']} 
-        {$fil['havingString']}
-        {$fil['orderByString']}";
-
-                
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
-
-        foreach($fil['paramsArray'] as $params)
-        {
-            $query = $query->setParameter($params[0],$params[1]);
-        }
-
-        return $query->getResult();
-    }*/
-//////////////////// END USABLE ////////////////////////////////////////////////////
-
-    public function dqlCurrentAuctionsOfUser($user)
-    {
-        $dql = 'SELECT a, i.filename, 
-        
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-
-        FROM App\Entity\Auction a
-        LEFT JOIN a.images i
-
-        WHERE a.byUser=?1 
-        AND a.endsAt>CURRENT_TIMESTAMP()
-
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $user);
-        return $query->getResult();
-    }
-
-
-    public function dqlSoldAuctionsOfUser($user)
-    {
-        $dql = 'SELECT a, i.filename, 
-
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-
-        FROM App\Entity\Auction a
-        LEFT JOIN a.images i
-
-        WHERE a.byUser=?1 
-        AND a.endsAt<CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
-
-
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $user);
         return $query->getResult();
     }
 
@@ -654,86 +566,6 @@ class AuctionRepository extends ServiceEntityRepository
 
 }
 
-    
-    /// hasnt won
-    /*public function dqlParticipatedNotLeadingAuctionsOfUser($filters = null)
-    {
-        $fil = $this->processFiltersDQL($filters);
-
-        $dql = "SELECT a, i.filename, 
-        
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-        {$fil['selectString']}
-
-        FROM App\Entity\Offer o 
-
-        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
-        LEFT JOIN a.images i
-        {$fil['leftJoinString']}
-
-        WHERE o.byUser=?1 
-        AND o.Value<(SELECT MAX(f.Value) FROM App\Entity\Offer f WHERE f.auction=o.auction)
-        AND 0=(SELECT COUNT(b) FROM App\Entity\Offer e 
-        LEFT JOIN App\Entity\Auction b WITH b=e.auction 
-        WHERE b=a
-        AND e.Value=(SELECT MAX(r.Value) FROM App\Entity\Offer r WHERE r.auction=e.auction) 
-        AND e.byUser=?1)
-        AND a.endsAt<CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
-        {$fil['whereString']} 
-        {$fil['havingString']}
-        {$fil['orderByString']}";
-
-                
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
-
-        foreach($fil['paramsArray'] as $params)
-        {
-            $query = $query->setParameter($params[0],$params[1]);
-        }
-
-        return $query->getResult();
-    }*/
-
-
-    /*public function dqlParticipatedAuctionsOfUser($filters = null)
-    {
-        $fil = $this->processFiltersDQL($filters);
-
-        $dql = "SELECT a, i.filename, 
-        (SELECT MAX(oa.Value) FROM
-        App\Entity\Offer oa
-        WHERE  a.id = oa.auction
-        ) as hghst 
-        {$fil['selectString']}
-
-        FROM App\Entity\Offer o 
-
-        LEFT JOIN App\Entity\Auction a WITH a=o.auction 
-        LEFT JOIN a.images i
-        {$fil['leftJoinString']}
-
-        WHERE o.byUser=?1
-        AND a.endsAt<CURRENT_TIMESTAMP()
-        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)
-        {$fil['whereString']} 
-        {$fil['havingString']}
-        {$fil['orderByString']}";
-        
-        $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
-
-        foreach($fil['paramsArray'] as $params)
-        {
-            $query = $query->setParameter($params[0],$params[1]);
-        }
-
-        return $query->getResult();
-    }*/
 
 
    /* public function dqlWonAuctionsOfUser($filters = null)
@@ -960,4 +792,48 @@ group BY auction_id*/
         $query = $this->processFilters($filters, $query);
 
         return $query->getQuery()->getResult();
+    }*/
+
+    /* public function dqlCurrentAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a, i.filename, 
+        
+        (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+
+        FROM App\Entity\Auction a
+        LEFT JOIN a.images i
+
+        WHERE a.byUser=?1 
+        AND a.endsAt>CURRENT_TIMESTAMP()
+
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
+    }
+
+
+    public function dqlSoldAuctionsOfUser($user)
+    {
+        $dql = 'SELECT a, i.filename, 
+
+        (SELECT MAX(oa.Value) FROM
+        App\Entity\Offer oa
+        WHERE  a.id = oa.auction
+        ) as hghst 
+
+        FROM App\Entity\Auction a
+        LEFT JOIN a.images i
+
+        WHERE a.byUser=?1 
+        AND a.endsAt<CURRENT_TIMESTAMP()
+        AND (i.orderIndicator=0 OR i.orderIndicator IS NULL)';
+
+
+        $query = $this->_em->createQuery($dql)
+        ->setParameter(1, $user);
+        return $query->getResult();
     }*/
