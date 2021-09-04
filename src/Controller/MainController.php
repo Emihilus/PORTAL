@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
+use App\Entity\Comment;
 use App\Entity\TempImage;
 use App\Entity\AuctionImage;
 use App\Form\AuctionCreateFormType;
@@ -68,17 +69,34 @@ class MainController extends AbstractController
     /**
      * @Route("/place-acomment/{auctionId}", name="place-acomment")
      */
-    public function commentAuction($auctionId, ValidatorInterface $validator): Response
+    public function commentAuction($auctionId, ValidatorInterface $validator, Request $request): Response
     {
         $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndComments($auctionId);
 
         dump($auction);
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
 
-        /*dump($meta);
-        dump($meta->getPropertyMetadata("Value")[0]->getConstraints()[0]->value);*/
+        $task = new Comment();
+
+        $form = $this->createForm(CommentType::class, $task);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $task = $form->getData();
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($task);
+            // $entityManager->flush();
+
+            return $this->redirectToRoute('task_success');
+        }
 
         return $this->render('userprofile/comment_auction.html.twig', [
+            'form' => $form->createView(),
             'auction' => $auction,
             'validation_maxValue' => $constraintValue
         ]);
