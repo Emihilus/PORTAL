@@ -7,6 +7,7 @@ use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\Comment;
 use App\Entity\TempImage;
+use App\Form\CommentType;
 use App\Entity\AuctionImage;
 use App\Form\AuctionCreateFormType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -97,7 +98,6 @@ class MainController extends AbstractController
 
         return $this->render('userprofile/comment_auction.html.twig', [
             'form' => $form->createView(),
-            'auction' => $auction,
             'validation_maxValue' => $constraintValue
         ]);
     }
