@@ -83,7 +83,8 @@ class MainController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             // $form->getData() holds the submitted values
             // but, the original `$comment` variable has also been updated
             $comment = $form->getData();
@@ -97,7 +98,8 @@ class MainController extends AbstractController
                 'success',
                 "Your changes were saved! "
             );
-            //return $this->redirectToRoute('place-acomment',[$auctionId]);
+            //return $this->redirectToRoute('place-acomment',['auctionId' => $auctionId]);
+            return $this->redirectToRoute('profile-details',['username' => $auction->getByUser()]);
         }
 
         return $this->render('userprofile/comment_auction.html.twig', [
