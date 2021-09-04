@@ -276,7 +276,14 @@ class AJAXController extends AbstractController
 
             if ($auction->getByUser() == $this->getUser()) 
             {
-                $auction->setEndsAt(new \DateTime());
+                if($auction->getEndsAt() < new \DateTime())
+                {
+                    return new JsonResponse([
+                        'result' => "Cannot end, auction already ended"
+                    ]);
+                }
+
+                $auction->setEndsAtManually(new \DateTime());
                 $em->persist($auction);
                 $em->flush();
 
