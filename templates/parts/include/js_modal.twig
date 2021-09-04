@@ -42,7 +42,37 @@ let optionsClicked = false;
                 if(json.result == 'Success')
                     {
                         $('#aid-'+clickedId).toggleClass('d-none');
-                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 600);
+                    }
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
+                
+    }
+
+    function endNowAuction()
+    {
+        {# console.log(clickedId); #}
+        $('.modal-body').html('EXECUTING...');
+
+         fetch("{{path('endNowAuction')}}", 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId
+            })
+        })
+        .then((response) => 
+        {
+            response.json().then(function(json)
+            {
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
+
+                if(json.result == 'Success')
+                    {
+                        $('#aid-'+clickedId).toggleClass('text-secondary');
+                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 600);
                     }
             });
         })
