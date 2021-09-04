@@ -66,6 +66,25 @@ class MainController extends AbstractController
     }
 
     /**
+     * @Route("/place-acomment/{auctionId}", name="place-acomment")
+     */
+    public function commentAuction($auctionId, ValidatorInterface $validator): Response
+    {
+        $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndComments($auctionId);
+
+        dump($auction);
+        $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
+
+        /*dump($meta);
+        dump($meta->getPropertyMetadata("Value")[0]->getConstraints()[0]->value);*/
+
+        return $this->render('userprofile/comment_auction.html.twig', [
+            'auction' => $auction,
+            'validation_maxValue' => $constraintValue
+        ]);
+    }
+
+    /**
      * @Route("/create-auction", name="create-auction", methods={"POST","GET"})
      */
     public function createAuctionForm(Request $request): Response
