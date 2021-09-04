@@ -106,8 +106,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $dql = "SELECT u, 
 
-        (SELECT COUNT(DISTINCT a.id) FROM App\Entity\User z, App\Entity\Auction a WHERE a.byUser =  ?1) as Auctions_Issued, (SELECT COUNT(DISTINCT o.id) FROM App\Entity\User x, App\Entity\Offer o WHERE o.byUser = ?1 
-        AND a.isDeleted = false) as All_Offers,
+        (SELECT COUNT(DISTINCT a.id) FROM App\Entity\User z, App\Entity\Auction a WHERE a.byUser = ?1 AND a.isDeleted = false) as Auctions_Issued, 
+        
+        (SELECT COUNT(DISTINCT o.id) FROM App\Entity\User x, App\Entity\Offer o WHERE o.byUser = ?1) as All_Offers,
 
         (SELECT COUNT(DISTINCT f.auction) FROM  App\Entity\Offer f 
         LEFT JOIN App\Entity\Auction asss WITH asss=f.auction
@@ -134,21 +135,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         WHERE ee.Value=(SELECT MAX(er.Value) FROM App\Entity\Offer er  WHERE er.auction=ee.auction) 
         AND ec.endsAt<CURRENT_TIMESTAMP()
         AND ee.byUser =  ?1 
-        AND a.isDeleted = false) as Won,
+        AND ec.isDeleted = false) as Won,
 
         (SELECT SUM(DISTINCT fe.Value) FROM  App\Entity\Offer fe 
         LEFT JOIN App\Entity\Auction fc WITH fe.auction=fc
         WHERE fe.Value=(SELECT MAX(fr.Value) FROM App\Entity\Offer fr  WHERE fr.auction=fe.auction) 
         AND fc.endsAt<CURRENT_TIMESTAMP()
         AND fe.byUser =  ?1 
-        AND a.isDeleted = false) as Sum_Won,
+        AND fc.isDeleted = false) as Sum_Won,
 
 
         (SELECT SUM(s.Value) FROM App\Entity\Offer s 
         LEFT JOIN App\Entity\Auction c WITH s.auction=c
         WHERE c.byUser=?1
         AND s.Value=(SELECT MAX(d.Value) FROM App\Entity\Offer d WHERE d.auction=s.auction) 
-        AND a.isDeleted = false
+        AND c.isDeleted = false
         ) AS Sum_Sold_Selling,
 
         (SELECT SUM(sa.Value) FROM App\Entity\Offer sa
@@ -156,7 +157,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         WHERE ca.byUser=?1
         AND sa.Value=(SELECT MAX(da.Value) FROM App\Entity\Offer da WHERE da.auction=sa.auction)
         AND ca.endsAt<CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false
+        AND ca.isDeleted = false
         ) AS Sum_Sold,
 
         (SELECT SUM(sb.Value) FROM App\Entity\Offer sb
@@ -164,7 +165,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         WHERE cb.byUser=?1
         AND sb.Value=(SELECT MAX(db.Value) FROM App\Entity\Offer db WHERE db.auction=sb.auction)
         AND cb.endsAt>CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false
+        AND cb.isDeleted = false
         ) AS Sum_Selling,
 
         (SELECT COUNT(xb.Value) FROM App\Entity\Offer xb
@@ -172,7 +173,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         WHERE zb.byUser=?1
         AND xb.Value=(SELECT MAX(xxb.Value) FROM App\Entity\Offer xxb WHERE xxb.auction=xb.auction)
         AND zb.endsAt>CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false
+        AND zb.isDeleted = false
         ) AS Selling,
 
         (SELECT COUNT(axb.Value) FROM App\Entity\Offer axb
@@ -180,7 +181,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         WHERE azb.byUser=?1
         AND axb.Value=(SELECT MAX(axxb.Value) FROM App\Entity\Offer axxb WHERE axxb.auction=axb.auction)
         AND azb.endsAt<CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false
+        AND azb.isDeleted = false
         ) AS Sold,
 
         (SELECT SUM(sd.Value) FROM App\Entity\Offer sd
@@ -188,7 +189,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         WHERE sd.byUser=?1
         AND sd.Value=(SELECT MAX(dd.Value) FROM App\Entity\Offer dd WHERE dd.auction=sd.auction)
         AND cd.endsAt>CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false
+        AND cd.isDeleted = false
         ) AS Sum_In_Leading,
 
 
@@ -203,7 +204,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         AND abe.byUser=?1)
 
         AND aba.endsAt>CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false) AS Participating_In_Not_Leading,
+        AND aba.isDeleted = false) AS Participating_In_Not_Leading,
 
 
 
@@ -218,7 +219,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         AND zbe.byUser=?1)
 
         AND zba.endsAt<CURRENT_TIMESTAMP() 
-        AND a.isDeleted = false) AS Participated_In_Not_Leading
+        AND zba.isDeleted = false) AS Participated_In_Not_Leading
 
 
         FROM App\Entity\User u WHERE u = ?1";
