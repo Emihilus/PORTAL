@@ -465,7 +465,10 @@ class AJAXController extends AbstractController
             if($json->likeState)
                 $comment->removeLikedBy($this->getUser());
             else
+            {
                 $comment->addLikedBy($this->getUser());
+                $comment->removeDislikedBy($this->getUser());
+            }
 
             $em->persist($comment);
             $em->flush();
@@ -498,7 +501,10 @@ class AJAXController extends AbstractController
             if($json->dislikeState)
                 $comment->removeDislikedBy($this->getUser());
             else
-                $comment->removeDislikedBy($this->getUser());
+            {
+                $comment->removeLikedBy($this->getUser());
+                $comment->addDislikedBy($this->getUser());
+            }
 
             $em->persist($comment);
             $em->flush();
