@@ -104,6 +104,10 @@ class AuctionRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->orderBy('o.Value', 'DESC')
             ->andWhere('a.isDeleted = false')
+
+            ->leftJoin('c.likedBy lb')
+            ->leftJoin(' ')
+
             ->getQuery()
             ->getOneOrNullResult()
         ;

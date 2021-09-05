@@ -69,9 +69,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small>
                 </div>
             </div> 
-        {# <pre>
+        <pre>
             {{ dump(comment) }}
-        </pre> #}
+        </pre>
         {% endif %}
     {% endfor %}
 {% endif %}
