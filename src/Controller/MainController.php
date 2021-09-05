@@ -141,6 +141,7 @@ class MainController extends AbstractController
             $TOKEN = $request->request->get('auction_create_form')['token'];
             $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
 
+            dump('wht'.$form['startingPrice']->getData());
             if ($tempImages != null) 
             {
 
@@ -163,6 +164,9 @@ class MainController extends AbstractController
 
                     $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
                 }
+
+                $offer = new Offer();
+                $offer->setByUser()
 
                 $em->persist($auction);
                 $em->flush();
