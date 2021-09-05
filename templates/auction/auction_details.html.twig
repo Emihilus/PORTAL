@@ -87,7 +87,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <div>
                     <b>{{comment.byUser.username}}</b><br>
                     <span> {{comment.content}} </span><br>
-                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt %}-fill{% endif %}"></i><b>({{likesCount}})</b></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}})" class="text-danger">dislike<b>({{dislikesCount}})</b></small>
+                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i><b>{{likesCount}}</b></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i><b>{{dislikesCount}}</b></small>
                 </div>
             </div> 
         <pre>
@@ -232,7 +232,7 @@ function submitComment()
 
 
 // LIKE AJAX CALL ///
-function like(commentId, likeState, dislikeState)
+function like(commentId, likeState, dislikeState, likeCount)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
@@ -248,6 +248,10 @@ function like(commentId, likeState, dislikeState)
         { 
             if(res.result == "Success")
             {
+                if(likeState)
+                    $(#)
+
+
                 console.log(res);
             }
         });
@@ -258,7 +262,7 @@ function like(commentId, likeState, dislikeState)
     }
 }
 
-function dislike(commentId, likeState, dislikeState)
+function dislike(commentId, likeState, dislikeState, dislikeCount)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
