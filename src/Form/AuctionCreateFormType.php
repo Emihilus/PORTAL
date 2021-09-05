@@ -18,6 +18,7 @@ class AuctionCreateFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
+            ->add('startingPrice', null)
             ->add('endsAt', ChoiceType::class, [
                 'choices' => [
                     '1 day' => 86400,
