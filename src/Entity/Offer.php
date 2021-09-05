@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * @ORM\Table(name="offers")
  * @ORM\Entity(repositoryClass=OfferRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Offer
 {
@@ -76,6 +77,14 @@ class Offer
         $createdAt == null ? $this->createdAt = new \DateTime('now') : $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function autoSetCreatedAt()
+    {
+        $this->createdAt = new \DateTime();
     }
 
     public function getAuction(): ?Auction

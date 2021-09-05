@@ -18,11 +18,12 @@ class AuctionCreateFormType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('startingPrice', MoneyType::class, [
-                'currency' => 'PLN',
                 'mapped' => false,
-                'data' => 1,
+                'currency' => 'PLN',
+                'divisor' => 100,
+                'data' => 100,
                 'label' => 'Cena wywoławcza',
-                'attr' => ['min' => 1]
+                'attr' => ['min' => 100]
                 ])
             ->add('endsAt', ChoiceType::class, [
                 'choices' => [

@@ -166,8 +166,11 @@ class MainController extends AbstractController
                 }
 
                 $offer = new Offer();
-                $offer->setByUser()
+                $offer->setByUser($this->getUser());
+                $offer->setValue($form['startingPrice']->getData());
+                $auction->addOffer($offer);
 
+                $em->persist($offer);
                 $em->persist($auction);
                 $em->flush();
 
