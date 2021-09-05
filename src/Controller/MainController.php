@@ -137,57 +137,66 @@ class MainController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            $em = $this->getDoctrine()->getManager();
-            $TOKEN = $request->request->get('auction_create_form')['token'];
-            $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
-
-            dump('wht'.$form['startingPrice']->getData());
-            if ($tempImages != null) 
+            if($form['startingPrice']->getData() > 100)
             {
+                $em = $this->getDoctrine()->getManager();
+                $TOKEN = $request->request->get('auction_create_form')['token'];
+                $tempImages = $em->getRepository(TempImage::class)->findByToken($TOKEN);
 
-                $NEW_ORDER = explode(",", $request->request->get('auction_create_form')['image-order']);
-                // $user = $em->getRepository(User::class)->findOneBy(['id' => 1]);
-                $auction = $form->getData();
-                $auction->setByUser($this->getUser());
-                $auction->setCreatedAt(null);
-
-
-                for ($i = 0; $i < count($NEW_ORDER); $i++) 
+                if ($tempImages != null) 
                 {
-                    $auctionImage = new AuctionImage();
-                    $auctionImage->setFilename($tempImages[$NEW_ORDER[$i]]->getFilename());
-                    $auctionImage->setOrderIndicator($i);
-                    $auctionImage->setAuction($auction);
-                    $em->persist($auctionImage);
 
-                    rename($this->getParameter('tempImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename(), $this->getParameter('auctionImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename());
+                    $NEW_ORDER = explode(",", $request->request->get('auction_create_form')['image-order']);
+                    $auction = $form->getData();
+                    $auction->setByUser($this->getUser());
+                    $auction->setCreatedAt(null);
 
-                    $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
+
+                    for ($i = 0; $i < count($NEW_ORDER); $i++) 
+                    {
+                        $auctionImage = new AuctionImage();
+                        $auctionImage->setFilename($tempImages[$NEW_ORDER[$i]]->getFilename());
+                        $auctionImage->setOrderIndicator($i);
+                        $auctionImage->setAuction($auction);
+                        $em->persist($auctionImage);
+
+                        rename($this->getParameter('tempImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename(), $this->getParameter('auctionImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename());
+
+                        $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
+                    }
+
+                    $offer = new Offer();
+                    $offer->setByUser($this->getUser());
+                    $offer->setValue($form['startingPrice']->getData());
+                    $auction->addOffer($offer);
+
+                    $em->persist($offer);
+                    $em->persist($auction);
+                    $em->flush();
+
+                    $this->addFlash(
+                        'success',
+                        "Your changes were saved! "
+                    );
+
+                    return $this->redirectToRoute('auction-details', ['auctionId' => $auction->getId()]);
                 }
-
-                $offer = new Offer();
-                $offer->setByUser($this->getUser());
-                $offer->setValue($form['startingPrice']->getData());
-                $auction->addOffer($offer);
-
-                $em->persist($offer);
-                $em->persist($auction);
-                $em->flush();
-
-                $this->addFlash(
-                    'success',
-                    "Your changes were saved! "
-                );
-
-                return $this->redirectToRoute('auction-details', ['auctionId' => $auction->getId()]);
+                else
+                {
+                    $this->addFlash(
+                        'danger',
+                        "At least one image must be uploaded"
+                    );
+                }
             }
             else
             {
                 $this->addFlash(
                     'danger',
-                    "At least one image must be uploaded"
-                );
+                    "Minimalna cena wywoławcza to 1 PLN"
+                ); 
             }
+
         }
 
         return $this->render('auction/auction_create.html.twig', [
