@@ -159,7 +159,7 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-$("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne:"
-+$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"");
+$("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne: "
++$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
 </script>
 {% endblock %}

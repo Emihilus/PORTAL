@@ -412,7 +412,7 @@ class AuctionRepository extends ServiceEntityRepository
 
                     // NESTED SOLUTION
                     case 6:
-                        $queryBuilder->addSelect('(SELECT COUNT(ofa) 
+                        $queryBuilder->addSelect('(SELECT COUNT(ofa.value) 
                         FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount')
                         ->orderBy('commentCount', $orderity);
                         break;
@@ -550,7 +550,7 @@ class AuctionRepository extends ServiceEntityRepository
 
                     // NESTED SOLUTION
                     case 6:
-                        $selectString .= " ,(SELECT COUNT(ofa) 
+                        $selectString .= " ,(SELECT COUNT(ofa.value) 
                         FROM App\Entity\Comment ofa WHERE ofa.auction = a) as commentCount";
                         $orderBy = " ORDER BY comment Count $orderity ";
                         break;
