@@ -105,8 +105,9 @@ class AuctionRepository extends ServiceEntityRepository
             ->orderBy('o.Value', 'DESC')
             ->andWhere('a.isDeleted = false')
 
-            ->leftJoin('c.likedBy lb')
-            ->leftJoin(' ')
+            ->leftJoin('c.likedBy', 'lb')
+            ->leftJoin('c.dislikedBy', 'dlb')
+            ->addSelect('lb, dlb')
 
             ->getQuery()
             ->getOneOrNullResult()
