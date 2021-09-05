@@ -17,12 +17,14 @@
 <img src="{{asset (fip~auction.images[0].filename)}}" alt='jakialt' width="300">
 {# {{ exampleVariableHijack }}   #}
 
-<h2> ENDS AT {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
+<h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
-<h2> ENDS TIMER: <span class="text-success" id='timer'></span> </h2>
+<h2> Czas do końca: <span class="text-success" id='timer'></span> </h2>
 
-<h2> ISSUED BY: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
+<h2> Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
+<h2> Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
+
 
 <p>{{auction.description}}</p>
 
