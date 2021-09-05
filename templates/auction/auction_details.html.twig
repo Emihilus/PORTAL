@@ -62,14 +62,14 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
     {% for comment in auction.comments|sort %}
         {% if comment.value == -2 %}
 
-        {% set iLikeIt = false %}
-        {% set iDislikeIt = false %}
+        {% set iLikeIt = 'false' %}
+        {% set iDislikeIt = 'false' %}
         
         {% set likesCount = 0 %}
         {% for userLike in comment.likedBy %}
             {% set likesCount = likesCount + 1 %}
             {% if app.user == userLike %}
-                {% set iLikeIt = true %}
+                {% set iLikeIt = 'true' %}
             {% endif %}
         {% endfor %}
 
@@ -77,7 +77,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
         {% for userDislike in comment.dislikedBy %}
             {% set dislikesCount = dislikesCount + 1 %}
             {% if app.user == userDislike %}
-                {% set iDislikeIt = true %}
+                {% set iDislikeIt = 'true' %}
             {% endif %}
         {% endfor %}
         
@@ -85,9 +85,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
             <div class="list-group-item-dark rounded p-3">
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>
-                <b>{{comment.byUser.username}}</b><br>
-                <span> {{comment.content}} </span><br>
-                <small onclick='like({{comment.id}},{{iLikeIt}})' class="text-success">like({{likesCount}})</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike({{dislikesCount}})</small>
+                    <b>{{comment.byUser.username}}</b><br>
+                    <span> {{comment.content}} </span><br>
+                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}})' class="text-success">like({{likesCount}})</small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}})" class="text-danger">dislike({{dislikesCount}})</small>
                 </div>
             </div> 
         <pre>
@@ -232,7 +232,7 @@ function submitComment()
 
 
 // LIKE AJAX CALL ///
-function like(commentId)
+function like(commentId, likeState, dislikeState)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
@@ -242,7 +242,7 @@ function like(commentId)
             url: url,
             method: "post", 
             data: JSON.stringify(
-                {commentId}) 
+                {commentId, likeState}) 
             })
         .done(res => 
         { 
@@ -258,7 +258,7 @@ function like(commentId)
     }
 }
 
-function dislike(commentId)
+function dislike(commentId, likeState, dislikeState)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
@@ -268,7 +268,7 @@ function dislike(commentId)
             url: url,
             method: "post", 
             data: JSON.stringify(
-                {commentId}) 
+                {commentId, dislikeState}) 
             })
         .done(res => 
         { 

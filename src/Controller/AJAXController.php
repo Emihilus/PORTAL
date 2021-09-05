@@ -462,7 +462,10 @@ class AJAXController extends AbstractController
             $em = $this->getDoctrine()->getManager();
 
             $comment = $em->getRepository(Comment::class)->find($json->commentId);
-            $comment->addLikedBy($this->getUser());
+            if($json->likeState)
+                $comment->removeLikedBy($this->getUser());
+            else
+                $comment->addLikedBy($this->getUser());
 
             $em->persist($comment);
             $em->flush();
@@ -492,7 +495,10 @@ class AJAXController extends AbstractController
             $em = $this->getDoctrine()->getManager();
 
             $comment = $em->getRepository(Comment::class)->find($json->commentId);
-            $comment->addDislikedBy($this->getUser());
+            if($json->dislikeState)
+                $comment->removeDislikedBy($this->getUser());
+            else
+                $comment->removeDislikedBy($this->getUser());
 
             $em->persist($comment);
             $em->flush();
