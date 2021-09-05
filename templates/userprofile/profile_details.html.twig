@@ -91,6 +91,9 @@
 	<hr>
 
     {% set userRate = 0 %}
+    {% set negatives = 0 %}
+    {% set positives = 0 %}
+    {% set neutrals = 0 %}
 	{% set commentCount = 0 %}
     
 
@@ -124,8 +127,8 @@
 			{% for auction in USR[0][0].Auctions %}
 				{% for comment in auction.comments %}
 					{% if comment.value != null or comment.value == 0 %}
-                        {% userRate = userRate + comment.value %}
-						<div class="list-group-item-{% if comment.value == 1 %}success{% elseif comment.value == 0 %}dark{% else %}danger{% endif %} rounded p-3 mb-1">
+                        {% set userRate = userRate + comment.value %}
+						<div class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% else %}{% set negatives = negatives + 1 %}danger{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
 							<div>
 								<b>{{comment.byUser.username}}</b><br>
@@ -143,6 +146,10 @@
 					{% endif %}
 				{% endfor %}
 			{% endfor %}
+            <input type="hidden" id="hid_rate" value="{{userRate}}"/>
+            <input type="hidden" id="hid_pos" value="{{positives}}"/>
+            <input type="hidden" id="hid_neu" value="{{neutrals}}"/>
+            <input type="hidden" id="hid_neg" value="{{negatives}}"/>
 		</div>
 	</div>
 
@@ -152,6 +159,7 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-$("#rate").html("Punkty użytkownika: {{userRate}}");
+$("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne:"
++$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"");
 </script>
 {% endblock %}
