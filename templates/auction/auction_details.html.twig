@@ -48,7 +48,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 {% set commentCount = 0 %}
 
 {% for comment in auction.comments %}
-    {% if ( comment.value == -2 %}
+    {% if comment.value == -2 %}
         {% set commentCount = commentCount + 1 %}
     {% endif %}
 {% endfor %}
@@ -60,7 +60,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 <div id="comments-section">
 {% if commentCount > 0 %}
     {% for comment in auction.comments|sort %}
-        {% if ( comment.value > 1 and comment.value < -1 ) or comment.value == null %}
+        {% if comment.value == -2 %}
 
         {% set likesCount = 0 %}
         {% for userLike in comment.likedBy %}

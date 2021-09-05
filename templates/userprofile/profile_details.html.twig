@@ -106,7 +106,7 @@
 	{% for auction in USR[0][0].Auctions %}
 
 		{% for comment in auction.comments %}
-			{% if comment.value != null or comment.value == 0 %}
+			{% if comment.value > -2 %}
 				{% set commentCount = commentCount + 1 %}
 			{% endif %}
 		{% endfor %}
@@ -126,7 +126,7 @@
 		<div id="comments-section">
 			{% for auction in USR[0][0].Auctions %}
 				{% for comment in auction.comments %}
-					{% if comment.value != null or comment.value == 0 %}
+					{% if comment.value > -2 %}
                         {% set userRate = userRate + comment.value %}
 						<div class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% else %}{% set negatives = negatives + 1 %}danger{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
