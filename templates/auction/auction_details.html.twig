@@ -48,7 +48,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 {% set commentCount = 0 %}
 
 {% for comment in auction.comments %}
-    {% if comment.value == null and comment.value != 0 %}
+    {% if comment.value == null or comment.value != 0 %}
         {% set commentCount = commentCount + 1 %}
     {% endif %}
 {% endfor %}
@@ -60,7 +60,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 <div id="comments-section">
 {% if commentCount > 0 %}
     {% for comment in auction.comments|sort %}
-        {% if comment.value == null and comment.value != 0 %}
+        {% if comment.value == null or comment.value != 0 %}
             <div class="list-group-item-dark rounded p-3">
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>

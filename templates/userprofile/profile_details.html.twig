@@ -8,7 +8,7 @@
 	<h1>Details of user
 		{{USR[0][0].username}}</h1>
 
-
+<h2 id='rate'></h2>
 	Number of auctions EVER issued by this user :
 	<b>
 		{% if USR[0]['Auctions_Issued'] != 0 %}
@@ -90,8 +90,9 @@
 	{{USR[0]['All_Offers']}}
 	<hr>
 
-
+    {% set userRate = 0 %}
 	{% set commentCount = 0 %}
+    
 
 	{# {% for comment in auction.comments %}
 	    {% if comment.value == null %}
@@ -123,7 +124,7 @@
 			{% for auction in USR[0][0].Auctions %}
 				{% for comment in auction.comments %}
 					{% if comment.value != null or comment.value == 0 %}
-
+                        {% userRate = userRate + comment.value %}
 						<div class="list-group-item-{% if comment.value == 1 %}success{% elseif comment.value == 0 %}dark{% else %}danger{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
 							<div>
@@ -146,4 +147,11 @@
 	</div>
 
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+$("#rate").html("Punkty użytkownika: {{userRate}}");
+</script>
 {% endblock %}
