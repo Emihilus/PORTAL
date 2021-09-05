@@ -179,7 +179,7 @@ class MainController extends AbstractController
                     "Your changes were saved! "
                 );
 
-                return $this->redirectToRoute('create-auction');
+                return $this->redirectToRoute('auction-details', ['auctionId' => $auction->getId()]);
             }
             else
             {

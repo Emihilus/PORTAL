@@ -23,7 +23,10 @@ class AuctionCreateFormType extends AbstractType
                 'divisor' => 100,
                 'data' => 100,
                 'label' => 'Cena wywoławcza',
-                'attr' => ['min' => 100]
+                'attr' => [
+                    'min' => 100,
+                    'required' => true
+                    ]
                 ])
             ->add('endsAt', ChoiceType::class, [
                 'choices' => [
