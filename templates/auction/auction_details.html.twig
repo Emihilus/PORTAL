@@ -87,7 +87,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <div>
                     <b>{{comment.byUser.username}}</b><br>
                     <span> {{comment.content}} </span><br>
-                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i><b>{{likesCount}}</b></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i><b>{{dislikesCount}}</b></small>
+                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i><b>{{likesCount}}</b></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i><b>{{dislikesCount}}</b></small>
                 </div>
             </div> 
         <pre>
@@ -232,7 +232,7 @@ function submitComment()
 
 
 // LIKE AJAX CALL ///
-function like(commentId, likeState, dislikeState, likesCount,dislikesCount)
+function like(commentId, likeState, dislikeState, likesCount, dislikesCount)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
@@ -250,18 +250,18 @@ function like(commentId, likeState, dislikeState, likesCount,dislikesCount)
             {
                 if(likeState)
                 {
-                    $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount-1)+')');
+                    $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount-1)+','+dislikesCount+')');
                     $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+(likesCount-1)+'</b>');
                 }
                 else
                 {
-                    $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount+1)+')');
+                    $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount+1)+','+dislikesCount+')');
                     $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up-fill"></i><b>'+(likesCount+1)+'</b>'); 
 
                     if(dislikeState)
                     {
-                        $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount+1)+')');
-                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+(likesCount+1)+'</b>'); 
+                        $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount+1)+','+(dislikesCount-1)+')');
+                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+(dislikesCount-1)+'</b>'); 
                     }
                 }
 
@@ -292,6 +292,25 @@ function dislike(commentId, likeState, dislikeState, dislikeCount)
         { 
             if(res.result == "Success")
             {
+                if(dislikeState)
+                {
+                    $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+likeState+','+(!dislikeState)+','+likesCount+','+(dislikesCount-1)+')');
+                    $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+(dislikesCount-1)+'</b>');
+                }
+                else
+                {
+                    $('#like-'+commentId).attr('onclick', 'dislike('+commentId+','+likeState+','+(!dislikeState)+','+likesCount+','+(dislikesCount+1)+')');
+                    $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+(dislikesCount+1)+'</b>'); 
+
+                    if(likeState)
+                    {
+                        $('#like-'+commentId).attr('onclick', 'like('+commentId+','+likeState+','+(!dislikeState)+','+(likesCount-1)+','+(dislikesCount+1)+')');
+                        $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+(likesCount-1)+'</b>'); 
+                    }
+                }
+
+
+                
                 console.log(res);
             }
         });
