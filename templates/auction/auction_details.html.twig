@@ -61,12 +61,24 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 {% if commentCount > 0 %}
     {% for comment in auction.comments|sort %}
         {% if comment.value == null or comment.value != 0 %}
+
+        {% set likesCount = 0 %}
+        {% for userLike in comment.likedBy %}
+            {% set likesCount = likesCount + 1 %}
+        {% endfor %}
+
+        {% set dislikesCount = 0 %}
+        {% for userDislike in comment.dislikedBy %}
+            {% set dislikesCount = dislikesCount + 1 %}
+        {% endfor %}
+        
+
             <div class="list-group-item-dark rounded p-3">
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>
                 <b>{{comment.byUser.username}}</b><br>
                 <span> {{comment.content}} </span><br>
-                <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small>
+                <small onclick='like({{comment.id}})' class="text-success">like({{likesCount}})</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike({{dislikesCount}})</small>
                 </div>
             </div> 
         <pre>
