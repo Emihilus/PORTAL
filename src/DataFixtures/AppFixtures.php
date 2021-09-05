@@ -66,6 +66,15 @@ class AppFixtures extends Fixture
 
             $auction->setDescription(($j%2==0) ? RandomGenerator::generateRandomSentence(200) : $array[random_int(0,count($array)-1)][3]);
 
+
+            // CENA WYWOLAWCZA
+            $offer = new Offer();
+            $offer->setAuction($auction);
+            $offer->setCreatedAt($auction->getCreatedAt());
+            $offer->setValue(200);
+
+            $manager->persist($offer);
+
             // ADD OFFERS WITH RANDOM VALUE AND PAST DATE
             for ($i = 0; $i< random_int(1,10); $i++)
             {
