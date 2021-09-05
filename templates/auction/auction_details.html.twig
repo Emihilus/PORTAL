@@ -305,7 +305,7 @@ function dislike(commentId, likeState, dislikeState, likesCount, dislikesCount)
                 else
                 {
 
-                    $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(likeState ? !likeState : likeState)+','+(!dislikeState)+','+ (likeState ? (likesCount-1): likeState) +','+(dislikesCount+1)+')');
+                    $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(likeState ? !likeState : likeState)+','+(!dislikeState)+','+ (likeState ? (likesCount-1): likesCount) +','+(dislikesCount+1)+')');
                     $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down-fill"></i><b>'+(dislikesCount+1)+'</b>'); 
 
                     if(likeState)
