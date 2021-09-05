@@ -45,9 +45,9 @@ class Offer
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="offers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $byUser;
+    private $byUser = null;
 
 
     public function getId(): ?int

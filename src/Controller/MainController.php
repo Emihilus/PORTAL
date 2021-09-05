@@ -137,7 +137,7 @@ class MainController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            if($form['startingPrice']->getData() > 100)
+            if($form['startingPrice']->getData() >= 100)
             {
                 $em = $this->getDoctrine()->getManager();
                 $TOKEN = $request->request->get('auction_create_form')['token'];
@@ -166,7 +166,7 @@ class MainController extends AbstractController
                     }
 
                     $offer = new Offer();
-                    $offer->setByUser($this->getUser());
+                    //$offer->setByUser($this->getUser());
                     $offer->setValue($form['startingPrice']->getData());
                     $auction->addOffer($offer);
 
