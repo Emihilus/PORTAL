@@ -70,7 +70,7 @@ class Comment
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $value;
+    private $value = -2;
 
     public function __construct()
     {
