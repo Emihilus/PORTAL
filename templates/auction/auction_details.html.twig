@@ -232,7 +232,7 @@ function submitComment()
 
 
 // LIKE AJAX CALL ///
-function like(commentId, likeState, dislikeState, likesCount)
+function like(commentId, likeState, dislikeState, likesCount,dislikesCount)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
@@ -260,7 +260,8 @@ function like(commentId, likeState, dislikeState, likesCount)
 
                     if(dislikeState)
                     {
-
+                        $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount+1)+')');
+                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+(likesCount+1)+'</b>'); 
                     }
                 }
 
