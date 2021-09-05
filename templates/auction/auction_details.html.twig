@@ -276,7 +276,7 @@ function like(commentId, likeState, dislikeState, likesCount, dislikesCount)
     }
 }
 
-function dislike(commentId, likeState, dislikeState, dislikeCount)
+function dislike(commentId, likeState, dislikeState, likesCount, dislikesCount)
 {
     if({% if app.user %}true{% else %}false{% endif %})
     {
@@ -299,8 +299,8 @@ function dislike(commentId, likeState, dislikeState, dislikeCount)
                 }
                 else
                 {
-                    $('#like-'+commentId).attr('onclick', 'dislike('+commentId+','+likeState+','+(!dislikeState)+','+likesCount+','+(dislikesCount+1)+')');
-                    $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+(dislikesCount+1)+'</b>'); 
+                    $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+likeState+','+(!dislikeState)+','+likesCount+','+(dislikesCount+1)+')');
+                    $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down-fill"></i><b>'+(dislikesCount+1)+'</b>'); 
 
                     if(likeState)
                     {
