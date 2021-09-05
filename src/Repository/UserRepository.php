@@ -104,7 +104,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function dqlUserInfoCollection($user)
     {
-        $dql = "SELECT u, 
+        $dql = "SELECT u, asa, casa,
 
         (SELECT COUNT(DISTINCT a.id) FROM App\Entity\User z, App\Entity\Auction a WHERE a.byUser = ?1 AND a.isDeleted = false) as Auctions_Issued, 
         
@@ -222,8 +222,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         AND zba.isDeleted = false) AS Participated_In_Not_Leading
 
 
-        FROM App\Entity\User u WHERE u = ?1";
+        FROM App\Entity\User u
+        
+        LEFT JOIN u.Auctions asa
+        LEFT JOIN asa.comments casa
 
+        WHERE u = ?1";
 
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
@@ -231,3 +235,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 }
+
+/*
+(SELECT cmt FROM App\Entity\Comment cmt
+        LEFT JOIN App\Entity\Auction acu WITH cmt.auction=acu
+        WHERE acu.byUser=?1
+        AND cmt.value IS NOT NULL
+        ) AS Commentz
+*/

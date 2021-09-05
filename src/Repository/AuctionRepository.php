@@ -103,6 +103,7 @@ class AuctionRepository extends ServiceEntityRepository
             ->Where('a.id = :val')
             ->setParameter('val', $value)
             ->orderBy('o.Value', 'DESC')
+            ->andWhere('a.isDeleted = false')
             ->getQuery()
             ->getOneOrNullResult()
         ;

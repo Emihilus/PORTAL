@@ -6,7 +6,6 @@
 
 {% block body %}
 
-<div class="container">
 {# modal for notify user is not logged in #}
 	{% if not app.user %}
     {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
@@ -46,28 +45,36 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 </div>
 <hr>
 
+{% set commentCount = 0 %}
 
-
-
+{% for comment in auction.comments %}
+    {% if comment.value == null and comment.value != 0 %}
+        {% set commentCount = commentCount + 1 %}
+    {% endif %}
+{% endfor %}
 
 
 
  <div class="row">
- <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if auction.comments|length == 0 %}No{% else %} {{auction.comments|length}}{% endif %} comments</h3></div>
+ <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if commentCount == 0 %}No{% else %} {{commentCount}}{% endif %} comments</h3></div>
 <div id="comments-section">
-{% for comment in auction.comments|sort %}
-    <div class="list-group-item-dark rounded p-3">
-        <small class='float-end'>{{comment.createdAt|ago}}</small>
-        <div>
-        <b>{{comment.byUser.username}}</b><br>
-        <span> {{comment.content}} </span><br>
-        <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small>
-        </div>
-    </div> 
-<pre>
-    {{ dump(comment) }}
-</pre>
-{% endfor %}
+{% if commentCount > 0 %}
+    {% for comment in auction.comments|sort %}
+        {% if comment.value == null and comment.value != 0 %}
+            <div class="list-group-item-dark rounded p-3">
+                <small class='float-end'>{{comment.createdAt|ago}}</small>
+                <div>
+                <b>{{comment.byUser.username}}</b><br>
+                <span> {{comment.content}} </span><br>
+                <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small>
+                </div>
+            </div> 
+        {# <pre>
+            {{ dump(comment) }}
+        </pre> #}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 </div>
 </div>
 

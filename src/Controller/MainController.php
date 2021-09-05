@@ -85,8 +85,24 @@ class MainController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) 
         {
+            
+            foreach($auction->getComments() as $auctionComment)
+            {
+                if($auctionComment->getValue() != null)
+                {
+                    $this->addFlash(
+                        'danger',
+                        "Ta sprzedaż została juz skomentowana."
+                    );
+                    //return $this->redirectToRoute('place-acomment',['auctionId' => $auctionId]);
+                    return $this->redirectToRoute('profile-details',['username' => $auction->getByUser()]);
+                }
+            }
+
+
             // $form->getData() holds the submitted values
             // but, the original `$comment` variable has also been updated
+
             $comment = $form->getData();
             $comment->setAuction($auction);
             $comment->setByUser($this->getUser());

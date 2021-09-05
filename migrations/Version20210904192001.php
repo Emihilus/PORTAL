@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210904111311 extends AbstractMigration
+final class Version20210904192001 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,7 +22,7 @@ final class Version20210904111311 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE auction_images (id INT AUTO_INCREMENT NOT NULL, auction_id INT DEFAULT NULL, filename VARCHAR(255) NOT NULL, order_indicator INT NOT NULL, INDEX IDX_998C125757B8F0DE (auction_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE auctions (id INT AUTO_INCREMENT NOT NULL, by_user_id INT NOT NULL, title VARCHAR(30) NOT NULL, created_at DATETIME NOT NULL, ends_at DATETIME NOT NULL, description TEXT DEFAULT NULL, is_deleted TINYINT(1) NOT NULL, INDEX IDX_72D6E900DC9C2434 (by_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, auction_id INT DEFAULT NULL, user_id INT DEFAULT NULL, by_user_id INT NOT NULL, content LONGTEXT NOT NULL, created_at DATETIME NOT NULL, modified_at DATETIME NOT NULL, INDEX IDX_9474526C57B8F0DE (auction_id), INDEX IDX_9474526CA76ED395 (user_id), INDEX IDX_9474526CDC9C2434 (by_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, auction_id INT DEFAULT NULL, user_id INT DEFAULT NULL, by_user_id INT NOT NULL, content LONGTEXT NOT NULL, created_at DATETIME NOT NULL, modified_at DATETIME NOT NULL, value INT DEFAULT NULL, INDEX IDX_9474526C57B8F0DE (auction_id), INDEX IDX_9474526CA76ED395 (user_id), INDEX IDX_9474526CDC9C2434 (by_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE likes (comment_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_49CA4E7DF8697D13 (comment_id), INDEX IDX_49CA4E7DA76ED395 (user_id), PRIMARY KEY(comment_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE dislikes (comment_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_2DF3BE11F8697D13 (comment_id), INDEX IDX_2DF3BE11A76ED395 (user_id), PRIMARY KEY(comment_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE offers (id INT AUTO_INCREMENT NOT NULL, auction_id INT NOT NULL, by_user_id INT NOT NULL, value INT NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_DA46042757B8F0DE (auction_id), INDEX IDX_DA460427DC9C2434 (by_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

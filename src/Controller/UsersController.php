@@ -33,6 +33,7 @@ class UsersController extends AbstractController
     public function profileDetails(User $user): Response
     {
         $USR = $this->getDoctrine()->getRepository(User::class)->dqlUserInfoCollection($user);
+        dump($USR);
         if($USR == null)
             $USR = $user;
         return $this->render('userprofile/profile_details.html.twig', ['USR' => $USR]);

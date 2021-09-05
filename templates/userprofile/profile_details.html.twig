@@ -1,87 +1,149 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User {{USR[0][0].username}}{{ parent() }}{% endblock %}
+{% block title %}User
+	{{USR[0][0].username}}{{ parent() }}
+{% endblock %}
 
 {% block body %}
-<h1>Details of user {{USR[0][0].username}}</h1>
+	<h1>Details of user
+		{{USR[0][0].username}}</h1>
 
 
-Number of auctions EVER issued by this user : <b>{% if USR[0]['Auctions_Issued'] != 0 %}{{USR[0]['Auctions_Issued']}}{% else %}No auctions{% endif %} </b><span class='text-danger'>Suma $ sprzedawanych i sprzedanych: <b class='text-danger'>{{USR[0]['Sum_Sold_Selling']/100}} PLN</b></span> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 1})}}">--->Show</a><br>
+	Number of auctions EVER issued by this user :
+	<b>
+		{% if USR[0]['Auctions_Issued'] != 0 %}
+			{{USR[0]['Auctions_Issued']}}{% else %}No auctions
+		{% endif %}
+	</b>
+	<span class='text-danger'>Suma $ sprzedawanych i sprzedanych:
+		<b class='text-danger'>{{USR[0]['Sum_Sold_Selling']/100}}
+			PLN</b>
+	</span>
+	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 1})}}">--->Show</a><br>
 
-Liczba sprzedanych aukcji: <b class='text-danger'>{{USR[0]['Sold']}}</b> , <b class='text-danger'>Suma $ sprzedanych: {{USR[0]['Sum_Sold']/100}} PLN</b> , <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">->Show</a></b><br>
+	Liczba sprzedanych aukcji:
+	<b class='text-danger'>{{USR[0]['Sold']}}</b>
+	,
+	<b class='text-danger'>Suma $ sprzedanych:
+		{{USR[0]['Sum_Sold']/100}}
+		PLN</b>
+	,
+	<B class="text-warning">
+		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">->Show</a>
+	</b><br>
 
-Obecnie sprzedaje: <b class='text-danger'>{{USR[0]['Selling']}}</b>, <b class='text-danger'>Suma $ sprzedawanych: {{USR[0]['Sum_Selling']/100}} PLN</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">--->Show</a></b><br><BR>
+	Obecnie sprzedaje:
+	<b class='text-danger'>{{USR[0]['Selling']}}</b>,
+	<b class='text-danger'>Suma $ sprzedawanych:
+		{{USR[0]['Sum_Selling']/100}}
+		PLN</b>,
+	<B class="text-warning">
+		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">--->Show</a>
+	</b><br><BR>
 
-Leading in the following number of aucions : <b class='text-danger'>{{USR[0]['Leading_In']}}</b>, <span class="text-success">Suma $ in leading auctions: <b class='text-danger'>{{USR[0]['Sum_In_Leading']/100}} PLN</b></span> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 4})}}">--->Show</a><br>
+	Leading in the following number of aucions :
+	<b class='text-danger'>{{USR[0]['Leading_In']}}</b>,
+	<span class="text-success">Suma $ in leading auctions:
+		<b class='text-danger'>{{USR[0]['Sum_In_Leading']/100}}
+			PLN</b>
+	</span>
+	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 4})}}">--->Show</a><br>
 
-Liczba wygranych aukcji: <b class='text-danger'>{{USR[0]['Won']}}</b>, Suma $ wygranych: <b class='text-danger'>{{USR[0]['Sum_Won']/100}} PLN</b> <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 5})}}">--->Show</a></b><br><BR>
+	Liczba wygranych aukcji:
+	<b class='text-danger'>{{USR[0]['Won']}}</b>, Suma $ wygranych:
+	<b class='text-danger'>{{USR[0]['Sum_Won']/100}}
+		PLN</b>
+	<B class="text-warning">
+		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 5})}}">--->Show</a>
+	</b><br><BR>
 
-{# Number of auctions the user is participating in EVER(WRONG)  : <b></b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"><B class="text-warning"--->Show</b></a>  #}
-<BR><span class="text-success">PARTICIPATING Bierze udział CURENTLUY: <b class='text-danger'>{{USR[0]['Participating_In']}}</b>, <B class="text-warning"> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 6})}}">--->Show</a></b></span><br>
+	{# Number of auctions the user is participating in EVER(WRONG)  : <b></b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"><B class="text-warning"--->Show</b></a>  #}
+	<BR><span class="text-success">PARTICIPATING Bierze udział CURRENTLY:
+		<b class='text-danger'>{{USR[0]['Participating_In']}}</b>,
+		<B class="text-warning">
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 6})}}">--->Show</a>
+		</b>
+	</span><br>
 
-<span class="text-success">PARTICIPATING Bierze udział ale przegrywa: <b class='text-danger'>{{USR[0]['Participating_In_Not_Leading']}}</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}">--->Show</a></b></span><br>
+	<span class="text-success">PARTICIPATING Bierze udział ale przegrywa:
+		<b class='text-danger'>{{USR[0]['Participating_In_Not_Leading']}}</b>,
+		<B class="text-warning">
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}">--->Show</a>
+		</b>
+	</span><br>
 
-<span class="text-success">PARTICIPATING Brał udział BRAŁ: <b class='text-danger'>{{USR[0]['Participated_In']}}</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}">--->Show</a></b></span><br>
+	<span class="text-success">PARTICIPATING Brał udział BRAŁ:
+		<b class='text-danger'>{{USR[0]['Participated_In']}}</b>,
+		<B class="text-warning">
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}">--->Show</a>
+		</b>
+	</span><br>
 
-<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ: <b class='text-danger'>{{USR[0]['Participated_In_Not_Leading']}}</b>, <B class="text-warning"><a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}">--->Show</a></b></span><br>
+	<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ:
+		<b class='text-danger'>{{USR[0]['Participated_In_Not_Leading']}}</b>,
+		<B class="text-warning">
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}">--->Show</a>
+		</b>
+	</span><br>
 
-All issued offers : {{USR[0]['All_Offers']}}
+	All issued offers :
+	{{USR[0]['All_Offers']}}
+	<hr>
+
+
+	{% set commentCount = 0 %}
+
+	{# {% for comment in auction.comments %}
+	    {% if comment.value == null %}
+	        {% set commentCount = commentCount + 1 %}
+	    {% endif %}
+	{% endfor %} #}
+
+	{% for auction in USR[0][0].Auctions %}
+
+		{% for comment in auction.comments %}
+			{% if comment.value != null or comment.value == 0 %}
+				{% set commentCount = commentCount + 1 %}
+			{% endif %}
+		{% endfor %}
+
+	{% endfor %}
+
+	<div class="row mb-3">
+		<div>
+			<h2 class='d-inline-block'>Komentarze kupujących</h2>
+			<h3 class='float-end'>
+				{% if commentCount == 0 %}No
+				{% else %}
+					{{commentCount}}
+				{% endif %}
+				comments</h3>
+		</div>
+		<div id="comments-section">
+			{% for auction in USR[0][0].Auctions %}
+				{% for comment in auction.comments %}
+					{% if comment.value != null or comment.value == 0 %}
+
+						<div class="list-group-item-{% if comment.value == 1 %}success{% elseif comment.value == 0 %}dark{% else %}danger{% endif %} rounded p-3 mb-1">
+							<small class='float-end'>{{comment.createdAt|ago}}</small>
+							<div>
+								<b>{{comment.byUser.username}}</b><br>
+								<span>
+									{{comment.content}}
+								</span><br>
+								{# <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small> #}
+								<small>
+									Dotyczy aukcji
+									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
+								</small>
+							</div>
+						</div>
+
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</div>
+	</div>
 
 
 {% endblock %}
-
-
-{# SELECT auctions.id, username, (SELECT offers.id FROM offers) as leads FROM users left join auctions on users.id=auctions.by_user_id WHERE users.username = 'Emis' GROUP by auctions.id #}
-
-{# SELECT users.id, users.username, 
-(SELECT COUNT(*) FROM auctions WHERE by_user_id=1) Auctions_Issued, 
-(SELECT COUNT(*) FROM offers WHERE by_user_id=1) All_Offers,
-(SELECT COUNT(DISTINCT offers.auction_id) FROM offers WHERE by_user_id=1) Participating_In
-
-FROM users  
-
-WHERE users.id = 1 #}
-
-
-{# SELECT users.id, users.username, 
-(SELECT COUNT(*) FROM auctions WHERE by_user_id=1) Auctions_Issued, 
-(SELECT COUNT(*) FROM offers WHERE by_user_id=1) All_Offers ,
-(SELECT COUNT(DISTINCT offers.auction_id) FROM offers WHERE by_user_id=1) Participating_In,
-
-(SELECT COUNT(DISTINCT auctions.id) FROM auctions
-RIGHT JOIN 
- (SELECT DISTINCT ada.auction_id FROM offers ada where ada.by_user_id=1 and ada.value=(select max(t2.value) from offers t2 where t2.id=ada.id)) ofers
- ON auctions.id=ofers.auction_id ) Leading_In
-
-FROM users  
-
-WHERE users.id = 1 #}
-
-{# SELECT users.id, users.username, 
-(SELECT COUNT(*) FROM auctions WHERE by_user_id=1) Auctions_Issued, 
-(SELECT COUNT(*) FROM offers WHERE by_user_id=1) All_Offers ,
-(SELECT COUNT(DISTINCT offers.auction_id) FROM offers WHERE by_user_id=1) Participating_In,
-
-(SELECT COUNT(DISTINCT auctions.id) FROM auctions
-RIGHT JOIN 
- (SELECT DISTINCT ada.auction_id FROM offers ada where ada.by_user_id=1 and ada.value=(select max(t2.value) from offers t2 where t2.id=ada.id)) ofers
- ON auctions.id=ofers.auction_id ) Leading_In
-
-FROM users  
-
-WHERE users.id = 1 #}
-
-{# WORKING:
-SELECT users.id, users.username, 
-(SELECT COUNT(*) FROM auctions WHERE by_user_id=1) Auctions_Issued, 
-(SELECT COUNT(*) FROM offers WHERE by_user_id=1) All_Offers ,
-(SELECT COUNT(DISTINCT offers.auction_id) FROM offers WHERE by_user_id=1) Participating_In,
-
-(SELECT COUNT(*)
-FROM offers ofUP
-WHERE value=(SELECT max(value) FROM offers ofNE WHERE ofNE.auction_id=ofUP.auction_id)
-AND by_user_id=1) Leading_In
-
-FROM users  
-
-WHERE users.id = 1 #}
