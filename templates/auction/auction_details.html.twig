@@ -87,7 +87,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <div>
                     <b>{{comment.byUser.username}}</b><br>
                     <span> {{comment.content}} </span><br>
-                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}})' class="text-success">like({{likesCount}})</small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}})" class="text-danger">dislike({{dislikesCount}})</small>
+                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt %}-fill{% endif %}"></i><b>({{likesCount}})</b></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}})" class="text-danger">dislike<b>({{dislikesCount}})</b></small>
                 </div>
             </div> 
         <pre>
