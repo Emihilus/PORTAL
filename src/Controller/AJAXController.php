@@ -530,10 +530,14 @@ class AJAXController extends AbstractController
 
         $this->deleteOldTempImages($em);
 
-
-        $auctions = $em->getRepository(Auction::class)->findBy([
-            'endsAt' => ''
-        ])
+        $qb = $em->createQueryBuilder();
+        $qb->select('a')
+        ->from('App\Entity\Auction', 'a')
+        ->where('a.endsAt < :now')
+        ->andWhere('a.notificationHandled = false')
+        ->setParameter('now', new DateTime());
+        $auctions = $qb->getQuery->getResult();
+        
 
         return new Response('executed');
     }
