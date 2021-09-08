@@ -81,6 +81,11 @@ class Auction
      */
     private $isDeleted = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $notificationHandled;
+
     
 
     public function __construct()
@@ -302,6 +307,18 @@ class Auction
     public function setIsDeleted(bool $isDeleted): self
     {
         $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    public function getNotificationHandled(): ?bool
+    {
+        return $this->notificationHandled;
+    }
+
+    public function setNotificationHandled(bool $notificationHandled): self
+    {
+        $this->notificationHandled = $notificationHandled;
 
         return $this;
     }
