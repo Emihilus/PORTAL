@@ -598,7 +598,9 @@ class AJAXController extends AbstractController
 
         
         // BUYER COMMENT NOTIFICATION
-        $qb = $em->createQueryBuilder();
+
+        //  QUERYBUILDER DESIGN
+        /*$qb = $em->createQueryBuilder();
         $qb->select('c')
         ->from('App\Entity\Comment', 'c')
         ->leftJoin('c.auction', 'a')
@@ -612,7 +614,46 @@ class AJAXController extends AbstractController
             $buyerCommentNotification->setRecipientUser($comment->getAuction()->getByUser());
             $buyerCommentNotification->setMessage('Otrzymałeś komenatrz sprzedaży dot aukcji '.$comment->getAuction()->getTitle());
             $em->persist($buyerCommentNotification);
+        }*/
+
+        $dql = "SELECT a,
+        (SELECT zu.id
+        FROM App\Entity\Offer zo
+        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
+        WHERE zo.auction=a
+        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
+        ) as hghstOfferOwner
+        
+        FROM App\Entity\Offer o
+        
+        LEFT JOIN App\Entity\Auction a WITH a=o.auction
+        
+        WHERE a.endsAt < ?1 
+        AND a.notificationHandled = false";
+
+        $auctions = $em->createQuery($dql)
+        ->setParameter(1,new DateTime())->getResult();
+
+
+        foreach ($auctions as $auction) 
+        {
+            $winNotification = new Notification();
+
+            $winNotification->setRecipientUser($em->getReference('App\Entity\User', $auction['hghstOfferOwner']));
+            $winNotification->setMessage('Wygrales aukcje '.$auction[0]->getTitle());
+            $em->persist($winNotification);
+
+            $sellNotification = new Notification();
+            $sellNotification->setRecipientUser($auction[0]->getByUser());
+            $sellNotification->setMessage('Sprzedałeś aukcje '.$auction[0]->getTitle());
+            $em->persist($sellNotification);
+
+            $auction[0]->setNotificationHandled(true);
+            $em->persist($auction[0]);
         }
+
+
+
 
         $em->flush();
         dump($auctions);
