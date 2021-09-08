@@ -518,6 +518,9 @@ class AJAXController extends AbstractController
         }
     }
 
+
+    // CRON TASK
+
     /**
      * @Route("/cw", name="cronW")
      */
@@ -537,7 +540,7 @@ class AJAXController extends AbstractController
         foreach ($tempImages as $tempImage) 
         {
             
-            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 600)
+            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 6)
             {
                 try
                 {
