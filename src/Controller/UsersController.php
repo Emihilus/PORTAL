@@ -86,8 +86,14 @@ class UsersController extends AbstractController
 
         foreach ($notifications as $notification) 
         {
-            # code...
+            $notification->getSeenAt() == null ? $notification->wasNull = true : $notification->wasNull = false ;
+            
+            $notification->setSeenAt($now);
+            $em->persist($notification);
         }
+        $em->flush();
+
+        dump($notifications);
 
         return $this->render('userprofile/my_notifications.html.twig',[
             'notifications' => $notifications
