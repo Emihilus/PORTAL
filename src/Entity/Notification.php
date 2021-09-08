@@ -28,6 +28,11 @@ class Notification
      */
     private $message;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $seenAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,18 @@ class Notification
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getSeenAt(): ?\DateTimeInterface
+    {
+        return $this->seenAt;
+    }
+
+    public function setSeenAt(?\DateTimeInterface $seenAt): self
+    {
+        $this->seenAt = $seenAt;
 
         return $this;
     }

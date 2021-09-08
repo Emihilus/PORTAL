@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Auction;
 use App\Entity\Notification;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,6 +81,13 @@ class UsersController extends AbstractController
         $notifications = $em->getRepository(Notification::class)->findBy([
             'recipientUser' => $this->getUser()
         ]);
+
+        $now = new DateTime();
+
+        foreach ($notifications as $notification) 
+        {
+            # code...
+        }
 
         return $this->render('userprofile/my_notifications.html.twig',[
             'notifications' => $notifications
