@@ -595,9 +595,13 @@ class AJAXController extends AbstractController
             $em->persist($auction[0]);
         }
 
+
+        
+        // BUYER COMMENT NOTIFICATION
         $qb = $em->createQueryBuilder();
         $qb->select('c')
         ->from('App\Entity\Comment', 'c')
+        ->leftJoin('c.auction', 'a')
         ->where('c.notificationHandled = false')
         ->andWhere($qb->expr()->neq('c.value', -2));
         $comments = $qb->getQuery()->getResult();
@@ -605,11 +609,14 @@ class AJAXController extends AbstractController
         foreach ($comments as $comment) 
         {
             $buyerCommentNotification = new Notification();
-            $buyerCommentNotification->setRecipientUser($comment->getByUser())
+            $buyerCommentNotification->setRecipientUser($comment->getAuction()->getByUser());
+            $buyerCommentNotification->setMessage('Otrzymałeś komenatrz sprzedaży dot aukcji '.$comment->getAuction()->getTitle());
+            $em->persist($buyerCommentNotification);
         }
 
         $em->flush();
         dump($auctions);
+        dump($comments);
 
         return $this->render('z_not_used/tst.twig');
     }
