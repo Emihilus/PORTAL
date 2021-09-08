@@ -527,7 +527,13 @@ class AJAXController extends AbstractController
     public function cronW()
     {
         $em = $this->getDoctrine()->getManager();
+
         $this->deleteOldTempImages($em);
+
+
+        $auctions = $em->getRepository(Auction::class)->findBy([
+            'endsAt' => ''
+        ])
 
         return new Response('executed');
     }

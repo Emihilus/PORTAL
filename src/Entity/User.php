@@ -87,6 +87,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $dislikedComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="recipientUser")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->Auctions = new ArrayCollection();
@@ -95,6 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userComments = new ArrayCollection();
         $this->likedComments = new ArrayCollection();
         $this->dislikedComments = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -385,6 +391,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->dislikedComments->removeElement($dislikedComment)) {
             $dislikedComment->removeDislikedBy($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setRecipientUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getRecipientUser() === $this) {
+                $notification->setRecipientUser(null);
+            }
         }
 
         return $this;
