@@ -523,33 +523,39 @@ class AJAXController extends AbstractController
     public function cronW()
     {
         $em = $this->getDoctrine()->getManager();
+        $this->deleteOldTempImages($em);
+
+        return $this->render('z_not_used/tst.twig');
+        
+    }
+
+    private function deleteOldTempImages($em)
+    {
         $tempImages = $em->getRepository(TempImage::class)->findAll();
         $now = new DateTime();
 
         foreach ($tempImages as $tempImage) 
         {
             
-            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 6)
+            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 600)
             {
                 try
                 {
                     $result = unlink($this->getParameter('tempImagePath').$tempImage->getFilename());
-                    dump('Done');
-                    if($result)
-                    {
-                        $em->remove
-                    }
                 }
                 catch (\Exception $e)
                 {
-                    dump($e->getMessage());
+                    if($e->getCode() == 0)
+                        $result = true;
                 }
                 
+                if($result)
+                {
+                    $em->remove($tempImage);
+                }
                 
             }
         }
-
-        return $this->render('z_not_used/tst.twig');
-        
+        $em->flush();
     }
 }
