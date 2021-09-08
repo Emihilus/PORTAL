@@ -527,12 +527,12 @@ class AJAXController extends AbstractController
 
         foreach ($tempImages as $tempImage) 
         {
-            dump($tempImage->getCreatedAt());
+            dump("Difference: ".($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()));\
+            if(unlink($tempImage))
            // if($tempImage->getCreatedAt())
         }
-            return new JsonResponse([
-                'result' => "Forbidden"
-            ]);
+
+        return $this->render('z_not_used/tst.twig');
         
     }
 }

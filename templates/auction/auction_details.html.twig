@@ -383,7 +383,7 @@ function dislike(commentId, likeState, dislikeState, likesCount, dislikesCount)
                 if(likeRes < 0)
                 {
                     $("#commentPointsResult-"+commentId).removeClass('text-success');
-                    $("#commentPointsResult").addClass('text-danger');
+                    $("#commentPointsResult-"+commentId).addClass('text-danger');
                 }
                 else if (likeRes > 0)
                 {
