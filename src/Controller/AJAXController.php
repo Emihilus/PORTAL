@@ -616,26 +616,20 @@ class AJAXController extends AbstractController
             $em->persist($buyerCommentNotification);
         }*/
 
-        $dql = "SELECT a,
-        (SELECT zu.id
-        FROM App\Entity\Offer zo
-        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
-        WHERE zo.auction=a
-        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
-        ) as hghstOfferOwner
+        $dql = "SELECT c.id
         
-        FROM App\Entity\Offer o
+        FROM App\Entity\Auction a
         
-        LEFT JOIN App\Entity\Auction a WITH a=o.auction
+        LEFT JOIN App\Entity\Auction a w
+        LEFT JOIN App\Entity\Comment c WITH a=c.auction
         
-        WHERE a.endsAt < ?1 
-        AND a.notificationHandled = false";
+        WHERE c.value > -2 
+        AND c.notificationHandled = false";
 
-        $auctions = $em->createQuery($dql)
-        ->setParameter(1,new DateTime())->getResult();
+        $comments = $em->createQuery($dql)->getResult();
 
 
-        foreach ($auctions as $auction) 
+      /*  foreach ($auctions as $auction) 
         {
             $winNotification = new Notification();
 
@@ -650,7 +644,7 @@ class AJAXController extends AbstractController
 
             $auction[0]->setNotificationHandled(true);
             $em->persist($auction[0]);
-        }
+        }*/
 
 
 
