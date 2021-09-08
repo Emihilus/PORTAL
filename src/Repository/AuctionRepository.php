@@ -207,12 +207,12 @@ class AuctionRepository extends ServiceEntityRepository
         if($currentUser)
         {
             $lSelect = 'l,';
-            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2';
+            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2 ';
         }
 
         $fil = $this->processFiltersDQL($filters);
 
-        $dql = "SELECT a, l, i.filename, 
+        $dql = "SELECT a, $lSelect i.filename, 
         ".self::hghstSelect.",
         ".self::hghstOfferOwnerSelect."
         {$fil['selectString']}
@@ -221,7 +221,7 @@ class AuctionRepository extends ServiceEntityRepository
 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         LEFT JOIN a.images i
-        LEFT JOIN a.likedByUsers l WITH l.id = ?2
+        $lJoin
         {$fil['leftJoinString']}
 
         WHERE o.byUser=?1 
@@ -233,8 +233,10 @@ class AuctionRepository extends ServiceEntityRepository
         {$fil['orderByString']}";
         
         $query = $this->_em->createQuery($dql)
-        ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId())
-        ->setParameter(2, $currentUser);
+        ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
+
+        if($currentUser)
+            $query = $query->setParameter(2, $currentUser);
 
         foreach($fil['paramsArray'] as $params)
         {
@@ -244,11 +246,20 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
     
-    public function dqlParticipatingAuctionsOfUser($filters = null) // OR PARTICIPATED
+    public function dqlParticipatingAuctionsOfUser(?User $currentUser, $filters = null) // OR PARTICIPATED
     {
+        $lSelect = '';
+        $lJoin = '';
+        if($currentUser)
+        {
+            $lSelect = 'l,';
+            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2 ';
+        }
+
+
         $fil = $this->processFiltersDQL($filters);
 
-        $dql = "SELECT a, i.filename, 
+        $dql = "SELECT a, $lSelect i.filename, 
         ".self::hghstSelect.",
         ".self::hghstOfferOwnerSelect."
         {$fil['selectString']}
@@ -257,6 +268,7 @@ class AuctionRepository extends ServiceEntityRepository
 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         LEFT JOIN a.images i
+        $lJoin
         {$fil['leftJoinString']}
 
         WHERE o.byUser=?1
@@ -269,6 +281,9 @@ class AuctionRepository extends ServiceEntityRepository
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
 
+        if($currentUser)
+            $query = $query->setParameter(2, $currentUser);
+
         foreach($fil['paramsArray'] as $params)
         {
             $query = $query->setParameter($params[0],$params[1]);
@@ -277,11 +292,20 @@ class AuctionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function dqlParticipatingNotLeadingAuctionsOfUser($filters = null) // OR PARTICIPATED
+    public function dqlParticipatingNotLeadingAuctionsOfUser(?User $currentUser, $filters = null) // OR PARTICIPATED
     {
+        $lSelect = '';
+        $lJoin = '';
+        if($currentUser)
+        {
+            $lSelect = 'l,';
+            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2 ';
+        }
+
+
         $fil = $this->processFiltersDQL($filters);
 
-        $dql = "SELECT a, i.filename, 
+        $dql = "SELECT a, $lSelect i.filename, 
         ".self::hghstSelect.",
         ".self::hghstOfferOwnerSelect."
         {$fil['selectString']}
@@ -290,6 +314,7 @@ class AuctionRepository extends ServiceEntityRepository
 
         LEFT JOIN App\Entity\Auction a WITH a=o.auction 
         LEFT JOIN a.images i
+        $lJoin
         {$fil['leftJoinString']}
 
         WHERE o.byUser=?1 
@@ -308,6 +333,9 @@ class AuctionRepository extends ServiceEntityRepository
         
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
+
+        if($currentUser)
+            $query = $query->setParameter(2, $currentUser);
 
         foreach($fil['paramsArray'] as $params)
         {
@@ -456,6 +484,13 @@ class AuctionRepository extends ServiceEntityRepository
         $paramsArray = [];
         if($filtersJson)
         {
+            if(isset($filtersJson->f_favor) && $filtersJson->f_favor == 'true')
+            {
+                $whereString.= ' AND  = :usr';
+                ->setParameter('usr', $user);      
+            }
+
+
             if(isset($filtersJson->f_search))
             {
                 if($filtersJson->fo_search == 1)
