@@ -76,6 +76,11 @@ class Comment
      */
     private $replies;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $notificationHandled;
+
     public function __construct()
     {
         $this->likedBy = new ArrayCollection();
@@ -263,6 +268,18 @@ class Comment
                 $reply->setReplyTo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNotificationHandled(): ?bool
+    {
+        return $this->notificationHandled;
+    }
+
+    public function setNotificationHandled(bool $notificationHandled): self
+    {
+        $this->notificationHandled = $notificationHandled;
 
         return $this;
     }

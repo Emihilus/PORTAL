@@ -591,8 +591,23 @@ class AJAXController extends AbstractController
             $sellNotification->setMessage('Sprzedałeś aukcje '.$auction[0]->getTitle());
             $em->persist($sellNotification);
 
-            $
+            $auction[0]->setNotificationHandled(true);
+            $em->persist($auction[0]);
         }
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('c')
+        ->from('App\Entity\Comment', 'c')
+        ->where('c.notificationHandled = false')
+        ->andWhere($qb->expr()->neq('c.value', -2));
+        $comments = $qb->getQuery()->getResult();
+
+        foreach ($comments as $comment) 
+        {
+            $buyerCommentNotification = new Notification();
+            $buyerCommentNotification->setRecipientUser($comment->getByUser())
+        }
+
         $em->flush();
         dump($auctions);
 
