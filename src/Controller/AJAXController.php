@@ -642,24 +642,19 @@ class AJAXController extends AbstractController
 
 
         // REMOVE OLD NOTIFICATONS
-        $now = new DateTime();
+        $now = new DateTime('-1 hour');
 
         $qb = $em->createQueryBuilder();
         $qb->select('n')
         ->from('App\Entity\Notification', 'n')
-        ->where($qb->expr()->gt('n.seenAt', -2))
-        ->andWhere($qb->expr()->neq('c.value', -2));
-        $comments = $qb->getQuery()->getResult();
+        ->where($qb->expr()->lt('n.seenAt', ':date'))
+        ->addParameter('date', $now);
+        $notifications = $qb->getQuery()->getResult();
 
-        foreach ($comments as $comment) 
+        foreach ($notifications as $notification) 
         {
-            $buyerCommentNotification = new Notification();
-            $buyerCommentNotification->setRecipientUser($comment->getAuction()->getByUser());
-            $buyerCommentNotification->setMessage('Otrzymałeś komenatrz sprzedaży dot aukcji '.$comment->getAuction()->getTitle());
-            $em->persist($buyerCommentNotification);
+            $em->remove($notification);
         }
-
-
         $em->flush();
         dump($auctions);
         dump($comments);
