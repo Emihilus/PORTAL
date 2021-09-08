@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\Comment;
+use App\Entity\Notification;
 use App\Entity\TempImage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -535,11 +536,19 @@ class AJAXController extends AbstractController
         ->from('App\Entity\Auction', 'a')
         ->where('a.endsAt < :now')
         ->andWhere('a.notificationHandled = false')
+        ->leftJoin('App\Entity\Offer')
         ->setParameter('now', new DateTime());
-        $auctions = $qb->getQuery->getResult();
-        
+        $auctions = $qb->getQuery()->getResult();
 
-        return new Response('executed');
+        foreach ($auctions as $auction) 
+        {
+            $winNotification = new Notification();
+            $winNotification->
+        }
+
+        dump($auctions);
+
+        return $this->render('z_not_used/tst.twig');
     }
 
     private function deleteOldTempImages($em)
