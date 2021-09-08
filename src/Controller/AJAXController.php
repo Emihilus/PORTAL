@@ -536,7 +536,8 @@ class AJAXController extends AbstractController
         ->from('App\Entity\Auction', 'a')
         ->where('a.endsAt < :now')
         ->andWhere('a.notificationHandled = false')
-        ->leftJoin('App\Entity\Offer')
+        ->leftJoin('App\Entity\Offer', 'o')
+        ->addSelect('a.offers')
         ->setParameter('now', new DateTime());
         $auctions = $qb->getQuery()->getResult();
 
@@ -544,6 +545,12 @@ class AJAXController extends AbstractController
         {
             $winNotification = new Notification();
             $winNotification->
+
+            $hghstOffer = null;
+            foreach ($auction->getOffers() as $offer) 
+            {
+                if($winner == null || $winner)
+            }
         }
 
         dump($auctions);
