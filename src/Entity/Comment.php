@@ -79,7 +79,7 @@ class Comment
     /**
      * @ORM\Column(type="boolean")
      */
-    private $notificationHandled;
+    private $notificationHandled = false;
 
     public function __construct()
     {

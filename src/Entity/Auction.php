@@ -84,7 +84,7 @@ class Auction
     /**
      * @ORM\Column(type="boolean")
      */
-    private $notificationHandled;
+    private $notificationHandled = false;
 
     
 

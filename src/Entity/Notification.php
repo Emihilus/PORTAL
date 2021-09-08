@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=NotificationRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Notification
 {
@@ -32,6 +33,11 @@ class Notification
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $seenAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     public function getId(): ?int
     {
@@ -72,5 +78,25 @@ class Notification
         $this->seenAt = $seenAt;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function autoSetCreatedAt()
+    {
+        $this->createdAt = new \DateTime();
     }
 }

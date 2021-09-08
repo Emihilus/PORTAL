@@ -6,7 +6,7 @@
 {% block body %}
 
 	{% for notification in notifications %}
-        <p>{{notification.message}}{% if 'komenatrz' in notification.message %} <a href="{{path('profile-details', {'username': app.user})}}">Zobacz</a>{% endif %}</p>
+        <p>{% if notification.wasNull %}<b>{% endif %}{{notification.message}}{% if 'komenatrz' in notification.message %} <a href="{{path('profile-details', {'username': app.user})}}">Zobacz</a>{% endif %}{% if notification.wasNull %}</b>{% endif %}</p>
         
     {% endfor %}
 
