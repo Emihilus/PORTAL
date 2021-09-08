@@ -658,7 +658,7 @@ class AJAXController extends AbstractController
         foreach ($tempImages as $tempImage) 
         {
             
-            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 6)
+            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 600)
             {
                 try
                 {
