@@ -66,10 +66,21 @@ class Comment
      */
     private $value = -2;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="replies")
+     */
+    private $replyTo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="replyTo")
+     */
+    private $replies;
+
     public function __construct()
     {
         $this->likedBy = new ArrayCollection();
         $this->dislikedBy = new ArrayCollection();
+        $this->replies = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -210,6 +221,48 @@ class Comment
     public function setValue(?int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getReplyTo(): ?self
+    {
+        return $this->replyTo;
+    }
+
+    public function setReplyTo(?self $replyTo): self
+    {
+        $this->replyTo = $replyTo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getReplies(): Collection
+    {
+        return $this->replies;
+    }
+
+    public function addReply(self $reply): self
+    {
+        if (!$this->replies->contains($reply)) {
+            $this->replies[] = $reply;
+            $reply->setReplyTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReply(self $reply): self
+    {
+        if ($this->replies->removeElement($reply)) {
+            // set the owning side to null (unless already changed)
+            if ($reply->getReplyTo() === $this) {
+                $reply->setReplyTo(null);
+            }
+        }
 
         return $this;
     }
