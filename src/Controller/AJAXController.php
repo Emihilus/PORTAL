@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
+use DateTime;
+use Exception;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\Comment;
 use App\Entity\TempImage;
-use DateTime;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -525,8 +526,7 @@ class AJAXController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $this->deleteOldTempImages($em);
 
-        return $this->render('z_not_used/tst.twig');
-        
+        return new Response('executed');
     }
 
     private function deleteOldTempImages($em)
