@@ -9,7 +9,7 @@
 			{% endblock %}
 		</title>
 		{# Run `composer require symfony/webpack-encore-bundle`
-		           and uncomment the following Encore helpers to start using Symfony UX #}
+				           and uncomment the following Encore helpers to start using Symfony UX #}
 		{% block stylesheets %}
 			<!-- CSS only -->
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
@@ -67,23 +67,23 @@
 							{% if not app.user %}
 								<li class="nav-item">
 									<a class="nav-link active" href="
-																		{{path('app_login')}}">Log in</a>
+																												{{path('app_login')}}">Log in</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link active" href="
-																		{{path('app_register')}}">Register</a>
+																												{{path('app_register')}}">Register</a>
 								</li>
 							{% else %}
 								<li class="nav-item">
 									<a class="nav-link active" href="
-																			{{path('my-profile')}}">
+																														{{path('my-profile')}}">
 										<b>{{app.user.username}}</b>
 									</a>
 								</li>
 
 								<li class="nav-item">
 									<a class="nav-link active" href="
-																		{{path('app_logout')}}">Logout</a>
+																												{{path('app_logout')}}">Logout</a>
 								</li>
 							{% endif %}
 						</ul>
@@ -93,6 +93,29 @@
 							<button class="btn btn-light" type="submit">Znajdź</button>
 						</form>
 
+					</div>
+
+					<div class="icon" id="bell">
+						<img src="https://i.imgur.com/AC7dgLA.png" alt="">
+					</div>
+					<div class="notifications" id="box">
+						<h2>Notifications -
+							<span>2</span>
+						</h2>
+						<div class="notifications-item">
+							<img src="https://i.imgur.com/uIgDDDd.jpg" alt="img">
+							<div class="text">
+								<h4>Samso aliao</h4>
+								<p>Samso Nagaro Like your home work</p>
+							</div>
+						</div>
+						<div class="notifications-item">
+							<img src="https://img.icons8.com/flat_round/64/000000/vote-badge.png" alt="img">
+							<div class="text">
+								<h4>John Silvester</h4>
+								<p>+20 vista badge earned</p>
+							</div>
+						</div>
 					</div>
 
 				</nav>
@@ -136,9 +159,10 @@
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 			<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 			<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+			<link
+			rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
-			{# <script src="{{asset('dist/dropzone.js')}}"></script> #}
+		{# <script src="{{asset('dist/dropzone.js')}}"></script> #}
 
 
 		{% endblock %}
@@ -146,68 +170,68 @@
 	</html>
 
 	{#  
-	from auction details
-	
-	/*  ABADON FETCH
-	   fetch(url, {
-	    method: 'POST',
-	    headers: {
-	        'Content-Type': 'application/json',
-	        },
-	    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
-	            'auctionId' : {{auction.id}} }) 
-	        })
-	    .then((response) => 
-	    {
-	        let container = document.createElement('div');
-	        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-	        document.getElementById('offers').prepend(container);
-	      console.log(response)
-	      response.json().then(function(data) {
-	        console.log(data);
-	      });
-	    })
-	    .catch(() => { /* Error. Inform the user */ /*})
-	
-	     fetch(url, {
-	    method: 'POST',
-	    headers: {
-	        'Content-Type': 'application/json',
-	        },
-	    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
-	            'auctionId' : {{auction.id}} }) 
-	        })
-	    .then((response) => json())
-	    .then((response) => 
-	    {
-	        let container = document.createElement('div');
-	        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-	        document.getElementById('offers').prepend(container);
-	
-	       //y var jsson = JSON.parse(response);
-	        console.log("WHOLE RESPONSE: "+response)
-	
-	        console.log("RESPONSE ERRORSBODY: "+response[0]);
-	
-	       /* response.json().then(function(data) 
-	        {
-	            console.log("RESP JSON: "+data);
-	      });*//*
-	    })
-	    .catch(() => { /* Error. Inform the user *//* })*/
-	}
-	
-	
-	
-	
-	/*function secondsToHmsCut(d) { useful
-	    d = Number(d);
-	    let h = Math.floor(d / 3600);
-	    let m = Math.floor(d % 3600 / 60);
-	    let s = Math.floor(d % 3600 % 60);
-	
-	    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-	    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-	    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-	    return hDisplay + mDisplay + sDisplay; 
-	}*/ #}
+		from auction details
+		
+		/*  ABADON FETCH
+		   fetch(url, {
+		    method: 'POST',
+		    headers: {
+		        'Content-Type': 'application/json',
+		        },
+		    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
+		            'auctionId' : {{auction.id}} }) 
+		        })
+		    .then((response) => 
+		    {
+		        let container = document.createElement('div');
+		        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+		        document.getElementById('offers').prepend(container);
+		      console.log(response)
+		      response.json().then(function(data) {
+		        console.log(data);
+		      });
+		    })
+		    .catch(() => { /* Error. Inform the user */ /*})
+		
+		     fetch(url, {
+		    method: 'POST',
+		    headers: {
+		        'Content-Type': 'application/json',
+		        },
+		    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
+		            'auctionId' : {{auction.id}} }) 
+		        })
+		    .then((response) => json())
+		    .then((response) => 
+		    {
+		        let container = document.createElement('div');
+		        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
+		        document.getElementById('offers').prepend(container);
+		
+		       //y var jsson = JSON.parse(response);
+		        console.log("WHOLE RESPONSE: "+response)
+		
+		        console.log("RESPONSE ERRORSBODY: "+response[0]);
+		
+		       /* response.json().then(function(data) 
+		        {
+		            console.log("RESP JSON: "+data);
+		      });*//*
+		    })
+		    .catch(() => { /* Error. Inform the user *//* })*/
+		}
+		
+		
+		
+		
+		/*function secondsToHmsCut(d) { useful
+		    d = Number(d);
+		    let h = Math.floor(d / 3600);
+		    let m = Math.floor(d % 3600 / 60);
+		    let s = Math.floor(d % 3600 % 60);
+		
+		    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+		    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+		    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+		    return hDisplay + mDisplay + sDisplay; 
+		}*/ #}
