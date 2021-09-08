@@ -8,6 +8,7 @@ use App\Entity\Auction;
 use App\Entity\Comment;
 use App\Entity\TempImage;
 use DateTime;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -527,9 +528,25 @@ class AJAXController extends AbstractController
 
         foreach ($tempImages as $tempImage) 
         {
-            dump("Difference: ".($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()));\
-            if(unlink($tempImage))
-           // if($tempImage->getCreatedAt())
+            
+            if($now->getTimestamp() - $tempImage->getCreatedAt()->getTimestamp()> 6)
+            {
+                try
+                {
+                    $result = unlink($this->getParameter('tempImagePath').$tempImage->getFilename());
+                    dump('Done');
+                    if($result)
+                    {
+                        $em->remove
+                    }
+                }
+                catch (\Exception $e)
+                {
+                    dump($e->getMessage());
+                }
+                
+                
+            }
         }
 
         return $this->render('z_not_used/tst.twig');
