@@ -256,7 +256,6 @@ class AuctionRepository extends ServiceEntityRepository
             $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?10 ';
         }
 
-
         $fil = $this->processFiltersDQL($filters);
 
         $dql = "SELECT a, $lSelect i.filename, 
@@ -301,7 +300,6 @@ class AuctionRepository extends ServiceEntityRepository
             $lSelect = 'l,';
             $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?10 ';
         }
-
 
         $fil = $this->processFiltersDQL($filters);
 
