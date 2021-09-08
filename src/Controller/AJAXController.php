@@ -531,7 +531,8 @@ class AJAXController extends AbstractController
 
         $this->deleteOldTempImages($em);
 
-        $qb = $em->createQueryBuilder();
+        // QUERY BUILDER DESIGN - 32 QUERIES
+        /*$qb = $em->createQueryBuilder();
         $qb->select('a')
         ->from('App\Entity\Auction', 'a')
         ->where('a.endsAt < :now')
@@ -539,7 +540,26 @@ class AJAXController extends AbstractController
         ->leftJoin('a.offers', 'o')
         ->leftJoin('o.byUser', 'u')
         ->setParameter('now', new DateTime());
-        $auctions = $qb->getQuery()->getResult();
+        $auctions = $qb->getQuery()->getResult();*/
+
+
+        $dql = "SELECT a,
+        (SELECT zu.id
+        FROM App\Entity\Offer zo
+        LEFT JOIN App\Entity\User zu WITH zo.byUser=zu
+        WHERE zo.auction=a
+        AND zo.Value=(SELECT MAX(fo.Value) FROM App\Entity\Offer fo WHERE fo.auction=zo.auction)
+        ) as hghstOfferOwner
+        
+        FROM App\Entity\Offer o
+        
+        LEFT JOIN App\Entity\Auction a WITH a=o.auction
+        
+        WHERE a.endsAt < ?1 
+        AND a.notificationHandled = false";
+        $query = $em->createQuery($dql)
+        ->setParameter(1,new DateTime());
+
 
         foreach ($auctions as $auction) 
         {
