@@ -6,7 +6,7 @@ function submitFilters()
 
 function reStoreInputsState()
 {
-if($('#input_search').val() != '')
+	if($('#input_search').val() != '')
 		GAJArray.filters.f_search = $('#input_search').val();
 	else
 		delete(GAJArray.filters.f_search);
@@ -33,6 +33,9 @@ if($('#input_search').val() != '')
 	// sort
 	GAJArray.filters.s_criteria = $('#select_criteria').val();
 	GAJArray.filters.s_order = $('#select_order').val();
+
+	// favor 
+	GAJArray.filters.f_favor = $("#favor").is(':checked');
 }
 
 function resetFilters()

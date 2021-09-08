@@ -24,6 +24,8 @@ Aktualnie bierze udział, ale przegrywa
 Brał udział
 {% elseif mMode == 9 %}
 Przegrane aukcje
+{% elseif mMode == -1 %}
+Ulubione aukcje 
 {% endif %}
 
  of the user {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</h1>
@@ -67,20 +69,33 @@ let GAJArray = { mMode: '{{mMode}}'
 }};
 let historyString = '{{path(app.request.get('_route'),{'username' : app.request.get('username')})}}/';
 
-	{% if mMode < 4 %}
-		GAJArray.filters.f_byuser = '{{app.request.get('username')}}';
-		$('#input_byuser').val('{{app.request.get('username')}}');
-	{% else %}
-		GAJArray.filters.oo_byuser = '{{app.request.get('username')}}';
-	{% endif %}
+	{% if app.user and mMode == -1 %}
 
-	{% if mMode == 1 %}
-		GAJArray.filters.f_liveness = 3;
-		$('#select_liveness').val(3);
-	{% elseif mMode == 2 or mMode == 5 or mMode > 7 %}
-		GAJArray.filters.f_liveness = 2;
-		$('#select_liveness').val(2);
+	$("#favor").attr('checked', 'true');
+	GAJArray.filters.f_favor = true;
+	GAJArray.filters.f_liveness = 3;
+	$('#select_liveness').val(3);
+
+	{% else %}
+		{% if mMode < 4 %}
+			GAJArray.filters.f_byuser = '{{app.request.get('username')}}';
+			$('#input_byuser').val('{{app.request.get('username')}}');
+		{% else %}
+			GAJArray.filters.oo_byuser = '{{app.request.get('username')}}';
+		{% endif %}
+
+		{% if mMode == 1 %}
+			GAJArray.filters.f_liveness = 3;
+			$('#select_liveness').val(3);
+		{% elseif mMode == 2 or mMode == 5 or mMode > 7 %}
+			GAJArray.filters.f_liveness = 2;
+			$('#select_liveness').val(2);
+		{% endif %}
+
+	
+	
 	{% endif %}
+	
 
 
 {{ include('parts/include/js_submitFilters.twig')  }}

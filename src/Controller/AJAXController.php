@@ -93,6 +93,10 @@ class AJAXController extends AbstractController
             case 9: //PARTICIPATED
                 $method = "ParticipatingNotLeadingAuctionsOfUser";
                 break;
+
+            case -1:
+                $method = 'ListAllAuctions';
+                break;
         }
 
 
@@ -102,7 +106,8 @@ class AJAXController extends AbstractController
         {
             $queryFunction = 'qBuilder' . $method;
             $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
-        } else 
+        } 
+        else 
         {
             $queryFunction = 'dql' . $method;
             $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($json->filters);

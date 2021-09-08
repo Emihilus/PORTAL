@@ -7,6 +7,7 @@ use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\AuctionImage;
 use App\DataFixtures\RandomGenerator;
+use App\Entity\Comment;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -84,6 +85,16 @@ class AppFixtures extends Fixture
                 $offer->setCreatedAt(new \DateTime('-'.random_int(1,1000000).' seconds'));
                 $offer->setValue(random_int(0,454543));
 
+                $comment = new Comment();
+                $comment->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
+                $comment->setAuction($auction);
+                $comment->setValue(-2);
+                $comment->setContent(RandomGenerator::generateRandomSentence(10));
+                $comment->addLikedBy($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
+                $comment->addLikedBy($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
+                $comment->addLikedBy($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
+
+                $manager->persist($comment);
                 $manager->persist($offer);
             }
 

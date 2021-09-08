@@ -88,7 +88,7 @@ class MainController extends AbstractController
             
             foreach($auction->getComments() as $auctionComment)
             {
-                if($auctionComment->getValue() != null)
+                if($auctionComment->getValue() != -2)
                 {
                     $this->addFlash(
                         'danger',

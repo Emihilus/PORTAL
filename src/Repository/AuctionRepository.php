@@ -191,7 +191,7 @@ class AuctionRepository extends ServiceEntityRepository
             ->addSelect('l');
         }
 
-        $query = $this->processFilters($filters, $query);
+        $query = $this->processFilters($user, $filters, $query);
 
         return $query->getQuery()->getResult();
     }
@@ -310,10 +310,16 @@ class AuctionRepository extends ServiceEntityRepository
 
 ///////////////////// FILTERS QUERYBUILDER DESIGN /////////////////////////////////
 
-    private function processFilters($filtersJson, $queryBuilder)
+    private function processFilters(?User $user, $filtersJson, $queryBuilder)
     {
         if($filtersJson)
         {
+            if(isset($filtersJson->f_favor) && $filtersJson->f_favor == 'true')
+            {
+                $queryBuilder->andWhere('l = :usr')
+                ->setParameter('usr', $user);      
+            }
+
             if(isset($filtersJson->f_search))
             {
                 if($filtersJson->fo_search == 1)

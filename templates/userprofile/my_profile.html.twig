@@ -6,20 +6,20 @@
 {% block body %}
 
 	<h1>Managment</h1>
-	<a href="{{path('user-auctions', {'username': app.user, 'mode': 1})}}">
+	<a href="{{path('user-auctions', {'username': app.user, 'mode': 1 })}}">
 		<h2>Show and manage my auctions</h2>
 	</a>
 	<a href="{{path('profile-details', {'username': app.user})}}">
 		<h2>My profile details</h2>
 	</a>
-	<a href="{{path('profile-details', {'username': app.user})}}">
+	<a href="{{path('user-auctions', {'username': app.user, 'mode': 5 })}}">
 		<h2>Wystaw kometarze kupującego</h2>
 	</a>
 	<br>
-	<a href="">
+	<a href="{{path('user-auctions', {'username': app.user, 'mode': -1 })}}">
 		<h2>Show my favorite auctions</h2>
 	</a>
-	<a href="">
+	<a href="{{path('change-password')}}">
 		<h2>Modify pwd</h2>
 	</a>
 	<h1>

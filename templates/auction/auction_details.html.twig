@@ -49,12 +49,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 <hr>
 
 {% set commentCount = 0 %}
-
-{% for comment in auction.comments %}
-    {% if comment.value == -2 %}
-        {% set commentCount = commentCount + 1 %}
-    {% endif %}
+<input id='cids' type='hidden' value="{% for comment in auction.comments %}{% if comment.value == -2 %}{% set commentCount = commentCount + 1 %},{{comment.id}}{% endif %}
 {% endfor %}
+">
 
 
 
@@ -90,12 +87,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <div>
                     <b>{{comment.byUser.username}}</b><br>
                     <span> {{comment.content}} </span><br>
-                    <small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i><b>{{likesCount}}</b></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i><b>{{dislikesCount}}</b></small>
+                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>
                 </div>
             </div> 
-        <pre>
-            {{ dump(comment) }}
-        </pre>
         {% endif %}
     {% endfor %}
 {% endif %}
@@ -121,6 +115,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
  // TIMER SECTION ///
 let endsAt = "{{auction.endsAt | date('U')}}";
 let timerElement = document.getElementById('timer');
+let likeMode = true;
 
 auctionTimer();
 function auctionTimer()
@@ -254,27 +249,82 @@ function like(commentId, likeState, dislikeState, likesCount, dislikesCount)
                 if(likeState)
                 {
                     $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount-1)+','+dislikesCount+')');
-                    $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+(likesCount-1)+'</b>');
+                    $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i>');
+                    $('#lc-'+commentId).html(likesCount-1);
                 }
                 else
                 {
-                    $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+(dislikeState ? !dislikeState : dislikeState)+','+(likesCount+1)+','+(dislikesCount-1)+')');
-                    $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up-fill"></i><b>'+(likesCount+1)+'</b>'); 
+                    $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+(dislikeState ? !dislikeState : dislikeState)+','+(likesCount+1)+','+(dislikeState ? (dislikesCount-1) : dislikesCount)+')');
+                    $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up-fill"></i>'); 
+                    $('#lc-'+commentId).html(likesCount+1);
 
                     if(dislikeState)
                     {
                         $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(!likeState)+','+(!dislikeState)+','+(likesCount+1)+','+(dislikesCount-1)+')');
-                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+(dislikesCount-1)+'</b>'); 
+                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i>'); 
+                        $('#dlc-'+commentId).html(dislikesCount-1);
                     }
                     else
                     {
                         $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(!likeState)+','+dislikeState+','+(likesCount+1)+','+dislikesCount+')');
-                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+dislikesCount+'</b>'); 
+                        $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i>'); 
+                        $('#dlc-'+commentId).html(dislikesCount);
                     }
                 }
 
 
-                console.log(res);
+                likesCount = parseInt($("#lc-"+commentId).html());
+                dislikesCount = parseInt($("#dlc-"+commentId).html());
+                let likeRes = likesCount - dislikesCount;
+
+                if(likeRes < 0)
+                {
+                    $("#commentPointsResult-"+commentId).removeClass('text-success');
+                    $("#commentPointsResult-"+commentId).addClass('text-danger');
+                }
+                else if (likeRes > 0)
+                {
+                    $("#commentPointsResult-"+commentId).addClass('text-success');
+                    $("#commentPointsResult-"+commentId).removeClass('text-danger');
+                }
+                else
+                {
+                    $("#commentPointsResult-"+commentId).removeClass('text-success');
+                    $("#commentPointsResult-"+commentId).removeClass('text-danger'); 
+                }
+                $("#commentPointsResult-"+commentId).html(likeRes);
+
+                if(likesCount>0)
+                {
+                    $("#lc-"+commentId).addClass("text-success");
+                    $("#lc-"+commentId).removeClass("text-danger");
+                }
+                else if (likesCount < 0 )
+                {
+                    $("#lc-"+commentId).removeClass("text-success");
+                    $("#lc-"+commentId).addClass("text-danger");
+                }
+                else
+                {
+                    $("#lc-"+commentId).removeClass("text-success");
+                    $("#lc-"+commentId).removeClass("text-danger");
+                }
+
+                if(dislikesCount>0)
+                {
+                    $("#dlc-"+commentId).removeClass("text-success");
+                    $("#dlc-"+commentId).addClass("text-danger");
+                }
+                else if (dislikesCount < 0 )
+                {
+                    $("#dlc-"+commentId).addClass("text-success");
+                    $("#dlc-"+commentId).removeClass("text-danger");
+                }
+                else
+                {
+                    $("#dlc-"+commentId).removeClass("text-success");
+                    $("#dlc-"+commentId).removeClass("text-danger");
+                }
             }
         });
     }
@@ -303,35 +353,114 @@ function dislike(commentId, likeState, dislikeState, likesCount, dislikesCount)
                 if(dislikeState)
                 {
                     $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+likeState+','+(!dislikeState)+','+likesCount+','+(dislikesCount-1)+')');
-                    $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i><b>'+(dislikesCount-1)+'</b>');
+                    $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down"></i>');
+                    $('#dlc-'+commentId).html(dislikesCount-1);
                 }
                 else
                 {
-
                     $('#dislike-'+commentId).attr('onclick', 'dislike('+commentId+','+(likeState ? !likeState : likeState)+','+(!dislikeState)+','+ (likeState ? (likesCount-1): likesCount) +','+(dislikesCount+1)+')');
-                    $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down-fill"></i><b>'+(dislikesCount+1)+'</b>'); 
+                    $('#dislike-'+commentId).html('<i class="bi bi-hand-thumbs-down-fill"></i>'); 
+                    $('#dlc-'+commentId).html(dislikesCount+1);
 
                     if(likeState)
                     {
                         $('#like-'+commentId).attr('onclick', 'like('+commentId+','+(!likeState)+','+(!dislikeState)+','+(likesCount-1)+','+(dislikesCount+1)+')');
-                        $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+(likesCount-1)+'</b>'); 
+                        $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i>'); 
+                        $('#lc-'+commentId).html(likesCount-1);
                     }
                     else
                     {
                         $('#like-'+commentId).attr('onclick', 'like('+commentId+','+likeState+','+(!dislikeState)+','+likesCount+','+(dislikesCount+1)+')');
-                        $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i><b>'+likesCount+'</b>'); 
+                        $('#like-'+commentId).html('<i class="bi bi-hand-thumbs-up"></i>'); 
+                        $('#lc-'+commentId).html(likesCount);
                     }
                 }
 
+                likesCount = parseInt($("#lc-"+commentId).html());
+                dislikesCount = parseInt($("#dlc-"+commentId).html());
+                let likeRes = likesCount - dislikesCount;
 
-                
-                console.log(res);
+                if(likeRes < 0)
+                {
+                    $("#commentPointsResult-"+commentId).removeClass('text-success');
+                    $("#commentPointsResult").addClass('text-danger');
+                }
+                else if (likeRes > 0)
+                {
+                    $("#commentPointsResult-"+commentId).addClass('text-success');
+                    $("#commentPointsResult-"+commentId).removeClass('text-danger');
+                }
+                else
+                {
+                    $("#commentPointsResult-"+commentId).removeClass('text-success');
+                    $("#commentPointsResult-"+commentId).removeClass('text-danger'); 
+                }
+                $("#commentPointsResult-"+commentId).html(likeRes);
+
+                if(likesCount>0)
+                {
+                    $("#lc-"+commentId).addClass("text-success");
+                    $("#lc-"+commentId).removeClass("text-danger");
+                }
+                else if (likesCount < 0 )
+                {
+                    $("#lc-"+commentId).removeClass("text-success");
+                    $("#lc-"+commentId).addClass("text-danger");
+                }
+                else
+                {
+                    $("#lc-"+commentId).removeClass("text-success");
+                    $("#lc-"+commentId).removeClass("text-danger");
+                }
+
+                if(dislikesCount>0)
+                {
+                    $("#dlc-"+commentId).removeClass("text-success");
+                    $("#dlc-"+commentId).addClass("text-danger");
+                }
+                else if (dislikesCount < 0 )
+                {
+                    $("#dlc-"+commentId).addClass("text-success");
+                    $("#dlc-"+commentId).removeClass("text-danger");
+                }
+                else
+                {
+                    $("#dlc-"+commentId).removeClass("text-success");
+                    $("#dlc-"+commentId).removeClass("text-danger");
+                }
             }
         });
     }
     else
     {
         $('#exampleModalCenter').modal('show');
+    }
+}
+
+let cids = $("#cids").val().substring(1).split(',');
+
+function switchLikeMode(lmValue)
+{
+    let cids = $("#cids").val().substring(1).split(',');
+    if(lmValue)
+    {
+        cids.forEach(function (i)
+        {
+            $("#lc-"+i).removeClass("d-none");
+            $("#dlc-"+i).removeClass("d-none");
+            $("#commentPointsResult-"+i).addClass("d-none");
+        });
+        likeMode = false;
+    }
+    else
+    {
+        cids.forEach(function (i)
+        {
+            $("#lc-"+i).addClass("d-none");
+            $("#dlc-"+i).addClass("d-none");
+            $("#commentPointsResult-"+i).removeClass("d-none");
+        });
+        likeMode = true; 
     }
 }
 
