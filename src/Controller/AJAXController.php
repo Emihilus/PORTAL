@@ -642,13 +642,13 @@ class AJAXController extends AbstractController
 
 
         // REMOVE OLD NOTIFICATONS
-        $now = new DateTime('-1 hour');
+        $now = new DateTime('-4 minutes');
 
         $qb = $em->createQueryBuilder();
         $qb->select('n')
         ->from('App\Entity\Notification', 'n')
         ->where($qb->expr()->lt('n.seenAt', ':date'))
-        ->addParameter('date', $now);
+        ->setParameter('date', $now);
         $notifications = $qb->getQuery()->getResult();
 
         foreach ($notifications as $notification) 
@@ -656,6 +656,8 @@ class AJAXController extends AbstractController
             $em->remove($notification);
         }
         $em->flush();
+
+        dump($notifications);
         dump($auctions);
         dump($comments);
 

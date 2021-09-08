@@ -87,9 +87,12 @@ class UsersController extends AbstractController
         foreach ($notifications as $notification) 
         {
             $notification->getSeenAt() == null ? $notification->wasNull = true : $notification->wasNull = false ;
-            
-            $notification->setSeenAt($now);
-            $em->persist($notification);
+
+            if($notification->wasNull)
+            {
+                $notification->setSeenAt($now);
+                $em->persist($notification);
+            }
         }
         $em->flush();
 
