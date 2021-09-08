@@ -542,6 +542,22 @@ class AJAXController extends AbstractController
         ->setParameter('now', new DateTime());
         $auctions = $qb->getQuery()->getResult();*/
 
+        // QUERY BUILDER FOREACH
+        /* foreach ($auctions as $auction) 
+        {
+            $winNotification = new Notification();
+
+            $hghstOffer = null;
+            foreach ($auction->getOffer() as $offer) 
+            {
+                if($hghstOffer == null || $offer->getValue() > $hghstOffer->getValue())
+                    $hghstOffer = $offer;
+            }
+            $winNotification->setRecipientUser($hghstOffer->getByUser());
+            $winNotification->setMessage('Wygrales aukcje '.$auction->getTitle());
+            $em->persist($winNotification);
+        }*/
+
 
         $dql = "SELECT a,
         (SELECT zu.id
@@ -557,25 +573,20 @@ class AJAXController extends AbstractController
         
         WHERE a.endsAt < ?1 
         AND a.notificationHandled = false";
-        $query = $em->createQuery($dql)
-        ->setParameter(1,new DateTime());
+
+        $auctions = $em->createQuery($dql)
+        ->setParameter(1,new DateTime())->getResult();
 
 
         foreach ($auctions as $auction) 
         {
             $winNotification = new Notification();
 
-            $hghstOffer = null;
-            foreach ($auction->getOffers() as $offer) 
-            {
-                if($hghstOffer == null || $offer->getValue() > $hghstOffer->getValue())
-                    $hghstOffer = $offer;
-            }
-            $winNotification->setRecipientUser($hghstOffer->getByUser());
-            $winNotification->setMessage('Wygrales aukcje '.$auction->getTitle());
+            $winNotification->setRecipientUser($em->getReference('App\Entity\User', $auction['hghstOfferOwner']));
+            $winNotification->setMessage('Wygrales aukcje '.$auction[0]->getTitle());
             $em->persist($winNotification);
         }
-
+        $em->flush();
         dump($auctions);
 
         return $this->render('z_not_used/tst.twig');
