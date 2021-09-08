@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Auction;
+use App\Entity\Notification;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,6 +68,21 @@ class UsersController extends AbstractController
 
         return $this->render('userprofile/users_list.html.twig',[
             'users' => $users
+        ]);
+    }
+
+    /**
+     * @Route("/my-notifications", name="my-notifications")
+     */
+    public function myNotifications(): Response
+    {
+        $em = $this->getDoctrine()->getManager(); 
+        $notifications = $em->getRepository(Notification::class)->findBy([
+            'recipientUser' => $this->getUser()
+        ]);
+
+        return $this->render('userprofile/my_notifications.html.twig',[
+            'notifications' => $notifications
         ]);
     }
 

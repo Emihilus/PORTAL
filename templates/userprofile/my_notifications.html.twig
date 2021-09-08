@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Powiadomienia{{parent()}}
+{% endblock %}
+
+{% block body %}
+
+	{% for notification in notifications %}
+        <p>{{notification.message}}</p>
+    {% endfor %}
+
+{% endblock %}
