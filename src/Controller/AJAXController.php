@@ -108,7 +108,7 @@ class AJAXController extends AbstractController
         else 
         {
             $queryFunction = 'dql' . $method;
-            $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($json->filters);
+            $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
         }
 
         if (!isset($_COOKIE['itemsPerPage'])) 
