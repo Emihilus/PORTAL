@@ -44,12 +44,6 @@ class Comment
     private $auction;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $user;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userComments")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -127,18 +121,6 @@ class Comment
     public function setAuction(?Auction $auction): self
     {
         $this->auction = $auction;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }
