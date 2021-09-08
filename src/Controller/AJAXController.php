@@ -585,6 +585,13 @@ class AJAXController extends AbstractController
             $winNotification->setRecipientUser($em->getReference('App\Entity\User', $auction['hghstOfferOwner']));
             $winNotification->setMessage('Wygrales aukcje '.$auction[0]->getTitle());
             $em->persist($winNotification);
+
+            $sellNotification = new Notification();
+            $sellNotification->setRecipientUser($auction[0]->getByUser());
+            $sellNotification->setMessage('Sprzedałeś aukcje '.$auction[0]->getTitle());
+            $em->persist($sellNotification);
+
+            $
         }
         $em->flush();
         dump($auctions);
