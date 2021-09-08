@@ -7,6 +7,7 @@ use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\Comment;
 use App\Entity\TempImage;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -516,37 +517,22 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/cw", name="cronW", methods={"POST"})
+     * @Route("/cw", name="cronW")
      */
-    public function cronW(Request $request)
+    public function cronW()
     {
-        $json = json_decode($request->getContent());
+        $em = $this->getDoctrine()->getManager();
+        $tempImages = $em->getRepository(TempImage::class)->findAll();
+        $now = new DateTime();
 
-        if ($this->getUser() != null) 
+        foreach ($tempImages as $tempImage) 
         {
-            $em = $this->getDoctrine()->getManager();
-
-            $comment = $em->getRepository(Comment::class)->find($json->commentId);
-            if($json->dislikeState)
-                $comment->removeDislikedBy($this->getUser());
-            else
-            {
-                $comment->removeLikedBy($this->getUser());
-                $comment->addDislikedBy($this->getUser());
-            }
-
-            $em->persist($comment);
-            $em->flush();
-
-            return new JsonResponse([
-                'result' => "Success"
-            ]);
-        } 
-        else 
-        {
+            dump($tempImage->getCreatedAt());
+           // if($tempImage->getCreatedAt())
+        }
             return new JsonResponse([
                 'result' => "Forbidden"
             ]);
-        }
+        
     }
 }
