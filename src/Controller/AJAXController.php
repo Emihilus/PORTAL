@@ -100,8 +100,6 @@ class AJAXController extends AbstractController
         }
 
 
-        /*if($json->type > 2)
-         {*/
         if ($json->mMode < 4) 
         {
             $queryFunction = 'qBuilder' . $method;
@@ -123,7 +121,6 @@ class AJAXController extends AbstractController
         $itemsPerPage = $_COOKIE['itemsPerPage'];
         $auctions = $this->paginator->paginate($auctions, $json->requestedPage, $itemsPerPage);
 
-        dump($auctions);
         return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
@@ -356,10 +353,6 @@ class AJAXController extends AbstractController
      */
     public function toggleVerification(Request $request)
     {
-        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        // dump($this->isGranted('ROLE_ADMIN'));
-
         if ($this->isGranted('ROLE_ADMIN')) 
         {
             $json = json_decode($request->getContent());
@@ -391,10 +384,6 @@ class AJAXController extends AbstractController
      */
     public function toggleBan(Request $request)
     {
-        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        // dump($this->isGranted('ROLE_ADMIN'));
-
         if ($this->isGranted('ROLE_ADMIN')) 
         {
             $json = json_decode($request->getContent());

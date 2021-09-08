@@ -66,7 +66,6 @@ class SecurityController extends AbstractController
             }
             else
             {
-
                 $this->addFlash(
                     'danger',
                     "Błąd"

@@ -45,82 +45,14 @@ class UsersController extends AbstractController
      */
     public function myAuctions($mode, $page, ?User $user, Request $request): Response
     {
-       // $method = '';
-       // $auctions = "";
-        //$type = 1;
-       // $em = $this->getDoctrine()->getManager();
-        
-        /*switch ($request->get('_route'))
-        {
-            case 'my-auctions';
-                $auctions = $em->getRepository(Auction::class)->findAllWithFirstImageAndHighestOfferByUser($this->getUser());
-                $type = 1;
-                break;
-
-            case 'user-auctions':*/
-               // $type = 2;
-                /*switch($mode)
-                {
-                    case 1:
-                        $method = "AuctionsOfSpecificUser";
-                        break;
-                    
-                    case 2:
-                        $method = "SoldAuctionsOfUser";
-                        break;
-
-                    case 3:
-                        $method = "CurrentAuctionsOfUser";
-                        break;
-
-                    case 4:
-                        $method = "LeadingAuctionsOfUser";
-                        break;
-
-                    case 5:
-                        $method = "WonAuctionsOfUser";
-                        break;
-
-                    case 6:
-                        $method = "ParticipatingAuctionsOfUser";
-                        break;
-
-                    case 7:
-                        $method = "ParticipatingNotLeadingAuctionsOfUser";
-                        break;
-
-                    case 8:
-                        $method = "ParticipatedAuctionsOfUser";
-                        break;
-
-                    case 9:
-                        $method = "ParticipatedNotLeadingAuctionsOfUser";
-                        break;
-                }*/
-                // if($mode>1)
-                // {
-                //     $type=3;
-                    //$assembliedMehtod='dql'.$method;
-                    //$auctions = $em->getRepository(Auction::class)->$assembliedMehtod($user);
-                //}
-               /* break;
-        }*/
-        
-        //$allCount = count($auctions);
-
+       
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
             $_COOKIE['itemsPerPage'] = 20;
         }
-        // $itemsPerPage = $_COOKIE['itemsPerPage'];
-
-        //$auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
-
+      
         return $this->render('userprofile/user_auctions.html.twig', [
-            /*'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
-            'itemsPerPage' => $itemsPerPage,*/
-            //'type' => $type,
             'mMode' => $mode
         ]);
     }
