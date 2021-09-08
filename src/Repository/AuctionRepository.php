@@ -207,7 +207,7 @@ class AuctionRepository extends ServiceEntityRepository
         if($currentUser)
         {
             $lSelect = 'l,';
-            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2 ';
+            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?10 ';
         }
 
         $fil = $this->processFiltersDQL($filters);
@@ -236,7 +236,7 @@ class AuctionRepository extends ServiceEntityRepository
         ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
 
         if($currentUser)
-            $query = $query->setParameter(2, $currentUser);
+            $query = $query->setParameter(10, $currentUser);
 
         foreach($fil['paramsArray'] as $params)
         {
@@ -253,7 +253,7 @@ class AuctionRepository extends ServiceEntityRepository
         if($currentUser)
         {
             $lSelect = 'l,';
-            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2 ';
+            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?10 ';
         }
 
 
@@ -282,7 +282,7 @@ class AuctionRepository extends ServiceEntityRepository
         ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
 
         if($currentUser)
-            $query = $query->setParameter(2, $currentUser);
+            $query = $query->setParameter(10, $currentUser);
 
         foreach($fil['paramsArray'] as $params)
         {
@@ -299,7 +299,7 @@ class AuctionRepository extends ServiceEntityRepository
         if($currentUser)
         {
             $lSelect = 'l,';
-            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?2 ';
+            $lJoin = 'LEFT JOIN a.likedByUsers l WITH l.id = ?10 ';
         }
 
 
@@ -335,7 +335,7 @@ class AuctionRepository extends ServiceEntityRepository
         ->setParameter(1, $this->_em->getRepository(User::class)->findOneBy(['username' => $filters->oo_byuser])->getId());
 
         if($currentUser)
-            $query = $query->setParameter(2, $currentUser);
+            $query = $query->setParameter(10, $currentUser);
 
         foreach($fil['paramsArray'] as $params)
         {
@@ -486,10 +486,8 @@ class AuctionRepository extends ServiceEntityRepository
         {
             if(isset($filtersJson->f_favor) && $filtersJson->f_favor == 'true')
             {
-                $whereString.= ' AND  = :usr';
-                ->setParameter('usr', $user);      
+                $whereString.= ' AND l = ?10 ';
             }
-
 
             if(isset($filtersJson->f_search))
             {
