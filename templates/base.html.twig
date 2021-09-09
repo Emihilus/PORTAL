@@ -98,7 +98,7 @@
 					<div class="icon" id="bell">
 						<img src="https://i.imgur.com/AC7dgLA.png" alt="">
 
-					<span id="notifCount" class="position-absolute badge badge-danger">1</span>
+					<span id="notifCount" class="position-absolute badge badge-danger"></span>
 					</div>
 					<div class="notifications" id="box">
 						
@@ -188,7 +188,8 @@
 				{ 
 					console.log(res);
 					$("#box").html(res);
-					$("#notifCount").html($("#urnC").val());
+					if($("#urnC").val() != 0)
+						$("#notifCount").html($("#urnC").val());
 				});
 			}
 
