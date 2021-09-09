@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Auction;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr;
@@ -104,6 +105,33 @@ class AuctionRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->orderBy('o.Value', 'DESC')
             ->andWhere('a.isDeleted = false')
+
+            ->leftJoin('c.likedBy', 'lb')
+            ->leftJoin('c.dislikedBy', 'dlb')
+            ->addSelect('lb, dlb')
+
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId, $user): ?Auction
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.images', 'i')
+            ->addSelect('i')
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.offers', 'o')
+            ->addSelect('o')
+            ->Where('a.id = :val')
+            ->setParameter('val', $auctionId)
+            ->orderBy('o.Value', 'DESC')
+            ->andWhere('a.isDeleted = false')
+
+            ->andWhere('a.endsAt > :now')
+            ->setParameter('now', new DateTime())
+            ->addSelect()
 
             ->leftJoin('c.likedBy', 'lb')
             ->leftJoin('c.dislikedBy', 'dlb')
