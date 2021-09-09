@@ -196,6 +196,31 @@ class AuctionRepository extends ServiceEntityRepository
         ;
     }
 
+    public function qBuilderAllCList(?User $user)
+    {
+        $query = $this->createQueryBuilder('a')
+
+        ->addSelect(self::hghstSelect)
+        ->addSelect(self::hghstOfferOwnerSelect)
+
+        ->leftJoin('a.images', 'i')
+        ->addSelect('i.filename')
+
+        ->leftJoin('a.')
+
+        ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
+        ->andWhere('a.isDeleted = false');
+
+        if($user)
+        {
+            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+            ->setParameter('user', $user->getId())
+            ->addSelect('l');
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
 
 ///////////////////////// QUERY BUILDER DESIGN  <4   ///////////////////////////////////
     public function qBuilderListAllAuctions(?User $user, $filters = null)

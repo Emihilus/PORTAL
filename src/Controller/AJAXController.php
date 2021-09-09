@@ -140,7 +140,7 @@ class AJAXController extends AbstractController
         $auctions = '';
         $json = json_decode($request->getContent());
 
-        $auctions = $this->getDoctrine()->getRepository(Auction::class)->specificquery($this->getUser(), $json->filters);
+        $auctions = $this->getDoctrine()->getRepository(Auction::class)->specificquery($this->getUser());
        
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
