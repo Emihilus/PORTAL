@@ -464,6 +464,10 @@ class AJAXController extends AbstractController
                 $comment->setValue(2);
                 $comment->setReplyTo($em->getReference('App\Entity\Comment', $json->inReplyTo));
             }
+            if(isset($json->value))
+            {
+                $comment->setValue($json->value);
+            }
 
             $em->persist($comment);
             $em->flush();

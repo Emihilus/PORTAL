@@ -113,7 +113,7 @@ function processSuccess(res, requestedPage)
 	function task(auctionId)
 	{
         optionsClicked = true;
-		$("#aid-"+auctionId).after('<form id="replyForm-'+auctionId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+auctionId+'" rows="3"></textarea><button onclick="submitComment('+auctionId+')" class="btn-primary btn" type="button">Post comment</button><select name="cvalue" id="cvalue"><option selected value="1">Pozytywny</option><option value="0">Neutralny</option><option value="-1">Negatywny</option></div></form>');
+		$("#aid-"+auctionId).after('<form id="replyForm-'+auctionId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+auctionId+'" rows="3"></textarea><button onclick="submitComment('+auctionId+')" class="btn-primary btn" type="button">Post comment</button><select name="cvalue" id="cvalue-'+auctionId+'"><option selected value="1">Pozytywny</option><option value="0">Neutralny</option><option value="-1">Negatywny</option></select></div></form>');
 	}
 
 	 function link(link)
@@ -125,7 +125,7 @@ function processSuccess(res, requestedPage)
 	// POST COMMENT AJAX CALL ///
 	function submitComment(auctionId)
 	{
-		if({% if app.user %}true{% else %}false{% endif %} && $("#commentTA-"+commentId).val() != "")
+		if({% if app.user %}true{% else %}false{% endif %} && $("#commentTA-"+auctionId).val() != "")
 		{
 			let url = "{{path ('postComment') }}";
 
@@ -133,19 +133,22 @@ function processSuccess(res, requestedPage)
 				url: url,
 				method: "post", 
 				data: JSON.stringify(
-					{'content': $("#commentTA-"+commentId).val(),
-					'auctionId': auctionId})
+					{'content': $("#commentTA-"+auctionId).val(),
+					'auctionId': auctionId,
+					'value': $("#cvalue-"+auctionId).val()})
 				})
 			.done(res => 
 			{ 
+				console.log(res);
 				if(res.result == "Success")
 				{
-					$('#form-'+auctionId).after('<p>Komentarz wystawiony click to go to owner profile details - todo</p>')
+					$('#form-'+auctionId).after('<p>Komentarz wystawiony click to go to owner profile details - todo</p>');
 					$("#form-"+auctionId).remove();
 					$("#alid-"+auctionId).remove();
 				}
 			});
-    }
+    	}
+	}
 
 
 </script>
