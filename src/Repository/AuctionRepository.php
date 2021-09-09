@@ -212,9 +212,11 @@ class AuctionRepository extends ServiceEntityRepository
         ->andWhere('a.isDeleted = false')
     
         ->andWhere($query->expr()->notIn('ac', ['-1','0','1']))
+        ->andWhere('a.endsAt < :now')
+        ->setParameter('now', new DateTime())
 
         ->having('hghstOfferOwner = :usr')
-        ->setParameter('usr', $user->getId())
+        ->setParameter('usr', $user->getUserIdentifier())
         ;
         
 
