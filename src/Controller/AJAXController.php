@@ -618,7 +618,7 @@ class AJAXController extends AbstractController
             $em->persist($buyerCommentNotification);
         }*/
 
-        $dql = "SELECT u.id, a.title, c
+        $dql = "SELECT u.id, a.title, c, u.username
         
         FROM App\Entity\User u
         
@@ -635,7 +635,7 @@ class AJAXController extends AbstractController
             $buyerCommentNotification = new Notification();
             $buyerCommentNotification->setRecipientUser($em->getReference('App\Entity\User', $comment['id']));
             $buyerCommentNotification->setMessage('Otrzymałeś komenatrz sprzedaży dot aukcji '.$comment['title']);
-            $buyerCommentNotification->setRelatedEntity(['User' => $em->getReference('App\Entity\User', $comment['id'])]);
+            $buyerCommentNotification->setRelatedEntity(['username' => $comment['username']]);
             $em->persist($buyerCommentNotification);
 
             $comment[0]->setNotificationHandled(true);
