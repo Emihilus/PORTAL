@@ -129,9 +129,11 @@ class AuctionRepository extends ServiceEntityRepository
             ->orderBy('o.Value', 'DESC')
             ->andWhere('a.isDeleted = false')
 
-            ->andWhere('a.endsAt > :now')
+            ->andWhere('a.endsAt < :now')
             ->setParameter('now', new DateTime())
-            ->addSelect()
+            ->addSelect(self::hghstOfferOwnerSelect)
+            ->having('hghstOfferOwner = :usr')
+            ->setParameter('usr', $user->getId())
 
             ->leftJoin('c.likedBy', 'lb')
             ->leftJoin('c.dislikedBy', 'dlb')

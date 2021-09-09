@@ -73,10 +73,12 @@ class MainController extends AbstractController
     public function commentAuction($auctionId, ValidatorInterface $validator, Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $auction = $em->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId);
+        $auction = $em->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId,$this->getUser());
 
-        dump($auction);
-        $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
+        if(!isset($auction))
+        {
+            return new Response('You are not allowed to comment this auction.');
+        }
 
         $comment = new Comment();
 
@@ -120,8 +122,7 @@ class MainController extends AbstractController
 
         return $this->render('userprofile/comment_auction.html.twig', [
             'form' => $form->createView(),
-            'auction' => $auction,
-            'validation_maxValue' => $constraintValue
+            'auction' => $auction
         ]);
     }
 
