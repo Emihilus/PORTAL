@@ -642,7 +642,7 @@ class AJAXController extends AbstractController
 
 
         // REMOVE OLD NOTIFICATONS
-        $now = new DateTime('-4 minutes');
+        $now = new DateTime('-1 hour');
 
         $qb = $em->createQueryBuilder();
         $qb->select('n')

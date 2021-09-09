@@ -1,5 +1,5 @@
-<h2 onclick="window.location.href='{{path('my-notifications')}}';">{% if notifications|length == 0 %} No notifications {% else %}
-	Notidications - <span>{{ notifications|length }}</span>{% endif %}
+<h2 {% if notifications|length == 0 %}class="no-borders"{% endif %} onclick="window.location.href='{{path('my-notifications')}}';">{% if notifications|length == 0 %} Brak powiadomień {% else %}
+	Powiadomienia - <span>{{ notifications|length }}</span>{% endif %}
 </h2>
 
 {% for notification in notifications %}

@@ -21,6 +21,11 @@ h1
 
 /*eSTART notification bell */ 
 
+.no-borders
+{
+  bord
+}
+
 .navbar
 {
 	min-height: 57px;
