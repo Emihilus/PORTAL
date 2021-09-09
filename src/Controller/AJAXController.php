@@ -737,8 +737,14 @@ class AJAXController extends AbstractController
             'recipientUser' => $this->getUser()
         ]);
 
-        return $this->render('parts/ajax/notifications_part.html.twig',[
+        /*return $this->render('parts/ajax/notifications_part.html.twig',[
             'notifications' => $notifications
+        ]);*/
+        return new JsonResponse([
+            'notifCount' => count($notifications),
+            'render' => $this->render('parts/ajax/notifications_part.html.twig',[
+                'notifications' => $notifications
+            ])->getContent()
         ]);
     }
 
