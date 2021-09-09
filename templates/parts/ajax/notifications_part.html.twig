@@ -3,7 +3,7 @@
 </h2>
 
 {% set unSeenNotifications = 0 %}
-{% for notification in notifications %}
+{% for notification in notifications|reverse %}
     
 
 <div class="notifications-item">

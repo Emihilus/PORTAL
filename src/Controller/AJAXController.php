@@ -584,11 +584,13 @@ class AJAXController extends AbstractController
 
             $winNotification->setRecipientUser($em->getReference('App\Entity\User', $auction['hghstOfferOwner']));
             $winNotification->setMessage('Wygrales aukcje '.$auction[0]->getTitle());
+            $winNotification->setRelatedEntity(['auction' => $auction[0]->getId()]);
             $em->persist($winNotification);
 
             $sellNotification = new Notification();
             $sellNotification->setRecipientUser($auction[0]->getByUser());
             $sellNotification->setMessage('Sprzedałeś aukcje '.$auction[0]->getTitle());
+            $sellNotification->setRelatedEntity(['auction' => $auction[0]->getId()]);
             $em->persist($sellNotification);
 
             $auction[0]->setNotificationHandled(true);
@@ -633,6 +635,7 @@ class AJAXController extends AbstractController
             $buyerCommentNotification = new Notification();
             $buyerCommentNotification->setRecipientUser($em->getReference('App\Entity\User', $comment['id']));
             $buyerCommentNotification->setMessage('Otrzymałeś komenatrz sprzedaży dot aukcji '.$comment['title']);
+            $buyerCommentNotification->setRelatedEntity(['User' => $comment['id']]);
             $em->persist($buyerCommentNotification);
 
             $comment[0]->setNotificationHandled(true);

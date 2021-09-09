@@ -39,6 +39,11 @@ class Notification
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $relatedEntity = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -98,5 +103,17 @@ class Notification
     public function autoSetCreatedAt()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    public function getRelatedEntity(): ?array
+    {
+        return $this->relatedEntity;
+    }
+
+    public function setRelatedEntity(array $relatedEntity): self
+    {
+        $this->relatedEntity = $relatedEntity;
+
+        return $this;
     }
 }
