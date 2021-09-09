@@ -6,7 +6,7 @@
 {% for notification in notifications|reverse %}
     
 
-<div class="notifications-item">
+<div class="notifications-item" onclick="window.location.href='{% if notification.relatedEntity['auction'] is defined %}{{path('auction-details',{'auctionId': notification.relatedEntity['auction']})}}{% else %}{{notification.relatedEntity}}{% endif %}'">
 	<div class="text">
 	{% if notification.seenAt == null %}<b>{% set unSeenNotifications = unSeenNotifications +1 %} {% endif %}
 		<h4>{{notification.createdAt|ago}}</h4>

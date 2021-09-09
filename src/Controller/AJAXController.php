@@ -635,7 +635,7 @@ class AJAXController extends AbstractController
             $buyerCommentNotification = new Notification();
             $buyerCommentNotification->setRecipientUser($em->getReference('App\Entity\User', $comment['id']));
             $buyerCommentNotification->setMessage('Otrzymałeś komenatrz sprzedaży dot aukcji '.$comment['title']);
-            $buyerCommentNotification->setRelatedEntity(['User' => $comment['id']]);
+            $buyerCommentNotification->setRelatedEntity(['User' => $em->getReference('App\Entity\User', $comment['id'])]);
             $em->persist($buyerCommentNotification);
 
             $comment[0]->setNotificationHandled(true);
