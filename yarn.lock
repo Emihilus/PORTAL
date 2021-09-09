@@ -2930,6 +2930,11 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
+lightgallery@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/lightgallery/-/lightgallery-2.2.1.tgz#a1e40d8db0c1a1be17596db440cee466670bedd9"
+  integrity sha512-6eDdqyQsQhxHYccMxWRNsHGkY1tITFHheR89ivlyQsDPYVt2yH/fIoJpipT1pMc8bCti/Pv7X0vU0QLMdnHehg==
+
 lilconfig@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.3.tgz#68f3005e921dafbd2a2afb48379986aa6d2579fd"
