@@ -140,6 +140,7 @@
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
+							{%if app.user =  app.request.get('username') %}<small class='float-end'>odpowiedz</small>
 							</div>
 						</div>
 
