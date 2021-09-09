@@ -75,9 +75,10 @@ class MainController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $auction = $em->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId,$this->getUser());
 
-        if(!isset($auction))
+        dump($auction);
+        if(!isset($auction) || ($auction->getOffers()[0]->getByUser() != $this->getUser()))
         {
-            return new Response('You are not allowed to comment this auction.');
+            return $this->render('z_not_used/tst.twig');
         }
 
         $comment = new Comment();
