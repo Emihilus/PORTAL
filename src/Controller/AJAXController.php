@@ -133,6 +133,33 @@ class AJAXController extends AbstractController
     }
 
     /**
+     * @Route("/getAllCAuctions", name="getAllCAuctions", methods={"POST"})
+     */
+    public function getAllCAuctions(Request $request)
+    {
+        $auctions = '';
+        $json = json_decode($request->getContent());
+
+        $auctions = $this->getDoctrine()->getRepository(Auction::class)->specificquery($this->getUser(), $json->filters);
+       
+        if (!isset($_COOKIE['itemsPerPage'])) 
+        {
+            setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
+            $_COOKIE['itemsPerPage'] = 20;
+        }
+
+        $allCount = count($auctions);
+        $itemsPerPage = $_COOKIE['itemsPerPage'];
+        $auctions = $this->paginator->paginate($auctions, $json->requestedPage, $itemsPerPage);
+
+        return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
+            'auctions' => $auctions,
+            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
+            'itemsPerPage' => $itemsPerPage
+        ]);
+    }
+
+    /**
      * @Route("/uploadTemporary", name="uploadTemporary", methods={"POST"})
      */
     public function uploadTemp(Request $request)

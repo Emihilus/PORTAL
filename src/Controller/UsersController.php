@@ -60,20 +60,17 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/user-auctions/{username}/{mode}/{page}", name="user-auctions", defaults = {"page": "1", "mode":"1" })
+     * @Route("/comment-all-auctions/{page}", name="comment-all-auctions", defaults = {"page": "1" })
      */
-    public function myAuctions($mode, $page, ?User $user, Request $request): Response
-    {
-       
+    public function commentAllAuctions(): Response
+    {  
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
             $_COOKIE['itemsPerPage'] = 20;
         }
       
-        return $this->render('userprofile/user_auctions.html.twig', [
-            'mMode' => $mode
-        ]);
+        return $this->render('userprofile/comment_allauctions.html.twig' );
     }
 
 
