@@ -640,10 +640,10 @@ class AJAXController extends AbstractController
         {
             $buyerCommentNotification = new Notification();
 
-            if($comment['value']>1)
+            if($comment['value'] > 1)
             {
                 $buyerCommentNotification->setRecipientUser($comment[0]->getReplyTo()->getByUser());
-                $buyerCommentNotification->setMessage('Sprzedwca odpowiedział na Twój komentarz dotyczący aukcji '.$comment['title']);
+                $buyerCommentNotification->setMessage('Sprzedwca '.$comment['username'].' odpowiedział na Twój komentarz dotyczący aukcji '.$comment['title']);
                 $buyerCommentNotification->setRelatedEntity(['username' => $comment['username']]);
             }
             else
