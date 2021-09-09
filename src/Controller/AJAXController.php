@@ -239,7 +239,7 @@ class AJAXController extends AbstractController
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
 
-            if ($auction->getByUser() == $this->getUser() || ) 
+            if ($auction->getByUser() == $this->getUser() || $this->isGranted('ROLE_ADMIN')) 
             {
 
                 if($auction->getEndsAt() < new \DateTime())
@@ -288,7 +288,7 @@ class AJAXController extends AbstractController
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
 
 
-            if ($auction->getByUser() == $this->getUser()) 
+            if ($auction->getByUser() == $this->getUser() || $this->isGranted('ROLE_ADMIN')) 
             {
                 if($auction->getEndsAt() < new \DateTime())
                 {
