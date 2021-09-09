@@ -206,17 +206,19 @@ class AuctionRepository extends ServiceEntityRepository
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
 
-        ->leftJoin('a.')
+        ->leftJoin('a.comments', 'ac')
 
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
-        ->andWhere('a.isDeleted = false');
+        ->andWhere('a.isDeleted = false')
+    
+        ->andWhere($qb->expr()->notIn('ac', [-1,0,1]))
 
-        if($user)
-        {
-            $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
-            ->setParameter('user', $user->getId())
-            ->addSelect('l');
-        }
+        ->having('highestOfferOwner = :usr')
+        ->setParameter('usr', $user->getId())
+        ;
+        
+
+        
 
         return $query->getQuery()->getResult();
     }
