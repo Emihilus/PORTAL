@@ -152,7 +152,7 @@ class AJAXController extends AbstractController
         $itemsPerPage = $_COOKIE['itemsPerPage'];
         $auctions = $this->paginator->paginate($auctions, $json->requestedPage, $itemsPerPage);
 
-        return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
+        return $this->render('parts/ajax/auction_allc_list_ajax_part.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
             'itemsPerPage' => $itemsPerPage

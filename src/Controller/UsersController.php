@@ -70,7 +70,7 @@ class UsersController extends AbstractController
             $_COOKIE['itemsPerPage'] = 20;
         }
       
-        return $this->render('userprofile/comment_allauctions.html.twig' );
+        return $this->render('userprofile/comment_all_auctions.html.twig' );
     }
 
 
