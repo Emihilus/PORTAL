@@ -128,10 +128,10 @@
 				{% for comment in auction.comments %}
 					{% if comment.value > -2 %}
                         {% set userRate = userRate + comment.value %}
-						<div id="comment-{{comment.id}}"class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% else %}{% set negatives = negatives + 1 %}danger{% endif %} rounded p-3 mb-1">
+						<div id="comment-{{comment.id}}"class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% elseif comment.value == -1 %}{% set negatives = negatives + 1 %}danger{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
 							<div>
-								<b>{{comment.byUser.username}}</b><br>
+								<b>{{comment.byUser.username}} {% if comment.value == 2 %}REPLY TO {{comment.replyTo.id}}{% endif %}</b><br>
 								<span>
 									{{comment.content}}
 								</span><br>
@@ -140,7 +140,7 @@
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
-							{% if app.user == app.request.get('username') %}<small onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}
+							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}
 							</div>
 						</div>
 
