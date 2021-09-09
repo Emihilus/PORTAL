@@ -165,7 +165,7 @@
 					}
 					else
 					{
-						markNotificationsAsRead();
+						//markNotificationsAsRead();
 						$('#box').css('height','auto');
 						$('#box').css('opacity','0.95');
 						down = true;
@@ -178,7 +178,7 @@
 			function getNotifications()
 			{
 				$.ajax({
-					url: "{{path ('get-notifications') }}",
+					url: "{{path ('get-notifications-dm') }}",
 					method: "post", 
 					dataType: "html"})
 				.done(res => 
@@ -187,7 +187,7 @@
 				});
 			}
 
-			function markNotificationsAsRead()
+			/*function markNotificationsAsRead()
 			{
 				$.ajax({
 					url: "{{path ('mar-notifications') }}",
@@ -197,7 +197,7 @@
 				{ 
 					console.log(res);
 				});
-			}
+			}*/
 
 			</script>
 

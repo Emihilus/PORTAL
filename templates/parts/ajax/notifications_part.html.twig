@@ -7,8 +7,10 @@
 
 <div class="notifications-item">
 	<div class="text">
+	{% if notification.seenAt == null %}<b>{%}
 		<h4>{{notification.createdAt|ago}}</h4>
 		<p>{{notification.message}}</p>
+		</b>
 	</div>
 </div>
 

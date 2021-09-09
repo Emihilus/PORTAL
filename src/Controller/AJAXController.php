@@ -728,33 +728,43 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/mar-notifications", name="mar-notifications")
+     * @Route("/get-notifications-dm", name="get-notifications-dm")
      */
-    public function markNotificationsAsRead(): Response
+    public function getDontMarkNotifications(): Response
     {
         $em = $this->getDoctrine()->getManager(); 
         $notifications = $em->getRepository(Notification::class)->findBy([
             'recipientUser' => $this->getUser()
         ]);
 
+        return $this->render('parts/ajax/notifications_part.html.twig',[
+            'notifications' => $notifications
+        ]);
+    }
+
+    /**
+     * @Route("/mar-notifications", name="mar-notifications")
+     */
+    public function markNotificationsAsRead(): Response
+    {
+        $em = $this->getDoctrine()->getManager(); 
+
+        $notifications = $em->getRepository(Notification::class)->findBy([
+            'recipientUser' => $this->getUser(),
+            'seenAt' => 'NULL'
+        ]);
+
         $now = new DateTime();
 
         foreach ($notifications as $notification) 
         {
-            $notification->getSeenAt() == null ? $notification->wasNull = true : $notification->wasNull = false ;
-
-            if($notification->wasNull)
-            {
-                $notification->setSeenAt($now);
-                $em->persist($notification);
-            }
+            $notification->setSeenAt($now);
+            $em->persist($notification);
         }
         $em->flush();
 
         dump($notifications);
 
-        return $this->render('parts/ajax/notifications_part.html.twig',[
-            'notifications' => $notifications
-        ]);
+        return new Response ('dene');
     }
 }
