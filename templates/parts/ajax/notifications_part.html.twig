@@ -1,0 +1,15 @@
+<h2>Notifications -
+	<span>{{ notifications|length }}</span>
+</h2>
+
+{% for notification in notifications %}
+    
+
+<div class="notifications-item">
+	<div class="text">
+		<h4>{{notification.createdAt|ago}}</h4>
+		<p>{{notification.message}}</p>
+	</div>
+</div>
+
+{% endfor %}

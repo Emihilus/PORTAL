@@ -697,7 +697,7 @@ class AJAXController extends AbstractController
     }
 
     /**
-     * @Route("/get-notifications", name="my-notifications")
+     * @Route("/get-notifications", name="get-notifications")
      */
     public function myNotifications(): Response
     {
