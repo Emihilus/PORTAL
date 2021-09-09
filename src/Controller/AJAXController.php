@@ -751,7 +751,7 @@ class AJAXController extends AbstractController
 
         $notifications = $em->getRepository(Notification::class)->findBy([
             'recipientUser' => $this->getUser(),
-            'seenAt' => 'NULL'
+            'seenAt' => null
         ]);
 
         $now = new DateTime();

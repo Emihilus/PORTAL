@@ -79,6 +79,7 @@ h1
 }
 
 .notifications h2 {
+    cursor: pointer;
     font-size: 14px;
     padding: 10px;
     border-bottom: 1px solid #eee;

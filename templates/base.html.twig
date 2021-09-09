@@ -97,6 +97,8 @@
 
 					<div class="icon" id="bell">
 						<img src="https://i.imgur.com/AC7dgLA.png" alt="">
+
+					<span class="badge badge-danger">Danger</span>
 					</div>
 					<div class="notifications" id="box">
 						
@@ -165,7 +167,7 @@
 					}
 					else
 					{
-						//markNotificationsAsRead();
+						markNotificationsAsRead();
 						$('#box').css('height','auto');
 						$('#box').css('opacity','0.95');
 						down = true;
@@ -187,7 +189,7 @@
 				});
 			}
 
-			/*function markNotificationsAsRead()
+			function markNotificationsAsRead()
 			{
 				$.ajax({
 					url: "{{path ('mar-notifications') }}",
@@ -197,7 +199,7 @@
 				{ 
 					console.log(res);
 				});
-			}*/
+			}
 
 			</script>
 
