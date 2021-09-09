@@ -165,11 +165,10 @@
 					}
 					else
 					{
-
+						markNotificationsAsRead();
 						$('#box').css('height','auto');
 						$('#box').css('opacity','0.95');
 						down = true;
-
 					}
 
 				});
@@ -185,6 +184,18 @@
 				.done(res => 
 				{ 
 					$("#box").html(res);
+				});
+			}
+
+			function markNotificationsAsRead()
+			{
+				$.ajax({
+					url: "{{path ('mar-notifications') }}",
+					method: "post", 
+					dataType: "html"})
+				.done(res => 
+				{ 
+					console.log(res);
 				});
 			}
 

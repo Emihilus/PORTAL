@@ -23,7 +23,7 @@ h1
 
 .no-borders
 {
-  bord
+  border-bottom:none !important;
 }
 
 .navbar
