@@ -165,20 +165,16 @@
 $("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne: "
 +$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
 
-let weReplyingtoCommentId;
-let relatedAuctionId;
 function sellerReplyToComment(commentId, raid)
 {
-	weReplyingtoCommentId = commentId;
-	relatedAuctionId = raid;
-	$("#comment-"+commentId).after('<form id="replyForm-''" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA" rows="3"></textarea><button onclick="submitComment('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
+	$("#comment-"+commentId).after('<form id="replyForm-'+commentId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+commentId+'" rows="3"></textarea><button onclick="submitComment('+commentId+','+raid+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
 	//$("#replyForm").removeClass('d-none');
 }
 
 // POST COMMENT AJAX CALL ///
-function submitComment(commentId)
+function submitComment(commentId, raid)
 {
-    if({% if app.user %}true{% else %}false{% endif %} && $("#commentTA").val() != "")
+    if({% if app.user %}true{% else %}false{% endif %} && $("#commentTA-"+commentId).val() != "")
     {
         let url = "{{path ('postComment') }}";
 
@@ -186,15 +182,16 @@ function submitComment(commentId)
             url: url,
             method: "post", 
             data: JSON.stringify(
-                {'content': $("#commentTA").val(),
-                'auctionId': relatedAuctionId,
+                {'content': $("#commentTA-"+commentId).val(),
+                'auctionId': raid,
 				'inReplyTo': commentId})
             })
         .done(res => 
         { 
             if(res.result == "Success")
             {
-                console.log(res);
+				$("#form-"+commentId).remove();
+                //console.log(res);
                     $("#comments-section").append('<div class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span> '+$("#commentTA").val()+' </span><br><small class="text-success">upvote</small></div></div>');
                     $("#commentTA").val('');
             }

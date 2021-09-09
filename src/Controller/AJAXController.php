@@ -432,6 +432,12 @@ class AJAXController extends AbstractController
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
             $comment->setAuction($auction);
 
+            if(isset($json->inReplyTo))
+            {
+                $comment->setValue(2);
+                $comment->setReplyTo($json->inReplyTo);
+            }
+
             $em->persist($comment);
             $em->flush();
 
