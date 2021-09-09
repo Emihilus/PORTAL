@@ -198,8 +198,8 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function qBuilderAllCList(?User $user)
     {
-        $query = $this->createQueryBuilder('a')
-
+        $query = $this->createQueryBuilder('a');
+        $query = $query
         ->addSelect(self::hghstSelect)
         ->addSelect(self::hghstOfferOwnerSelect)
 
@@ -211,9 +211,9 @@ class AuctionRepository extends ServiceEntityRepository
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
         ->andWhere('a.isDeleted = false')
     
-        ->andWhere($qb->expr()->notIn('ac', [-1,0,1]))
+        ->andWhere($query->expr()->notIn('ac', ['-1','0','1']))
 
-        ->having('highestOfferOwner = :usr')
+        ->having('hghstOfferOwner = :usr')
         ->setParameter('usr', $user->getId())
         ;
         

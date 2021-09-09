@@ -31,19 +31,15 @@
 <script>
 
 
+window.onLoad = getAuctions({{app.request.get('page')}});
+
 {# only dynamic data for getAuctions #}
-let GAJArray = {mMode: 0, filters: {
-	f_liveness: 1,
-	o_orderBy: 'title'
-}};
+{# let GAJArray = {}; #}
 
-
-{{ include('parts/include/js_submitFilters.twig')  }}
 
 
 
 {# modal code #}
-{{ include('parts/include/js_modal.twig')  }}
 
 function onChangeHandler (selectedObject)
 {
@@ -63,13 +59,12 @@ function onChangeHandler (selectedObject)
 
 function getAuctions(requestedPage)
 {
-	reStoreInputsState();
-	GAJArray.requestedPage = requestedPage;
+	{# GAJArray.requestedPage = requestedPage; #}
     $.ajax({
    	 	url: "{{path ('getAllCAuctions') }}",
     	method: "post", 
     	dataType: "html", 
-    	data: JSON.stringify(GAJArray) })
+    	data: JSON.stringify({requestedPage}) })
 	.done(res => 
 	{ 
 		sessionStorage.setItem("getAllCAuctionsResponse", res);
