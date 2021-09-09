@@ -61,6 +61,7 @@ h1
 }
 
 .notifications {
+    z-index: 100;
     width: 300px;
     height: 0px;
     opacity: 0;

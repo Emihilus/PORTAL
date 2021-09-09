@@ -722,7 +722,7 @@ class AJAXController extends AbstractController
 
         dump($notifications);
 
-        return $this->render('parts/notifications_part.html.twig',[
+        return $this->render('parts/ajax/notifications_part.html.twig',[
             'notifications' => $notifications
         ]);
     }
