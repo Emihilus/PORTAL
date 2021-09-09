@@ -211,7 +211,7 @@ class AuctionRepository extends ServiceEntityRepository
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
         ->andWhere('a.isDeleted = false')
     
-        ->andWhere($query->expr()->notIn('ac', ['-1','0','1']))
+        ->andWhere($query->expr()->notIn('ac.value', ['-1,0,1]))
         ->andWhere('a.endsAt < :now')
         ->setParameter('now', new DateTime())
 
