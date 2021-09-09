@@ -140,7 +140,7 @@
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
-							{% if app.user == app.request.get('username') %}<small onclick="sellerReplyToComment({{comment.id}})" class='float-end'>odpowiedz</small>{% endif %}
+							{% if app.user == app.request.get('username') %}<small onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}
 							</div>
 						</div>
 
@@ -171,9 +171,11 @@ $("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze poz
 +$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
 
 let weReplyingtoCommentId;
-function sellerReplyToComment(commentId)
+let relatedAuctionId;
+function sellerReplyToComment(commentId, raid)
 {
 	weReplyingtoCommentId = commentId;
+	relatedAuctionId = raid;
 	$("#replyForm").removeClass('d-none');
 }
 
@@ -189,7 +191,8 @@ function submitComment()
             method: "post", 
             data: JSON.stringify(
                 {'content': $("#commentTA").val(),
-                'auctionId': {{auction.id}}}) 
+                'auctionId': relatedAuctionId,
+				'inReplyTo': weReplyingtoCommentId})
             })
         .done(res => 
         { 
@@ -201,10 +204,10 @@ function submitComment()
             }
         });
     }
-    else
+   /* else
     {
         $('#exampleModalCenter').modal('show');
-    }
+    }*/
 }
 // POST COMMENT AJAX CALL ///
 
