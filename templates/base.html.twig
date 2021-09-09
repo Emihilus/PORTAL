@@ -160,6 +160,7 @@
 					var color = $(this).text();
 					if(down)
 					{
+						$('#box').css('display', 'none');
 						$('#box').css('z-index', 0);
 						$('#box').css('height','0px');
 						$('#box').css('opacity','0');
@@ -168,6 +169,7 @@
 					else
 					{
 						markNotificationsAsRead();
+						$('#box').css('display', 'block');
 						$('#box').css('z-index', 100);
 						$('#box').css('height','auto');
 						$('#box').css('opacity','0.95');

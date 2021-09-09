@@ -628,7 +628,6 @@ class AJAXController extends AbstractController
 
         $comments = $em->createQuery($dql)->getResult();
 
-
         foreach ($comments as $comment) 
         {
             $buyerCommentNotification = new Notification();
