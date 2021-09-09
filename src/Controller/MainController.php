@@ -78,7 +78,7 @@ class MainController extends AbstractController
         dump($auction);
         if(!isset($auction) || ($auction->getOffers()[0]->getByUser() != $this->getUser()))
         {
-            return $this->render('z_not_used/tst.twig');
+            return new Response('You are not allowed to comment this auction.');
         }
 
         $comment = new Comment();
