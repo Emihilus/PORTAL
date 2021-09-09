@@ -2,12 +2,13 @@
 	Powiadomienia - <span>{{ notifications|length }}</span>{% endif %}
 </h2>
 
+{% set unSeenNotifications = 0 %}
 {% for notification in notifications %}
     
 
 <div class="notifications-item">
 	<div class="text">
-	{% if notification.seenAt == null %}<b>{% endif %}
+	{% if notification.seenAt == null %}<b>{% set unSeenNotifications = unSeenNotifications +1 %} {% endif %}
 		<h4>{{notification.createdAt|ago}}</h4>
 		<p>{{notification.message}}</p>
 		{% if notification.seenAt == null %}</b>{% endif %}
@@ -15,3 +16,4 @@
 </div>
 
 {% endfor %}
+<input type="hidden" id="urnC" value="{{ unSeenNotifications }}"/>

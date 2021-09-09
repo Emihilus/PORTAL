@@ -160,7 +160,7 @@
 					var color = $(this).text();
 					if(down)
 					{
-
+						$('#box').css('z-index', 0);
 						$('#box').css('height','0px');
 						$('#box').css('opacity','0');
 						down = false;
@@ -168,6 +168,7 @@
 					else
 					{
 						markNotificationsAsRead();
+						$('#box').css('z-index', 100);
 						$('#box').css('height','auto');
 						$('#box').css('opacity','0.95');
 						down = true;
@@ -182,12 +183,12 @@
 				$.ajax({
 					url: "{{path ('get-notifications-dm') }}",
 					method: "post", 
-					dataType: "json"})
+					dataType: "html"})
 				.done(res => 
 				{ 
-					console.log(res)
-					$("#box").html(res.render);
-					$("#notifCount").html(res.notifCount)
+					console.log(res);
+					$("#box").html(res);
+					$("#notifCount").html($("#urnC").val());
 				});
 			}
 
