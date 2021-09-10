@@ -136,12 +136,11 @@
 								<span>
 									{{comment.content}}
 								</span><br>
-								{# <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small> #}
 								<small id='small-{{comment.id}}'>
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
-							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}
+							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}{% if is_granted('ROLE_ADMIN')}
 							</div>
 						</div>
 
