@@ -141,6 +141,8 @@ class AJAXController extends AbstractController
         $json = json_decode($request->getContent());
 
         $auctions = $this->getDoctrine()->getRepository(Auction::class)->qBuilderAllCList($this->getUser());
+
+        dump($auctions);
        
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
