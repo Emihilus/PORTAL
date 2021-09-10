@@ -141,7 +141,7 @@
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
-							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}
+							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}
 							</div>
 						</div>
 
@@ -168,7 +168,10 @@
 $("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne: "
 +$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
 
-$("#removeReplyOption").val();
+$("#removeReplyOption").val().split(',').forEach((item) => 
+{
+	$("#rsm-"+item).remove();
+});
 
 function sellerReplyToComment(commentId, raid)
 {
