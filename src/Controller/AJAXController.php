@@ -19,6 +19,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
@@ -518,6 +519,7 @@ class AJAXController extends AbstractController
 
      /**
      * @Route("/deleteComment", name="deleteComment", methods={"POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteComment(Request $request)
     {
@@ -532,11 +534,10 @@ class AJAXController extends AbstractController
         ->setParameter('cid',$json->commentId)
         ->getQuery()->execute();
         dump($result);
-        {
-            return new JsonResponse([
-                'result' => $result
-            ]);
-        }
+
+        return new JsonResponse([
+            'result' => $result
+        ]);
     }
 
 
