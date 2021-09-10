@@ -106,7 +106,7 @@
 	{% for auction in USR[0][0].Auctions %}
 
 		{% for comment in auction.comments %}
-			{% if comment.value > -2 %}
+			{% if comment.value > -2 and comment.value < 2%}
 				{% set commentCount = commentCount + 1 %}
 			{% endif %}
 		{% endfor %}
@@ -136,7 +136,7 @@
 									{{comment.content}}
 								</span><br>
 								{# <small onclick='like({{comment.id}})' class="text-success">like(0)</small> <small onclick="dislike({{comment.id}})" class="text-danger">dislike(0)</small> #}
-								<small>
+								<small id='small-{{comment.id}}'>
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
@@ -147,6 +147,7 @@
 					{% endif %}
 				{% endfor %}
 			{% endfor %}
+            {% if app.user %}<input type="hidden" id="csrf" value="{{csrf_token(app.user.id)}}"/>{% endif %}
             <input type="hidden" id="hid_rate" value="{{userRate}}"/>
             <input type="hidden" id="hid_pos" value="{{positives}}"/>
             <input type="hidden" id="hid_neu" value="{{neutrals}}"/>
@@ -168,7 +169,6 @@ $("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze poz
 function sellerReplyToComment(commentId, raid)
 {
 	$("#comment-"+commentId).after('<form id="replyForm-'+commentId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+commentId+'" rows="3"></textarea><button onclick="submitComment('+commentId+','+raid+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
-	//$("#replyForm").removeClass('d-none');
 }
 
 // POST COMMENT AJAX CALL ///
@@ -184,16 +184,16 @@ function submitComment(commentId, raid)
             data: JSON.stringify(
                 {'content': $("#commentTA-"+commentId).val(),
                 'auctionId': raid,
-				'inReplyTo': commentId})
+				'inReplyTo': commentId,
+				'csrf': $("#csrf").val()})
             })
         .done(res => 
         { 
             if(res.result == "Success")
             {
 				$("#form-"+commentId).remove();
-                //console.log(res);
-                    $("#comments-section").append('<div class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span> '+$("#commentTA").val()+' </span><br><small class="text-success">upvote</small></div></div>');
-                    $("#commentTA").val('');
+                    $("#comment-"+commentId).after('<div class="list-group-item-info rounded p-3 ms-4 mb-1"><small class="float-end">now</small><div><i>Odpowiedź sprzedającego </i><b>{{app.user}}</b><br><span> '+$("#commentTA-"+commentId).val()+' </span><br>'+$("#small-"+commentId).html()+'</div></div>');
+                    $("#replyForm-"+commentId).remove();
             }
         });
     }

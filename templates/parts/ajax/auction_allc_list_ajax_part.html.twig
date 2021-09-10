@@ -3,7 +3,7 @@
 				class="list-group col">
 
 				
-{% if auctions|length == 0 %}none{% endif %}
+{% if auctions|length == 0 %}<h2>Brak aukcji</h2>{% endif %}
 {% for auction in auctions %}
 
 	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action text-secondary"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
@@ -21,7 +21,7 @@
 
 </div>
 
-
+{% if auctions|length > 0 %}
 <div class="row" id="paginationDiv">
 			<nav class="mt-2" aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
@@ -50,3 +50,4 @@
 				</ul>
 			</nav>
 </div>
+{% endif %}

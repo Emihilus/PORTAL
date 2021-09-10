@@ -450,7 +450,7 @@ class AJAXController extends AbstractController
     {
         $json = json_decode($request->getContent());
 
-        if ($this->getUser() != null) 
+        if ($this->getUser() != null && $this->isCsrfTokenValid($this->getUser()->getId(), $json->csrf)) 
         {
             $em = $this->getDoctrine()->getManager();
 
@@ -463,11 +463,41 @@ class AJAXController extends AbstractController
 
             if(isset($json->inReplyTo))
             {
+                $comments = $em->createQueryBuilder()
+                ->select('COUNT(c.id)')
+                ->from('App\Entity\Comment', 'c')
+                ->where('c.auction = :auction')
+                ->setParameter('auction', $auction)
+                ->andWhere('c.value = 2')
+                ->getQuery()
+                ->getSingleScalarResult();
+                if($comments > 0)
+                {
+                    return new JsonResponse([
+                        'result' => "Reply to this comment already exists"
+                    ]);
+                }
                 $comment->setValue(2);
                 $comment->setReplyTo($em->getReference('App\Entity\Comment', $json->inReplyTo));
             }
+
             if(isset($json->value))
             {
+                $comments = $em->createQueryBuilder()
+                ->select('COUNT(c.id)')
+                ->from('App\Entity\Comment', 'c')
+                ->where('c.auction = :auction')
+                ->setParameter('auction', $auction)
+                ->andWhere('c.value > -2')
+                ->andWhere('c.value < 2')
+                ->getQuery()
+                ->getSingleScalarResult();
+                if($comments > 0)
+                {
+                    return new JsonResponse([
+                        'result' => "Buyer comment already exists"
+                    ]);
+                }
                 $comment->setValue($json->value);
             }
 

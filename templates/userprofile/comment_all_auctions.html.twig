@@ -8,7 +8,7 @@
 
 		<div id='contener'></div>
 
-
+<input type="hidden" id='csrf' name="csrf" value="{{csrf_token(app.user.id)}}"/>
 {% endblock %}
 
 
@@ -20,13 +20,6 @@
 let optionsClicked = false;
 window.onLoad = getAuctions({{app.request.get('page')}});
 
-{# only dynamic data for getAuctions #}
-{# let GAJArray = {}; #}
-
-
-
-
-{# modal code #}
 
 function onChangeHandler (selectedObject)
 {
@@ -63,12 +56,6 @@ function getAuctions(requestedPage)
 
 function processSuccess(res, requestedPage)
 	{
-		if(res == 'none')
-		{
-			$('#list-content').html("No auctions");
-			return;
-		}
-
 		$('#contener').html(res);
 
 		let pageElementsArray = $('.page-item').toArray();
@@ -113,7 +100,6 @@ function processSuccess(res, requestedPage)
 	// POST COMMENT AJAX CALL ///
 	function submitComment(auctionId, ownerLink)
 	{
-		console.log(ownerLink);
 		if({% if app.user %}true{% else %}false{% endif %} && $("#commentTA-"+auctionId).val() != "")
 		{
 			let url = "{{path ('postComment') }}";
@@ -124,16 +110,21 @@ function processSuccess(res, requestedPage)
 				data: JSON.stringify(
 					{'content': $("#commentTA-"+auctionId).val(),
 					'auctionId': auctionId,
-					'value': $("#cvalue-"+auctionId).val()})
+					'value': $("#cvalue-"+auctionId).val(),
+					'csrf': $("#csrf").val()})
 				})
 			.done(res => 
 			{ 
-				console.log(res);
+				{# console.log(res); #}
 				if(res.result == "Success")
 				{
 					$('#form-'+auctionId).after('<p>Komentarz wystawiony <a target="_blank" href="'+ownerLink+'">Zobacz</a></p>');
 					$("#form-"+auctionId).remove();
 					$("#aid-"+auctionId).remove();
+				}
+				else
+				{
+					$('#form-'+auctionId).after('<p>Błąd podczas wystwiania komentarza: '+res.result+'</p>');
 				}
 			});
     	}
