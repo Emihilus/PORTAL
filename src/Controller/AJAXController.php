@@ -222,7 +222,6 @@ class AJAXController extends AbstractController
             $offer->setAuction($auctionWithHghstOffer[0]);
             $offer->setByUser($this->getUser());
 
-
             $validatorErrors = $validator->validate($offer);
 
             if (count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue) 
@@ -233,7 +232,8 @@ class AJAXController extends AbstractController
             } 
             else 
             {
-                if ($auctionWithHghstOffer[1] > $json->offerValue) {
+                if ($auctionWithHghstOffer[1] > $json->offerValue) 
+                {
                     $validatorErrors->add(new ConstraintViolation('The value of your offer (' . ($json->offerValue / 100) . ' PLN) is smaller than the highest offer for this auction (' . ($auctionWithHghstOffer[1] / 100) . ' PLN)', null, ['param' => 'param'], $json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]), 'null'));
                 }
                 $rendered = $this->render('parts/ajax/auction_make_offer_errors_part.html.twig', [
