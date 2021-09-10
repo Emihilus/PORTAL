@@ -224,7 +224,7 @@ class AJAXController extends AbstractController
 
             $validatorErrors = $validator->validate($offer);
 
-            if (count($validatorErrors) == 0 && $auctionWithHghstOffer[1] < $json->offerValue) 
+            if (count($validatorErrors) == 0 && $auctionWithHghstOffer[1]+99 < $json->offerValue) 
             {
                 $em->persist($offer);
                 $em->flush();
@@ -232,9 +232,9 @@ class AJAXController extends AbstractController
             } 
             else 
             {
-                if ($auctionWithHghstOffer[1] > $json->offerValue) 
+                if ($auctionWithHghstOffer[1]+99 > $json->offerValue) 
                 {
-                    $validatorErrors->add(new ConstraintViolation('The value of your offer (' . ($json->offerValue / 100) . ' PLN) is smaller than the highest offer for this auction (' . ($auctionWithHghstOffer[1] / 100) . ' PLN)', null, ['param' => 'param'], $json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]), 'null'));
+                    $validatorErrors->add(new ConstraintViolation('The value of your offer (' . ($json->offerValue / 100) . ' PLN) must be at least 1 PLN bigger than than the highest offer for this auction (' . (($auctionWithHghstOffer[1]+100) / 100) . ' PLN)', null, ['param' => 'param'], $json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]), 'null'));
                 }
                 $rendered = $this->render('parts/ajax/auction_make_offer_errors_part.html.twig', [
                     'errors' => $validatorErrors
