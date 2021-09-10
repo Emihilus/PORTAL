@@ -86,8 +86,8 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>
                     <b>{{comment.byUser.username}}</b> <br>
-                    <span> {{comment.content}} </span><br>
-                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if false %}<span class="badge float-end">odpowiedz</span>{% endif %}
+                    <span id="scontent-{{comment.id}}"> {{comment.content}} </span><br>
+                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == comment.byUser.username) %}<small onclick='editComment({{comment.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}{% if false %}<span class="badge float-end">odpowiedz</span>{% endif %}
                 </div>
             </div> 
         {% endif %}
@@ -217,9 +217,11 @@ function submitComment()
         { 
             if(res.result == "Success")
             {
-                console.log(res);
-                    $("#comments-section").append('<div class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span> '+$("#commentTA").val()+' </span><br><small class="text-success">upvote</small></div></div>');
-                    $("#commentTA").val('');
+                $("#cids").val($("#cids").val()+','+res.genId);
+                
+                $("#comments-section").append('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span>'+$("#commentTA").val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+
+                $("#commentTA").val('');
             }
             else
             {
@@ -443,10 +445,11 @@ function dislike(commentId, likeState, dislikeState, likesCount, dislikesCount)
     }
 }
 
-let cids = $("#cids").val().substring(1).split(',');
+var lm = true;
 
 function switchLikeMode(lmValue)
 {
+    lm = !lmValue;
     let cids = $("#cids").val().substring(1).split(',');
     if(lmValue)
     {
@@ -456,7 +459,6 @@ function switchLikeMode(lmValue)
             $("#dlc-"+i).removeClass("d-none");
             $("#commentPointsResult-"+i).addClass("d-none");
         });
-        likeMode = false;
     }
     else
     {
@@ -466,7 +468,6 @@ function switchLikeMode(lmValue)
             $("#dlc-"+i).addClass("d-none");
             $("#commentPointsResult-"+i).removeClass("d-none");
         });
-        likeMode = true; 
     }
 }
 
@@ -490,6 +491,46 @@ function adminDeleteComment(commentId)
 		{
 			$("#comment-"+commentId).remove();
 		}
+	});
+}
+{% endif %}
+
+{% if app.user %}
+function editComment(commentId)
+{
+    window['org-content-of-'+commentId] = $('#scontent-'+commentId).html();
+    $("#scontent-"+commentId).after('<button id="bcs-'+commentId+'" onclick="saveCommentChanges('+commentId+')" class="btn btn-primary m-1">Zapisz</button><button id="bcc-'+commentId+'" onclick="cancelCommentChanges(\''+commentId+'\')" class="btn btn-primary">Anuluj</button>');
+    $("#scontent-"+commentId).html('<textarea class="form-control" id="commentTA-'+commentId+'" rows="3">'+$('#scontent-'+commentId).html()+'</textarea>');
+}
+function cancelCommentChanges(commentId)
+{
+    $("#scontent-"+commentId).html(window['org-content-of-'+commentId]);
+    $("#bcs-"+commentId).remove();
+    $("#bcc-"+commentId).remove();
+}
+
+function saveCommentChanges(commentId)
+{
+    let url = "{{path ('editComment') }}";
+
+	$.ajax({
+		url: url,
+		method: "post", 
+		data: JSON.stringify(
+			{commentId,
+            'content': $('#commentTA-'+commentId).val(),
+			'csrf': $("#csrf").val()})
+		})
+	.done(res => 
+	{ 
+		if(res.result == 1)
+		{
+            $("#scontent-"+commentId).html($('#commentTA-'+commentId).val());
+            $("#bcs-"+commentId).remove();
+            $("#bcc-"+commentId).remove();
+		}
+        else
+		    console.log(res);
 	});
 }
 {% endif %}
