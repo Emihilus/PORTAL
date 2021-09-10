@@ -140,7 +140,7 @@
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
-							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger'>usuń</b>{% endif %}
+							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}
 							</div>
 						</div>
 
@@ -227,18 +227,11 @@ function adminDeleteComment(commentId)
 	.done(res => 
 	{ 
 		console.log(res);
-		/*if(res.result == "Success")
+		if(res.result == 1)
 		{
-			$("#form-"+commentId).remove();
-				$("#comment-"+commentId).after('<div class="list-group-item-info rounded p-3 ms-4 mb-1"><small class="float-end">now</small><div><i>Odpowiedź sprzedającego </i><b>{{app.user}}</b><br><span> '+$("#commentTA-"+commentId).val()+' </span><br>'+$("#small-"+commentId).html()+'</div></div>');
-				$("#replyForm-"+commentId).remove();
-		}*/
+			$("#comment-"+commentId).remove();
+		}
 	});
-    
-   /* else
-    {
-        $('#exampleModalCenter').modal('show');
-    }*/
 }
 {% endif %}
 

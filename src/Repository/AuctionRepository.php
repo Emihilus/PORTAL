@@ -110,6 +110,8 @@ class AuctionRepository extends ServiceEntityRepository
             ->leftJoin('c.dislikedBy', 'dlb')
             ->addSelect('lb, dlb')
 
+            ->andWhere('c.isDeleted = false')
+
             ->getQuery()
             ->getOneOrNullResult()
         ;
