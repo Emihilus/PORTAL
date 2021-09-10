@@ -85,9 +85,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
             <div class="list-group-item-dark rounded p-3">
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>
-                    <b>{{comment.byUser.username}}</b> <span class="badge">odpowiedz</span><br>
+                    <b>{{comment.byUser.username}}</b> <br>
                     <span> {{comment.content}} </span><br>
-                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>
+                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small><span class="badge float-end">odpowiedz</span>
                 </div>
             </div> 
         {% endif %}
@@ -102,6 +102,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
     <textarea class="form-control" id="commentTA" rows="3"></textarea>
     <button onclick="submitComment()" class="btn-primary btn" type="button">Post comment</button>
   </div>
+{% if app.user %}<input type="hidden" id="csrf" value="{{csrf_token(app.user.id)}}"/>{% endif %}
 </form>
 
 
@@ -209,8 +210,9 @@ function submitComment()
             method: "post", 
             data: JSON.stringify(
                 {'content': $("#commentTA").val(),
-                'auctionId': {{auction.id}}}) 
-            })
+                'auctionId': {{auction.id}},
+				'csrf': $("#csrf").val() })
+                })
         .done(res => 
         { 
             if(res.result == "Success")
