@@ -12,23 +12,17 @@
 	</a>
 
 	<a href="{{path('user-auctions', {'username': app.user, 'mode': 1 })}}">
-		<h2>Show and manage my auctions</h2>
+		<h2>Moje aukcje</h2>
 	</a>
 	<a href="{{path('profile-details', {'username': app.user})}}">
-		<h2>My profile details</h2>
-	</a>
-	<a href="{{path('comment-all-auctions')}}">
-		<h2>Wystaw kometarze kupującego</h2>
+		<h2>Moja karta profilu</h2>
 	</a>
 	<br>
 	<a href="{{path('user-auctions', {'username': app.user, 'mode': -1 })}}">
-		<h2>Show my favorite auctions</h2>
+		<h2>Moje ulubione aukcje</h2>
 	</a>
 	<a href="{{path('change-password')}}">
-		<h2>Modify pwd</h2>
+		<h2>Zmień hasło</h2>
 	</a>
-	<h1>
-		Stats in here
-	</h1>
 
 {% endblock %}
