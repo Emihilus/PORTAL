@@ -34,38 +34,33 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) 
+        if ($form->isSubmitted() && $form->isValid()) 
         {
-            if($form->isValid())
-            {
-                // encode the plain password
-                $user->setPassword(
-                    $passwordEncoder->hashPassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-                // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('system@emazemhs.com', 'PDAPW.PL'))
-                        ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('parts/mail/confirmation_email.html.twig')
-                );
-                // do anything else you need here, like send an email
+            // generate a signed url and email it to the user
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('system@emazemhs.com', 'PDAPW.PL'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('parts/mail/confirmation_email.html.twig')
+            );
+            // do anything else you need here, like send an email
+            $this->addFlash('success',
+             "Powodzenie. Przed zalogowaniem potwierdź swój adres email ".$user->getEmail().".");
 
-                return $this->redirectToRoute('root');
-            }
-            else
-            {
-                $this->addFlash('danger', 'Błąd');
-            }
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/register.html.twig', [
