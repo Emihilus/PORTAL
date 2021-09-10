@@ -7,22 +7,24 @@
 
 	<h1>Managment</h1>
 
-	<a href="{{path('my-notifications')}}">
-		<h2>Powiadomienia</h2>
+	<a href="{{path('profile-details', {'username': app.user})}}">
+		<h2>Moja karta profilu</h2>
 	</a>
 
 	<a href="{{path('user-auctions', {'username': app.user, 'mode': 1 })}}">
 		<h2>Moje aukcje</h2>
 	</a>
-	<a href="{{path('profile-details', {'username': app.user})}}">
-		<h2>Moja karta profilu</h2>
-	</a>
 	<br>
+	<a href="{{path('my-notifications')}}">
+		<h2>Powiadomienia</h2>
+	</a>
 	<a href="{{path('user-auctions', {'username': app.user, 'mode': -1 })}}">
 		<h2>Moje ulubione aukcje</h2>
 	</a>
 	<a href="{{path('change-password')}}">
 		<h2>Zmień hasło</h2>
 	</a>
+
+	<span>Adres email: {{app.user.Email}}</span>
 
 {% endblock %}
