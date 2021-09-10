@@ -202,6 +202,7 @@ class AuctionRepository extends ServiceEntityRepository
         $query = $query
         ->addSelect(self::hghstSelect)
         ->addSelect(self::hghstOfferOwnerSelect)
+        ->addSelect('(SELECT COUNT(c.id) FROM App\Entity\Comment c WHERE a=c.auction AND c.value > -2)')
 
         ->leftJoin('a.images', 'i')
         ->addSelect('i.filename')
@@ -211,7 +212,8 @@ class AuctionRepository extends ServiceEntityRepository
         ->where('i.orderIndicator = 0 OR i.orderIndicator IS NULL')
         ->andWhere('a.isDeleted = false')
     
-        ->andWhere($query->expr()->notIn('ac.value', ['-1,0,1]))
+        ->andWhere('ac.value IS NULL')
+        ->andWhere('ac.value = -2')
         ->andWhere('a.endsAt < :now')
         ->setParameter('now', new DateTime())
 
