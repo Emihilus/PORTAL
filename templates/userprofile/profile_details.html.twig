@@ -140,7 +140,7 @@
 									Dotyczy aukcji
 									<a href="{{path('auction-details', {'auctionId': auction.id})}}">{{auction.title}}</a>
 								</small>
-							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}{% if is_granted('ROLE_ADMIN')}
+							{% if app.user == app.request.get('username') and comment.replyTo.id is not defined %}<small id='rsm-{{comment.id}}' onclick="sellerReplyToComment({{comment.id}},{{auction.id}})" class='float-end'>odpowiedz</small>{% endif %}{% if is_granted('ROLE_ADMIN') %}<b onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger'>usuń</b>{% endif %}
 							</div>
 						</div>
 
@@ -208,7 +208,14 @@ function submitComment(commentId, raid)
         $('#exampleModalCenter').modal('show');
     }*/
 }
+)}
 // POST COMMENT AJAX CALL ///
+
+
+{% if is_granted('ROLE_ADMIN') %}
+
+{% endif %}
+
 
 </script>
 {% endblock %}
