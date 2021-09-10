@@ -219,6 +219,10 @@ function submitComment()
                     $("#comments-section").append('<div class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span> '+$("#commentTA").val()+' </span><br><small class="text-success">upvote</small></div></div>');
                     $("#commentTA").val('');
             }
+            else
+            {
+                console.log(res.result);
+            }
         });
     }
     else

@@ -450,7 +450,7 @@ class AJAXController extends AbstractController
     {
         $json = json_decode($request->getContent());
 
-        if ($this->getUser() != null && $this->isCsrfTokenValid($this->getUser()->getId(), $json->csrf)) 
+        if ($this->getUser() != null && isset($json->csrf) && $this->isCsrfTokenValid($this->getUser()->getId(), $json->csrf)) 
         {
             $em = $this->getDoctrine()->getManager();
 
