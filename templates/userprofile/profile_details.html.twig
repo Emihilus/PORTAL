@@ -90,6 +90,7 @@
 	{{USR[0]['All_Offers']}}
 	<hr>
 
+    {% set listToRemoveReplyButton = '' %}
     {% set userRate = 0 %}
     {% set negatives = 0 %}
     {% set positives = 0 %}
@@ -131,7 +132,7 @@
 						<div id="comment-{{comment.id}}"class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% elseif comment.value == -1 %}{% set negatives = negatives + 1 %}danger{% else %}{% set userRate = userRate - comment.value %}info ms-4{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
 							<div>
-								{% if comment.value == 2 %}<i>Odpowiedź sprzedającego </i>{% endif %}<b>{{comment.byUser.username}} </b><br>
+								{% if comment.value == 2 %}{% set listToRemoveReplyButton = listToRemoveReplyButton ~ comment.replyTo.id~',' %}<i>Odpowiedź sprzedającego </i>{% endif %}<b>{{comment.byUser.username}} </b><br>
 								<span>
 									{{comment.content}}
 								</span><br>
@@ -148,6 +149,7 @@
 				{% endfor %}
 			{% endfor %}
             {% if app.user %}<input type="hidden" id="csrf" value="{{csrf_token(app.user.id)}}"/>{% endif %}
+            <input type="hidden" id="removeReplyOption" value="{{listToRemoveReplyButton}}"/>
             <input type="hidden" id="hid_rate" value="{{userRate}}"/>
             <input type="hidden" id="hid_pos" value="{{positives}}"/>
             <input type="hidden" id="hid_neu" value="{{neutrals}}"/>
@@ -165,6 +167,8 @@
 <script>
 $("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne: "
 +$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
+
+$("#removeReplyOption").val();
 
 function sellerReplyToComment(commentId, raid)
 {
