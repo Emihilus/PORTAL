@@ -5,22 +5,9 @@
 {% block body %}
 	<h1>Wystaw komentarze dla aukcji</h1>
 
-	{# modal for tasks or notify user is not logged in #}
-	{% if app.user %}
-    {{ include('parts/include/ht_modal_tasks.twig')  }}
-	{% else %}
-    {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
-	{% endif %}
-
-
-	<div class="container-fluid">
-			
-			{{ include('parts/include/ht_filters.html.twig')  }}
 
 		<div id='contener'></div>
 
-
-	</div>
 
 {% endblock %}
 
@@ -114,7 +101,7 @@ function processSuccess(res, requestedPage)
 	{
         optionsClicked = true;
 		if($("#form-"+auctionId).length == 0)
-			$("#aid-"+auctionId).after('<form id="form-'+auctionId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+auctionId+'" rows="3"></textarea><button onclick="submitComment(\''+auctionId+'\',\''+owner+'\')" class="btn-primary btn" type="button">Post comment</button><select name="cvalue" id="cvalue-'+auctionId+'"><option selected value="1">Pozytywny</option><option value="0">Neutralny</option><option value="-1">Negatywny</option></select></div></form>');
+			$("#aid-"+auctionId).after('<form id="form-'+auctionId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+auctionId+'" rows="3"></textarea><button onclick="submitComment(\''+auctionId+'\',\''+owner+'\')" class="btn-primary btn" type="button">Wyślij</button><select name="cvalue" id="cvalue-'+auctionId+'"><option selected value="1">Pozytywny</option><option value="0">Neutralny</option><option value="-1">Negatywny</option></select></div></form>');
 	}
 
 	 function link(link)
