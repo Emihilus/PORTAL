@@ -227,7 +227,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         LEFT JOIN u.Auctions asa
         LEFT JOIN asa.comments casa
 
-        WHERE u = ?1";
+        WHERE u = ?1
+        AND casa.isDeleted = false";
 
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);
@@ -235,11 +236,3 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 }
-
-/*
-(SELECT cmt FROM App\Entity\Comment cmt
-        LEFT JOIN App\Entity\Auction acu WITH cmt.auction=acu
-        WHERE acu.byUser=?1
-        AND cmt.value IS NOT NULL
-        ) AS Commentz
-*/
