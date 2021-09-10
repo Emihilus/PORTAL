@@ -522,10 +522,17 @@ class AJAXController extends AbstractController
     public function deleteComment(Request $request)
     {
         $json = json_decode($request->getContent());
-        
+        $em = $this->getDoctrine()->getManager();
+        $result = $em->createQueryBuilder()
+        ->update('App\Entity\Comment', 'c')
+        ->set('c.isDeleted', true)
+        ->where('c.id = :cid')
+        ->setParameter('cid',$json->commentId)
+        ->getQuery()->execute();
+        dump($result);
         {
             return new JsonResponse([
-                'result' => "Forbidden"
+                'result' => $result
             ]);
         }
     }

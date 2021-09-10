@@ -81,6 +81,11 @@ class Comment
      */
     private $notificationHandled = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted = false;
+
     public function __construct()
     {
         $this->likedBy = new ArrayCollection();
@@ -280,6 +285,18 @@ class Comment
     public function setNotificationHandled(bool $notificationHandled): self
     {
         $this->notificationHandled = $notificationHandled;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
