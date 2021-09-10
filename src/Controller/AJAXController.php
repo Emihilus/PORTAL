@@ -523,6 +523,8 @@ class AJAXController extends AbstractController
     {
         $json = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
+
+        // single deletion, cascade required
         $result = $em->createQueryBuilder()
         ->update('App\Entity\Comment', 'c')
         ->set('c.isDeleted', true)
