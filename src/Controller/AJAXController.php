@@ -516,6 +516,21 @@ class AJAXController extends AbstractController
         }
     }
 
+     /**
+     * @Route("/deleteComment", name="deleteComment", methods={"POST"})
+     */
+    public function deleteComment(Request $request)
+    {
+        $json = json_decode($request->getContent());
+        
+        {
+            return new JsonResponse([
+                'result' => "Forbidden"
+            ]);
+        }
+    }
+
+
 
     /**
      * @Route("/likeComment", name="likeComment", methods={"POST"})

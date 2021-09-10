@@ -213,7 +213,35 @@ function submitComment(commentId, raid)
 
 
 {% if is_granted('ROLE_ADMIN') %}
+function adminDeleteComment(commentId)
+{
+   
+	let url = "{{path ('deleteComment') }}";
 
+	$.ajax({
+		url: url,
+		method: "post", 
+		data: JSON.stringify(
+			{commentId,
+			'csrf': $("#csrf").val()})
+		})
+	.done(res => 
+	{ 
+		console.log(res);
+		/*if(res.result == "Success")
+		{
+			$("#form-"+commentId).remove();
+				$("#comment-"+commentId).after('<div class="list-group-item-info rounded p-3 ms-4 mb-1"><small class="float-end">now</small><div><i>Odpowiedź sprzedającego </i><b>{{app.user}}</b><br><span> '+$("#commentTA-"+commentId).val()+' </span><br>'+$("#small-"+commentId).html()+'</div></div>');
+				$("#replyForm-"+commentId).remove();
+		}*/
+	});
+    
+   /* else
+    {
+        $('#exampleModalCenter').modal('show');
+    }*/
+}
+)}
 {% endif %}
 
 
