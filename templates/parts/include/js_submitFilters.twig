@@ -52,7 +52,7 @@ function submitFiltersAutocomplete()
 
 const processChange = debounce(() => submitFiltersAutocomplete());
 
-function debounce(func, timeout = 1000)
+function debounce(func, timeout = 500)
 {
 	let timer;
 	return (...args) => {

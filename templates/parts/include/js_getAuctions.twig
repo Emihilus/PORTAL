@@ -59,8 +59,30 @@ function getAuctionsAutocomplete()
 			minLength:3,
 			source: res.auctions
 		});
+		$("#input_search").autocomplete('enable');
 	});
 }
+
+// $("#input_search").autocomplete({
+// 	minLength:3,
+// 	source: function ()
+// 	{
+// 		reStoreInputsState();
+// 		$.ajax({
+// 				url: "{{path ('getAuctionsAutocomplete') }}",
+// 			method: "post", 
+// 			dataType: "json", 
+// 			data: JSON.stringify(GAJArray) })
+// 		.done(res => 
+// 		{ 
+// 			console.log(res.auctions);
+// 			$("#input_search").autocomplete({
+// 				minLength:3,
+// 				source: res.auctions
+// 			});
+// 		});
+// 	}
+// });
 
 function processSuccess(res, requestedPage)
 	{
