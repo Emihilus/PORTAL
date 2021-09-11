@@ -44,6 +44,20 @@ function getAuctions(requestedPage)
 	});
 }
 
+function getAuctionsAutocomplete()
+{
+	reStoreInputsState();
+    $.ajax({
+   	 	url: "{{path ('getAuctionsAutocomplete') }}",
+    	method: "post", 
+    	dataType: "html", 
+    	data: JSON.stringify(GAJArray) })
+	.done(res => 
+	{ 
+		console.log(res);
+	});
+}
+
 function processSuccess(res, requestedPage)
 	{
 		if(res == 'none')

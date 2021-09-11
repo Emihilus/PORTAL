@@ -232,10 +232,17 @@ class AJAXController extends AbstractController
             $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
         }
 
+        dump($auctions);
+
+        $auctionTitles = [];
+        foreach ($auctions as $auction) 
+        {
+            array_push($auctionTitles, $auction[0]->title);
+        }
 
 
         return new JsonResponse([
-            'auctions' => $auctions
+            'auctions' => $auctionTitles
         ]);
     }
 

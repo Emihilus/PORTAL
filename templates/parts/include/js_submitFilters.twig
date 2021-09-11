@@ -44,12 +44,19 @@ function resetFilters()
     submitFilters();
 }
 
-{# const processChange = debounce(() => submitFilters());
+function submitFiltersAutocomplete()
+{	
+	reStoreInputsState();
+	getAuctionsAutocomplete();
+}
 
-	function debounce(func, timeout = 1000){
-	  let timer;
-	  return (...args) => {
-		clearTimeout(timer);
-		timer = setTimeout(() => { func.apply(this, args); }, timeout);
-	  };
-	} #}
+const processChange = debounce(() => submitFiltersAutocomplete());
+
+function debounce(func, timeout = 1000)
+{
+	let timer;
+	return (...args) => {
+	clearTimeout(timer);
+	timer = setTimeout(() => { func.apply(this, args); }, timeout);
+	};
+} 
