@@ -167,7 +167,8 @@ function makeOffer()
             url: url,
             method: "post", 
             data: JSON.stringify({'offerValue': offerValue*100,
-                'auctionId' : {{auction.id}} }) 
+                'auctionId' : {{auction.id}},
+				'csrf': $("#csrf").val()}) 
             })
         .done(res => 
         { 

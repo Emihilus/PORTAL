@@ -209,11 +209,11 @@ class AJAXController extends AbstractController
      */
     public function makeOffer(Request $request, ValidatorInterface $validator)
     {
-        if ($this->getUser() != null) 
+        $json = json_decode($request->getContent());
+
+        if ($this->getUser() != null && isset($json->csrf) && $this->isCsrfTokenValid($this->getUser()->getId(), $json->csrf)) 
         {
             $em = $this->getDoctrine()->getManager();
-            $json = json_decode($request->getContent());
-
 
             $offer = new Offer();
             $offer->setValue($json->offerValue);

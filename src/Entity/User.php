@@ -93,6 +93,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $notifications;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->Auctions = new ArrayCollection();
@@ -423,6 +428,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $notification->setRecipientUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
