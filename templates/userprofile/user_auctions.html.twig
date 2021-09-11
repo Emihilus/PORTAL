@@ -102,15 +102,7 @@ let historyString = '{{path(app.request.get('_route'),{'username' : app.request.
 
 
 
-{# const processChange = debounce(() => submitFilters());
 
-function debounce(func, timeout = 1000){
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { func.apply(this, args); }, timeout);
-  };
-} #}
 
 {# getAuctions code #}
 {{ include('parts/include/js_getAuctions.twig')  }}
