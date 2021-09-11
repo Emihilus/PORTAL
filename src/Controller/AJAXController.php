@@ -228,7 +228,8 @@ class AJAXController extends AbstractController
             {
                 $em->persist($offer);
                 $em->flush();
-                return new JsonResponse([]);
+                return new JsonResponse([
+                    'recv' => $json->offerValue]);
             } 
             else 
             {
@@ -242,7 +243,7 @@ class AJAXController extends AbstractController
 
                 dump($validatorErrors);
                 return new JsonResponse([
-                    'RECEIVED VALUE' => $json->offerValue,
+                    'recv' => $json->offerValue,
                     'errorsBody' => $rendered->getContent()
                 ]);
             }

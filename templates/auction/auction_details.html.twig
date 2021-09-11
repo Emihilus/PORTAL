@@ -187,6 +187,8 @@ function makeOffer()
                 let container = document.createElement('div');
                 container.innerHTML = '<b>{{app.user}} offers '+offerValue+' PLN</b> triggered at '+new Date(Date.now()).toLocaleString()+"<br>";
                 document.getElementById('offers').prepend(container);
+                $("#offerInput").attr('min', (res.recv/100));
+                $('#offerForm').validate();
             }
         });
     }
