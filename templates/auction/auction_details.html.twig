@@ -14,7 +14,7 @@
 <h1>Aukcja pieca {{auction.title}}</h1>
 <BR>
 
-<img src="{{asset (fip~auction.images[0].filename)}}" alt='jakialt' width="300">
+<img data-fancybox src="{{asset (fip~auction.images[0].filename)}}" alt='jakialt' width="300">
 {# {{ exampleVariableHijack }}   #}
 
 <h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
