@@ -227,8 +227,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         LEFT JOIN u.Auctions asa
         LEFT JOIN asa.comments casa
 
-        WHERE u = ?1
-        AND casa.isDeleted = false";
+        WHERE u = ?1";
+        //AND casa.isDeleted = false";
 
         $query = $this->_em->createQuery($dql)
         ->setParameter(1, $user);

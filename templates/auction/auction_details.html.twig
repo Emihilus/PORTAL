@@ -62,7 +62,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
  <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if commentCount == 0 %}No{% else %} {{commentCount}}{% endif %} comments</h3></div>
 <div id="comments-section">
 {% if commentCount > 0 %}
-    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted ) %}
+    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted) %}
         {% if comment.value == -2 %}
 
         {% set iLikeIt = 'false' %}
