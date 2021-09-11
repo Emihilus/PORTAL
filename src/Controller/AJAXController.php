@@ -163,6 +163,83 @@ class AJAXController extends AbstractController
     }
 
     /**
+     * @Route("/getAuctionsAutocomplete", name="getAuctionsAutocomplete", methods={"POST"})
+     */
+    public function getAuctionsForAutocomplete(Request $request)
+    {
+        $auctions = '';
+        $json = json_decode($request->getContent());
+
+
+        switch ($json->mMode) 
+        {
+            case 0:
+                $method = "ListAllAuctions";
+                break;
+
+            case 1: // of specific user
+                $method = "ListAllAuctions";
+                break;
+
+            case 2:
+                //$method = "SoldAuctionsOfUser";
+                $method = "ListAllAuctions";
+                break;
+
+            case 3:
+                // $method = "CurrentAuctionsOfUser";
+                $method = "ListAllAuctions";
+                break;
+
+            case 4:
+                $method = "LeadingAuctionsOfUser";
+                break;
+
+            case 5: /// WON
+                $method = "LeadingAuctionsOfUser";
+                break;
+
+            case 6:
+                $method = "ParticipatingAuctionsOfUser";
+                break;
+
+            case 7:
+                $method = "ParticipatingNotLeadingAuctionsOfUser";
+                break;
+
+            case 8: //PARTICIPATED
+                $method = "ParticipatingAuctionsOfUser";
+                break;
+
+            case 9: //PARTICIPATED
+                $method = "ParticipatingNotLeadingAuctionsOfUser";
+                break;
+
+            case -1:
+                $method = 'ListAllAuctions';
+                break;
+        }
+
+
+        if ($json->mMode < 4) 
+        {
+            $queryFunction = 'qBuilder' . $method;
+            $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
+        } 
+        else 
+        {
+            $queryFunction = 'dql' . $method;
+            $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
+        }
+
+
+
+        return new JsonResponse([
+            'auctions' => $auctions
+        ]);
+    }
+
+    /**
      * @Route("/uploadTemporary", name="uploadTemporary", methods={"POST"})
      */
     public function uploadTemp(Request $request)
