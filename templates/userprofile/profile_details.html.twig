@@ -203,10 +203,6 @@ function submitComment(commentId, raid)
             }
         });
     }
-   /* else
-    {
-        $('#exampleModalCenter').modal('show');
-    }*/
 }
 // POST COMMENT AJAX CALL ///
 
@@ -214,7 +210,6 @@ function submitComment(commentId, raid)
 {% if is_granted('ROLE_ADMIN') %}
 function adminDeleteComment(commentId)
 {
-   
 	let url = "{{path ('deleteComment') }}";
 
 	$.ajax({

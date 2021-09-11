@@ -1,7 +1,8 @@
-<button class="btn-primary btn" onclick="$('#filtersDiv').toggleClass('d-none')">Toggle Filters</button>
-<div class="row d-none" id='filtersDiv'>
 <form id="filterz">
 	<input id='input_search' type="text" placeholder="Szukaj"{# onkeyup="processChange()"#}>
+	<button class="btn btn-secondary" onclick='submitFilters()' type='button'>CONFIRM</button>
+<button class="btn-primary btn" onclick="$('#filtersDiv').toggleClass('d-none')" type="button">Filt</button>
+<div class="row d-none" id='filtersDiv'>
 
 	<label for="search">szukaj wg</label>
 	<select name="search" id="select_searchtype"{# onchange="processChange()"#}>
