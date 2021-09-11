@@ -237,7 +237,7 @@ class AJAXController extends AbstractController
         $auctionTitles = [];
         foreach ($auctions as $auction) 
         {
-            array_push($auctionTitles, $auction[0]->title);
+            array_push($auctionTitles, $auction[0]->getTitle());
         }
 
 

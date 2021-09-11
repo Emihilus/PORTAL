@@ -55,6 +55,9 @@ function getAuctionsAutocomplete()
 	.done(res => 
 	{ 
 		console.log(res);
+		$("#input_search").autocomplete({
+			source: res.auctions
+		});
 	});
 }
 
