@@ -94,7 +94,9 @@ class AuctionRepository extends ServiceEntityRepository
 
     public function findOneByIdWithAuctionImagesAndOffersAndComments($value): ?Auction
     {
-        return $this->createQueryBuilder('a')
+
+        $query = $this->createQueryBuilder('a');
+        $query = $query
             ->leftJoin('a.images', 'i')
             ->addSelect('i')
             ->leftJoin('a.comments', 'c')
@@ -110,11 +112,14 @@ class AuctionRepository extends ServiceEntityRepository
             ->leftJoin('c.dislikedBy', 'dlb')
             ->addSelect('lb, dlb')
 
-            ->having('c.isDeleted = false')
+            ->andWher($query->expr()->orX(
+                $query->expr()->eq('c.isDeleted', 'false'),
+                $query->expr()->
+            ))
 
-            ->getQuery()
-            ->getOneOrNullResult()
+            
         ;
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     public function findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId, $user): ?Auction
