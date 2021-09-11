@@ -110,15 +110,13 @@ class AuctionRepository extends ServiceEntityRepository
 
             ->leftJoin('c.likedBy', 'lb')
             ->leftJoin('c.dislikedBy', 'dlb')
-            ->addSelect('lb, dlb')
-
-            ->andWher($query->expr()->orX(
+            ->addSelect('lb, dlb');
+            /* Lepiej wyciagnac wszsystkie i w twigu odrzucic isDeleted = true
+            ->andWhere($query->expr()->orX(
                 $query->expr()->eq('c.isDeleted', 'false'),
-                $query->expr()->
-            ))
+                $query->expr()->isNull('c'),
 
-            
-        ;
+            ));*/
         return $query->getQuery()->getOneOrNullResult();
     }
 

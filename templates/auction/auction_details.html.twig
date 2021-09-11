@@ -15,7 +15,7 @@
 <BR>
 
 {% for image in auction.images %}
-<img data-fancybox src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
+<img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
 {% endfor %}
 {# {{ exampleVariableHijack }}   #}
 
@@ -25,7 +25,7 @@
 <h2> Czas do końca: <span class="text-success" id='timer'></span> </h2>
 
 <h2> Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
-<h5> Adres email sprzedającego: {{app.user.Email}}<br>Numer telefonu: {{app.user.phone}}</h5>
+<h5> Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
 <h2> Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
 
 
@@ -52,7 +52,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 <hr>
 
 {% set commentCount = 0 %}
-<input id='cids' type='hidden' value="{% for comment in auction.comments %}{% if comment.value == -2 %}{% set commentCount = commentCount + 1 %},{{comment.id}}{% endif %}
+<input id='cids' type='hidden' value="{% for comment in auction.comments %}{% if comment.value == -2 and not comment.isDeleted %}{% set commentCount = commentCount + 1 %},{{comment.id}}{% endif %}
 {% endfor %}
 ">
 
@@ -62,7 +62,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
  <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if commentCount == 0 %}No{% else %} {{commentCount}}{% endif %} comments</h3></div>
 <div id="comments-section">
 {% if commentCount > 0 %}
-    {% for comment in auction.comments|sort %}
+    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted ) %}
         {% if comment.value == -2 %}
 
         {% set iLikeIt = 'false' %}

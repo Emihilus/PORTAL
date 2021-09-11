@@ -44,5 +44,6 @@ security:
     access_control:
         - { path: '^/comment-all-auctions', roles: ROLE_USER }
         - { path: '^/my-profile', roles: ROLE_USER }
+        - { path: '^/create-auction', roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
