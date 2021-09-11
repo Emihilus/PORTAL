@@ -50,11 +50,11 @@ function getAuctionsAutocomplete()
     $.ajax({
    	 	url: "{{path ('getAuctionsAutocomplete') }}",
     	method: "post", 
-    	dataType: "html", 
+    	dataType: "json", 
     	data: JSON.stringify(GAJArray) })
 	.done(res => 
 	{ 
-		console.log(res);
+		console.log(res.auctions);
 		$("#input_search").autocomplete({
 			source: res.auctions
 		});
