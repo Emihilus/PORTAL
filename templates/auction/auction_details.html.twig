@@ -23,7 +23,7 @@
 <h2> Czas do końca: <span class="text-success" id='timer'></span> </h2>
 
 <h2> Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
-<h5> Adres email sprzedającego: {{app.user.Email}} </h5>
+<h5> Adres email sprzedającego: {{app.user.Email}}<br>Numer telefonu: {{app.user.phone}}</h5>
 <h2> Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
 
 
