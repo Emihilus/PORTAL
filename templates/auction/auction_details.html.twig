@@ -23,6 +23,7 @@
 <h2> Czas do końca: <span class="text-success" id='timer'></span> </h2>
 
 <h2> Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
+<h5> Adres email sprzedającego: {{app.user.Email}} </h5>
 <h2> Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
 
 
@@ -149,14 +150,7 @@ function secondsToHms(d) {
 
 
  // VALIDATE OFFER ///
-$('#offerForm').validate(
-    {
-        submitHandler: function(form) 
-        {
-            makeOffer();
-        }
-    }
-)
+$('#offerForm').validate({submitHandler: function(form) {makeOffer();}});
  // VALIDATE OFFER ///
 
 
@@ -187,8 +181,7 @@ function makeOffer()
                 let container = document.createElement('div');
                 container.innerHTML = '<b>{{app.user}} offers '+offerValue+' PLN</b> triggered at '+new Date(Date.now()).toLocaleString()+"<br>";
                 document.getElementById('offers').prepend(container);
-                $("#offerInput").attr('min', (res.recv/100));
-                $('#offerForm').validate();
+                $("#offerInput").attr('min', ((res.recv+100)/100));
             }
         });
     }
