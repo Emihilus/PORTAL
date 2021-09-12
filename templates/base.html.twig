@@ -227,6 +227,12 @@
 				});
 			}
 
+			$( "#filterz" ).submit(function( event ) 
+			{
+				submitFilters();
+				event.preventDefault();
+			});
+
 			</script>
 
 		{# <script src="{{asset('dist/dropzone.js')}}"></script> #}
