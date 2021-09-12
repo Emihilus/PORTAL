@@ -49,6 +49,10 @@
 								<a class="nav-link {% if app.request.attributes.get('_route') == 'create-auction' %}active{% endif %}" href="{{path('create-auction')}}">Dodaj aukcję</a>
 							</li>
 
+							<li class="nav-item d-none d-sm-block">
+								<a class="nav-link {% if app.request.attributes.get('_route') == 'users-list' %}active{% endif %}" href="{{path('users-list')}}">Użytkownicy</a>
+							</li>
+
 							</ul>
 							</div>
 
@@ -69,9 +73,11 @@
 
 										<div class="dropdown-menu dropdown-menu-right">
 
-											<a class="dropdown-item" href="{{path('create-auction')}}">Dodaj aukcję</a>
+											<a class="dropdown-item d-sm-none" href="{{path('create-auction')}}">Dodaj aukcję</a>
 
-											<div class="dropdown-divider"></div>
+											<a class="dropdown-item d-sm-none" href="{{path('users-list')}}">Użytkownicy</a>
+
+											<div class="dropdown-divider d-sm-none"></div>
 
 											<a class="dropdown-item" href="{{path('profile-details',{'username': app.user.username})}}">
 												Mój profil
