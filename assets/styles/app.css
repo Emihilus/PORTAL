@@ -27,7 +27,7 @@ h1
 
 .search-input
 {
-  display:flex;
+  min-width: 100px;
   flex-grow:1;
 }
 
