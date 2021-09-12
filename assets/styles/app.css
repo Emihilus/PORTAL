@@ -13,11 +13,17 @@ h1
 	color: #C0D06F;
 	margin: 20px;
 }
-
+/* 
 .navbar-nav li:hover>.dropdown-menu
 {
 	display:block;
-}
+} */
+/* CWD */ 
+
+/* .dropdown-menu-right {
+  right: 0;
+  left: auto;
+} */
 
 /*eSTART notification bell */ 
 
@@ -34,7 +40,7 @@ h1
 
 .icon {
     cursor: pointer;
-    margin-right: 50px;
+    /* margin-right: 50px; */
     line-height: 60px
 }
 
