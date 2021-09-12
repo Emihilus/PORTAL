@@ -1,7 +1,9 @@
 <form id="filterz">
-	<input id='input_search' type="text" placeholder="Szukaj" onkeyup="processChange()">
-	<button class="btn btn-secondary" onclick='submitFilters()' type='button'><i>></button>
-<button class="btn-primary btn" onclick="$('#filtersDiv').toggleClass('d-none')" type="button">Filt</button>
+<div class="row">
+	<input class="d-inline-block" id='input_search' type="text" placeholder="Szukaj" onkeyup="processChange()">
+	<button class="btn btn-secondary" onclick='submitFilters()' type='button'><i class="bi bi-search"></i></button>
+	<button class="btn-warning btn" onclick="$('#filtersDiv').toggleClass('d-none')" type="button"><i class="bi bi-filter"></i></button>
+</div>
 <div class="row d-none" id='filtersDiv'>
 
 	<label for="search">szukaj wg</label>
