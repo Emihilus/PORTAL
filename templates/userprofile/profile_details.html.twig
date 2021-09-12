@@ -126,8 +126,8 @@
 		</div>
 		<div id="comments-section">
 			{% for auction in USR[0][0].Auctions %}
-				{% for comment in auction.comments|filter(comment => not comment.isDeleted) %}
-					{% if comment.value > -2 %}
+				{% for comment in auction.comments %} {#|filter(comment => not comment.isDeleted) %}#}
+					{% if comment.value > -2 and (not comment.isDeleted or is_granted('ROLE_ADMIN'))%}
                         {% set userRate = userRate + comment.value %}
 						<div id="comment-{{comment.id}}"class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% elseif comment.value == -1 %}{% set negatives = negatives + 1 %}danger{% else %}{% set userRate = userRate - comment.value %}info ms-4{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
