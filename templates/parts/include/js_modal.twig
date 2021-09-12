@@ -145,7 +145,18 @@
                if(json.result == 'Success')
                    {
                        //console.log('entered' + add);
-                       add ? () => {$("#fid_"+clickedId)}) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png'));
+                      /* add ? function() {console.log('asdas');console.log('dsad');$("#fid_"+clickedAId).removeClass('bi-star');$("#fid_"+clickedAId).addClass('bi-star-fill');} : function() {$("#fid_"+clickedAId).addClass('bi-star');$("#fid_"+clickedAId).removeClass('bi-star-fill');};*/
+
+                       if(add)
+                       {
+                        $("#fid_"+clickedAId).removeClass('bi-star');
+                        $("#fid_"+clickedAId).addClass('bi-star-fill');
+                       }
+                       else
+                       {
+                        $("#fid_"+clickedAId).addClass('bi-star');
+                        $("#fid_"+clickedAId).removeClass('bi-star-fill');
+                       }
 
                        optionsClicked = false;
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
