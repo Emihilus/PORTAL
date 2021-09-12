@@ -111,7 +111,7 @@
     function toggleFavorite(clickedAId)
     {
         let add;
-        if($("#fid_"+clickedAId).attr('src').includes('favd.png'))
+        if($("#fid_"+clickedAId).hasClass('bi-star'))
         {
             add = true;
         }
@@ -145,7 +145,7 @@
                if(json.result == 'Success')
                    {
                        //console.log('entered' + add);
-                       add ? $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('favd.png', 'fave.png')) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png'));
+                       add ? () => {$("#fid_"+clickedId)}) : $("#fid_"+clickedAId).attr('src', $("#fid_"+clickedAId).attr('src').replace('fave.png', 'favd.png'));
 
                        optionsClicked = false;
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);

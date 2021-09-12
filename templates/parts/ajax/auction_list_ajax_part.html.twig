@@ -18,7 +18,7 @@
 			2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i class="bi bi-list"></i></button> {% endif %}
 
 			{# <img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length == 0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' /> #}
-			<i class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i>
+			<i id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i>
 
 				 {# {{ dump(auction) }}   #}
 	</a>
