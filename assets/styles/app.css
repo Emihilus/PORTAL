@@ -28,6 +28,7 @@ h1
 .search-input
 {
   min-width: 100px;
+  max-width: 350px;
   flex-grow:1;
 }
 

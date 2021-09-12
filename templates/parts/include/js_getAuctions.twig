@@ -46,6 +46,8 @@ function getAuctions(requestedPage)
 
 function getAuctionsAutocomplete()
 {
+	if($("#input_search").val().length < 3)
+		return;
 	reStoreInputsState();
     $.ajax({
    	 	url: "{{path ('getAuctionsAutocomplete') }}",
