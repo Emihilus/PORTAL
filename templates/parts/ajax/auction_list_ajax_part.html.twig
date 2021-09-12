@@ -11,7 +11,7 @@
 		<span class='d-block'><b>{{auction.0.title}}</b></span>
 		<span> ends
 		
-			{{ auction[0].endsAt|ago }} </span></div> HO: <b>{{auction.hghst/100}} PLN</b>
+			{{ auction[0].endsAt|ago }} </span><br><span>HO: <b>{{auction.hghst/100}} PLN</b></span> </div> 
 
 			{% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
 			<button class="btn-primary btn" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
