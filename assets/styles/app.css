@@ -25,6 +25,11 @@ h1
   left: auto;
 } 
 
+.first-sectionn
+{
+  flex-grow:1;
+}
+
 .search-input
 {
   min-width: 100px;
