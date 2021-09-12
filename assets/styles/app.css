@@ -25,6 +25,12 @@ h1
   left: auto;
 } 
 
+.search-input
+{
+  display:flex;
+  flex-grow:1;
+}
+
 /*eSTART notification bell */ 
 
 .no-borders
