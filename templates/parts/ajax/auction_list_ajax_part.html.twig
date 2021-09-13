@@ -38,8 +38,9 @@
 					<button class="dropdown-item" type="button">Zakończ teraz</button>
 					<button class="dropdown-item" type="button">Usuń</button>
 					{% endif %}
-					{% if (date(auction.0.endsAt) < date()) and app.user and ( or app.user.username == auction.0.byUser.username) %}
+					{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
 					<button class="dropdown-item" type="button">Wystaw komentarz</button>
+					{% endif %}
 				</div>
 
 				</div>
