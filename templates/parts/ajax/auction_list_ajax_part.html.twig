@@ -5,7 +5,7 @@
 {% if auctions|length == 0 %}none{% endif %}
 {% for auction in auctions %}
 
-	<div class="d-flex">
+	<div class="d-flex my-1">
 	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
 
 		<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
@@ -28,15 +28,19 @@
 	</a>
 
 	<div>
-				<div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div>
+				{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
 				{# <br> #}
+
+				<div class="badge py-5 bg-info" ><i style="font-size: 1rem;" class="bi bi-list"></i></div>
+				</div>
+				</div>
 				
 
-				{% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
+				{# {% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
 				<div class="badge py-5 bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
 				2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>{% endif %}
 				</div>
-				</div>
+				</div> #}
 {% endfor %}
 
 	</ul>
