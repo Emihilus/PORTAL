@@ -6,10 +6,10 @@
 {% for auction in auctions %}
 
 	<div class="d-flex my-1">
-	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
+	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="d-flex list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
 
 		<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
-			<span class='d-block'><b>{{auction.0.title}}</b></span>
+			<span class='d-block'><b style="text-overflow:ellipsis;">{{auction.0.title}}</b></span>
 			<span> ends
 			
 				{{ auction[0].endsAt|ago }} </span><br><span><b>{{auction.hghst/100}} PLN</b></span> 
