@@ -27,13 +27,13 @@
 				 {# {{ dump(auction) }}   #}
 	</a>
 
-	<div class="align-middle" style="align-self: stretch;">
+	<div>
 				<div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div>
 				{# <br> #}
 				
 
 				{% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
-				<div class="badge py-auto bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
+				<div class="badge py-5 bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
 				2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>{% endif %}
 				</div>
 				</div>
