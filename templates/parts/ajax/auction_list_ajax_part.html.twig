@@ -27,11 +27,17 @@
 				 {# {{ dump(auction) }}   #}
 	</a>
 
-	<div>
+	<div class="dropleft">
 				{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
 				{# <br> #}
 
-				<div class="badge py-5 bg-info" ><i style="font-size: 1rem;" class="bi bi-list"></i></div>
+				<div class="dropdown-toogle badge py-5 bg-info" data-toggle="dropdown"><i style="font-size: 1rem;" class="bi bi-list"></i></div>
+				<div class="dropdown-menu">
+					<button class="dropdown-item" type="button">Action</button>
+					<button class="dropdown-item" type="button">Another action</button>
+					<button class="dropdown-item" type="button">Something else here</button>
+				</div>
+
 				</div>
 				</div>
 				
