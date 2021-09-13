@@ -28,13 +28,7 @@
 					</div> #}
 
 				
-				
-
-					{# {{ dump(auction) }}   #}
-					
-		</a>
-		
-		<div class="py-auto bg-info align-middle d-inline-block" >
+				<div class="py-auto bg-info align-middle d-inline-block" >
 					{# <div class="badge bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div><br> #}
 					
 					<div class="my-auto">
@@ -44,6 +38,12 @@
 
 					</div>
 				</div>
+
+					{# {{ dump(auction) }}   #}
+					
+		</a>
+		
+		
 
 
 		</div>
