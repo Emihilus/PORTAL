@@ -1,56 +1,41 @@
 <div class="row mt-2">
-	<ul id="auctions"
-				class="list-group col">
+	<ul id="auctions" class="list-group col">
 
 				
 {% if auctions|length == 0 %}none{% endif %}
 {% for auction in auctions %}
 
-	<div class="d-flex align-middle align-content-center">
-		<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="d-inline-block list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
+	<div class="d-flex">
+	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
 
-			<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
-				<span class='d-block'><b>{{auction.0.title}}</b></span>
-				<span> ends
+		<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
+			<span class='d-block'><b>{{auction.0.title}}</b></span>
+			<span> ends
+			
+				{{ auction[0].endsAt|ago }} </span><br><span><b>{{auction.hghst/100}} PLN</b></span> 
 				
-					{{ auction[0].endsAt|ago }} </span><br><span><b>{{auction.hghst/100}} PLN</b></span> 
-					
-			</div> 
+		</div> 
 
+			
+
+			{# <img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length == 0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' /> #}
+			
+
+			
+			 
+
+				 {# {{ dump(auction) }}   #}
+	</a>
+
+	<div class="py-auto">
+				<div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div><br>
 				
 
-				{# <img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length == 0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' /> #}
-				
-
-					{# {% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
-					<div class="badge bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
-					2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>{% endif %}
-					</div> #}
-
-				
-				<div class="py-auto bg-info align-middle d-inline-block" >
-					{# <div class="badge bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div><br> #}
-					
-					<div class="my-auto">
-
-					<div class=""  onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
-					2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>
-
-					</div>
+				{% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
+				<div class="badge py-auto bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
+				2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>{% endif %}
 				</div>
-
-					{# {{ dump(auction) }}   #}
-					
-		</a>
-		
-		
-
-
-		</div>
-
-	</div>
-
-
+				</div>
 {% endfor %}
 
 	</ul>
