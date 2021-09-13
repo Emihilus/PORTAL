@@ -6,8 +6,8 @@
 {% if auctions|length == 0 %}none{% endif %}
 {% for auction in auctions %}
 
-	<div class="">
-		<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class=" list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
+	<div class="d-flex">
+		<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="d-inline-block list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
 
 			<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
 				<span class='d-block'><b>{{auction.0.title}}</b></span>
@@ -30,19 +30,19 @@
 				
 				
 
-					{# {{ dump(auction) }}   #}<div class="d-float-left">
+					{# {{ dump(auction) }}   #}
+					
+		</a>
+		
+		<div class="py-auto bg-info align-middle" >
 					{# <div class="badge bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div><br> #}
 					
 
-					<div class="bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
+					<div class="my-auto"  onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
 					2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>
 
 
 		</div>
-					
-		</a>
-		
-		
 
 	</div>
 
