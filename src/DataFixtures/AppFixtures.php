@@ -31,13 +31,14 @@ class AppFixtures extends Fixture
 
     private function loadUsers(ObjectManager $manager) : void
     {
-        foreach ($this->getUserData() as [$username,  $email, $password, $roles])
+        foreach ($this->getUserData() as [$username,  $email, $password, $roles,$phone])
         {
             $user = new User();
             $user->setUsername($username);
             $user->setEmail($email);
             $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setRoles($roles);
+            $user->setPhone($phone);
             $user->setIsVerified(true);
             $manager->persist($user);
             array_push($this->tempUserArray, $user);
@@ -117,10 +118,10 @@ class AppFixtures extends Fixture
     public function getUserData(): array
     {
         return[
-            ['Emis', 'emazemhs@gmail.com', '12345', ['ROLE_ADMIN']],
-            ['Emazemhs', 'jahaaael@gmail.com', '12345', ['ROLE_USER']],
-            ['CoColiono', 'unknownreallusdsadasd@gmail.com', '12345', ['ROLE_USER']],
-            ['Masterklas', 'depekggggggs@gmail.com', '12345', ['ROLE_USER']]
+            ['Emis', 'emazemhs@gmail.com', '12345', ['ROLE_ADMIN'], '519130641'],
+            ['Emazemhs', 'jahaaael@gmail.com', '12345', ['ROLE_USER'], '2852757'],
+            ['CoColiono', 'unknownreallusdsadasd@gmail.com', '12345', ['ROLE_USER'], '31201919'],
+            ['Masterklas', 'depekggggggs@gmail.com', '12345', ['ROLE_USER'], '797770170']
         ];
     }
     
