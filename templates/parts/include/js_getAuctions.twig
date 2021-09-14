@@ -98,4 +98,10 @@ function processSuccess(res, requestedPage)
 				pageItemElement.children[0].setAttribute('onclick','getAuctions('+(requestedPage+1)+')');
 			}
 		});
+
+
+	$('.dropleft').on('hide.bs.dropdown', function()
+    {
+        optionsClicked = false;
+    });
 	}
