@@ -21,10 +21,34 @@
 			{# <img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length == 0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' /> #}
 			
 
-			
-			 <i id="fid_{{auction.0.id}}" class="bi bi-star{% if app.user and auction.0.likedByUsers|length > 0 %}-fill{% endif %}" style="position:absolute; right:5px;" onclick='toggleFavorite({{auction.0.id}})'></i>
+			<div style="position:absolute; right:5px;">
+			 <i id="fid_{{auction.0.id}}" class="bi bi-star{% if app.user and auction.0.likedByUsers|length > 0 %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i>
 
 				 {# {{ dump(auction) }}   #}
+
+
+			{% if app.user and (((date(auction.0.endsAt) < date()) and (app.user.username == auction.hghstOfferOwner)) or ((date(auction.0.endsAt) > date()) and app.user.username == auction.0.byUser.username) or is_granted('ROLE_ADMIN')) %}
+<div class="dropleft">
+	<div class="dropdown-toogle" data-toggle="dropdown">
+				{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
+				{# <br> #}
+
+				<i style="font-size: 1rem;" class="bi bi-list"></i>
+				<div class="dropdown-menu">
+					{# <button onclick='toggleFavorite({{auction.0.id}})' class="dropdown-item" type="button">{% if not app.user or auction.0.likedByUsers|length == 0 %}Dodaj do ulubionych{% else %}Usuń z ulubionych{% endif %}</button> #}
+					{% if (date(auction.0.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.0.byUser.username) %}
+					<button class="dropdown-item" type="button">Zakończ teraz</button>
+					<button class="dropdown-item" type="button">Usuń</button>
+					{% endif %}
+					{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
+					<button class="dropdown-item" type="button">Wystaw komentarz</button>
+					{% endif %}
+				</div>
+				</div>
+
+				</div>
+				{% endif %}
+				</div>
 	</a>
 
 
