@@ -147,14 +147,15 @@ h1
 	color: white;
 }
 
-.list-group-item-dark:hover
+/*.list-group-item-dark:hover
 {
 	background-color:#9acb7d !important;
-}
+}*/
 
 .list-group .active
 {
-	background-color:#9acb7d !important;
+	background-color:#474a4d !important;
+	/*background-color:#9acb7d !important;*/
 	cursor: default;
 }
 
