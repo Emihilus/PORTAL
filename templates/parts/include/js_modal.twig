@@ -48,8 +48,9 @@
         {% if app.user %}$('.modal-body').html('Choose your action');{% endif %}
     })
     
-    function onc()
+    function onc(clickedAId)
     {
+        this.clickedId = clickedAId;
         optionsClicked = true;
     }
 
