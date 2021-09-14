@@ -48,6 +48,11 @@
         {% if app.user %}$('.modal-body').html('Choose your action');{% endif %}
     })
 
+    $('.dropleft').on('show.bs.dropdown', function()
+    {
+        optionsClicked = true;
+    })
+
     function deleteAuction()
     {
         {# console.log(clickedId); #}
