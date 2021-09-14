@@ -47,11 +47,15 @@
         optionsClicked = false;
         {% if app.user %}$('.modal-body').html('Choose your action');{% endif %}
     })
-
-    $('.dropleft').on('show.bs.dropdown', function()
+    function onc()
     {
         optionsClicked = true;
-    })
+    }
+
+    $('.dropleft').each('hide.bs.dropdown', function()
+    {
+        optionsClicked = false;
+    });
 
     function deleteAuction()
     {
