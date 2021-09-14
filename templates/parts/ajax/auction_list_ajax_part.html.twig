@@ -37,8 +37,8 @@
 				<div class="dropdown-menu">
 					{# <button onclick='toggleFavorite({{auction.0.id}})' class="dropdown-item" type="button">{% if not app.user or auction.0.likedByUsers|length == 0 %}Dodaj do ulubionych{% else %}Usuń z ulubionych{% endif %}</button> #}
 					{% if (date(auction.0.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.0.byUser.username) %}
-					<button class="dropdown-item" type="button">Zakończ teraz</button>
-					<button class="dropdown-item" type="button">Usuń</button>
+					<button onclick="endNowAuction()" class="dropdown-item" type="button">Zakończ teraz</button>
+					<button onclick="deleteAuction()" class="dropdown-item" type="button">Usuń</button>
 					{% endif %}
 					{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
 					<button class="dropdown-item" type="button">Wystaw komentarz</button>
