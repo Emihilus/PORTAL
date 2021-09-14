@@ -22,7 +22,7 @@
 			
 
 			
-			 <i class="bi bi-star"></i>
+			 <i id="fid_{{auction.0.id}}" class="bi bi-star{% if app.user and auction.0.likedByUsers|length > 0 %}-fill{% endif %}" style="position:absolute; right:5px;" onclick='toggleFavorite({{auction.0.id}})'></i>
 
 				 {# {{ dump(auction) }}   #}
 	</a>
