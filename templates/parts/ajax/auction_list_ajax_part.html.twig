@@ -28,8 +28,8 @@
 
 
 			{% if app.user and (((date(auction.0.endsAt) < date()) and (app.user.username == auction.hghstOfferOwner)) or ((date(auction.0.endsAt) > date()) and app.user.username == auction.0.byUser.username) or is_granted('ROLE_ADMIN')) %}
-<div class="dropleft" onclick='onc()'>
-	<div class="dropdown-toogle" data-toggle="dropdown">
+<div class="dropleft"  onclick='onc()'>
+	<div id="dl-{{auction.0.id}}" class="dropdown-toogle" data-toggle="dropdown">
 				{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
 				{# <br> #}
 
