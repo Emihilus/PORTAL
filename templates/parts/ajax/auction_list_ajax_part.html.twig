@@ -27,28 +27,8 @@
 				 {# {{ dump(auction) }}   #}
 	</a>
 
-{% if app.user and (((date(auction.0.endsAt) < date()) and (app.user.username == auction.hghstOfferOwner)) or ((date(auction.0.endsAt) > date()) and app.user.username == auction.0.byUser.username) or is_granted('ROLE_ADMIN')) %}
-<div class="dropleft">
-	<div class="dropdown-toogle" data-toggle="dropdown">
-				{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
-				{# <br> #}
 
-				<div class=" badge py-5 bg-info" ><i style="font-size: 1rem;" class="bi bi-list"></i></div>
-				<div class="dropdown-menu">
-					{# <button onclick='toggleFavorite({{auction.0.id}})' class="dropdown-item" type="button">{% if not app.user or auction.0.likedByUsers|length == 0 %}Dodaj do ulubionych{% else %}Usuń z ulubionych{% endif %}</button> #}
-					{% if (date(auction.0.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.0.byUser.username) %}
-					<button class="dropdown-item" type="button">Zakończ teraz</button>
-					<button class="dropdown-item" type="button">Usuń</button>
-					{% endif %}
-					{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
-					<button class="dropdown-item" type="button">Wystaw komentarz</button>
-					{% endif %}
-				</div>
-				</div>
-
-				</div>
-				{% endif %}
-				</div>
+</div>
 				
 
 				{# {% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
