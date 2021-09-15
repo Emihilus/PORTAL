@@ -92,7 +92,7 @@ class AuctionRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOneByIdWithAuctionImagesAndOffersAndComments($value): ?Auction
+    public function findOneByIdWithAuctionImagesAndOffersAndComments($value, ?User $user): ?Auction
     {
 
         $query = $this->createQueryBuilder('a');
@@ -106,9 +106,18 @@ class AuctionRepository extends ServiceEntityRepository
             ->Where('a.id = :val')
             ->setParameter('val', $value)
             ->orderBy('o.Value', 'DESC')
-            ->andWhere('a.isDeleted = false')
+            ->andWhere('a.isDeleted = false');
 
-            ->leftJoin('c.likedBy', 'lb')
+
+            if($user)
+            {
+                $query->leftJoin('a.likedByUsers', 'l', Expr\Join::WITH, 'l.id = :user')
+                ->setParameter('user', $user->getId())
+                ->addSelect('l');
+            }
+
+
+            $query->leftJoin('c.likedBy', 'lb')
             ->leftJoin('c.dislikedBy', 'dlb')
             ->addSelect('lb, dlb');
             /* Lepiej wyciagnac wszsystkie i w twigu odrzucic isDeleted = true
