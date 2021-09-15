@@ -2,7 +2,10 @@
 
 {% block title %}Aukcja pieca {{auction.title}}{% endblock %}
 
-
+ {% block stylesheets %}
+ {{ parent() }}
+ <link rel="stylesheet"  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+ {% endblock %}
 
 {% block body %}
 
@@ -14,10 +17,13 @@
 <h1>Aukcja pieca {{auction.title}}</h1>
 <BR>
 
+
+
 {% for image in auction.images %}
 <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
 {% endfor %}
-{# {{ exampleVariableHijack }}   #}
+
+
 
 <h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
@@ -114,6 +120,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 {% block javascripts %}
 {{ parent() }}
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
 <script>
 
  // TIMER SECTION ///
