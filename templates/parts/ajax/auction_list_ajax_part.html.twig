@@ -73,9 +73,9 @@
 </div>
 
 
-<div class="d-flex justify-content-center" id="paginationDiv">
+<div class="d-flex justify-content-center mb-2" id="paginationDiv">
 	<nav class="d-sm-flex mt-2" aria-label="Page navigation example">
-		<ul class="pagination">
+		<ul class="pagination mb-2">
 
 			{#  PREV BUTTON #}
 			<li class="page-item {% if requestedPage == 1 %}disabled{% endif %}">
@@ -96,6 +96,8 @@
 			{# FIRST BUTTON #}
 
 
+			
+
 			{% if pages == 4 or pages == 5 %}
 
 				<li class="page-item {% if 2 == requestedPage %}active{% endif %}">
@@ -113,6 +115,10 @@
 				{% endif %}
 
 			{% else %}
+
+				<li class="page-item">
+					<a class="page-link">...</a>
+				</li>
 
 				{# FINISHING ADDITION #}
 				{% if pages > 5 and requestedPage > pages-2 %}
@@ -164,7 +170,9 @@
 				{% endif %}
 				{# BEGINNING ADDITION #}
 
-
+				<li class="page-item">
+					<a class="page-link">...</a>
+				</li>
 			{% endif %}
 
 
