@@ -23,10 +23,11 @@
 <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
 {% endfor %} #}
 
+<div class="row">
 <div class="col-6">
 <div
       style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
-      class="swiper mySwiper2">
+      class="swiper mySwiper2 bg-dark">
       <div class="swiper-wrapper">
 
 {% for image in auction.images %}
@@ -40,7 +41,7 @@
       <div class="swiper-button-prev"></div>
       </div> </div>
 
-<div thumbsSlider="" class="swiper mySwiper">
+<div thumbsSlider="" class="swiper mySwiper bg-dark">
       <div class="swiper-wrapper">
 
 {% for image in auction.images %}
@@ -63,6 +64,8 @@
 <h5> Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
 <h2> Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
 
+</div>
+</div>
 
 <p>{{auction.description}}</p>
 
