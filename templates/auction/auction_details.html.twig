@@ -14,10 +14,12 @@
     {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
 	{% endif %}
 
-<h1>Aukcja pieca {{auction.title}}</h1>
+<h1 id="h1cap">Aukcja pieca {{auction.title}}</h1>
 <BR>
 
-
+{% if auction.isDeleted %}
+isDeleted
+{% endif %}
 
 {# {% for image in auction.images %}
 <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
@@ -204,7 +206,7 @@ function auctionTimer()
         setTimeout(auctionTimer, 500)
     else
         {
-            timerElement.innerHTML = "Auction ended {{auction.endsAt|ago}}.";
+            timerElement.innerHTML = "Auction ended";
             $("#offerForm").toggleClass('d-none');
         }
 }
@@ -613,27 +615,23 @@ function saveCommentChanges(commentId)
 
  function deleteAuction()
     {
-        {# console.log(clickedId); #}
-        $('.modal-body').html('EXECUTING...');
-
+        
          fetch("{{path('deleteAuction')}}", 
          {
             method: 'POST',
             body: JSON.stringify({
-            'auctionId' : clickedId
+            'auctionId' : {{auction.id}}
             })
         })
         .then((response) => 
         {
             response.json().then(function(json)
             {
-                {# console.log(json); #}
-                $('.modal-body').html(json.result);
 
                 if(json.result == 'Success')
                     {
-                        $('#aid-'+clickedId).toggleClass('d-none');
-                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 600);
+                        $("#h1cap").addClass("text-danger");
+                        $("#h1cap").html("Aukcja usunięta");
                     }
             });
         })
@@ -643,10 +641,7 @@ function saveCommentChanges(commentId)
 
     function endNowAuction()
     {
-        
-                        endsAt = Date.now();
-
-        /* fetch("{{path('endNowAuction')}}", 
+        fetch("{{path('endNowAuction')}}", 
          {
             method: 'POST',
             body: JSON.stringify({
@@ -661,11 +656,11 @@ function saveCommentChanges(commentId)
 
                 if(json.result == 'Success')
                     {
-                        endsAt = Date.now();
+                        endsAt = Math.round(Date.now()/1000);
                     }
             });
         })
-        .catch(() => {  })*/
+        .catch(() => {  })
                 
     }
 
