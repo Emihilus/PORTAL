@@ -19,11 +19,35 @@
 
 
 
-{% for image in auction.images %}
+{# {% for image in auction.images %}
 <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
+{% endfor %} #}
+
+
+<div
+      style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+      class="swiper mySwiper2">
+      <div class="swiper-wrapper">
+
+{% for image in auction.images %}
+
+<div class="swiper-slide">
+          <img src="{{asset (fip~image.filename)}}" />
+        </div>
 {% endfor %}
 
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      </div>
 
+<div thumbsSlider="" class="swiper mySwiper">
+      <div class="swiper-wrapper">
+
+{% for image in auction.images %}
+<div class="swiper-slide">
+          <img src="{{asset (fip~image.filename)}}" />
+        </div>
+{% endfor %}
 
 <h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
