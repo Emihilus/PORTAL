@@ -1,66 +1,72 @@
 <div class="row mt-2">
 	<ul id="auctions" class="list-group col">
 
-				
-{% if auctions|length == 0 %}none{% endif %}
-{% for auction in auctions %}
 
-	<div class="d-flex my-1">
-	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="d-flex list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
+		{% if auctions|length == 0 %}none
+		{% endif %}
+		{% for auction in auctions %}
 
-		<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
-			<span class='d-block'><b style="text-overflow:ellipsis; overflow: hidden;">{{auction.0.title}}</b></span>
-			<span> ends
-			
-				{{ auction[0].endsAt|ago }} </span><br><span><b>{{auction.hghst/100}} PLN</b></span> 
-				
-		</div> 
+			<div class="d-flex my-1">
+				<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')" class="d-flex list-group-item list-group-item-dark list-group-item-action{% if date(auction[0].endsAt) < date() %} text-secondary{% endif %}"><img class="my-auto" src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75" height="75">
 
-			
+					<div class='d-inline-block align-middle m-1 p-1 first-sectionn'>
+						<span class='d-block'>
+							<b style="text-overflow:ellipsis; overflow: hidden;">{{auction.0.title}}</b>
+						</span>
+						<span>
+							ends
 
-			{# <img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length == 0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' /> #}
-			
+							{{ auction[0].endsAt|ago }}
+						</span><br><span>
+							<b>{{auction.hghst/100}}
+								PLN</b>
+						</span>
 
-			<div  style="position:absolute; right:5px;">
-			 <i id="fid_{{auction.0.id}}" class="p-1 bi bi-star{% if app.user and auction.0.likedByUsers|length > 0 %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i>
-
-				 {# {{ dump(auction) }}   #}
+					</div>
 
 
-			{% if app.user and (((date(auction.0.endsAt) < date()) and (app.user.username == auction.hghstOfferOwner)) or ((date(auction.0.endsAt) > date()) and app.user.username == auction.0.byUser.username) or is_granted('ROLE_ADMIN')) %}
-<div class="dropleft" onclick='onc({{auction.0.id}})'>
-	<div class="dropdown-toogle" data-toggle="dropdown">
-				{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
-				{# <br> #}
-
-				<i style="font-size: 1rem;"  class="p-1 bi bi-list"></i>
-				<div class="dropdown-menu">
-					{# <button onclick='toggleFavorite({{auction.0.id}})' class="dropdown-item" type="button">{% if not app.user or auction.0.likedByUsers|length == 0 %}Dodaj do ulubionych{% else %}Usuń z ulubionych{% endif %}</button> #}
-					{% if (date(auction.0.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.0.byUser.username) %}
-					<button onclick="endNowAuction()" class="dropdown-item" type="button">Zakończ teraz</button>
-					<button onclick="deleteAuction()" class="dropdown-item" type="button">Usuń</button>
-					{% endif %}
-					{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
-					<button class="dropdown-item" type="button">Wystaw komentarz</button>
-					{% endif %}
-				</div>
-				</div>
-
-				</div>
-				{% endif %}
-				</div>
-	</a>
+					{# <img id="fid_{{auction.0.id}}" src="{% if not app.user or auction.0.likedByUsers|length == 0 %}{{asset('interface/favd.png')}}{% else %}{{asset('interface/fave.png')}}{% endif %}" onclick='toggleFavorite({{auction.0.id}})' /> #}
 
 
-</div>
-				
+					<div style="position:absolute; right:5px;">
+						<i id="fid_{{auction.0.id}}" class="p-1 bi bi-star{% if app.user and auction.0.likedByUsers|length > 0 %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i>
 
-				{# {% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
-				<div class="badge py-5 bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
-				2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>{% endif %}
-				</div>
-				</div> #}
-{% endfor %}
+						{# {{ dump(auction) }}   #}
+
+
+						{% if app.user and (((date(auction.0.endsAt) < date()) and (app.user.username == auction.hghstOfferOwner)) or ((date(auction.0.endsAt) > date()) and app.user.username == auction.0.byUser.username) or is_granted('ROLE_ADMIN')) %}
+							<div class="dropleft" onclick='onc({{auction.0.id}})'>
+								<div class="dropdown-toogle" data-toggle="dropdown">
+									{# <div class="badge d-none bg-info"><i style="font-size: 1rem;" id="fid_{{auction.0.id}}" class="bi bi-star{% if not app.user or auction.0.likedByUsers|length == 0 %}{% else %}-fill{% endif %}" onclick='toggleFavorite({{auction.0.id}})'></i></div> #}
+									{# <br> #}<i style="font-size: 1rem;" class="p-1 bi bi-list"> </i>
+									<div
+										class="dropdown-menu">
+										{# <button onclick='toggleFavorite({{auction.0.id}})' class="dropdown-item" type="button">{% if not app.user or auction.0.likedByUsers|length == 0 %}Dodaj do ulubionych{% else %}Usuń z ulubionych{% endif %}</button> #}
+										{% if (date(auction.0.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.0.byUser.username) %}
+											<button onclick="endNowAuction()" class="dropdown-item" type="button">Zakończ teraz</button>
+											<button onclick="deleteAuction()" class="dropdown-item" type="button">Usuń</button>
+										{% endif %}
+										{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
+											<button class="dropdown-item" type="button">Wystaw komentarz</button>
+										{% endif %}
+									</div>
+								</div>
+
+							</div>
+						{% endif %}
+					</div>
+				</a>
+
+
+			</div>
+
+
+			{# {% if (app.user and (app.user.username == auction.0.byUser.username or is_granted('ROLE_ADMIN'))) or (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}
+							<div class="badge py-5 bg-info" onclick="task({{auction.0.id}},{% if app.user.username == auction.0.byUser.username and (app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date()) %}1{% elseif app.user.username == auction.0.byUser.username and date(auction.0.endsAt) < date()%}
+							2{% elseif app.user and app.user.username == auction.hghstOfferOwner and date(auction[0].endsAt) < date() %}3{% else %}2{% endif %})"><i style="font-size: 1rem;" class="bi bi-list"></i></div>{% endif %}
+							</div>
+							</div> #}
+		{% endfor %}
 
 	</ul>
 
@@ -68,126 +74,129 @@
 
 
 <div class="row" id="paginationDiv">
-			<nav class="mt-2" aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
+	<nav class="mt-2" aria-label="Page navigation example">
+		<ul
+			class="pagination justify-content-center">
 
-					{#  PREV BUTTON #}
-					<li class="page-item {% if requestedPage == 1 %}disabled{% endif %}">
-						<a class="page-link"  onclick="getAuctions({{requestedPage-1}})">&lt;</a>
+			{#  PREV BUTTON #}
+			<li class="page-item {% if requestedPage == 1 %}disabled{% endif %}">
+				<a class="page-link" onclick="getAuctions({{requestedPage-1}})">&lt;</a>
+			</li>
+
+			{# {% for i in 1.. pages %}
+									<li class="page-item {% if i == requestedPage%}active{% endif %}">
+										<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
+									</li>
+								{% endfor %} #}
+
+
+			{# FIRST BUTTON #}
+			<li class="page-item {% if 1 == requestedPage %}active{% endif %}">
+				<a class="page-link" onclick="getAuctions({{1}})">1</a>
+			</li>
+			{# FIRST BUTTON #}
+
+
+			{% if pages == 4 or pages == 5 %}
+
+				<li class="page-item {% if 2 == requestedPage %}active{% endif %}">
+					<a class="page-link" onclick="getAuctions({{2}})">{{2}}</a>
+				</li>
+
+				<li class="page-item {% if 3 == requestedPage %}active{% endif %}">
+					<a class="page-link" onclick="getAuctions({{3}})">{{3}}</a>
+				</li>
+
+				{% if pages == 5 %}
+					<li class="page-item {% if 4 == requestedPage %}active{% endif %}">
+						<a class="page-link" onclick="getAuctions({{4}})">4</a>
 					</li>
+				{% endif %}
 
-					{# {% for i in 1.. pages %}
-						<li class="page-item {% if i == requestedPage%}active{% endif %}">
-							<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
-						</li>
-					{% endfor %} #}
+			{% else %}
 
-
-
-					{# FIRST BUTTON #}
-					<li class="page-item {% if 1 == requestedPage %}active{% endif %}">
-							<a class="page-link" onclick="getAuctions({{1}})">1</a>
+				{# FINISHING ADDITION #}
+				{% if pages > 5 and requestedPage > pages-2 %}
+					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+						<a class="page-link" onclick="getAuctions({{pages-3}})">{{pages-3}}</a>
 					</li>
-					{# FIRST BUTTON #}
+				{% endif %}
 
 
-					{% if pages == 4 or pages == 5 %}
-
-						<li class="page-item {% if 2 == requestedPage %}active{% endif %}">
-									<a class="page-link" onclick="getAuctions({{2}})">{{2}}</a>
-						</li> 
-
-						<li class="page-item {% if 3 == requestedPage %}active{% endif %}">
-									<a class="page-link" onclick="getAuctions({{3}})">{{3}}</a>
-						</li> 
-
-						{% if pages == 5 %}
-							<li class="page-item {% if 4 == requestedPage %}active{% endif %}">
-										<a class="page-link" onclick="getAuctions({{4}})">4</a>
-							</li> 
-						{% endif %}
-
-					{% else %}		
-
-						{# FINISHING ADDITION #}
-						
-						{% if pages > 5 and requestedPage > pages-2 %}
-							<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
-									<a class="page-link" onclick="getAuctions({{pages-3}})">{{pages-3}}</a>
-							</li>
-						{% endif %}
-
-
-						{% if pages > 5 and requestedPage == pages %}
-							<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
-									<a class="page-link" onclick="getAuctions({{pages-2}})">{{pages-2}}</a>
-							</li>
-						{% endif %}
-						{# FINISHING ADDITION #}
-
-
-
-						{% if requestedPage > 2 %}<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
-								<a class="page-link" onclick="getAuctions({{requestedPage-1}})">{{requestedPage-1}}</a>
-						</li> {% endif %}
-
-
-						{% if requestedPage > 1 and requestedPage < pages %}
-						<li class="page-item {% if requestedPage == requestedPage%}active{% endif %}">
-								<a class="page-link" onclick="getAuctions({{requestedPage}})">{{requestedPage}}</a>
-						</li>
-						{% endif %}
-
-						{% if requestedPage < pages-1 %}
-						<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
-								<a class="page-link" onclick="getAuctions({{requestedPage+1}})">{{requestedPage+1}}</a>
-						</li>
-						{% endif %}
-
-
-						{# BEGINING ADDITION #}
-						{% if pages > 5 and requestedPage < 2 %}
-							<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
-									<a class="page-link" onclick="getAuctions(3)">3</a>
-							</li>
-						{% endif %}
-
-						{% if pages > 5 and requestedPage < 3 %}
-							<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
-									<a class="page-link" onclick="getAuctions(4)">4</a>
-							</li>
-						{% endif %}
-						{# BEGINNING ADDITION #}
-
-						
-
-					{% endif %}
-					
-
-
-					{# LAST BUTTON #}
-					{% if pages > 1 %}
-					<li class="page-item {% if pages == requestedPage%}active{% endif %}">
-							<a class="page-link" onclick="getAuctions({{pages}})">{{pages}}</a>
+				{% if pages > 5 and requestedPage == pages %}
+					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+						<a class="page-link" onclick="getAuctions({{pages-2}})">{{pages-2}}</a>
 					</li>
-					{% endif %}
-					{# LAST BUTTON #}
+				{% endif %}
+				{# FINISHING ADDITION #}
 
 
-
-
-					{# NEXT BUTTON  #}
-					<li class="page-item {% if requestedPage == pages %}disabled{% endif %}">
-						<a class="page-link" onclick="getAuctions({{requestedPage+1}})">&gt;</a>
+				{% if requestedPage > 2 %}
+					<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
+						<a class="page-link" onclick="getAuctions({{requestedPage-1}})">{{requestedPage-1}}</a>
 					</li>
-					{# NEXT BUTTON #}
-					
-				</ul>
-			</nav>
-			<span class="my-auto ms-3"><b>Items per page:</b></span>
-					<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="form-select ms-2" aria-label="Default select example">
-						{% for i in 1.. 5 %}
-							<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
-						{% endfor %}
-					</select>
+				{% endif %}
+
+
+				{% if requestedPage > 1 and requestedPage < pages %}
+					<li class="page-item {% if requestedPage == requestedPage%}active{% endif %}">
+						<a class="page-link" onclick="getAuctions({{requestedPage}})">{{requestedPage}}</a>
+					</li>
+				{% endif %}
+
+				{% if requestedPage < pages-1 %}
+					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+						<a class="page-link" onclick="getAuctions({{requestedPage+1}})">{{requestedPage+1}}</a>
+					</li>
+				{% endif %}
+
+
+				{# BEGINING ADDITION #}
+				{% if pages > 5 and requestedPage < 2 %}
+					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+						<a class="page-link" onclick="getAuctions(3)">3</a>
+					</li>
+				{% endif %}
+
+				{% if pages > 5 and requestedPage < 3 %}
+					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+						<a class="page-link" onclick="getAuctions(4)">4</a>
+					</li>
+				{% endif %}
+				{# BEGINNING ADDITION #}
+
+
+			{% endif %}
+
+
+			{# LAST BUTTON #}
+			{% if pages > 1 %}
+				<li class="page-item {% if pages == requestedPage%}active{% endif %}">
+					<a class="page-link" onclick="getAuctions({{pages}})">{{pages}}</a>
+				</li>
+			{% endif %}
+			{# LAST BUTTON #}
+
+
+			{# NEXT BUTTON  #}
+			<li class="page-item {% if requestedPage == pages %}disabled{% endif %}">
+				<a class="page-link" onclick="getAuctions({{requestedPage+1}})">&gt;</a>
+			</li>
+			{# NEXT BUTTON #}
+
+<div>
+	<span class="my-auto ms-3">
+		Pozycji na stronie:
+	</span>
+	<select onchange="onChangeHandler(this.options[this.selectedIndex].value)" class="d-inline-block form-select ms-2" aria-label="Default select example">
+		{% for i in 1.. 5 %}
+			<option {% if i == itemsPerPage/10 %} selected {% endif %} value="{{i}}0">{{i}}0</option>
+		{% endfor %}
+	</select>
+	</div>
+
+		</ul>
+		
+	</nav>
+	
 </div>
