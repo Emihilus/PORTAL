@@ -129,7 +129,9 @@ class AJAXController extends AbstractController
         return $this->render('parts/ajax/auction_list_ajax_part.html.twig', [
             'auctions' => $auctions,
             'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
-            'itemsPerPage' => $itemsPerPage
+            'itemsPerPage' => $itemsPerPage,
+            'requestedPage' => $json->requestedPage
+
         ]);
     }
 

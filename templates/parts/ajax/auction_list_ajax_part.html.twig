@@ -71,42 +71,39 @@
 			<nav class="mt-2" aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 
-					<li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
-						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">&lt;</a>
+					<li class="page-item {% if requestedPage == 1 %}disabled{% endif %}">
+						<a class="page-link"  onclick="getAuctions({{requestedPage-1}})">&lt;</a>
 					</li>
 
 					{# {% for i in 1.. pages %}
-						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
+						<li class="page-item {% if i == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
 						</li>
 					{% endfor %} #}
 
-<pre>
-	{{ dump(app.request.get('page')) }}
-</pre>
-					<li class="page-item {% if 1 == app.request.get('page')%}active{% endif %}">
+					<li class="page-item {% if 1 == requestedPage %}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{1}})">1</a>
 					</li>
 
-					<li class="page-item {% if app.request.get('page')-1 == app.request.get('page')%}active{% endif %}">
-							<a class="page-link" onclick="getAuctions({{app.request.get('page')-1}})">{{app.request.get('page')-1}}</a>
+					<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{requestedPage-1}})">{{requestedPage-1}}</a>
 					</li>
 
-					<li class="page-item {% if app.request.get('page') == app.request.get('page')%}active{% endif %}">
-							<a class="page-link" onclick="getAuctions({{app.request.get('page')}})">{{app.request.get('page')}}</a>
+					<li class="page-item {% if requestedPage == requestedPage%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{requestedPage}})">{{requestedPage}}</a>
 					</li>
 
-					<li class="page-item {% if app.request.get('page')+1 == app.request.get('page')%}active{% endif %}">
-							<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">{{app.request.get('page')+1}}</a>
+					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{requestedPage+1}})">{{requestedPage+1}}</a>
 					</li>
 
-					<li class="page-item {% if pages == app.request.get('page')%}active{% endif %}">
+					<li class="page-item {% if pages == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{pages}})">{{pages}}</a>
 					</li>
 
 
-					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
-						<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">&gt;</a>
+					<li class="page-item {% if requestedPage == pages %}disabled{% endif %}">
+						<a class="page-link" onclick="getAuctions({{requestedPage+1}})">&gt;</a>
 					</li>
 					
 				</ul>
