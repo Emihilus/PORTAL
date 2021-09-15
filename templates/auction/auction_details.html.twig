@@ -57,9 +57,13 @@
 <div class="col-md-6">
 
 <button class="btn m-1 btn-secondary"><i class="bi  bi-star"></i>Dodaj do ulubionych</button>
-<button class="btn m-1 btn-secondary"><i class="bi  bi-x"></i>Zakończ teraz</button>
-<button class="btn m-1 btn-secondary"><i class="bi  bi-trash"></i>Usuń</button>
-<button class="btn m-1 btn-secondary"><i class="bi  bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
+{% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
+    <button class="btn m-1 btn-secondary"><i class="bi  bi-x"></i>Zakończ teraz</button>
+    <button class="btn m-1 btn-secondary"><i class="bi  bi-trash"></i>Usuń</button>
+{% endif %}
+{% if (date(auction.0.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
+    <button class="btn m-1 btn-secondary"><i class="bi  bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
+{% endif %}
 
 
 <h3>Zakończenie: {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
