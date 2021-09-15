@@ -14,14 +14,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    const numAuctions = 50;
+    const numAuctions = 102;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
         $this->tempUserArray = [];
     }
-
+// etno tobiaszz za zabka
 
     public function load(ObjectManager $manager)
     {
@@ -63,8 +63,8 @@ class AppFixtures extends Fixture
             $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
             $auction->setTitle("Piec ".RandomGenerator::generateRandomName());
 
-            $auction->setCreatedAt(new \DateTime(random_int(-15,-1).' days'));
-            $auction->setEndsAtManually(new \DateTime(random_int(-4,4).' days'));
+            $auction->setCreatedAt(new \DateTime(random_int(-10,-1).' days'));
+            $auction->setEndsAtManually(new \DateTime(random_int(-1,6).' days'));
 
             $auction->setDescription(($j%2==0) ? RandomGenerator::generateRandomSentence(200) : $array[random_int(0,count($array)-1)][3]);
 
