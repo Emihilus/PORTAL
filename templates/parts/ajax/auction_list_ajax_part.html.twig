@@ -85,17 +85,22 @@
 							<a class="page-link" onclick="getAuctions({{1}})">1</a>
 					</li>
 
-					<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
+					{% if requestedPage > 2 %}<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage-1}})">{{requestedPage-1}}</a>
-					</li>
+					</li> {% endif %}
 
+
+					{% if requestedPage > 1 and  < pages-1 %}
 					<li class="page-item {% if requestedPage == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage}})">{{requestedPage}}</a>
 					</li>
+					{% endif %}
 
+				{% if requestedPage < pages %}
 					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage+1}})">{{requestedPage+1}}</a>
 					</li>
+					{% endif %}
 
 					<li class="page-item {% if pages == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{pages}})">{{pages}}</a>
