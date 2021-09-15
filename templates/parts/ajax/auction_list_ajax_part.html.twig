@@ -1,5 +1,5 @@
 <div class="row mt-2">
-	<ul id="auctions" class="list-group col">
+	<ul id="auctions" class="list-group pe-0">
 
 
 		{% if auctions|length == 0 %}none
@@ -116,9 +116,11 @@
 
 			{% else %}
 
-				<li class="page-item">
-					<a class="page-link">...</a>
-				</li>
+				{% if requestedPage > 3 %}
+					<li class="page-item">
+						<a class="page-link px-1">...</a>
+					</li>
+				{% endif %}
 
 				{# FINISHING ADDITION #}
 				{% if pages > 5 and requestedPage > pages-2 %}
@@ -171,7 +173,7 @@
 				{# BEGINNING ADDITION #}
 
 				<li class="page-item">
-					<a class="page-link">...</a>
+					<a class="page-link px-1">...</a>
 				</li>
 			{% endif %}
 
