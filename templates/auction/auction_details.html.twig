@@ -24,7 +24,7 @@
 {% endfor %} #}
 
 <div class="row">
-<div class="col-6">
+<div class="col-md-6">
 <div
       style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
       class="swiper mySwiper2 bg-dark">
@@ -37,9 +37,9 @@
         </div>
 {% endfor %}
 
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-      </div> </div>
+      
+      </div> <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div> </div>
 
 <div thumbsSlider="" class="swiper mySwiper bg-dark">
       <div class="swiper-wrapper">
@@ -54,7 +54,7 @@
 
     </div>
 
-<div class="col-6">
+<div class="col-md-6">
 <h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
