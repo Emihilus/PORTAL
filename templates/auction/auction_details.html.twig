@@ -23,7 +23,7 @@
 <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
 {% endfor %} #}
 
-
+<div class="col-6">
 <div
       style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
       class="swiper mySwiper2">
@@ -51,6 +51,9 @@
       </div>
     </div>
 
+    </div>
+
+<div class="col-6">
 <h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
