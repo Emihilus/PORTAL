@@ -75,11 +75,34 @@
 						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">&lt;</a>
 					</li>
 
-					{% for i in 1.. pages %}
+					{# {% for i in 1.. pages %}
 						<li class="page-item {% if i == app.request.get('page')%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{i}})">{{i}}</a>
 						</li>
-					{% endfor %}
+					{% endfor %} #}
+
+<pre>
+	{{ dump(app.request.get('page')) }}
+</pre>
+					<li class="page-item {% if 1 == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{1}})">1</a>
+					</li>
+
+					<li class="page-item {% if app.request.get('page')-1 == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{app.request.get('page')-1}})">{{app.request.get('page')-1}}</a>
+					</li>
+
+					<li class="page-item {% if app.request.get('page') == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{app.request.get('page')}})">{{app.request.get('page')}}</a>
+					</li>
+
+					<li class="page-item {% if app.request.get('page')+1 == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">{{app.request.get('page')+1}}</a>
+					</li>
+
+					<li class="page-item {% if pages == app.request.get('page')%}active{% endif %}">
+							<a class="page-link" onclick="getAuctions({{pages}})">{{pages}}</a>
+					</li>
 
 
 					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
