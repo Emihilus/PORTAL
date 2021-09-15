@@ -56,10 +56,10 @@
 
 <div class="col-md-6">
 
-<button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i class="bi bi-star"></i>Dodaj do ulubionych</button>
+<button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i id="fbu" class="bi bi-star{% if app.user and auction.likedByUsers|length > 0 %}-fill{% endif %}"></i>{% if app.user and auction.likedByUsers|length > 0 %}Usuń z{% else %}Dodaj do{% endif %} ulubionych</button>
 {% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
-    <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i class="bi bi-x"></i>Zakończ teraz</button>
-    <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i class="bi bi-trash"></i>Usuń</button>
+    <button class="btn m-1 btn-secondary" onclick="endNowAuction()"><i class="bi bi-x"></i>Zakończ teraz</button>
+    <button class="btn m-1 btn-secondary" onclick="deleteAuction()"><i class="bi bi-trash"></i>Usuń</button>
 {% endif %}
 {% if (date(auction.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
     <button class="btn m-1 btn-secondary"><i class="bi bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
@@ -675,7 +675,7 @@ function saveCommentChanges(commentId)
 function toggleFavorite(clickedAId)
     {
         let add;
-        if($("#fid_"+clickedAId).hasClass('bi-star'))
+        if($("#fbu").hasClass('bi-star'))
         {
             add = true;
         }
@@ -684,8 +684,6 @@ function toggleFavorite(clickedAId)
             add = false;
         }
 
-        optionsClicked = true;
-        this.clickedId = clickedAId;
 
         if({% if not app.user %}true{% else %}false{% endif %})
         {
@@ -713,16 +711,15 @@ function toggleFavorite(clickedAId)
 
                        if(add)
                        {
-                        $("#fid_"+clickedAId).removeClass('bi-star');
-                        $("#fid_"+clickedAId).addClass('bi-star-fill');
+                        $("#fbu").removeClass('bi-star');
+                        $("#fbu_").addClass('bi-star-fill');
                        }
                        else
                        {
-                        $("#fid_"+clickedAId).addClass('bi-star');
-                        $("#fid_"+clickedAId).removeClass('bi-star-fill');
+                        $("#fbu").addClass('bi-star');
+                        $("#fbu").removeClass('bi-star-fill');
                        }
 
-                       optionsClicked = false;
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
                    }
            });
