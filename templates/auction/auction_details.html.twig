@@ -64,7 +64,7 @@ isDeleted
     <button id="btn_delete" class="btn m-1 btn-secondary" onclick="deleteAuction()"><i class="bi bi-trash"></i>Usuń</button>
 {% endif %}
 {% if (date(auction.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
-    <button class="btn m-1 btn-secondary"><i class="bi bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
+    <button onclick="window.location.href = '{{path('place-acomment',{'auctionId' : auction.id})}}';" class="btn m-1 btn-secondary"><i class="bi bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
 {% endif %}
 
 
