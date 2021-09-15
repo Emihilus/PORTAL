@@ -35,7 +35,7 @@ isDeleted
 {% for image in auction.images %}
 
 <div class="swiper-slide">
-          <img class="img-fluid" src="{{asset (fip~image.filename)}}"/>
+          <img src="{{asset (fip~image.filename)}}"/>
         </div>
 {% endfor %}
 
@@ -48,7 +48,7 @@ isDeleted
 
 {% for image in auction.images %}
 <div  class="swiper-slide">
-          <img class="img-fluid" src="{{asset (fip~image.filename)}}"/>
+          <img src="{{asset (fip~image.filename)}}"/>
         </div>
 {% endfor %}
       </div>
@@ -77,7 +77,7 @@ isDeleted
 <h5>Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
 <br>
 
-<div>
+<div class="text-center">
 <h3>Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
 
 
