@@ -643,14 +643,14 @@ function saveCommentChanges(commentId)
 
     function endNowAuction()
     {
-        {# console.log(clickedId); #}
-        $('.modal-body').html('EXECUTING...');
+        
+                        endsAt = Date.now();
 
-         fetch("{{path('endNowAuction')}}", 
+        /* fetch("{{path('endNowAuction')}}", 
          {
             method: 'POST',
             body: JSON.stringify({
-            'auctionId' : clickedId
+            'auctionId' : {{auction.id}}
             })
         })
         .then((response) => 
@@ -658,16 +658,14 @@ function saveCommentChanges(commentId)
             response.json().then(function(json)
             {
                 {# console.log(json); #}
-                $('.modal-body').html(json.result);
 
                 if(json.result == 'Success')
                     {
-                        $('#aid-'+clickedId).toggleClass('text-secondary');
-                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 600);
+                        endsAt = Date.now();
                     }
             });
         })
-        .catch(() => { /* Error. Inform the user */ })
+        .catch(() => {  })*/
                 
     }
 
@@ -713,11 +711,13 @@ function toggleFavorite(clickedAId)
                        {
                         $("#fbu").removeClass('bi-star');
                         $("#fbu").addClass('bi-star-fill');
+                        $("#fbu_caption").html("Usuń z ulubionych");
                        }
                        else
                        {
                         $("#fbu").addClass('bi-star');
                         $("#fbu").removeClass('bi-star-fill');
+                        $("#fbu_caption").html("Dodaj do ulubionych");
                        }
 
                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
