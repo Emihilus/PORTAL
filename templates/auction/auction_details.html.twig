@@ -60,8 +60,8 @@ isDeleted
 
 <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i id="fbu" class="bi bi-star{% if app.user and auction.likedByUsers|length > 0 %}-fill{% endif %}"></i><span id="fbu_caption">{% if app.user and auction.likedByUsers|length > 0 %}Usuń z{% else %}Dodaj do{% endif %} ulubionych</span></button>
 {% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
-    <button class="btn m-1 btn-secondary" onclick="endNowAuction()"><i class="bi bi-x"></i>Zakończ teraz</button>
-    <button class="btn m-1 btn-secondary" onclick="deleteAuction()"><i class="bi bi-trash"></i>Usuń</button>
+    <button id="btn_endnow" class="btn m-1 btn-secondary" onclick="endNowAuction()"><i class="bi bi-x"></i>Zakończ teraz</button>
+    <button id="btn_delete" class="btn m-1 btn-secondary" onclick="deleteAuction()"><i class="bi bi-trash"></i>Usuń</button>
 {% endif %}
 {% if (date(auction.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
     <button class="btn m-1 btn-secondary"><i class="bi bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
@@ -207,6 +207,8 @@ function auctionTimer()
     else
         {
             timerElement.innerHTML = "Auction ended";
+            $("#timer").removeClass("text-succes");
+            $("#timer").addClass("text-danger");
             $("#offerForm").toggleClass('d-none');
         }
 }
@@ -632,6 +634,8 @@ function saveCommentChanges(commentId)
                     {
                         $("#h1cap").addClass("text-danger");
                         $("#h1cap").html("Aukcja usunięta");
+                        $("#btn_endnow").remove();
+                        $("#btn_delete").remove();
                     }
             });
         })
@@ -657,6 +661,8 @@ function saveCommentChanges(commentId)
                 if(json.result == 'Success')
                     {
                         endsAt = Math.round(Date.now()/1000);
+                        $("#btn_endnow").remove();
+                        $("#btn_delete").remove();
                     }
             });
         })
