@@ -38,7 +38,7 @@
 
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
-      </div>
+      </div> </div>
 
 <div thumbsSlider="" class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -48,6 +48,8 @@
           <img src="{{asset (fip~image.filename)}}" />
         </div>
 {% endfor %}
+      </div>
+    </div>
 
 <h2> Kończy się {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
@@ -148,6 +150,24 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
 <script>
+
+
+var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+      });
+      var swiper2 = new Swiper(".mySwiper2", {
+        spaceBetween: 10,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        thumbs: {
+          swiper: swiper,
+        },
+      });
 
  // TIMER SECTION ///
 let endsAt = "{{auction.endsAt | date('U')}}";
