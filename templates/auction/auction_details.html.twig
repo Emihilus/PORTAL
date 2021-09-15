@@ -56,13 +56,13 @@
 
 <div class="col-md-6">
 
-<button class="btn m-1 btn-secondary"><i class="bi  bi-star"></i>Dodaj do ulubionych</button>
+<button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i class="bi bi-star"></i>Dodaj do ulubionych</button>
 {% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
-    <button class="btn m-1 btn-secondary"><i class="bi  bi-x"></i>Zakończ teraz</button>
-    <button class="btn m-1 btn-secondary"><i class="bi  bi-trash"></i>Usuń</button>
+    <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i class="bi bi-x"></i>Zakończ teraz</button>
+    <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i class="bi bi-trash"></i>Usuń</button>
 {% endif %}
-{% if (date(auction.0.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
-    <button class="btn m-1 btn-secondary"><i class="bi  bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
+{% if (date(auction.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
+    <button class="btn m-1 btn-secondary"><i class="bi bi-chat-left-text"></i>Wystaw komentarz kupującemu</button>
 {% endif %}
 
 
@@ -607,6 +607,130 @@ function saveCommentChanges(commentId)
 	});
 }
 {% endif %}
+
+
+
+
+ function deleteAuction()
+    {
+        {# console.log(clickedId); #}
+        $('.modal-body').html('EXECUTING...');
+
+         fetch("{{path('deleteAuction')}}", 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId
+            })
+        })
+        .then((response) => 
+        {
+            response.json().then(function(json)
+            {
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
+
+                if(json.result == 'Success')
+                    {
+                        $('#aid-'+clickedId).toggleClass('d-none');
+                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 600);
+                    }
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
+                
+    }
+
+    function endNowAuction()
+    {
+        {# console.log(clickedId); #}
+        $('.modal-body').html('EXECUTING...');
+
+         fetch("{{path('endNowAuction')}}", 
+         {
+            method: 'POST',
+            body: JSON.stringify({
+            'auctionId' : clickedId
+            })
+        })
+        .then((response) => 
+        {
+            response.json().then(function(json)
+            {
+                {# console.log(json); #}
+                $('.modal-body').html(json.result);
+
+                if(json.result == 'Success')
+                    {
+                        $('#aid-'+clickedId).toggleClass('text-secondary');
+                        setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 600);
+                    }
+            });
+        })
+        .catch(() => { /* Error. Inform the user */ })
+                
+    }
+
+
+function toggleFavorite(clickedAId)
+    {
+        let add;
+        if($("#fid_"+clickedAId).hasClass('bi-star'))
+        {
+            add = true;
+        }
+        else
+        {
+            add = false;
+        }
+
+        optionsClicked = true;
+        this.clickedId = clickedAId;
+
+        if({% if not app.user %}true{% else %}false{% endif %})
+        {
+            $('#exampleModalCenter').modal('show');
+            return;
+        }
+
+        fetch("{{path('toggleFavoriteAuction')}}", 
+        {
+           method: 'POST',
+           body: JSON.stringify({
+           'auctionId' : clickedAId,
+           add
+           })
+       })
+       .then((response) => 
+       {
+           response.json().then(function(json)
+           {
+               //console.log(json);
+               if(json.result == 'Success')
+                   {
+                       //console.log('entered' + add);
+                      /* add ? function() {console.log('asdas');console.log('dsad');$("#fid_"+clickedAId).removeClass('bi-star');$("#fid_"+clickedAId).addClass('bi-star-fill');} : function() {$("#fid_"+clickedAId).addClass('bi-star');$("#fid_"+clickedAId).removeClass('bi-star-fill');};*/
+
+                       if(add)
+                       {
+                        $("#fid_"+clickedAId).removeClass('bi-star');
+                        $("#fid_"+clickedAId).addClass('bi-star-fill');
+                       }
+                       else
+                       {
+                        $("#fid_"+clickedAId).addClass('bi-star');
+                        $("#fid_"+clickedAId).removeClass('bi-star-fill');
+                       }
+
+                       optionsClicked = false;
+                       setTimeout(() => {$('#exampleModalCenter').modal('hide')}, 1100);
+                   }
+           });
+       })
+       .catch(() => { /* Error. Inform the user */ })
+    }
+
+
 
 </script>
 {% endblock %}
