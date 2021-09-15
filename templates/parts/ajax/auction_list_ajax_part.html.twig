@@ -71,6 +71,7 @@
 			<nav class="mt-2" aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 
+					{#  PREV BUTTON #}
 					<li class="page-item {% if requestedPage == 1 %}disabled{% endif %}">
 						<a class="page-link"  onclick="getAuctions({{requestedPage-1}})">&lt;</a>
 					</li>
@@ -81,22 +82,29 @@
 						</li>
 					{% endfor %} #}
 
+
+
+					{# FIRST BUTTON #}
 					<li class="page-item {% if 1 == requestedPage %}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{1}})">1</a>
 					</li>
+					{# FIRST BUTTON #}
+
+
+
 
 					{% if requestedPage > 2 %}<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage-1}})">{{requestedPage-1}}</a>
 					</li> {% endif %}
 
 
-					{% if requestedPage > 1 and  < pages-1 %}
+					{% if requestedPage > 1 and requestedPage < pages %}
 					<li class="page-item {% if requestedPage == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage}})">{{requestedPage}}</a>
 					</li>
 					{% endif %}
 
-				{% if requestedPage < pages %}
+				{% if requestedPage < pages-1 %}
 					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage+1}})">{{requestedPage+1}}</a>
 					</li>
@@ -107,9 +115,13 @@
 					</li>
 
 
+
+
+					{# NEXT BUTTON  #}
 					<li class="page-item {% if requestedPage == pages %}disabled{% endif %}">
 						<a class="page-link" onclick="getAuctions({{requestedPage+1}})">&gt;</a>
 					</li>
+					{# NEXT BUTTON #}
 					
 				</ul>
 			</nav>
