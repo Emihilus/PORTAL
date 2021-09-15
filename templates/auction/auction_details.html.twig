@@ -56,7 +56,7 @@
 
 <div class="col-md-6">
 
-<button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i id="fbu" class="bi bi-star{% if app.user and auction.likedByUsers|length > 0 %}-fill{% endif %}"></i>{% if app.user and auction.likedByUsers|length > 0 %}Usuń z{% else %}Dodaj do{% endif %} ulubionych</button>
+<button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i id="fbu" class="bi bi-star{% if app.user and auction.likedByUsers|length > 0 %}-fill{% endif %}"></i><span id="fbu_caption">{% if app.user and auction.likedByUsers|length > 0 %}Usuń z{% else %}Dodaj do{% endif %} ulubionych</span></button>
 {% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
     <button class="btn m-1 btn-secondary" onclick="endNowAuction()"><i class="bi bi-x"></i>Zakończ teraz</button>
     <button class="btn m-1 btn-secondary" onclick="deleteAuction()"><i class="bi bi-trash"></i>Usuń</button>
@@ -695,7 +695,7 @@ function toggleFavorite(clickedAId)
         {
            method: 'POST',
            body: JSON.stringify({
-           'auctionId' : clickedAId,
+           'auctionId' : {{auction.id}},
            add
            })
        })
@@ -712,7 +712,7 @@ function toggleFavorite(clickedAId)
                        if(add)
                        {
                         $("#fbu").removeClass('bi-star');
-                        $("#fbu_").addClass('bi-star-fill');
+                        $("#fbu").addClass('bi-star-fill');
                        }
                        else
                        {
