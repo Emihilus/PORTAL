@@ -104,15 +104,20 @@
 					</li>
 					{% endif %}
 
-				{% if requestedPage < pages-1 %}
+					{% if requestedPage < pages-1 %}
 					<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage+1}})">{{requestedPage+1}}</a>
 					</li>
 					{% endif %}
 
+
+					{# LAST BUTTON #}
+					{% if pages > 1 %}
 					<li class="page-item {% if pages == requestedPage%}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{pages}})">{{pages}}</a>
 					</li>
+					{% endif %}
+					{# LAST BUTTON #}
 
 
 
