@@ -74,7 +74,7 @@
 
 
 <div class="d-flex justify-content-center mb-2" id="paginationDiv">
-	<nav class="d-sm-flex mt-2" aria-label="Page navigation example">
+	<nav class="d-md-flex mt-2" aria-label="Page navigation example">
 		<ul class="pagination mb-2">
 
 			{#  PREV BUTTON #}
@@ -172,9 +172,12 @@
 				{% endif %}
 				{# BEGINNING ADDITION #}
 
-				<li class="page-item">
-					<a class="page-link px-1">...</a>
-				</li>
+				{% if requestedPage < pages-2 %}
+					<li class="page-item">
+						<a class="page-link px-1">...</a>
+					</li>
+				{% endif %}
+
 			{% endif %}
 
 
