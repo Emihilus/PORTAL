@@ -125,7 +125,20 @@
 						</li>
 						{% endif %}
 
-						{% if requestedPage < %}{% endif %}
+						{% if requestedPage < 3 %}
+							<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+									<a class="page-link" onclick="getAuctions(4)">4</a>
+							</li>
+
+						{% endif %}
+
+						{% if requestedPage < 2 %}
+							<li class="page-item {% if requestedPage+1 == requestedPage%}active{% endif %}">
+									<a class="page-link" onclick="getAuctions(3)">3</a>
+							</li>
+
+						{% endif %}
+
 						
 
 					{% endif %}
