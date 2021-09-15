@@ -91,8 +91,10 @@
 					{# FIRST BUTTON #}
 
 
-
-
+					{% if pages == 4 %}
+					{% elseif pages == 5 %}
+					{% endif %}
+					{}
 					{% if requestedPage > 2 %}<li class="page-item {% if requestedPage-1 == requestedPage %}active{% endif %}">
 							<a class="page-link" onclick="getAuctions({{requestedPage-1}})">{{requestedPage-1}}</a>
 					</li> {% endif %}
