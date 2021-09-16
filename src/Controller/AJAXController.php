@@ -549,6 +549,11 @@ class AJAXController extends AbstractController
             $auction = $em->getRepository(Auction::class)->find($json->auctionId);
             $comment->setAuction($auction);
 
+            if(isset($json->replyTo))
+            {
+                $comment->setReplyTo($em->getReference('App\Entity\Comment', $json->inReplyTo));
+            }
+
             if(isset($json->inReplyTo))
             {
                 $comments = $em->createQueryBuilder()

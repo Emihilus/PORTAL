@@ -586,7 +586,35 @@ function editComment(commentId)
 
 function replyTo(commentId)
 {
-    $("#comment-"+commentId).after('<form class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTA" rows="3">@Emis: </textarea><button onclick="submitComment()" class="btn-primary btn" type="button">Post comment</button></div></form>');
+    $("#comment-"+commentId).after('<form class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@Emis: </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
+}
+
+function replyToSubmit(commentId)
+{
+    $.ajax({
+            url: "{{path ('postComment') }}",
+            method: "post", 
+            data: JSON.stringify(
+                {'content': $("#commentTArt-"+commentId).val(),
+                'replyTo': commentId,
+                'auctionId': {{auction.id}},
+				'csrf': $("#csrf").val() })
+                })
+        .done(res => 
+        { 
+            if(res.result == "Success")
+            {
+                $("#cids").val($("#cids").val()+','+res.genId);
+                
+                $("#comment-"+commentId).after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTA").val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+
+                $("#commentTA").val('');
+            }
+            else
+            {
+                console.log(res.result);
+            }
+        });
 }
 
 
