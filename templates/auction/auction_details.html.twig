@@ -583,6 +583,13 @@ function editComment(commentId)
     $("#scontent-"+commentId).after('<button id="bcs-'+commentId+'" onclick="saveCommentChanges('+commentId+')" class="btn btn-primary m-1">Zapisz</button><button id="bcc-'+commentId+'" onclick="cancelCommentChanges(\''+commentId+'\')" class="btn btn-primary">Anuluj</button>');
     $("#scontent-"+commentId).html('<textarea class="form-control" id="commentTA-'+commentId+'" rows="3">'+$('#scontent-'+commentId).html()+'</textarea>');
 }
+
+function replyTo(commentId)
+{
+    $("comment-"+commentId).after('');
+}
+
+
 function cancelCommentChanges(commentId)
 {
     $("#scontent-"+commentId).html(window['org-content-of-'+commentId]);
@@ -710,9 +717,6 @@ function toggleFavorite(clickedAId)
                //console.log(json);
                if(json.result == 'Success')
                    {
-                       //console.log('entered' + add);
-                      /* add ? function() {console.log('asdas');console.log('dsad');$("#fid_"+clickedAId).removeClass('bi-star');$("#fid_"+clickedAId).addClass('bi-star-fill');} : function() {$("#fid_"+clickedAId).addClass('bi-star');$("#fid_"+clickedAId).removeClass('bi-star-fill');};*/
-
                        if(add)
                        {
                         $("#fbu").removeClass('bi-star');
