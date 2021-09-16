@@ -5,10 +5,11 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="rounded bg-dark">Details of user
-		{{USR[0][0].username}}</h1>
-
-<h2 id='rate'></h2>
+<div class="row">
+	<h1 class="col-6">{{USR[0][0].username}}</h1>
+<h2 class="col-6" id='rate'></h2>
+</div>
+<hr>
 	Number of auctions EVER issued by this user :
 	<b>
 		{% if USR[0]['Auctions_Issued'] != 0 %}
