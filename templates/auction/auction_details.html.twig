@@ -91,13 +91,13 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 </form>
 
 <div id='backendErrors'></div>
-<div id='offers'>
+<div id='offers justify-content'>
 
 {% if auction.offers|length == 1 %}There are no offers yet{% endif %}
 
 {% for offer in auction.offers|filter(offer => offer.byUser != null) %}
     {# <b>{{offer.byUser.username}} offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br> #}
-    <span class="btn my-1 btn-warning"><b>{{offer.value/100}} PLN</b> offered by <b>{{offer.byUser.username}}</b> at  {{offer.createdAt|date('H:m:s d-m-Y')}}</span> 
+    <span class="btn my-1 btn-warning"><b>{{offer.value/100}} PLN</b> offered by <b>{{offer.byUser.username}}</b> at  {{offer.createdAt|date('H:m:s d-m-Y')}}</span> <br>
 {% endfor %}
 </div>
 
