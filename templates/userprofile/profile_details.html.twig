@@ -164,9 +164,9 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-$("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne: "
+$("#rate").html("Komentarze pozytywne: "
 +$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
-$("#h11").html("{{USR[0][0].username}} <span class='text-"+($("#hid_rate").val() < 0 ? 'danger' : 'success')+"'>"+$("#hid_rate").val()+"</span>");
+$("#h11").html("{{USR[0][0].username}} <b class='text-"+($("#hid_rate").val() < 0 ? 'danger' : 'success')+"'>"+($("#hid_rate").val() < 0 ? '' : '+')+$("#hid_rate").val()+"</b>");
 
 $("#removeReplyOption").val().split(',').forEach((item) => 
 {
