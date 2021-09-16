@@ -586,7 +586,7 @@ function editComment(commentId)
 
 function replyTo(commentId)
 {
-    $("comment-"+commentId).after('');
+    $("#comment-"+commentId).after('<form class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTA" rows="3">@Emis: </textarea><button onclick="submitComment()" class="btn-primary btn" type="button">Post comment</button></div></form>');
 }
 
 
