@@ -118,7 +118,7 @@
 
 				{% if requestedPage > 3 %}
 					<li class="page-item">
-						<a class="page-link px-1">...</a>
+						<a class="page-link px-1" {% if requestedPage == pages-3 %}onclick="getAuctions(2)"{% endif %}>{% if requestedPage == 4 %}2{% else %}...{% endif %}</a>
 					</li>
 				{% endif %}
 
@@ -174,11 +174,7 @@
 
 				{% if requestedPage < pages-2 %}
 					<li class="page-item">
-						<a class="page-link px-1">{% if condition %}
-							
-						{% else %}
-							
-						{% endif %}...</a>
+						<a class="page-link px-1" {% if requestedPage == pages-3 %}onclick="getAuctions({{pages-1}})"{% endif %}>{% if requestedPage == pages-3 %}{{pages-1}}{% else %}...{% endif %}</a>
 					</li>
 				{% endif %}
 
