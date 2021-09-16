@@ -145,7 +145,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
         {% endfor %}
         
 
-            <div id="comment-{{comment.id}}" class="list-group-item-dark rounded p-3">
+            <div id="comment-{{comment.id}}" class="list-group-item-dark rounded m-1 p-3">
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>
                     <b>{{comment.byUser.username}}</b> <br>
