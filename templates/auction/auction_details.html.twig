@@ -36,7 +36,7 @@ isDeleted
 
 {% for image in auction.images %}
 
-<div class="swiper-slide">
+<div class="swiper-slide my-auto">
           <img src="{{asset (fip~image.filename)}}"/>
         </div>
 {% endfor %}
@@ -49,7 +49,7 @@ isDeleted
       <div class="swiper-wrapper">
 
 {% for image in auction.images %}
-<div  class="swiper-slide">
+<div  class="swiper-slide my-auto">
           <img src="{{asset (fip~image.filename)}}"/>
         </div>
 {% endfor %}
