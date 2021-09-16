@@ -22,70 +22,69 @@
 	</span>
 	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 1})}}">--->Show</a><br>
 
-	Liczba sprzedanych aukcji:
+	Sprzedane aukcje:
 	<b class='text-danger'>{{USR[0]['Sold']}}</b>
 	,
-	<b class='text-danger'>Suma $ sprzedanych:
-		{{USR[0]['Sum_Sold']/100}}
+	Łączna wartość:
+		<b class='text-danger'>{{USR[0]['Sum_Sold']/100}}
 		PLN</b>
-	,
 	<B class="text-warning">
-		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">->Show</a>
+		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">Pokaż</a>
 	</b><br>
 
 	Obecnie sprzedaje:
 	<b class='text-danger'>{{USR[0]['Selling']}}</b>,
-	<b class='text-danger'>Suma $ sprzedawanych:
-		{{USR[0]['Sum_Selling']/100}}
-		PLN</b>,
+	Łączna wartość:
+		<b class='text-danger'>{{USR[0]['Sum_Selling']/100}}
+		PLN</b>
 	<B class="text-warning">
-		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">--->Show</a>
+		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">Pokaż</a>
 	</b><br><BR>
 
-	Leading in the following number of aucions :
+	Prowadzi:
 	<b class='text-danger'>{{USR[0]['Leading_In']}}</b>,
-	<span class="text-success">Suma $ in leading auctions:
+	Łączna wartość:
 		<b class='text-danger'>{{USR[0]['Sum_In_Leading']/100}}
 			PLN</b>
-	</span>
-	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 4})}}">--->Show</a><br>
+	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 4})}}">Pokaż</a><br>
 
-	Liczba wygranych aukcji:
-	<b class='text-danger'>{{USR[0]['Won']}}</b>, Suma $ wygranych:
+	Wygrane aukcje:
+	<b class='text-danger'>{{USR[0]['Won']}}</b>, Łączna wartość:
 	<b class='text-danger'>{{USR[0]['Sum_Won']/100}}
 		PLN</b>
 	<B class="text-warning">
-		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 5})}}">--->Show</a>
+		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 5})}}">Pokaż</a>
 	</b><br><BR>
 
 	{# Number of auctions the user is participating in EVER(WRONG)  : <b></b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"><B class="text-warning"--->Show</b></a>  #}
-	<BR><span class="text-success">PARTICIPATING Bierze udział CURRENTLY:
+	<BR>
+	Aktualnie bierze udział:
 		<b class='text-danger'>{{USR[0]['Participating_In']}}</b>,
 		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 6})}}">--->Show</a>
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 6})}}">Pokaż</a>
 		</b>
 	</span><br>
 
-	<span class="text-success">PARTICIPATING Bierze udział ale przegrywa:
+	Bierze udział, ale przegrywa:
 		<b class='text-danger'>{{USR[0]['Participating_In_Not_Leading']}}</b>,
 		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}">--->Show</a>
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}">Pokaż</a>
 		</b>
-	</span><br>
+	<br>
 
-	<span class="text-success">PARTICIPATING Brał udział BRAŁ:
+	Brał udział:
 		<b class='text-danger'>{{USR[0]['Participated_In']}}</b>,
 		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}">--->Show</a>
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}">Pokaż</a>
 		</b>
-	</span><br>
+	<br>
 
-	<span class="text-success">PARTICIPATING Brał udział ale przegrał NIEWYGRAŁ:
+	Przegrał:
 		<b class='text-danger'>{{USR[0]['Participated_In_Not_Leading']}}</b>,
 		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}">--->Show</a>
+			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}">Pokaż</a>
 		</b>
-	</span><br>
+	<br>
 
 	All issued offers :
 	{{USR[0]['All_Offers']}}
