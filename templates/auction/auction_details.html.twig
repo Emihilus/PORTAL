@@ -28,7 +28,7 @@ isDeleted
 {% endfor %} #}
 
 <div class="row">
-<div class="col-md-6">
+<div class="col-lg-6">
 <div
       style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
       class="swiper mySwiper2 bg-dark">
@@ -58,7 +58,7 @@ isDeleted
 
     </div>
 
-<div class="col-md-6">
+<div class="col-lg-6">
 
 <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i id="fbu" class="bi bi-star{% if app.user and auction.likedByUsers|length > 0 %}-fill{% endif %}"></i><span id="fbu_caption">{% if app.user and auction.likedByUsers|length > 0 %}Usuń z{% else %}Dodaj do{% endif %} ulubionych</span></button>
 {% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
@@ -79,6 +79,7 @@ isDeleted
 <h5>Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
 <br>
 
+</div>
 <div class="text-center">
 <h3>Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
 
@@ -96,14 +97,13 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 {% for offer in auction.offers|filter(offer => offer.byUser != null) %}
     {# <b>{{offer.byUser.username}} offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br> #}
-    <span class="btn my-1 btn-warning"><b>{{offer.value/100}} PLN</b><br> offered by <b>{{offer.byUser.username}}</b> at <br> {{offer.createdAt|date('H:m:s d-m-Y')}}</span> <br>
+    <span class="btn my-1 btn-warning"><b>{{offer.value/100}} PLN</b> offered by <b>{{offer.byUser.username}}</b> at  {{offer.createdAt|date('H:m:s d-m-Y')}}</span> 
 {% endfor %}
 </div>
 
 </div>
 </div>
 
-</div>
 
 <hr>
 <p>{{auction.description}}</p>
