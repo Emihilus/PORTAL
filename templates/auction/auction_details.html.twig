@@ -122,7 +122,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
  <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if commentCount == 0 %}No{% else %} {{commentCount}}{% endif %} comments</h3></div>
 <div id="comments-section">
 {% if commentCount > 0 %}
-    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted) %}
+    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted and  not comment.replyTo) %}
         {% if comment.value == -2 %}
 
         {% set iLikeIt = 'false' %}
@@ -152,7 +152,14 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                     <span id="scontent-{{comment.id}}"> {{comment.content}} </span><br>
                     <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == comment.byUser.username) %}<small onclick='editComment({{comment.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}<small class='float-end text-danger me-2' onclick='replyTo({{comment.id}})'>odpowiedz</small>
                 </div>
-            </div> 
+            </div>
+
+            {# REPLIES #}
+
+            {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted) %} 
+
+            {# REPLIES #}
+
         {% endif %}
     {% endfor %}
 {% endif %}
