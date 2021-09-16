@@ -47,7 +47,7 @@
 											<button onclick="deleteAuction()" class="dropdown-item" type="button">Usuń</button>
 										{% endif %}
 										{% if (date(auction.0.endsAt) < date()) and app.user and (app.user.username == auction.hghstOfferOwner) %}
-											<button class="dropdown-item" type="button">Wystaw komentarz</button>
+											<button onclick="window.location.href = '{{path('place-acomment',{'auctionId' : auction.0.id})}}';" class="dropdown-item" type="button">Wystaw komentarz</button>
 										{% endif %}
 									</div>
 								</div>
