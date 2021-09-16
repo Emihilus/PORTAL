@@ -174,7 +174,11 @@
 
 				{% if requestedPage < pages-2 %}
 					<li class="page-item">
-						<a class="page-link px-1">...</a>
+						<a class="page-link px-1">{% if condition %}
+							
+						{% else %}
+							
+						{% endif %}...</a>
 					</li>
 				{% endif %}
 
