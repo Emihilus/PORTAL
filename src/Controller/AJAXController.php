@@ -551,7 +551,7 @@ class AJAXController extends AbstractController
 
             if(isset($json->replyTo))
             {
-                $comment->setReplyTo($em->getReference('App\Entity\Comment', $json->inReplyTo));
+                $comment->setReplyTo($em->getReference('App\Entity\Comment', $json->replyTo));
             }
 
             if(isset($json->inReplyTo))
