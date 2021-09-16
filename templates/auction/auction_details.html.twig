@@ -9,6 +9,8 @@
 
 {% block body %}
 
+{% set commentClasses = ' m-1' %}
+
 {# modal for notify user is not logged in #}
 	{% if not app.user %}
     {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
@@ -145,7 +147,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
         {% endfor %}
         
 
-            <div id="comment-{{comment.id}}" class="list-group-item-dark rounded m-1 p-3">
+            <div id="comment-{{comment.id}}" class="list-group-item-dark rounded p-3{{commentClasses}}">
                 <small class='float-end'>{{comment.createdAt|ago}}</small>
                 <div>
                     <b>{{comment.byUser.username}}</b> <br>
@@ -179,7 +181,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                         {% endif %}
                     {% endfor %}
 
-                    <div id="comment-{{commentR.id}}" class="ms-5 list-group-item-dark rounded p-3">
+                    <div id="comment-{{commentR.id}}" class="ms-5 list-group-item-dark rounded p-3{{commentClasses}}">
                     <small class='float-end'>{{commentR.createdAt|ago}}</small>
                         <div>
                             <b>{{commentR.byUser.username}}</b> <br>
@@ -216,6 +218,9 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 {% block javascripts %}
 {{ parent() }}
+
+
+{% set commentClasses = ' m-1' %}
 
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
@@ -342,7 +347,7 @@ function submitComment()
             {
                 $("#cids").val($("#cids").val()+','+res.genId);
                 
-                $("#comments-section").append('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTA").val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+                $("#comments-section").append('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTA").val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
 
                 $("#commentTA").val('');
             }
@@ -648,7 +653,7 @@ function replyToSubmit(commentId)
             {
                 $("#cids").val($("#cids").val()+','+res.genId);
                 
-                $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+                $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
 
                 $("#rtform-"+commentId).remove();
             }
