@@ -158,13 +158,13 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
             <div id="replies_of-{{comment.id}}">
             {% for commentR in auction.comments|sort|filter(commentR => not commentR.isDeleted and commentR.replyTo == comment) %} 
 
-                {% if comment.value == -2 %}
+                {% if commentR.value == -2 %}
 
                     {% set iLikeIt = 'false' %}
                     {% set iDislikeIt = 'false' %}
                     
                     {% set likesCount = 0 %}
-                    {% for userLike in comment.likedBy %}
+                    {% for userLike in commentR.likedBy %}
                         {% set likesCount = likesCount + 1 %}
                         {% if app.user == userLike %}
                             {% set iLikeIt = 'true' %}
@@ -172,7 +172,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                     {% endfor %}
 
                     {% set dislikesCount = 0 %}
-                    {% for userDislike in comment.dislikedBy %}
+                    {% for userDislike in commentR.dislikedBy %}
                         {% set dislikesCount = dislikesCount + 1 %}
                         {% if app.user == userDislike %}
                             {% set iDislikeIt = 'true' %}
@@ -181,12 +181,12 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
                 {# <span> match {{commentR.id}} and {{comment.id }}</span> #}
 
-                    <div id="commentR-{{commentR.id}}" class="ms-5 list-group-item-dark rounded p-3">
+                    <div id="comment-{{commentR.id}}" class="ms-5 list-group-item-dark rounded p-3">
                 <small class='float-end'>{{commentR.createdAt|ago}}</small>
                 <div>
                     <b>{{commentR.byUser.username}}</b> <br>
                     <span id="scontent-{{commentR.id}}"> {{commentR.content}} </span><br>
-                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentRPointsResult-{{commentR.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{commentR.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{commentR.id}}'>{{dislikesCount}}</b></small><small id='like-{{commentR.id}}' onclick='like({{commentR.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{commentR.id}}' onclick="dislike({{commentR.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{commentR.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == commentR.byUser.username) %}<small onclick='editComment({{commentR.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}<small class='float-end text-danger me-2' onclick='replyTo({{comment.id}},"{{commentR.byUser.username}}")'>odpowiedz</small>
+                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{commentR.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{commentR.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{commentR.id}}'>{{dislikesCount}}</b></small><small id='like-{{commentR.id}}' onclick='like({{commentR.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{commentR.id}}' onclick="dislike({{commentR.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{commentR.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == commentR.byUser.username) %}<small onclick='editComment({{commentR.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}<small class='float-end text-danger me-2' onclick='replyTo({{comment.id}},"{{commentR.byUser.username}}")'>odpowiedz</small>
                 </div>
             </div>
 
@@ -630,7 +630,7 @@ function editComment(commentId)
 
 function replyTo(commentId, username)
 {
-    $("#replies_of-"+commentId).after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
+    $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
 }
 
 function replyToSubmit(commentId)
@@ -650,7 +650,7 @@ function replyToSubmit(commentId)
             {
                 $("#cids").val($("#cids").val()+','+res.genId);
                 
-                $("#comment-"+commentId).after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+                $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
 
                 $("#rtform-"+commentId).remove();
             }
