@@ -150,7 +150,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
                 <div>
                     <b>{{comment.byUser.username}}</b> <br>
                     <span id="scontent-{{comment.id}}"> {{comment.content}} </span><br>
-                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == comment.byUser.username) %}<small onclick='editComment({{comment.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}<small class='float-end text-danger me-2' onclick='replyTo({{comment.id}})'>odpowiedz</small>
+                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentPointsResult-{{comment.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{comment.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{comment.id}}'>{{dislikesCount}}</b></small><small id='like-{{comment.id}}' onclick='like({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{comment.id}}' onclick="dislike({{comment.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{comment.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == comment.byUser.username) %}<small onclick='editComment({{comment.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}<small class='float-end text-danger me-2' onclick='replyTo({{comment.id}},"{{comment.byUser.username}}")'>odpowiedz</small>
                 </div>
             </div>
 
@@ -160,29 +160,38 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
                 {% if comment.value == -2 %}
 
-                {% set iLikeIt = 'false' %}
-                {% set iDislikeIt = 'false' %}
-                
-                {% set likesCount = 0 %}
-                {% for userLike in comment.likedBy %}
-                    {% set likesCount = likesCount + 1 %}
-                    {% if app.user == userLike %}
-                        {% set iLikeIt = 'true' %}
-                    {% endif %}
-                {% endfor %}
+                    {% set iLikeIt = 'false' %}
+                    {% set iDislikeIt = 'false' %}
+                    
+                    {% set likesCount = 0 %}
+                    {% for userLike in comment.likedBy %}
+                        {% set likesCount = likesCount + 1 %}
+                        {% if app.user == userLike %}
+                            {% set iLikeIt = 'true' %}
+                        {% endif %}
+                    {% endfor %}
 
-                {% set dislikesCount = 0 %}
-                {% for userDislike in comment.dislikedBy %}
-                    {% set dislikesCount = dislikesCount + 1 %}
-                    {% if app.user == userDislike %}
-                        {% set iDislikeIt = 'true' %}
-                    {% endif %}
-                {% endfor %}
+                    {% set dislikesCount = 0 %}
+                    {% for userDislike in comment.dislikedBy %}
+                        {% set dislikesCount = dislikesCount + 1 %}
+                        {% if app.user == userDislike %}
+                            {% set iDislikeIt = 'true' %}
+                        {% endif %}
+                    {% endfor %}
 
+                {# <span> match {{commentR.id}} and {{comment.id }}</span> #}
 
+                    <div id="commentR-{{commentR.id}}" class="ms-5 list-group-item-dark rounded p-3">
+                <small class='float-end'>{{commentR.createdAt|ago}}</small>
+                <div>
+                    <b>{{commentR.byUser.username}}</b> <br>
+                    <span id="scontent-{{commentR.id}}"> {{commentR.content}} </span><br>
+                    <small><b class="{% if (likesCount-dislikesCount) < 0 %}text-danger{% elseif likesCount-dislikesCount > 0 %}text-success{% endif %}" id="commentRPointsResult-{{commentR.id}}" onclick="switchLikeMode(true)">{{likesCount-dislikesCount}}</b><b class="{% if likesCount < 0 %}text-danger {% elseif likesCount-dislikesCount > 0 %}text-success {% endif %} d-none" onclick="switchLikeMode(false)" id='lc-{{commentR.id}}'>{{likesCount}}</b><b class="{% if dislikesCount < 0 %}text-success {% elseif dislikesCount > 0 %}text-danger {% endif %}ms-1 d-none" onclick="switchLikeMode(false)" id='dlc-{{commentR.id}}'>{{dislikesCount}}</b></small><small id='like-{{commentR.id}}' onclick='like({{commentR.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})' class="text-success"><i class="bi bi-hand-thumbs-up{% if iLikeIt == 'true' %}-fill{% endif %}"></i></small> <small id='dislike-{{commentR.id}}' onclick="dislike({{commentR.id}},{{iLikeIt}},{{iDislikeIt}},{{likesCount}},{{dislikesCount}})" class="text-danger"><i class="bi bi-hand-thumbs-down{% if iDislikeIt == 'true' %}-fill{% endif %}"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick='adminDeleteComment({{commentR.id}})' class='float-end text-danger me-2'>usuń</small>{% endif %}{% if is_granted('ROLE_ADMIN') or (app.user and app.user.username == commentR.byUser.username) %}<small onclick='editComment({{commentR.id}})' class='float-end text-danger me-2'>edytuj</small>{% endif %}<small class='float-end text-danger me-2' onclick='replyTo({{comment.id}},'{{comment.byUser.username}}')'>odpowiedz</small>
+                </div>
+            </div>
 
+                {% endif %}
 
-            <span> match {{commentR.id}} and {{comment.id }}</span>
             {% endfor %}
 
             {# REPLIES #}
