@@ -6,7 +6,7 @@
 
 {% block body %}
 <div class="row">
-	<span class="col-6 d-inline h1 mt-auto">{{USR[0][0].username}} <span class="</span>
+	<span id="h11" class="col-6 d-inline h1 mt-auto">{{USR[0][0].username}} </span>
 	<span class="col-6 d-inline" id='rate'></span>
 </div>
 <hr>
@@ -166,6 +166,7 @@
 <script>
 $("#rate").html("Punkty użytkownika: "+$("#hid_rate").val()+"<br>Komentarze pozytywne: "
 +$("#hid_pos").val()+"<br>Komentarze negatywne: "+$("#hid_neg").val()+"<br>Komentarze neutralne: "+$("#hid_neu").val());
+$("#h11").html("{{USR[0][0].username}} <span class='text-"+($("#hid_rate").val() < 0 ? 'danger' : 'success')+"'>"+$("#hid_rate").val()+"</span>");
 
 $("#removeReplyOption").val().split(',').forEach((item) => 
 {
