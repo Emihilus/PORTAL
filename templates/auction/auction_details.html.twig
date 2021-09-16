@@ -155,7 +155,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
             </div>
 
             {# REPLIES #}
-
+            <div id="replies_of-{{comment.id}}">
             {% for commentR in auction.comments|sort|filter(commentR => not commentR.isDeleted and commentR.replyTo == comment) %} 
 
                 {% if comment.value == -2 %}
@@ -195,6 +195,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
             {% endfor %}
 
             {# REPLIES #}
+            </div>
 
         {% endif %}
     {% endfor %}
@@ -629,7 +630,7 @@ function editComment(commentId)
 
 function replyTo(commentId, username)
 {
-    $("#comment-"+commentId).after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
+    $("#replies_of-"+commentId).after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
 }
 
 function replyToSubmit(commentId)
