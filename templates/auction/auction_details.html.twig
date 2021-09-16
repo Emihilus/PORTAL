@@ -122,7 +122,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
  <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if commentCount == 0 %}No{% else %} {{commentCount}}{% endif %} comments</h3></div>
 <div id="comments-section">
 {% if commentCount > 0 %}
-    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted and  not comment.replyTo) %}
+    {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted and not comment.replyTo) %}
         {% if comment.value == -2 %}
 
         {% set iLikeIt = 'false' %}
@@ -156,7 +156,34 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
             {# REPLIES #}
 
-            {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted) %} 
+            {% for commentR in auction.comments|sort|filter(commentR => not commentR.isDeleted and commentR.replyTo == comment) %} 
+
+                {% if comment.value == -2 %}
+
+                {% set iLikeIt = 'false' %}
+                {% set iDislikeIt = 'false' %}
+                
+                {% set likesCount = 0 %}
+                {% for userLike in comment.likedBy %}
+                    {% set likesCount = likesCount + 1 %}
+                    {% if app.user == userLike %}
+                        {% set iLikeIt = 'true' %}
+                    {% endif %}
+                {% endfor %}
+
+                {% set dislikesCount = 0 %}
+                {% for userDislike in comment.dislikedBy %}
+                    {% set dislikesCount = dislikesCount + 1 %}
+                    {% if app.user == userDislike %}
+                        {% set iDislikeIt = 'true' %}
+                    {% endif %}
+                {% endfor %}
+
+
+
+
+            <span> match {{commentR.id}} and {{comment.id }}</span>
+            {% endfor %}
 
             {# REPLIES #}
 
