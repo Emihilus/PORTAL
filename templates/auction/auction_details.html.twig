@@ -635,7 +635,15 @@ function editComment(commentId)
 
 function replyTo(commentId, username)
 {
-    $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
+    if($("#formulage").length == 0)
+    {
+        $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div id="formulage" class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn m-2" type="button">Post comment</button><button type="button" class="m-2 btn-primary btn" onclick="cancelReplyTo('+commentId+')">Anuluj</button></div></form>');
+    }
+}
+
+function cancelReplyTo(commentId)
+{
+    $("#rtform-"+commentId).remove();
 }
 
 function replyToSubmit(commentId)
