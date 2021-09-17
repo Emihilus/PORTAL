@@ -68,7 +68,7 @@ function previewFile(file, length)
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
 
     count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
-    back.innerHTML = "back";
+    back.innerHTML = "<i class='bi bg-primary bi-arrow-up'></i>";
     back.setAttribute("onclick", "reorder(0,"+count+")");
     previewContainer.appendChild(back);
     
@@ -79,12 +79,12 @@ function previewFile(file, length)
 
 
     count == length ? next.className="next-pbutton d-none" : next.className="next-pbutton";
-    next.innerHTML = "next";
+    next.innerHTML = "<i class='bi bg-primary bi-arrow-down'></i>";
     next.setAttribute("onclick", "reorder(1,"+count+")");
     previewContainer.appendChild(next);
 
 
-    removeButton.innerHTML='delete';
+    removeButton.innerHTML="<i class='bi bg-secondary bi-x'></i>";
     removeButton.className = 'remove-pbutton';
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
     previewContainer.appendChild(removeButton);
