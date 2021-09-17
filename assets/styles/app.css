@@ -278,12 +278,12 @@ h1
 }
 
 .mySwiper2 {
-  height: auto;
+  height: 50vh;
   width: 100%;
 }
 
 .mySwiper {
-  height: 20%;
+  height: 15vh;
   box-sizing: border-box;
   padding: 10px 0;
 }
@@ -300,7 +300,8 @@ h1
 
 .swiper-slide img {
   display: block;
+  background-color: #000;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }

@@ -37,7 +37,7 @@ isDeleted
 {% for image in auction.images %}
 
 <div class="swiper-slide my-auto">
-          <img src="{{asset (fip~image.filename)}}"/>
+          <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}"/>
         </div>
 {% endfor %}
 
@@ -236,7 +236,7 @@ var swiper = new Swiper(".mySwiper", {
         watchSlidesProgress: true,
       });
 
-      
+
       var swiper2 = new Swiper(".mySwiper2", {
         spaceBetween: 10,
         height:'500', 
