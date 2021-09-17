@@ -17,7 +17,6 @@
 {{ form_row(form.description) }}
 {{ form_row(form.endsAt) }}
 
-{{form_end(form)}}
 
 <div id="drop-area">
   <form class="my-form">
@@ -29,6 +28,9 @@
     <label class="btn-primary btn" for="fileElem">Drag & drop or select files</label>
   </form>
 </div>
+
+
+{{form_end(form)}}
 
 {% endblock %}
 
