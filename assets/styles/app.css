@@ -335,10 +335,13 @@ h1
 .preview-container
 {
   display:inline-block;
+  position: relative;
 }
 
 #drop-area
 {
   background-color: #2A2727;
 }
+
+back-pbutton
 
