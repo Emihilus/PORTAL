@@ -232,15 +232,12 @@ var swiper = new Swiper(".mySwiper", {
         spaceBetween: 10,
         slidesPerView: 4,
         freeMode: false,
-        height:'500', 
-        autoWidth:true,
         watchSlidesProgress: true,
       });
 
 
       var swiper2 = new Swiper(".mySwiper2", {
         spaceBetween: 10,
-        height:'500', 
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
@@ -249,6 +246,8 @@ var swiper = new Swiper(".mySwiper", {
           swiper: swiper,
         },
       });
+
+Fancybox.defaults.backFocus = false;
 
  // TIMER SECTION ///
 let endsAt = "{{auction.endsAt | date('U')}}";
