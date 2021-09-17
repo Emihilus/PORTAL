@@ -16,7 +16,7 @@
     {{ include('parts/include/ht_modal_not_logged_in.twig')  }}
 	{% endif %}
 
-<h1 id="h1cap">Aukcja pieca {{auction.title}}</h1>
+<span class="h1" id="h1cap">Aukcja pieca {{auction.title}}</span>
 <BR>
 
 {% if auction.isDeleted %}
@@ -70,12 +70,12 @@ isDeleted
 {% endif %}
 
 
-<h3 id="end_caption">Zakończenie: {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
+<h5 id="end_caption">Zakończenie: {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
-<h3>Czas do końca: <span class="text-success" id='timer'></span> </h2>
+<h5>Czas do końca: <span class="text-success" id='timer'></span> </h2>
 <br>
-<h3>Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
+<h5>Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
 <h5>Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
 <br>
 
