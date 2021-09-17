@@ -38,6 +38,9 @@
 
 {% block javascripts %}
 {{ parent() }}
+{% set bCA = ' btn btn-primary' %}
+
+
 <script>
 const TOKEN = Math.random().toString(36).replace(/[^a-z]+/g, '');
 document.getElementById('upload-token').setAttribute('value', TOKEN)
@@ -67,10 +70,9 @@ function previewFile(file, length)
     previewContainer.className="preview-container";
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
 
-    count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
+    count == 1 ? back.className="back-pbutton d-none{{bCA}}" :  back.className="back-pbutton{{bCA}}";
     back.innerHTML = "<i class='bi  bi-arrow-up'></i>";
     back.setAttribute("onclick", "reorder(0,"+count+")");
-    $(back).addClass('btn btn-primary');
     previewContainer.appendChild(back);
     
 
@@ -79,17 +81,15 @@ function previewFile(file, length)
     previewContainer.appendChild(img);
 
 
-    count == length ? next.className="next-pbutton d-none" : next.className="next-pbutton";
+    count == length ? next.className="next-pbutton d-none{{bCA}}" : next.className="next-pbutton{{bCA}}";
     next.innerHTML = "<i class='bi  bi-arrow-down'></i>";
     next.setAttribute("onclick", "reorder(1,"+count+")");
-    $(next).addClass('btn btn-primary');
     previewContainer.appendChild(next);
 
 
     removeButton.innerHTML="<i class='bi  bi-x'></i>";
-    removeButton.className = 'remove-pbutton';
+    removeButton.className = 'remove-pbutton{{bCA}}';
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
-    $(removeButton).addClass('btn btn-primary');
     previewContainer.appendChild(removeButton);
 
   
@@ -188,7 +188,7 @@ function reassignOnclickButtonsAndCalcNewOrder()
   for (let item of setToReassignOnclickButtons) 
   {
     item.setAttribute("onclick", "reorder(1,"+counter+")");
-    counter == setToReassignOnclickButtons.length ? item.className = 'next-pbutton d-none' : item.className = 'next-pbutton';
+    counter == setToReassignOnclickButtons.length ? item.className = 'next-pbutton d-none' : item.className = 'next-pbutton{{bCA}}';
     counter++;
   }
 
@@ -198,7 +198,7 @@ function reassignOnclickButtonsAndCalcNewOrder()
   for (let item of setToReassignOnclickButtons) 
   {
     item.setAttribute("onclick", "reorder(0,"+counter+")");
-    counter == 1 ? item.className = 'back-pbutton d-none' : item.className = 'back-pbutton';
+    counter == 1 ? item.className = 'back-pbutton d-none{{bCA}}' : item.className = 'back-pbutton{{bCA}}';
     counter++;
   }
 
