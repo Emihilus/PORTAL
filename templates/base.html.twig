@@ -177,6 +177,7 @@
 				$('#bell').click(function(e)
 				{
 
+					e.stopPropagation();
 					var color = $(this).text();
 					if(down)
 					{
@@ -200,17 +201,16 @@
 
 				$(window).click(function() 
 				{
-					console.log($("#box").css("display"));
-					if($("#box").css("display") != 'none')
+					if(down)
 					{
-						$("#box").css("display","none");
+						$('#box').css('display', 'none');
+						$('#box').css('z-index', 0);
+						$('#box').css('height','0px');
+						$('#box').css('opacity','0');
+						down = false;
 					}
 				});
 
-				$('#bell').click(function(event)
-				{
-					event.stopPropagation();
-				});
 				$('#box').click(function(event)
 				{
 					event.stopPropagation();
