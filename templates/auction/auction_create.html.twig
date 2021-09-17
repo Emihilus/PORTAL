@@ -38,7 +38,7 @@
 
 {% block javascripts %}
 {{ parent() }}
-{% set bCA = ' btn btn-primary' %}
+{% set bCA = ' btn btn-primary btn-circle btn-sm' %}
 
 
 <script>
@@ -71,7 +71,7 @@ function previewFile(file, length)
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier);
 
     count == 1 ? back.className="back-pbutton d-none{{bCA}}" :  back.className="back-pbutton{{bCA}}";
-    back.innerHTML = "<i class='bi  bi-arrow-up'></i>";
+    back.innerHTML = "<i class='bi bi-arrow-up'></i>";
     back.setAttribute("onclick", "reorder(0,"+count+")");
     previewContainer.appendChild(back);
     
@@ -82,12 +82,12 @@ function previewFile(file, length)
 
 
     count == length ? next.className="next-pbutton d-none{{bCA}}" : next.className="next-pbutton{{bCA}}";
-    next.innerHTML = "<i class='bi  bi-arrow-down'></i>";
+    next.innerHTML = "<i class='bi bi-arrow-down'></i>";
     next.setAttribute("onclick", "reorder(1,"+count+")");
     previewContainer.appendChild(next);
 
 
-    removeButton.innerHTML="<i class='bi  bi-x'></i>";
+    removeButton.innerHTML="<i class='bi bi-x'></i>";
     removeButton.className = 'remove-pbutton{{bCA}}';
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
     previewContainer.appendChild(removeButton);
