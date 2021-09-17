@@ -197,6 +197,26 @@
 					}
 
 				});
+
+				$(window).click(function() 
+				{
+					console.log($("#box").css("display"));
+					if($("#box").css("display") != 'none')
+					{
+						$("#box").css("display","none");
+					}
+				});
+
+				$('#bell').click(function(event)
+				{
+					event.stopPropagation();
+				});
+				$('#box').click(function(event)
+				{
+					event.stopPropagation();
+				});
+
+
 			getNotifications();
 			});
 
