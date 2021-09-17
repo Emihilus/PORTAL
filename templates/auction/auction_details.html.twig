@@ -230,12 +230,13 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 var swiper = new Swiper(".mySwiper", {
         spaceBetween: 10,
         slidesPerView: 4,
-        freeMode: true,
+        freeMode: false,
         autoWidth:true,
         watchSlidesProgress: true,
       });
       var swiper2 = new Swiper(".mySwiper2", {
         spaceBetween: 10,
+        height:'500px', 
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
