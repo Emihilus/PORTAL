@@ -60,16 +60,17 @@ function previewFile(file, length)
   reader.onloadend = function() 
   {
     let previewContainer = document.createElement('div');
-    let back = document.createElement('span');
-    let next = document.createElement('span');
-    let removeButton = document.createElement('span');
+    let back = document.createElement('button');
+    let next = document.createElement('button');
+    let removeButton = document.createElement('button');
 
     previewContainer.className="preview-container";
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier)
 
     count == 1 ? back.className="back-pbutton d-none" :  back.className="back-pbutton";
-    back.innerHTML = "<i class='bi bg-primary bi-arrow-up'></i>";
+    back.innerHTML = "<i class='bi  bi-arrow-up'></i>";
     back.setAttribute("onclick", "reorder(0,"+count+")");
+    $(back).addClass('btn btn-primary');
     previewContainer.appendChild(back);
     
 
@@ -79,14 +80,16 @@ function previewFile(file, length)
 
 
     count == length ? next.className="next-pbutton d-none" : next.className="next-pbutton";
-    next.innerHTML = "<i class='bi bg-primary bi-arrow-down'></i>";
+    next.innerHTML = "<i class='bi  bi-arrow-down'></i>";
     next.setAttribute("onclick", "reorder(1,"+count+")");
+    $(next).addClass('btn btn-primary');
     previewContainer.appendChild(next);
 
 
-    removeButton.innerHTML="<i class='bi bg-secondary bi-x'></i>";
+    removeButton.innerHTML="<i class='bi  bi-x'></i>";
     removeButton.className = 'remove-pbutton';
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
+    $(removeButton).addClass('btn btn-primary');
     previewContainer.appendChild(removeButton);
 
   
