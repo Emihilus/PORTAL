@@ -45,7 +45,7 @@ isDeleted
       </div> <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div> </div>
 
-<div thumbsSlider="" class="swiper mySwiper bg-dark">
+<div thumbsSlider="" class="swiper mySwiper">
       <div class="swiper-wrapper">
 
 {% for image in auction.images %}
@@ -636,47 +636,6 @@ function editComment(commentId)
     $("#scontent-"+commentId).html('<textarea class="form-control" id="commentTA-'+commentId+'" rows="3">'+$('#scontent-'+commentId).html()+'</textarea>');
 }
 
-function replyTo(commentId, username)
-{
-    if($("#formulage").length == 0)
-    {
-        $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div id="formulage" class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn m-2" type="button">Post comment</button><button type="button" class="m-2 btn-primary btn" onclick="cancelReplyTo('+commentId+')">Anuluj</button></div></form>');
-    }
-}
-
-function cancelReplyTo(commentId)
-{
-    $("#rtform-"+commentId).remove();
-}
-
-function replyToSubmit(commentId)
-{
-    $.ajax({
-            url: "{{path ('postComment') }}",
-            method: "post", 
-            data: JSON.stringify(
-                {'content': $("#commentTArt-"+commentId).val(),
-                'replyTo': commentId,
-                'auctionId': {{auction.id}},
-				'csrf': $("#csrf").val() })
-                })
-        .done(res => 
-        { 
-            if(res.result == "Success")
-            {
-                $("#cids").val($("#cids").val()+','+res.genId);
-                
-                $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
-
-                $("#rtform-"+commentId).remove();
-            }
-            else
-            {
-                console.log(res.result);
-            }
-        });
-}
-
 
 function cancelCommentChanges(commentId)
 {
@@ -711,6 +670,53 @@ function saveCommentChanges(commentId)
 }
 {% endif %}
 
+
+
+
+function replyTo(commentId, username)
+{
+    if($("#formulage").length == 0)
+    {
+        $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div id="formulage" class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn m-2" type="button">Post comment</button><button type="button" class="m-2 btn-primary btn" onclick="cancelReplyTo('+commentId+')">Anuluj</button></div></form>');
+    }
+}
+
+function cancelReplyTo(commentId)
+{
+    $("#rtform-"+commentId).remove();
+}
+
+function replyToSubmit(commentId)
+{
+    if ({% if app.user %}true{% else % }false{% endif %})
+    {
+        $.ajax({
+                url: "{{path ('postComment') }}",
+                method: "post", 
+                data: JSON.stringify(
+                    {'content': $("#commentTArt-"+commentId).val(),
+                    'replyTo': commentId,
+                    'auctionId': {{auction.id}},
+                    'csrf': $("#csrf").val() })
+                    })
+            .done(res => 
+            { 
+                if(res.result == "Success")
+                {
+                    $("#cids").val($("#cids").val()+','+res.genId);
+                    
+                    $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+
+                    $("#rtform-"+commentId).remove();
+                }
+                else
+                {
+                    console.log(res.result);
+                }
+            });
+    }
+    else
+}
 
 
 
