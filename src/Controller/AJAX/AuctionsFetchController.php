@@ -25,7 +25,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Route("/ep")
  */
-class FetchAuctionsController extends AbstractController
+class AuctionsFetchController extends AbstractController
 {
     public function __construct(PaginatorInterface $paginator)
     {
