@@ -10,8 +10,8 @@ class RootPathTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
-
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('div', 'Hello World');
+        $crawler = $client->followRedirects();
+        $this->assertResponseStatusCodeSame(301);
+        $this->assertSelectorTextContains('div', 'KOPYRAJT');
     }
 }
