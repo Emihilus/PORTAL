@@ -336,6 +336,8 @@ h1
 {
   display:inline-block;
   position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 #drop-area
@@ -355,12 +357,11 @@ h1
   position: absolute;
   right:0;
   top: 50%;
-  transform: translateY(-50%) translateX(-100%);
+  transform: translateY(-50%);
 }
 
 .remove-pbutton
 {
   position: absolute;
   right:0;
-  transform: translateY(-50%) translateX(-100%);
 }
