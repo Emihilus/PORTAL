@@ -47,12 +47,9 @@ class OfferController extends AbstractController
             $offer->setAuction($auctionWithHghstOffer[0]);
             $offer->setByUser($this->getUser());
 
-            // dump(count($auctionWithHghstOffer[0]->getOffers()));
-            $highestValue = 0 ;
-            $highestId = 0;
+            dump(count($auctionWithHghstOffer[0]->getOffers()));
             foreach ($auctionWithHghstOffer[0]->getOffers() as $offer)
             {
-                if($highestV)
                 dump($offer);
             }
             

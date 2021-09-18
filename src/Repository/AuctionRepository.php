@@ -161,8 +161,8 @@ class AuctionRepository extends ServiceEntityRepository
             ->leftJoin('a.offers', 'o')
             ->addSelect('MAX(o.Value)')
             ->Where('a.id = :val')
-            ->groupBy('a.id')
             ->setParameter('val', $value)
+            ->orderBy('o.Value', 'DESC')
             ->getQuery()
             ->getOneOrNullResult()
         ;
