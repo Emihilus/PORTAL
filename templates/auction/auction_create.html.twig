@@ -168,15 +168,15 @@ function reorder(task, clicked)
     let counter = 1;
   copy.forEach((item) => 
   {
-    rootGallerySet.appendChild(item);
+    pvWrapper.appendChild(item);
     if(counter == 1)
         {
             let separator = document.createElement('hr');
-            rootGallerySet.appendChild(separator);   
+            pvWrapper.appendChild(separator);   
         }
     counter++;
   });
-
+  rootGallerySet.appendChild(pvWrapper);
   reassignOnclickButtonsAndCalcNewOrder();
 
 }
