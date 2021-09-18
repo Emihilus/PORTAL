@@ -343,5 +343,24 @@ h1
   background-color: #2A2727;
 }
 
-back-pbutton
+.back-pbutton
+{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
+.next-pbutton
+{
+  position: absolute;
+  right:0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-100%);
+}
+
+.remove-pbutton
+{
+  position: absolute;
+  right:0;
+  transform: translateY(-50%) translateX(-100%);
+}
