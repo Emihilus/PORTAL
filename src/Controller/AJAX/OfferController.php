@@ -46,7 +46,7 @@ class OfferController extends AbstractController
             $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
             $offer->setAuction($auctionWithHghstOffer[0]);
             $offer->setByUser($this->getUser());
-
+            
             $validatorErrors = $validator->validate($offer);
 
             if (count($validatorErrors) == 0 && $auctionWithHghstOffer[1]+99 < $json->offerValue) 
