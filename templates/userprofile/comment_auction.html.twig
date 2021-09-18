@@ -17,11 +17,10 @@
 						<b>{{auction.title}}</b>
 					</span>
 					<span>
-						ends{{ auction.endsAt|ago }}
+						ends {{ auction.endsAt|ago }}
 					</span>
 				</div>
-				HO:
-				<b>{{auction.offers[0].Value}}
+				<b>{{auction.offers[0].Value/100}}
 					PLN</b>
 
 			</a>
