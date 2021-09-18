@@ -91,7 +91,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 </form>
 
 <div id='backendErrors'></div>
-<div id='offers justify-content'>
+<div id='offers'>
 
 {% if auction.offers|length == 1 %}There are no offers yet{% endif %}
 
@@ -319,7 +319,7 @@ function makeOffer()
             else
             {
                 let container = document.createElement('div');
-                container.innerHTML = '<b>{{app.user}} offers '+offerValue+' PLN</b> triggered at '+new Date(Date.now()).toLocaleString()+"<br>";
+                container.innerHTML = '<span class="btn my-1 btn-warning"><b>{{app.user}} offers '+offerValue+' PLN</b> triggered at '+new Date(Date.now()).toLocaleString()+"</span><br>";
                 document.getElementById('offers').prepend(container);
                 $("#offerInput").attr('min', ((res.recv+100)/100));
             }
