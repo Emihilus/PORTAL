@@ -21,7 +21,7 @@
 
 <div id="drop-area">
   {# <form class="my-form"> #}
-    {# <b class="d-block my-0 mb-sm-4">Dołącz zdjęcia</b> #}
+    <b id="thi" class="d-none my-0 mb-sm-4">Główna miniaturka</b>
     {# <i class="bi bi-plus-circle" style="font-size:2em;"></i> #}
     <img id="d-img" src="{{asset('interface/add_photo.png')}}" width="110"/>
     <progress id="progress-bar" class="d-none" max=100 value=0></progress>
@@ -101,21 +101,16 @@ function previewFile(file, length)
 
     console.log(document.getElementById('image-order').value);
 
-    if(count == 1)// && document.getElementById('image-order').value == '')
+    if(count == 1)
     {
         let separator = document.createElement('hr');
         document.getElementById('gallery').appendChild(separator);   
     }
     imgInitialIdentifier++;
 
-    
-  //  console.log(count +" " + length);
-//  if(count == length)
-  //{
-   // console.log(count +" " + length);
     reorder(-1,-1);
     setTimeout(reassignOnclickButtonsAndCalcNewOrder, 500);
-  //}
+  
 
   }
 }
@@ -123,7 +118,7 @@ function previewFile(file, length)
 function reorder(task, clicked)
 {
   let rootGallerySet = document.getElementById('gallery');
-  let pvWrapper = document.createElement('div');
+  //let pvWrapper = document.createElement('div');
   let items = rootGallerySet.getElementsByClassName('preview-container');
   let copy = new Array();
 
@@ -175,11 +170,15 @@ function reorder(task, clicked)
   {
     $("#d-img").addClass('d-inline-block');
     $("#d-img").removeClass('d-none');
+    $("#thi").removeClass("d-block");
+    $("#thi").addClass("d-none");
   }
   else
   {
     $("#d-img").removeClass('d-block');
     $("#d-img").addClass('d-none');
+    $("#thi").addClass("d-block");
+    $("#thi").removeClass("d-none");
   }
 
 
@@ -188,15 +187,15 @@ function reorder(task, clicked)
     let counter = 1;
   copy.forEach((item) => 
   {
-    pvWrapper.appendChild(item);
+    rootGallerySet.appendChild(item);
     if(counter == 1)
         {
             let separator = document.createElement('hr');
-            pvWrapper.appendChild(separator);   
+            rootGallerySet.appendChild(separator);   
         }
     counter++;
   });
-  rootGallerySet.appendChild(pvWrapper);
+  //rootGallerySet.appendChild(pvWrapper);
   reassignOnclickButtonsAndCalcNewOrder();
 
 }
@@ -264,10 +263,6 @@ function handleFiles(files)
   {
     uploadFile(file, files.length)
   });
-  /*files.forEach((file) => 
-  {
-    ;
-  })*/
 }
 
 
