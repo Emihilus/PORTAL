@@ -135,6 +135,8 @@ class AJAXController extends AbstractController
         ]);
     }
 
+
+    // GET AUCTIONS FOR PLACING CUSTOMER COMMENTS
     /**
      * @Route("/getAllCAuctions", name="getAllCAuctions", methods={"POST"})
      */
@@ -163,7 +165,10 @@ class AJAXController extends AbstractController
             'itemsPerPage' => $itemsPerPage
         ]);
     }
+    // GET AUCTIONS FOR PLACING CUSTOMER COMMENTS
 
+
+    // AUTOCOMPLETE GET AUCTIONS
     /**
      * @Route("/getAuctionsAutocomplete", name="getAuctionsAutocomplete", methods={"POST"})
      */
@@ -222,7 +227,6 @@ class AJAXController extends AbstractController
                 break;
         }
 
-
         if ($json->mMode < 4) 
         {
             $queryFunction = 'qBuilder' . $method;
@@ -247,7 +251,10 @@ class AJAXController extends AbstractController
             'auctions' => $auctionTitles
         ]);
     }
+    // AUTOCOMPLETE GET AUCTIONS
 
+
+    // UPLOAD TEMPORARY IMAGES
     /**
      * @Route("/uploadTemporary", name="uploadTemporary", methods={"POST"})
      */
@@ -287,9 +294,10 @@ class AJAXController extends AbstractController
         else
             return "[$token]$count.jpg";
     }
+    // UPLOAD TEMPORARY IMAGES
 
 
-
+    // OFFER AJAX PLACEMENT
     /**
      * @Route("/makeOffer", name="makeOffer", methods={"POST"})
      */
@@ -341,8 +349,10 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // OFFER AJAX PLACEMENT
 
 
+    // DELETE (SET ISDELETED TO TRUE) AUCTION 
     /**
      * @Route("/deleteAuction", name="deleteAuction", methods={"POST"})
      */
@@ -390,8 +400,10 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // DELETE (SET ISDELETED TO TRUE) AUCTION 
 
 
+    // TRIGGER END NOW AUCION
     /**
      * @Route("/endNowAuction", name="endNowAuction", methods={"POST"})
      */
@@ -438,8 +450,10 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // TRIGGER END NOW AUCION
 
 
+    // TOGGLE FAVORITE STATE
     /**
      * @Route("/toggleFavoriteAuction", name="toggleFavoriteAuction", methods={"POST"})
      */
@@ -468,7 +482,9 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // TOGGLE FAVORITE STATE
 
+    // ADMIN TOGGLE USER EMAIL VERIFICATION STATE
     /**
      * @Route("/toggleVerification", name="toggleVerification", methods={"POST"})
      */
@@ -499,7 +515,10 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // ADMIN TOGGLE USER EMAIL VERIFICATION STATE
 
+
+    // ADMIN TOGGLE BAN
     /**
      * @Route("/toggleBan", name="toggleBan", methods={"POST"})
      */
@@ -530,7 +549,10 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // ADMIN TOGGLE BAN
 
+
+    // POST COMMENT AJAX CALL
     /**
      * @Route("/postComment", name="postComment", methods={"POST"})
      */
@@ -610,7 +632,10 @@ class AJAXController extends AbstractController
             ]);
         }
     }
+    // POST COMMENT AJAX CALL
 
+
+    // DELETE (SET ISDELETE TO TRUE) ONLY FOR ADMIN AJAX CALL
      /**
      * @Route("/deleteComment", name="deleteComment", methods={"POST"})
      * @Security("is_granted('ROLE_ADMIN')")
@@ -633,6 +658,7 @@ class AJAXController extends AbstractController
             'result' => $result
         ]);
     }
+    // DELETE (SET ISDELETE TO TRUE) ONLY FOR ADMIN AJAX CALL
 
     /**
      * @Route("/editComment", name="editComment", methods={"POST"})
