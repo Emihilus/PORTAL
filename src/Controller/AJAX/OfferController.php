@@ -52,6 +52,7 @@ class OfferController extends AbstractController
             $highestId = 0;
             foreach ($auctionWithHghstOffer[0]->getOffers() as $offer)
             {
+                if($highestV)
                 dump($offer);
             }
             
