@@ -62,6 +62,8 @@ function previewFile(file, length)
   reader.readAsDataURL(file)
   reader.onloadend = function() 
   {
+    let pvWrapper = document.createElement('div');
+    
     let previewContainer = document.createElement('div');
     let back = document.createElement('button');
     let next = document.createElement('button');
