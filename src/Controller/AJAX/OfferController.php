@@ -46,6 +46,14 @@ class OfferController extends AbstractController
             $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
             $offer->setAuction($auctionWithHghstOffer[0]);
             $offer->setByUser($this->getUser());
+
+            // dump(count($auctionWithHghstOffer[0]->getOffers()));
+            $highestValue = 0 ;
+            $highestId = 0;
+            foreach ($auctionWithHghstOffer[0]->getOffers() as $offer)
+            {
+                dump($offer);
+            }
             
             $validatorErrors = $validator->validate($offer);
 
@@ -53,6 +61,7 @@ class OfferController extends AbstractController
             {
                 $em->persist($offer);
                 $em->flush();
+
                 return new JsonResponse([
                     'recv' => $json->offerValue]);
             } 
