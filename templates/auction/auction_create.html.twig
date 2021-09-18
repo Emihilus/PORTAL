@@ -63,7 +63,7 @@ function previewFile(file, length)
   reader.onloadend = function() 
   {
     let pvWrapper = document.createElement('div');
-    
+
     let previewContainer = document.createElement('div');
     let back = document.createElement('button');
     let next = document.createElement('button');
@@ -73,7 +73,7 @@ function previewFile(file, length)
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier);
 
     count == 1 ? back.className="back-pbutton d-none{{bCA}}" :  back.className="back-pbutton{{bCA}}";
-    back.innerHTML = "<i class='bi bi-arrow-up' role='img' style='font-size: 0.9rem;'></i>";
+    back.innerHTML = "<i class='bi bi-arrow-left' role='img' style='font-size: 0.9rem;'></i>";
     back.setAttribute("onclick", "reorder(0,"+count+")");
     previewContainer.appendChild(back);
     
@@ -84,13 +84,13 @@ function previewFile(file, length)
 
 
     count == length ? next.className="next-pbutton d-none{{bCA}}" : next.className="next-pbutton{{bCA}}";
-    next.innerHTML = "<i class='bi bi-arrow-down' role='img' style='font-size: 0.9rem;'></i>";
+    next.innerHTML = "<i class='bi bi-arrow-right' role='img' style='font-size: 0.9rem;'></i>";
     next.setAttribute("onclick", "reorder(1,"+count+")");
     previewContainer.appendChild(next);
 
 
     removeButton.innerHTML="<i class='bi bi-x' role='img' style='font-size: 0.9rem;'></i>";
-    removeButton.className = 'remove-pbutton{{bCA}}';
+    removeButton.className = 'remove-pbutton{{bCA}} bg-secondary';
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
     previewContainer.appendChild(removeButton);
 
