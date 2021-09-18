@@ -94,8 +94,8 @@ function previewFile(file, length)
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
     previewContainer.appendChild(removeButton);
 
-  
-    document.getElementById('gallery').appendChild(previewContainer)
+    pvWrapper.appendChild(previewContainer);
+    document.getElementById('gallery').appendChild(pvWrapper);
 
     console.log(document.getElementById('image-order').value);
 
@@ -121,6 +121,7 @@ function previewFile(file, length)
 function reorder(task, clicked)
 {
   let rootGallerySet = document.getElementById('gallery');
+  let pvWrapper = document.createElement('div');
   let items = rootGallerySet.getElementsByClassName('preview-container');
   let copy = new Array();
 
