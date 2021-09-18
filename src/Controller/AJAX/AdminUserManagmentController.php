@@ -25,7 +25,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Route("/ep")
  */
-class UserManagmentController extends AbstractController
+class AdminUserManagmentController extends AbstractController
 {
     
     // ADMIN TOGGLE USER EMAIL VERIFICATION STATE

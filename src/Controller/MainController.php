@@ -29,23 +29,14 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        //$auctions = $this->getDoctrine()->getRepository(Auction::class)->findAll();
-        //$allCount = count($auctions);
 
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
             $_COOKIE['itemsPerPage'] = 20;
         }
-        //$itemsPerPage = $_COOKIE['itemsPerPage'];
 
-        //$auctions = $this->paginator->paginate($auctions, $page, $itemsPerPage);
-
-        return $this->render('auction/auction_list.html.twig',/*['page' => $page ], [
-            'auctions' => $auctions,
-            'pages' => $allCount % $itemsPerPage === 0 ? $allCount / $itemsPerPage : intval($allCount / $itemsPerPage) + 1,
-            'itemsPerPage' => $itemsPerPage
-        ]*/);
+        return $this->render('auction/auction_list.html.twig');
     }
 
     /**
@@ -58,74 +49,13 @@ class MainController extends AbstractController
         dump($auction);
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
 
-        /*dump($meta);
-        dump($meta->getPropertyMetadata("Value")[0]->getConstraints()[0]->value);*/
-
         return $this->render('auction/auction_details.html.twig', [
             'auction' => $auction,
             'validation_maxValue' => $constraintValue
         ]);
     }
 
-    /**
-     * @Route("/place-acomment/{auctionId}", name="place-acomment", defaults ={"auctionId": "-1" })
-     */
-    public function commentAuction($auctionId, ValidatorInterface $validator, Request $request): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $auction = $em->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId,$this->getUser());
-
-        dump($auction);
-        if(!isset($auction) || ($auction->getOffers()[0]->getByUser() != $this->getUser()))
-        {
-            return new Response('You are not allowed to comment this auction.');
-        }
-
-        $comment = new Comment();
-
-        $form = $this->createForm(CommentType::class, $comment);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
-            
-            foreach($auction->getComments() as $auctionComment)
-            {
-                if($auctionComment->getValue() != -2)
-                {
-                    $this->addFlash(
-                        'danger',
-                        "Ta sprzedaż została juz skomentowana."
-                    );
-                    //return $this->redirectToRoute('place-acomment',['auctionId' => $auctionId]);
-                    return $this->redirectToRoute('profile-details',['username' => $auction->getByUser()]);
-                }
-            }
-
-
-            // $form->getData() holds the submitted values
-            // but, the original `$comment` variable has also been updated
-
-            $comment = $form->getData();
-            $comment->setAuction($auction);
-            $comment->setByUser($this->getUser());
-
-            $em->persist($comment);
-            $em->flush();
-
-            $this->addFlash(
-                'success',
-                "Your changes were saved! "
-            );
-            //return $this->redirectToRoute('place-acomment',['auctionId' => $auctionId]);
-            return $this->redirectToRoute('profile-details',['username' => $auction->getByUser()]);
-        }
-
-        return $this->render('userprofile/comment_auction.html.twig', [
-            'form' => $form->createView(),
-            'auction' => $auction
-        ]);
-    }
+   
 
     /**
      * @Route("/create-auction", name="create-auction", methods={"POST","GET"})
@@ -205,6 +135,64 @@ class MainController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+     /**
+     * @Route("/place-acomment/{auctionId}", name="place-acomment", defaults ={"auctionId": "-1" })
+     */
+    public function commentAuction($auctionId, ValidatorInterface $validator, Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $auction = $em->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndCommentsRESTRICT($auctionId,$this->getUser());
+
+        dump($auction);
+        if(!isset($auction) || ($auction->getOffers()[0]->getByUser() != $this->getUser()))
+        {
+            return new Response('You are not allowed to comment this auction.');
+        }
+
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            
+            foreach($auction->getComments() as $auctionComment)
+            {
+                if($auctionComment->getValue() != -2)
+                {
+                    $this->addFlash(
+                        'danger',
+                        "Ta sprzedaż została juz skomentowana."
+                    );
+                    return $this->redirectToRoute('profile-details',['username' => $auction->getByUser()]);
+                }
+            }
+
+
+            $comment = $form->getData();
+            $comment->setAuction($auction);
+            $comment->setByUser($this->getUser());
+
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                "Your changes were saved! "
+            );
+            return $this->redirectToRoute('profile-details',['username' => $auction->getByUser()]);
+        }
+
+        return $this->render('userprofile/comment_auction.html.twig', [
+            'form' => $form->createView(),
+            'auction' => $auction
+        ]);
+    }
+
+
+
 
     private function processToThumbnail($filename)
     {
