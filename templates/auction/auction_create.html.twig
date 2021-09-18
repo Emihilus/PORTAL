@@ -21,12 +21,14 @@
 
 <div id="drop-area">
   {# <form class="my-form"> #}
-    <p>Dołącz zdjęcia</p>
+    {# <b class="d-block my-0 mb-sm-4">Dołącz zdjęcia</b> #}
+    {# <i class="bi bi-plus-circle" style="font-size:2em;"></i> #}
+    <img src="{{asset('interface/add_photo.png')}}" width="110"/>
     <progress id="progress-bar" class="d-none" max=100 value=0></progress>
 
     <div id="gallery"></div>
     <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-    <label class="btn-primary btn" for="fileElem">Drag & drop or select files</label>
+    <label class="btn-primary btn" for="fileElem">Przeciągnij i upuść tutaj, albo wybierz zdjęcia</label>
   {# </form> #}
 </div>
 
