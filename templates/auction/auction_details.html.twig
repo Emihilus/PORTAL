@@ -70,10 +70,10 @@ isDeleted
 {% endif %}
 
 
-<h5 id="end_caption">Zakończenie: {{auction.endsAt|date('H:m:s d-m-Y')}} </h2>
+<h5 class="mt-4" id="end_caption">Zakończenie: {{auction.endsAt|date('H:m:s d-m-Y')}} </h5>
 {# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
 <h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
-<h5>Czas do końca: <span class="text-success" id='timer'></span> </h2>
+<h5>Czas do końca: <span class="text-success" id='timer'></span> </h5>
 <br>
 <h5>Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
 <h5>Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
