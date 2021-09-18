@@ -20,17 +20,17 @@
 
 
 <div id="drop-area">
-  <form class="my-form">
+  {# <form class="my-form"> #}
     <p>Dołącz zdjęcia</p>
     <progress id="progress-bar" class="d-none" max=100 value=0></progress>
 
-<div id="gallery"></div>
+    <div id="gallery"></div>
     <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
     <label class="btn-primary btn" for="fileElem">Drag & drop or select files</label>
-  </form>
+  {# </form> #}
 </div>
 
-
+{{form_row(form.Submit)}}
 {{form_end(form)}}
 
 {% endblock %}
@@ -73,7 +73,7 @@ function previewFile(file, length)
     previewContainer.setAttribute("id", "iid-"+imgInitialIdentifier);
 
     count == 1 ? back.className="back-pbutton d-none{{bCA}}" :  back.className="back-pbutton{{bCA}}";
-    back.innerHTML = "<i class='bi bi-arrow-left' role='img' style='font-size: 0.9rem;'></i>";
+    back.innerHTML = "<i class='bi bi-arrow-left' role='img' style='font-size: 0.7rem;'></i>";
     back.setAttribute("onclick", "reorder(0,"+count+")");
     previewContainer.appendChild(back);
     
@@ -84,12 +84,12 @@ function previewFile(file, length)
 
 
     count == length ? next.className="next-pbutton d-none{{bCA}}" : next.className="next-pbutton{{bCA}}";
-    next.innerHTML = "<i class='bi bi-arrow-right' role='img' style='font-size: 0.9rem;'></i>";
+    next.innerHTML = "<i class='bi bi-arrow-right' role='img' style='font-size: 0.7rem;'></i>";
     next.setAttribute("onclick", "reorder(1,"+count+")");
     previewContainer.appendChild(next);
 
 
-    removeButton.innerHTML="<i class='bi bi-x' role='img' style='font-size: 0.9rem;'></i>";
+    removeButton.innerHTML="<i class='bi bi-x' role='img' style='font-size: 0.7rem;'></i>";
     removeButton.className = 'remove-pbutton{{bCA}} bg-secondary';
     removeButton.setAttribute("onclick", "reorder(2,"+count+")");
     previewContainer.appendChild(removeButton);
