@@ -47,12 +47,6 @@ class OfferController extends AbstractController
             $offer->setAuction($auction);
             $offer->setByUser($this->getUser());
             $offers = $auction->getOffers();
-
-           /* dump(count($auction[0]->getOffers()));
-            foreach ($auction[0]->getOffers() as $offer)
-            {
-                dump($offer);
-            }*/
             
             $validatorErrors = $validator->validate($offer);
 
@@ -60,11 +54,14 @@ class OfferController extends AbstractController
             {
                 $em->persist($offer);
 
-                $notification = new Notification();
-                $notification->setRecipientUser($offer[0]->getByUser());
-                $notification->setRelatedEntity(['auction' => $auction->getId()]);
-                $notification->setMessage('Twoja oferta została przebita w aukcji '.$auction->getTitle().' przez użytkownika '.$this->getUser()->getUsername());
-                $em->persist($notification);
+                if($this->getUser() != $offers[0]->getByUser())
+                {
+                    $notification = new Notification();
+                    $notification->setRecipientUser($offers[0]->getByUser());
+                    $notification->setRelatedEntity(['auction' => $auction->getId()]);
+                    $notification->setMessage('Twoja oferta została przebita w aukcji '.$auction->getTitle().' przez użytkownika '.$this->getUser()->getUsername());
+                    $em->persist($notification);
+                }
 
                 $em->flush();
 

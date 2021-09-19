@@ -71,7 +71,7 @@ class AuctionsManagmentController extends AbstractController
         else 
         {
             return new JsonResponse([
-                'result' => "This action is permitted for logged in users only you dumbass hacker"
+                'result' => "This action is permitted for logged in users only"
             ]);
         }
     }
