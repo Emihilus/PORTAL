@@ -63,6 +63,7 @@ class Auction
 
     /**
      * @ORM\OneToMany(targetEntity=Offer::class, mappedBy="auction")
+     * @ORM\OrderBy({"Value" = "DESC"})
      */
     private $offers;
 
