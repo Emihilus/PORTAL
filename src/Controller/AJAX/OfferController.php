@@ -43,21 +43,29 @@ class OfferController extends AbstractController
             $offer = new Offer();
             $offer->setValue($json->offerValue);
             $offer->setCreatedAt(null);
-            $auctionWithHghstOffer = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
-            $offer->setAuction($auctionWithHghstOffer[0]);
+            $auction = $em->getRepository(Auction::class)->findOneByIdWithHighestOffer($json->auctionId);
+            $offer->setAuction($auction);
             $offer->setByUser($this->getUser());
+            $offers = $auction->getOffers();
 
-            dump(count($auctionWithHghstOffer[0]->getOffers()));
-            foreach ($auctionWithHghstOffer[0]->getOffers() as $offer)
+           /* dump(count($auction[0]->getOffers()));
+            foreach ($auction[0]->getOffers() as $offer)
             {
                 dump($offer);
-            }
+            }*/
             
             $validatorErrors = $validator->validate($offer);
 
-            if (count($validatorErrors) == 0 && $auctionWithHghstOffer[1]+99 < $json->offerValue) 
+            if (count($validatorErrors) == 0 && $offers[0]->getValue()+99 < $json->offerValue) 
             {
                 $em->persist($offer);
+
+                $notification = new Notification();
+                $notification->setRecipientUser($offer[0]->getByUser());
+                $notification->setRelatedEntity(['auction' => $auction->getId()]);
+                $notification->setMessage('Twoja oferta została przebita w aukcji '.$auction->getTitle().' przez użytkownika '.$this->getUser()->getUsername());
+                $em->persist($notification);
+
                 $em->flush();
 
                 return new JsonResponse([
@@ -65,9 +73,9 @@ class OfferController extends AbstractController
             } 
             else 
             {
-                if ($auctionWithHghstOffer[1]+99 > $json->offerValue) 
+                if ($offers[0]->getValue()+99 > $json->offerValue) 
                 {
-                    $validatorErrors->add(new ConstraintViolation('The value of your offer (' . ($json->offerValue / 100) . ' PLN) must be at least 1 PLN bigger than than the highest offer for this auction (' . (($auctionWithHghstOffer[1]+100) / 100) . ' PLN)', null, ['param' => 'param'], $json->offerValue, null, 45, null, null, new LessThan($auctionWithHghstOffer[1]), 'null'));
+                    $validatorErrors->add(new ConstraintViolation('The value of your offer (' . ($json->offerValue / 100) . ' PLN) must be at least 1 PLN bigger than than the highest offer for this auction (' . (($offers[0]->getValue()+100) / 100) . ' PLN)', null, ['param' => 'param'], $json->offerValue, null, 45, null, null, new LessThan($offers[0]->getValue()), 'null'));
                 }
                 $rendered = $this->render('parts/ajax/auction_make_offer_errors_part.html.twig', [
                     'errors' => $validatorErrors

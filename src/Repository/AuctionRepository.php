@@ -159,7 +159,6 @@ class AuctionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->leftJoin('a.offers', 'o')
-            ->addSelect('MAX(o.Value)')
             ->Where('a.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
