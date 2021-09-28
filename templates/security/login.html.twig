@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{{parent()}}
+{% block title %}Log in{{parent()}}
 {% endblock %}
 
 {% block body %}
 	<form method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
-				{% if error.messageKey =="You have been banned." %}<br><img src="{{asset('/u/permabanned.gif')}}">
+				{% if error.messageKey =="You have been banned." %}<br><img src="{{asset('/interface/permabanned.gif')}}">
 				{% endif %}
 			</div>
 		{% endif %}
@@ -20,10 +20,10 @@
 			</div>
 		{% endif %}
 
-		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-		<label for="inputUsername">Username</label>
+		<h1 class="h3 mb-3 font-weight-normal">Logowanie</h1>
+		<label for="inputUsername">Login</label>
 		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-		<label for="inputPassword">Password</label>
+		<label for="inputPassword">Hasło</label>
 		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -38,16 +38,16 @@
 		<div class="checkbox mb-3">
 			<label>
 				<input type="checkbox" name="_remember_me">
-				Remember me
+				Zapamiętaj mnie
 			</label>
 		</div>
 
 
-		<button class="btn btn-lg btn-primary" type="submit">
-			Sign in
-		</button>
+		<button class="btn btn-lg btn-primary me-3" type="submit">
+			Zaloguj
+		</button><a href="{{ path('app_forgot_password_request') }} "><button class="btn btn-lg btn-primary" type="button">Zapomniałem hasła</button></a>
 
 		<p>Username: Emis<br>Pwd: 12345</p>
-		<a href="{{ path('app_forgot_password_request') }} "><button class="mb-3 btn btn-lg btn-primary" type="button">Zapomniałem hasła</button></a>
+		</a><a href="{{ path('app_register') }} "><button class="mb-3 me-3 btn btn-lg btn-primary" type="button">Rejestracja</button></a>
 	</form>
 {% endblock %}

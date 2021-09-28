@@ -6,7 +6,7 @@
 <h1>Users list</h1>
 
 {% for user in users %}
-    {{user}} <a href="{{path('profile-details',{username: user} )}}">details</a>  <a href="{{path('user-auctions',{username: user} )}}">show auctions</a> 
+    <span>{{user}}</span> <a href="{{path('profile-details',{username: user} )}}">details</a>  <a href="{{path('user-auctions',{username: user} )}}">show auctions</a> 
 
     {# admin options section #}
     {% if is_granted('ROLE_ADMIN') %}

@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<h1>
+<span class="h2">
 
 {% if mMode == 1 %}
 Wszystkie aukcje
@@ -28,8 +28,8 @@ Przegrane aukcje
 Ulubione aukcje 
 {% endif %}
 
- of the user {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</h1>
-
+ użytkownika {% if app.request.get('username')%}{{app.request.get('username')}}{% else %}{{app.user}}{% endif %}</span>
+<hr>
 {# <h2>Back to dashboard</h2> #}
 
 

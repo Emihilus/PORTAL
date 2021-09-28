@@ -5,10 +5,10 @@
 	<input type="submit" hidden />
 	{# <button class="btn btn-secondary me-1" onclick='submitFilters()' type='button'><i class="bi bi-search"></i></button> #}
 	<button class="btn btn-secondary mx-1" type="reset" onclick="resetFilters()"><i class="bi bi-backspace"></i></button>
-	<button class=" btn-warning btn" onclick="$('#filtersDiv').toggleClass('d-none')" type="button"><i class="bi bi-filter"></i></button>
+	<button class=" btn-warning btn" onclick="toggleFilters()" type="button"><i class="bi bi-filter"></i></button>
 	</div>
 </div>
-<div class="d-none" id='filtersDiv'>
+<div style="display:none;" id='filtersDiv'>
 
 	<label for="search">szukaj wg</label>
 	<select name="search" id="select_searchtype"{# onchange="processChange()"#}>

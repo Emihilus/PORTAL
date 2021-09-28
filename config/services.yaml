@@ -8,9 +8,22 @@ parameters:
     tempImagePath: '%kernel.project_dir%/tempImg/'
     auctionImagePath: '%kernel.project_dir%/public/u/f/'
     auctionImagePathThumbnail: '%kernel.project_dir%/public/u/t/'
+    mailerSender: 'PDPAPW Mail System'
+    mailerSenderEmail: 'dummy@pdpapw.com'
     # VALIDATION VARIABLES
     validation_OfferValueMin: 0.01
     validation_OfferValueMax: 9999999
+
+    # MMODES CONSTANTS INT - TYPES OF USER AUCTIONS
+    mm_Sold_Selling: 1
+    mm_Sold: 2
+    mm_Selling: 3
+    mm_Leading_In: 4
+    mm_Won: 5
+    mm_Participating_In: 6
+    mm_Participating_In_Not_Leading: 7
+    mm_Participated_In: 8
+    mm_Participated_In_Not_Leading: 9
 
 
 services:
@@ -30,8 +43,10 @@ services:
             - '../src/Tests/'
             - '../src/ZNotUsed/'
 
-    App\Service:
-        arguments:
+    App\Listener\OfferPassListener:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - {name: kernel.event_listener, event: auction.offer_pass}
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

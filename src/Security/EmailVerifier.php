@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -39,7 +40,9 @@ class EmailVerifier
 
         $email->context($context);
 
-        $this->mailer->send($email);
+        
+        $this->mailer->send($email); 
+        
     }
 
     /**

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<span class="h2 d-block">
+		Zarządzanie usuniętymi aukcjami
+	</span>
+	<hr>
+	<div class="my-4">
+		{% if auctions|length == 0 %}
+			<b class="text-success">Brak usuniętych aukcji.</b>
+		{% endif %}
+		{% for auction in auctions %}
+			<span>#{{auction.id}}:{{auction.byUser}}:
+				{{auction.title}}
+			</span>
+			|
+			<a id="a-{{auction.id}}" onclick="restore({{auction.id}})" hrev="{{path('auction-details',{'auctionId': auction.id})}}">Przywróć</a>
+			<br>
+		{% endfor %}
+	</div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+function restore (auctionId)
+{
+    $.ajax({
+    url: "{{path ('restoreAuction') }}",
+    method: "post", 
+    dataType: "json", 
+    data: JSON.stringify({auctionId})
+})
+.done(res => 
+{ 
+    console.log(res.result);
+    if(res.result == 'Success')
+    {
+        $("#a-"+auctionId).html('Aukcja przywrócona. Przejdź');
+        $("#a-"+auctionId).attr('onclick', '');
+        $("#a-"+auctionId).attr('href', $("#a-"+auctionId).attr('hrev'));
+    }
+    else
+    {
+        $("#a-"+auctionId).html('Błąd podczas przywracania aukcji. Spróbuj ponownie');
+    }
+});
+}
+</script>
+{% endblock %}

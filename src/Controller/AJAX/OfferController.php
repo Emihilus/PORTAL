@@ -2,24 +2,18 @@
 
 namespace App\Controller\AJAX;
 
-use DateTime;
-use Exception;
-use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
-use App\Entity\Comment;
 use App\Entity\Notification;
-use App\Entity\TempImage;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Event\OfferPassEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
@@ -27,8 +21,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class OfferController extends AbstractController
 {
+
+    public function __construct(EventDispatcherInterface $dispatcher) 
+    {
+        $this->dispatcher = $dispatcher;
+    }
     
-    // OFFER AJAX PLACEMENT
+    // OFFER AJAX SUBMISSION
     /**
      * @Route("/makeOffer", name="makeOffer", methods={"POST"})
      */
@@ -54,13 +53,16 @@ class OfferController extends AbstractController
             {
                 $em->persist($offer);
 
-                if($this->getUser() != $offers[0]->getByUser())
+                if(($offers[0]->getByUser() != null ) && ($this->getUser() != $offers[0]->getByUser()))
                 {
-                    $notification = new Notification();
-                    $notification->setRecipientUser($offers[0]->getByUser());
-                    $notification->setRelatedEntity(['auction' => $auction->getId()]);
-                    $notification->setMessage('Twoja oferta została przebita w aukcji '.$auction->getTitle().' przez użytkownika '.$this->getUser()->getUsername());
-                    $em->persist($notification);
+                    $event = new OfferPassEvent([
+                        'userPassed' => $offers[0]->getByUser(),
+                        'relatedAuctionId' => $auction->getId(),
+                        'relatedAuctionTitle' => $auction->getTitle(),
+                        'passedByUser' => $this->getUser()->getUsername()
+                    ]);
+                    $this->dispatcher->dispatch($event, 'auction.offer_pass');
+                    
                 }
 
                 $em->flush();

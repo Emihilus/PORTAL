@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\Comment;
@@ -10,6 +9,7 @@ use App\Entity\TempImage;
 use App\Form\CommentType;
 use App\Entity\AuctionImage;
 use App\Form\AuctionCreateFormType;
+use App\ControllerTools\ImagesProcessor;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +19,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
-    public function __construct(PaginatorInterface $paginator)
+    public function __construct(PaginatorInterface $paginator, ImagesProcessor $imagesProcessor)
     {
         $this->paginator = $paginator;
+        $this->imagesProcessor = $imagesProcessor;
     }
 
     /**
@@ -29,7 +30,6 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-
         if (!isset($_COOKIE['itemsPerPage'])) 
         {
             setcookie('itemsPerPage', 20, time() + (86400 * 30), "/");
@@ -46,7 +46,7 @@ class MainController extends AbstractController
     {
         $auction = $this->getDoctrine()->getRepository(Auction::class)->findOneByIdWithAuctionImagesAndOffersAndComments($auctionId,$this->getUser());
 
-        dump($auction);
+        // dump($auction);
         $constraintValue = $validator->getMetadataFor(Offer::class)->properties['Value']->constraints[0]->value;
 
         return $this->render('auction/auction_details.html.twig', [
@@ -63,7 +63,7 @@ class MainController extends AbstractController
     public function createAuctionForm(Request $request): Response
     {
         $auction = new Auction();
-
+        $this->getParameter('kernel.environment') == 'heroku' ? $heroku = true : $heroku = false;
         $form = $this->createForm(AuctionCreateFormType::class, $auction);
         $form->handleRequest($request);
 
@@ -94,7 +94,9 @@ class MainController extends AbstractController
 
                         rename($this->getParameter('tempImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename(), $this->getParameter('auctionImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename());
 
-                        $this->processToThumbnail($tempImages[$NEW_ORDER[$i]]->getFilename());
+                        $this->imagesProcessor->processToThumbnail(
+                            $this->getParameter('auctionImagePath') . $tempImages[$NEW_ORDER[$i]]->getFilename(),
+                            $this->getParameter('auctionImagePathThumbnail') . 'th-' . $tempImages[$NEW_ORDER[$i]]->getFilename());
                     }
 
                     $offer = new Offer();
@@ -133,6 +135,7 @@ class MainController extends AbstractController
 
         return $this->render('auction/auction_create.html.twig', [
             'form' => $form->createView(),
+            'heroku' => $heroku
         ]);
     }
 
@@ -191,38 +194,4 @@ class MainController extends AbstractController
         ]);
     }
 
-
-
-
-    private function processToThumbnail($filename)
-    {
-        //Your Image
-        $imgSrc = $this->getParameter('auctionImagePath') . $filename;
-
-        //getting the image dimensions
-        list($width, $height) = getimagesize($imgSrc);
-
-        //saving the image into memory (for manipulation with GD Library)
-        $myImage = imagecreatefromjpeg($imgSrc);
-
-        // calculating the part of the image to use for thumbnail
-        if ($width > $height) {
-            $y = 0;
-            $x = ($width - $height) / 2;
-            $smallestSide = $height;
-        } else {
-            $x = 0;
-            $y = ($height - $width) / 2;
-            $smallestSide = $width;
-        }
-
-        // copying the part into thumbnail
-        $thumbSize = 100;
-        $thumb = imagecreatetruecolor($thumbSize, $thumbSize);
-        imagecopyresampled($thumb, $myImage, 0, 0, $x, $y, $thumbSize, $thumbSize, $smallestSide, $smallestSide);
-
-        //final output
-        // header('Content-type: image/jpeg');
-        imagejpeg($thumb, $this->getParameter('auctionImagePathThumbnail') . 'th-' . $filename);
-    }
 }

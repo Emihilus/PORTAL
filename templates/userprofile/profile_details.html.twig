@@ -10,7 +10,7 @@
 	<span class="col-6 d-inline" id='rate'></span>
 </div>
 <hr>
-	Wysztkie aukcje użytkownika:
+	<span id="pu">Wszystkie aukcje użytkownika:</span>
 	<b class='text-warning'>
 		{% if USR[0]['Auctions_Issued'] != 0 %}
 			{{USR[0]['Auctions_Issued']}}{% else %}No auctions
@@ -20,7 +20,7 @@
 		<b class='text-warning'>{{USR[0]['Sum_Sold_Selling']/100}}
 			PLN</b>
 	
-	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 1})}}">Pokaż</a><br>
+	{% if USR[0]['Auctions_Issued'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 1})}}">Pokaż</a>{% endif %}<br>
 
 	Sprzedane aukcje:
 	<b class='text-warning'>{{USR[0]['Sold']}}</b>
@@ -28,8 +28,7 @@
 	Łączna wartość:
 		<b class='text-warning'>{{USR[0]['Sum_Sold']/100}}
 		PLN</b>
-	<B class="text-warning">
-		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}"></b>Pokaż</a>
+		{% if USR[0]['Sold'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 2})}}">Pokaż</a>{% endif %}
 	<br>
 
 	Obecnie sprzedaje:
@@ -37,8 +36,7 @@
 	Łączna wartość:
 		<b class='text-warning'>{{USR[0]['Sum_Selling']/100}}
 		PLN</b>
-	<B class="text-warning">
-		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"></b>Pokaż</a>
+		{% if USR[0]['Selling'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}">Pokaż</a>{% endif %}
 	<br><BR>
 
 	Prowadzi:
@@ -46,43 +44,38 @@
 	Łączna wartość:
 		<b class='text-warning'>{{USR[0]['Sum_In_Leading']/100}}
 			PLN</b>
-	<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 4})}}">Pokaż</a><br>
+	{% if USR[0]['Leading_In'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 4})}}">Pokaż</a>{% endif %}<br>
 
 	Wygrane aukcje:
 	<b class='text-warning'>{{USR[0]['Won']}}</b> Łączna wartość:
 	<b class='text-warning'>{{USR[0]['Sum_Won']/100}}
 		PLN</b>
-	<B class="text-warning">
-		<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 5})}}"></b>Pokaż</a>
+		{% if USR[0]['Won'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 5})}}">Pokaż</a>{% endif %}
 	<br><BR>
 
 	{# Number of auctions the user is participating in EVER(WRONG)  : <b></b> <a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 3})}}"><B class="text-warning"--->Show</b></a>  #}
 	<BR>
 	Aktualnie bierze udział:
 		<b class='text-warning'>{{USR[0]['Participating_In']}}</b>
-		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 6})}}"></b>Pokaż</a>
+		{% if USR[0]['Participating_In'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 6})}}">Pokaż</a>{% endif %}
 		
-	</span><br>
+	<br>
 
 	Bierze udział, ale przegrywa:
 		<b class='text-warning'>{{USR[0]['Participating_In_Not_Leading']}}</b>
-		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}"></b>Pokaż</a>
+		{% if USR[0]['Participating_In_Not_Leading'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 7})}}">Pokaż</a>{% endif %}
 		
 	<br>
 
 	Brał udział:
 		<b class='text-warning'>{{USR[0]['Participated_In']}}</b>
-		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}"></b>Pokaż</a>
+		{% if USR[0]['Participated_In'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 8})}}">Pokaż</a>{% endif %}
 		
 	<br>
 
 	Przegrał:
 		<b class='text-warning'>{{USR[0]['Participated_In_Not_Leading']}}</b>
-		<B class="text-warning">
-			<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}"></b>Pokaż</a>
+		{% if USR[0]['Participated_In_Not_Leading'] != 0 %}<a href="{{path('user-auctions', {'username': USR[0][0].username, 'mode': 9})}}">Pokaż</a>{% endif %}
 		
 	<br>
 
@@ -129,7 +122,7 @@
 				{% for comment in auction.comments|filter(comment => not comment.isDeleted) %}
 					{% if comment.value > -2 %}
                         {% set userRate = userRate + comment.value %}
-						<div id="comment-{{comment.id}}"class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}dark{% elseif comment.value == -1 %}{% set negatives = negatives + 1 %}danger{% else %}{% set userRate = userRate - comment.value %}info ms-4{% endif %} rounded p-3 mb-1">
+						<div id="comment-{{comment.id}}"class="list-group-item-{% if comment.value == 1 %}{% set positives = positives + 1 %}success{% elseif comment.value == 0 %}{% set neutrals = neutrals + 1 %}secondary{% elseif comment.value == -1 %}{% set negatives = negatives + 1 %}danger{% else %}{% set userRate = userRate - comment.value %}info ms-4{% endif %} rounded p-3 mb-1">
 							<small class='float-end'>{{comment.createdAt|ago}}</small>
 							<div>
 								{% if comment.value == 2 %}{% set listToRemoveReplyButton = listToRemoveReplyButton ~ comment.replyTo.id~',' %}<i>Odpowiedź sprzedającego </i>{% endif %}<b>{{comment.byUser.username}} </b><br>
@@ -175,7 +168,7 @@ $("#removeReplyOption").val().split(',').forEach((item) =>
 
 function sellerReplyToComment(commentId, raid)
 {
-	$("#comment-"+commentId).after('<form id="replyForm-'+commentId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+commentId+'" rows="3"></textarea><button onclick="submitComment('+commentId+','+raid+')" class="btn-primary btn" type="button">Post comment</button></div></form>');
+	$("#comment-"+commentId).after('<form id="replyForm-'+commentId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+commentId+'" rows="3"></textarea><button onclick="submitComment('+commentId+','+raid+')" class="btn-primary btn" type="button">Odpowiedz</button></div></form>');
 }
 
 // POST COMMENT AJAX CALL ///

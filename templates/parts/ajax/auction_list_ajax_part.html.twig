@@ -2,7 +2,7 @@
 	<ul id="auctions" class="list-group pe-0">
 
 
-		{% if auctions|length == 0 %}none
+		{% if auctions|length == 0 %}<b class='display-5 text-secondary' id="none">Brak aukcji</b>
 		{% endif %}
 		{% for auction in auctions %}
 
@@ -14,7 +14,7 @@
 							<b style="text-overflow:ellipsis; overflow: hidden;">{{auction.0.title}}</b>
 						</span>
 						<span>
-							ends
+							koniec
 
 							{{ auction[0].endsAt|ago }}
 						</span><br><span>
@@ -98,7 +98,7 @@
 
 			
 
-			{% if pages > 3 and pages < 8 %}
+			{% if pages == 4 or pages == 5 %}
 
 				<li class="page-item {% if 2 == requestedPage %}active{% endif %}">
 					<a class="page-link" onclick="getAuctions({{2}})">{{2}}</a>
@@ -108,21 +108,9 @@
 					<a class="page-link" onclick="getAuctions({{3}})">{{3}}</a>
 				</li>
 
-				{% if pages > 4 %}
+				{% if pages == 5 %}
 					<li class="page-item {% if 4 == requestedPage %}active{% endif %}">
 						<a class="page-link" onclick="getAuctions({{4}})">4</a>
-					</li>
-				{% endif %}
-
-				{% if pages > 5 %}
-					<li class="page-item {% if 5 == requestedPage %}active{% endif %}">
-						<a class="page-link" onclick="getAuctions({{5}})">5</a>
-					</li>
-				{% endif %}
-
-				{% if pages > 6 %}
-					<li class="page-item {% if 6 == requestedPage %}active{% endif %}">
-						<a class="page-link" onclick="getAuctions({{6}})">6</a>
 					</li>
 				{% endif %}
 
@@ -130,7 +118,7 @@
 
 				{% if requestedPage > 3 %}
 					<li class="page-item">
-						<a class="page-link {% if requestedPage != 4 %}px-1{% endif %}" {% if requestedPage == 4 %}onclick="getAuctions(2)"{% endif %}>{% if requestedPage == 4 %}2{% else %}...{% endif %}</a>
+						<a class="page-link px-1">...</a>
 					</li>
 				{% endif %}
 
@@ -186,7 +174,7 @@
 
 				{% if requestedPage < pages-2 %}
 					<li class="page-item">
-						<a class="page-link {% if requestedPage != pages-3 %}px-1{% endif %}" {% if requestedPage == pages-3 %}onclick="getAuctions({{pages-1}})"{% endif %}>{% if requestedPage == pages-3 %}{{pages-1}}{% else %}...{% endif %}</a>
+						<a class="page-link px-1">...</a>
 					</li>
 				{% endif %}
 
@@ -203,7 +191,7 @@
 
 
 			{# NEXT BUTTON  #}
-			<li class="page-item {% if requestedPage == pages %}disabled{% endif %}">
+			<li class="page-item {% if requestedPage == pages or pages == 0 %}disabled{% endif %}">
 				<a class="page-link" onclick="getAuctions({{requestedPage+1}})">&gt;</a>
 			</li>
 			{# NEXT BUTTON #}

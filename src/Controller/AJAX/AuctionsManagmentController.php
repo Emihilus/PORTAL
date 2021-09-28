@@ -2,24 +2,11 @@
 
 namespace App\Controller\AJAX;
 
-use DateTime;
-use Exception;
-use App\Entity\User;
-use App\Entity\Offer;
 use App\Entity\Auction;
-use App\Entity\Comment;
-use App\Entity\Notification;
-use App\Entity\TempImage;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
@@ -121,7 +108,7 @@ class AuctionsManagmentController extends AbstractController
         else 
         {
             return new JsonResponse([
-                'result' => "This action is permitted for logged in users only you dumbass hacker"
+                'result' => "This action is permitted for logged in users only"
             ]);
         }
     }

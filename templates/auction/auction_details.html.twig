@@ -18,10 +18,8 @@
 
 <span class="h1" id="h1cap">Aukcja pieca {{auction.title}}</span>
 <BR>
+<hr>
 
-{% if auction.isDeleted %}
-isDeleted
-{% endif %}
 
 {# {% for image in auction.images %}
 <img data-fancybox="gallery-1" src="{{asset (fip~image.filename)}}" alt='jakialt' width="300">
@@ -30,8 +28,8 @@ isDeleted
 <div class="row">
 <div class="col-lg-6 mb-4">
 <div
-      style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
-      class="swiper mySwiper2 bg-dark">
+      style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff; background-color:#000;"
+      class="swiper mySwiper2">
       <div class="swiper-wrapper">
 
 {% for image in auction.images %}
@@ -49,7 +47,7 @@ isDeleted
       <div class="swiper-wrapper">
 
 {% for image in auction.images %}
-<div  class="swiper-slide my-auto">
+<div  class="swiper-slide my-auto py-1 bg-black">
           <img src="{{asset (fip~image.filename)}}"/>
         </div>
 {% endfor %}
@@ -60,6 +58,7 @@ isDeleted
 
 <div class="col-lg-6">
 
+<div class="mb-md-5 mb-sm-3 mb-2">
 <button class="btn m-1 btn-secondary" onclick="toggleFavorite()"><i id="fbu" class="bi bi-star{% if app.user and auction.likedByUsers|length > 0 %}-fill{% endif %}"></i><span id="fbu_caption">{% if app.user and auction.likedByUsers|length > 0 %} Usuń z{% else %} Dodaj do{% endif %} ulubionych</span></button>
 {% if (date(auction.endsAt) > date()) and app.user and (is_granted("ROLE_ADMIN") or app.user.username == auction.byUser.username) %}
     <button id="btn_endnow" class="btn m-1 btn-secondary" onclick="endNowAuction()"><i class="bi bi-x"></i> Zakończ teraz</button>
@@ -68,30 +67,29 @@ isDeleted
 {% if (date(auction.endsAt) < date()) and app.user and auction.offers.0.byUser.username is defined and (app.user.username == auction.offers[0].byUser.username) %}
     <button onclick="window.location.href = '{{path('place-acomment',{'auctionId' : auction.id})}}';" class="btn m-1 btn-secondary"><i class="bi bi-chat-left-text"></i> Wystaw komentarz kupującemu</button>
 {% endif %}
+</div>
 
+<b id="end_caption" class="text-secondary">Zakończenie:</b> {{auction.endsAt|date('H:m:s d-m-Y')}} 
 
-<h5 class="mt-4" id="end_caption">Zakończenie: {{auction.endsAt|date('H:m:s d-m-Y')}} </h5>
-{# <h2> ENDS knplabs {{auction.endsAt | ago}} </h2>
-<h2> ENDS raw: {{auction.endsAt | date('U')}} <div id='time'></div> </h2> #}
-<h5>Czas do końca: <span class="text-success" id='timer'></span> </h5>
+<br><b class="text-secondary">Czas do końca:</b> <span class="text-success" id='timer'></span> <br>
 <br>
-<h5>Sprzedający: <a href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a></h2>
-<h5>Adres email sprzedającego: {{auction.byUser.Email}}<br>Numer telefonu: {{auction.byUser.phone}}</h5>
+<b class="text-secondary fs-6 fs-sm-3">Sprzedający:</b> <a class="appLink" href="{{path('profile-details', {'username': auction.byUser})}}">{{auction.byUser}}</a><br>
+<b class="text-secondary">Adres email:</b> {{auction.byUser.Email}}<br><b class="text-secondary">Numer telefonu:</b> {{auction.byUser.phone}}
 <br>
 
 </div>
-<div class="text-center">
-<h3>Cena wywoławcza: {{auction.offers[auction.offers|length-1].Value/100}} PLN </h2>
+<div class="text-center bg-secondary mt-3 mt-lg-0">
+<span class="mt-4 d-block h5"><b>Cena wywoławcza:</b> {{auction.offers[auction.offers|length-1].Value/100}} PLN </span> 
 
 
 <form id='offerForm'>
 <input id='offerInput' required="required" type="number" min="{% if auction.offers|length > 0 %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}" 
-max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" step="any" value="{% if auction.offers|length > 0 %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}"/> PLN  <button class="btn-primary btn" type='submit' >Offer</button>
+max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" step="any" value="{% if auction.offers|length > 0 %}{{ auction.offers[0].value/100+1 }}{% else %}{{v_offer_value_min}}{% endif %}"/> PLN <br class='d-sm-none'> <button class="btn-warning btn mt-3 mt-sm-0" type='submit' >Licytuj</button>
 {# onclick='makeOffer()' #}
 </form>
 
 <div id='backendErrors'></div>
-<div id='offers'>
+<div id='offers' class="d-none">
 
 {% if auction.offers|length == 1 %}There are no offers yet{% endif %}
 
@@ -99,6 +97,29 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
     {# <b>{{offer.byUser.username}} offers {{offer.value/100}} PLN</b> offered at {{offer.createdAt|date('H:m:s d-m-Y')}} <br> #}
     <span class="btn my-1 btn-warning"><b>{{offer.value/100}} PLN</b> offered by <b>{{offer.byUser.username}}</b> at  {{offer.createdAt|date('H:m:s d-m-Y')}}</span> <br>
 {% endfor %}
+</div>
+
+<div class="mt-3">
+<table class="table table-secondary table-hover {% if auction.offers|length == 1 %}d-none{% endif %}">
+  <theadclass="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Oferta</th>
+      <th scope="col">Użytkownik</th>
+      <th class="d-none d-sm-table-cell" scope="col">Data</th>
+    </tr>
+  </thead>
+  <tbody id="hed">
+    {% for offer in auction.offers|filter(offer => offer.byUser != null) %}
+        <tr {% if loop.index == 1 %}class="table-warning"{% endif %}>
+            <th class="throw" scope="row">{{ loop.index }}</th>
+            <td>{{offer.value/100}} PLN</td>
+            <td>{{offer.byUser.username}}</td>
+            <td class="d-none d-sm-table-cell">{{offer.createdAt|date('H:m d-m-Y')}}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
 </div>
 
 </div>
@@ -121,7 +142,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 
  <div class="row">
- <div><h2 class='d-inline-block'>Comments</h2><h3 class='float-end'>{% if commentCount == 0 %}No{% else %} {{commentCount}}{% endif %} comments</h3></div>
+ <div><h2 class='d-inline-block'>Komentarze</h2><h3 class='float-end'>{% if commentCount == 0 %}Brak{% else %} {{commentCount}}{% endif %} {% if commentCount == 0 or commentCount > 4%}komentarzy{% elseif commentCount == 1 %}komentarz{% else %}komentarze{% endif %}</h3></div>
 <div id="comments-section">
 {% if commentCount > 0 %}
     {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted and not comment.replyTo) %}
@@ -206,8 +227,8 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 <form class="mt-3">
   <div class="form-group text-end">
-    <textarea class="form-control" id="commentTA" rows="3"></textarea>
-    <button onclick="submitComment()" class="btn-primary btn ms-auto m-2" type="button">Post comment</button>
+    <textarea class="form-control" name="ctA" id="commentTA" rows="3"></textarea>
+    <button onclick="submitComment()" class="btn-warning btn ms-auto m-2" type="button">Zamieść komentarz</button>
   </div>
 {% if app.user %}<input type="hidden" id="csrf" value="{{csrf_token(app.user.id)}}"/>{% endif %}
 </form>
@@ -264,7 +285,7 @@ function auctionTimer()
         setTimeout(auctionTimer, 500)
     else
         {
-            timerElement.innerHTML = "Auction ended";
+            timerElement.innerHTML = "Aukcja zakończona";
             $("#timer").removeClass("text-succes");
             $("#timer").addClass("text-danger");
             $("#offerForm").toggleClass('d-none');
@@ -319,9 +340,33 @@ function makeOffer()
             else
             {
                 let container = document.createElement('div');
-                container.innerHTML = '<span class="btn my-1 btn-warning"><b>{{app.user}} offers '+offerValue+' PLN</b> triggered at '+new Date(Date.now()).toLocaleString()+"</span><br>";
+                container.style.display = 'none';
+                container.id = 'of-'+Math.round(offerValue);
+                container.innerHTML = '<span class="btn my-1 btn-warning"><b>'+offerValue+' PLN</b> offered by <b>{{app.user}}</b> offered now</span><br>';
                 document.getElementById('offers').prepend(container);
+                $('#of-'+Math.round(offerValue)).slideDown(500);
                 $("#offerInput").attr('min', ((res.recv+100)/100));
+
+
+                let trc = document.createElement('tr');
+                {# trc.id = 'ofs-'+Math.round(offerValue); #}
+                trc.innerHTML = '<th class="throw" scope="row">tidi</th><td>'+offerValue+' PLN</td><td>{{app.user}}</td><td class="d-none d-sm-table-cell">Teraz</td>';
+                document.getElementById('hed').prepend(trc);
+
+                {# $('#ofs-'+Math.round(offerValue)).effect("highlight", {}, 13000); #}
+                let counter = 1;
+                $(".throw").each(function() {
+                    $(this).html(counter);
+                    counter++;
+                });
+
+                $('#hed').children().eq(0).addClass('table-warning');
+                $('#hed').children().eq(1).removeClass('table-warning');
+
+                if({% if auction.offers|length == 1 %}true{% else %}false{% endif %})
+                {
+                    $(".table").removeClass('d-none');
+                }
             }
         });
     }
@@ -354,9 +399,12 @@ function submitComment()
             {
                 $("#cids").val($("#cids").val()+','+res.genId);
                 
-                $("#comments-section").append('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTA").val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+                $("#comments-section").append('<div style="display:none;" id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span class="ncc" id="scontent-'+res.genId+'">'+$("#commentTA").val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+
+                $('#comment-'+res.genId).slideDown(500);
 
                 $("#commentTA").val('');
+
             }
             else
             {
@@ -634,7 +682,7 @@ function adminDeleteComment(commentId)
 function editComment(commentId)
 {
     window['org-content-of-'+commentId] = $('#scontent-'+commentId).html();
-    $("#scontent-"+commentId).after('<button id="bcs-'+commentId+'" onclick="saveCommentChanges('+commentId+')" class="btn btn-primary m-1">Zapisz</button><button id="bcc-'+commentId+'" onclick="cancelCommentChanges(\''+commentId+'\')" class="btn btn-primary">Anuluj</button>');
+    $("#scontent-"+commentId).after('<button id="bcs-'+commentId+'" onclick="saveCommentChanges('+commentId+')" class="btn btn-warning m-1">Zapisz</button><button id="bcc-'+commentId+'" onclick="cancelCommentChanges(\''+commentId+'\')" class="btn btn-warning">Anuluj</button>');
     $("#scontent-"+commentId).html('<textarea class="form-control" id="commentTA-'+commentId+'" rows="3">'+$('#scontent-'+commentId).html()+'</textarea>');
 }
 
@@ -681,7 +729,7 @@ function replyTo(commentId, username)
     {
         if($("#formulage").length == 0)
         {
-            $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div id="formulage" class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-primary btn m-2" type="button">Post comment</button><button type="button" class="m-2 btn-primary btn" onclick="cancelReplyTo('+commentId+')">Anuluj</button></div></form>');
+            $("#replies_of-"+commentId).last().after('<form id="rtform-'+commentId+'" class="my-3 ms-5"><div id="formulage" class="form-group"><textarea class="form-control" id="commentTArt-'+commentId+'" rows="3">@'+username+': </textarea><button onclick="replyToSubmit('+commentId+')" class="btn-warning btn m-2" type="button">Odpowiedz</button><button type="button" class="m-2 btn-warning btn" onclick="cancelReplyTo('+commentId+')">Anuluj</button></div></form>');
         }
     }
     else
@@ -712,7 +760,10 @@ function replyToSubmit(commentId)
             {
                 $("#cids").val($("#cids").val()+','+res.genId);
                 
-                $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5{{commentClasses}}"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+                $("#replies_of-"+commentId).last().after('<div id="comment-'+res.genId+'" class="list-group-item-dark rounded p-3 ms-5{{commentClasses}}" style="display:none;"><small class="float-end">now</small><div><b>{{app.user}}</b><br><span id="scontent-'+res.genId+'">'+$("#commentTArt-"+commentId).val()+' </span><br><small><b id="commentPointsResult-'+res.genId+'" onclick="switchLikeMode(true)" '+ (lm ? '' : 'class="d-none"') +' >0</b><b '+ (!lm ? '' : 'class="d-none"') +' onclick="switchLikeMode(false)" id="lc-'+res.genId+'">0</b><b class="ms-1'+ (!lm ? '' : ' d-none') +'" onclick="switchLikeMode(false)" id="dlc-'+res.genId+'">0</b></small><small id="like-'+res.genId+'" onclick="like('+res.genId+',false,false,0,0)" class="text-success"><i class="bi bi-hand-thumbs-up"></i></small><small id="dislike-'+res.genId+'" onclick="dislike('+res.genId+',false,false,0,0)" class="text-danger"><i class="bi bi-hand-thumbs-down"></i></small>{% if is_granted('ROLE_ADMIN') %}<small onclick="adminDeleteComment('+res.genId+')" class="float-end text-danger me-2">usuń</small>{% endif %}<small onclick="editComment('+res.genId+')" class="float-end text-danger me-2">edytuj</small></div></div>');
+
+
+                $('#comment-'+res.genId).slideDown(500);
 
                 $("#rtform-"+commentId).remove();
             }

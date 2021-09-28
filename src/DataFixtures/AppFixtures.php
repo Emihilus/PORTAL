@@ -5,21 +5,27 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Auction;
+use App\Entity\Comment;
 use App\Entity\AuctionImage;
 use App\DataFixtures\RandomGenerator;
-use App\Entity\Comment;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
-    const numAuctions = 102;
+    const numAuctions = 400;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    private UserPasswordHasherInterface $passwordHasher;
+    private ContainerInterface $container;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher,ContainerInterface $container)
     {
         $this->passwordHasher = $passwordHasher;
         $this->tempUserArray = [];
+        $this->container = $container;
     }
 // etno tobiaszz za zabka
 
@@ -50,21 +56,32 @@ class AppFixtures extends Fixture
 
     private function loadAuctions(ObjectManager $manager) : void
     {
-        //$counter = 1;
 
         $array = $this->getAuctionData();
-        array_push($array, ['MEDUSA', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN']);
        
-        
+        $standardImagesArray = [];
+        foreach (new \DirectoryIterator($this->container->getParameter('auctionImagePath')) as $file) 
+        {
+            if ($file->isFile()) 
+            {
+                array_push($standardImagesArray, $file->getFilename());
+            }
+        }
+
+
+
         // foreach ($array as [$title,  $createdAt, $PEROID, $description])
         for($j = 0; $j < static::numAuctions ; $j++)
         {
             $auction = new Auction();
-            $auction->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
-            $auction->setTitle("Piec ".RandomGenerator::generateRandomName());
+            $auctionCreator = $this->tempUserArray[random_int(0,count($this->tempUserArray)-1)];
+            $auction->setByUser($auctionCreator);
+            $auction->setTitle(RandomGenerator::generateRandomName());
 
             $auction->setCreatedAt(new \DateTime(random_int(-10,-1).' days'));
             $auction->setEndsAtManually(new \DateTime(random_int(-1,6).' days'));
+
+            
 
             $auction->setDescription(($j%2==0) ? RandomGenerator::generateRandomSentence(200) : $array[random_int(0,count($array)-1)][3]);
 
@@ -78,14 +95,29 @@ class AppFixtures extends Fixture
             $manager->persist($offer);
 
             // ADD OFFERS WITH RANDOM VALUE AND PAST DATE
+
+            $hghstValue = 0;
             for ($i = 0; $i< random_int(1,10); $i++)
             {
+                $user = $this->tempUserArray[random_int(0,count($this->tempUserArray)-1)];
+                $value = random_int(0,454543);
+
+                if($auction->getEndsAt()< new \DateTime())
+                {
+                    if($value > $hghstValue)
+                    {
+                        $hghstUser = $user;
+                        $hghstValue = $value;
+                    }
+    
+                }
                 $offer = new Offer();
-                $offer->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
+                $offer->setByUser($user);
                 $offer->setAuction($auction);
                 $offer->setCreatedAt(new \DateTime('-'.random_int(1,1000000).' seconds'));
-                $offer->setValue(random_int(0,454543));
-
+                $offer->setValue($value);
+                
+                // ADD RANDOM COMMENTS
                 $comment = new Comment();
                 $comment->setByUser($this->tempUserArray[random_int(0,count($this->tempUserArray)-1)]);
                 $comment->setAuction($auction);
@@ -99,13 +131,57 @@ class AppFixtures extends Fixture
                 $manager->persist($offer);
             }
 
-            // ADD FIRST IMAGE
-            $auctionImage = new AuctionImage();
-            $auctionImage->setAuction($auction);
-            $auctionImage->setFilename(($j+1).'.jpg');
-            $auctionImage->setOrderIndicator(0);
-            $manager->persist($auctionImage);
+            // ADD RANDOM BUYER COMMENTS
+            if($auction->getEndsAt()< new \DateTime() && random_int(0,2) == 1)
+                {
+                    $result = random_int(-1,1);
 
+                    switch ($result)
+                    {
+                        case -1:
+                            $caption  = 'Przykladowy komentarz negatywny';
+                            break;
+
+                        case 0:
+                            $caption  = 'Komentarz neutralny';
+                            break;
+
+                        case 1:
+                            $caption  = 'Komentarz pozytywny';
+                            break;
+
+                    }
+
+                    $comment = new Comment();
+                    $comment->setByUser($hghstUser);
+                    $comment->setAuction($auction);
+                    $comment->setValue($result);
+                    $comment->setContent($caption);
+                    $manager->persist($comment);
+
+                    if (random_int(0,3) == 0)
+                    {
+                        $replyComment = new Comment();
+                        $replyComment->setByUser($auctionCreator);
+                        $replyComment->setAuction($auction);
+                        $replyComment->setValue(2);
+                        $replyComment->setReplyTo($comment);
+                        $replyComment->setContent('Przykładowa odpowiedź sprzedawcy');
+                        $manager->persist($replyComment);
+                    }
+
+
+                }
+
+            // ADD DUMMY IMAGES WITH RANDOM AMOUNT
+            for ($x = 0 ; $x < random_int(2,5) ; $x++)
+            {
+                $auctionImage = new AuctionImage();
+                $auctionImage->setAuction($auction);
+                $auctionImage->setFilename($standardImagesArray[random_int(0,count($standardImagesArray)-1)]);
+                $auctionImage->setOrderIndicator($x);
+                $manager->persist($auctionImage);
+            }
 
             $manager->persist($auction);
             //$counter++;
@@ -118,10 +194,10 @@ class AppFixtures extends Fixture
     public function getUserData(): array
     {
         return[
-            ['Emis', 'emazemhs@gmail.com', '12345', ['ROLE_ADMIN'], '519130641'],
-            ['Emazemhs', 'jahaaael@gmail.com', '12345', ['ROLE_USER'], '2852757'],
-            ['CoColiono', 'unknownreallusdsadasd@gmail.com', '12345', ['ROLE_USER'], '31201919'],
-            ['Masterklas', 'depekggggggs@gmail.com', '12345', ['ROLE_USER'], '797770170']
+            ['Emis', 'john@gmail.com', '12345', ['ROLE_ADMIN'], '519130641'],
+            ['Emazemhs', 'jahael@gmail.com', '12345', ['ROLE_USER'], '2852757'],
+            ['CoColiono', 'malcolmz@gmail.com', '12345', ['ROLE_USER'], '31201919'],
+            ['Masterklas', 'antarka@gmail.com', '12345', ['ROLE_USER'], '797770170']
         ];
     }
     
@@ -194,4 +270,9 @@ class AppFixtures extends Fixture
             ['Piec Stacja7.pl', (new \DateTime()), '+6 days', 'Kazimierz Badeni wstąpił do dominikanów dopiero w wieku trzydziestu dwóch lat❗️ Pierwszą profesję złożył 16 sierpnia 1945 roku, w dniu imienin Joachima - stąd przyjęte przez niego imię zakonne 🙏 Jego droga nawrócenia jest pełna niezwykłych historii 😮 Szedłem na tak zwaną balangę wieczorem, było może po ósmej, znużony – typowy przykład młodego człowieka, który nie ma nic do roboty i ma dużo pieniędzy. Studia skończyłem. Życie nie ma sensu, żadne idee nie mają sensu… Idę. Minąłem dość obojętnie figurę Matki Boskiej z Lourdes. To była duża figura, stała przy źródle – w czasie wojny zlikwidowali ją bolszewicy, dzisiaj znowu stoi odrestaurowana. Idę spokojnie i nagle czuję, że ktoś łagodnie położył mi rękę na plecach, dokładnie w okolicach łopatki...'],
         ];
     }
+
+    public static function getGroups(): array
+     {
+        return ['grouasdp13'];
+     }
 }

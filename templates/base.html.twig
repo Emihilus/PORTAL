@@ -8,8 +8,7 @@
 				- PDAPW.PL
 			{% endblock %}
 		</title>
-		{# Run `composer require symfony/webpack-encore-bundle`
-				           and uncomment the following Encore helpers to start using Symfony UX #}
+		
 		{% block stylesheets %}
 			<!-- CSS only -->
 			
@@ -30,13 +29,14 @@
 
 
 	</head>
-	<body>
+	<body style="padding-top:70px;">
 		{% block header %}
-			<header>
-				<nav class="navbar navbar-dark navbar-expand">
+			<header class='border-bottom border-dark fixed-top' style="background: rgb(55,55,55);
+background: radial-gradient(circle, rgba(55,55,55,1) 0%, rgba(0,0,0,1) 100%);">
+				<nav class="navbar navbar-dark navbar-expand ">
 					<a class="navbar-brand ms-1" href="/">
-						<img class="d-md-inline-block align-bottom" src="{{asset('img/logo.png')}}" width="30" height="30" alt=""/>
-						<span>PDPAPW.PL</span>
+						<img class="d-md-inline-block align-bottom" src="{{asset('interface/logo.png')}}" width="30" height="30" alt=""/>
+						<span style="color:#fbd900;">P</span><span style="color:#ffdd00;">D</span><span style="color:#ffeb66;">P</span><span style="color:#fff199;">A</span><span style="color:#fff5b3;">P</span><span style="color:#fff8cc;">W</span><span style="color:#fffce6;">.</span><span style="color:#ffffff;">P</span><span style="color:#ffffff;">L</span>
 					</a>
 
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
@@ -79,6 +79,16 @@
 
 											<div class="dropdown-divider d-sm-none"></div>
 
+											{% if is_granted("ROLE_ADMIN") %}
+											<a class="dropdown-item" href="{{path('auctions-deleted')}}">Usunięte aukcje</a>
+
+											<a class="dropdown-item" href="{{path('comments-deleted')}}">Usunięte komentarze</a>
+
+											<a class="dropdown-item" href="{{path('comments-newest')}}">Najnowsze komentarze</a>
+											
+											<div class="dropdown-divider"></div>
+											{% endif %}
+
 											<a class="dropdown-item" href="{{path('profile-details',{'username': app.user.username})}}">
 												Mój profil
 											</a>
@@ -98,16 +108,14 @@
 
 							{% endif %}
 						
+					{% if app.user %}
+						<div class="icon" id="bell">
+							<img src="https://i.imgur.com/AC7dgLA.png" alt="">
 
-					<div class="icon" id="bell">
-						<img src="https://i.imgur.com/AC7dgLA.png" alt="">
-
-						<span id="notifCount" class="position-absolute badge badge-danger"></span>
-					</div>
-
-					<div class="notifications me-1 me-sm-3" id="box">
-						
-					</div>
+							<span id="notifCount" class="position-absolute badge badge-danger"></span>
+						</div>
+					{% endif %}
+					
 </ul>
 
 
@@ -119,6 +127,9 @@
 
 
 			</header>
+			<div class="notifications me-1 me-sm-3" id="box">
+						
+					</div>
 		{% endblock %}
 
 		{% for label,messages in app.flashes %}
@@ -140,9 +151,13 @@
 			<footer
 				class="text-center text-lg-start bg-light text-muted">
 				<!-- Copyright -->
-				<div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-					© 1993 KOPYRAJT-ORAJT:
-					<a class="text-reset fw-bold" href="https://github.com/Emihilus/">emazemhs.com</a>
+				<div class="text-center p-4 d-none d-md-block" style="background-color: rgba(0, 0, 0, 0.05);">
+					© 1993 | PORTAL DO PRZEPROWADZANIA AUKCJI PIECÓW WĘDZARNICZYCH | 
+					<a class="text-reset fw-bold" href="https://github.com/Emihilus/">Github</a>
+				</div>
+				<div class="text-center p-4 d-block d-md-none" style="background-color: rgba(0, 0, 0, 0.05);">
+					© 1993 | PDPAPW.PL | 
+					<a class="text-reset fw-bold" href="https://github.com/Emihilus/">Github</a>
 				</div>
 				<!-- Copyright -->
 			</footer>
@@ -176,7 +191,7 @@
 
 				$('#bell').click(function(e)
 				{
-
+					$("#notifCount").html('');
 					e.stopPropagation();
 					var color = $(this).text();
 					if(down)
@@ -261,70 +276,3 @@
 		{% endblock %}
 
 	</html>
-
-	{#  
-		from auction details
-		
-		/*  ABADON FETCH
-		   fetch(url, {
-		    method: 'POST',
-		    headers: {
-		        'Content-Type': 'application/json',
-		        },
-		    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
-		            'auctionId' : {{auction.id}} }) 
-		        })
-		    .then((response) => 
-		    {
-		        let container = document.createElement('div');
-		        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-		        document.getElementById('offers').prepend(container);
-		      console.log(response)
-		      response.json().then(function(data) {
-		        console.log(data);
-		      });
-		    })
-		    .catch(() => { /* Error. Inform the user */ /*})
-		
-		     fetch(url, {
-		    method: 'POST',
-		    headers: {
-		        'Content-Type': 'application/json',
-		        },
-		    body: JSON.stringify({'offerValue': offerValue*100, // moze byc samo offerValue przekaze offervalue:value
-		            'auctionId' : {{auction.id}} }) 
-		        })
-		    .then((response) => json())
-		    .then((response) => 
-		    {
-		        let container = document.createElement('div');
-		        container.innerHTML = '<b>Emis offers '+offerValue+' PLN</b> triggered at date <br>';
-		        document.getElementById('offers').prepend(container);
-		
-		       //y var jsson = JSON.parse(response);
-		        console.log("WHOLE RESPONSE: "+response)
-		
-		        console.log("RESPONSE ERRORSBODY: "+response[0]);
-		
-		       /* response.json().then(function(data) 
-		        {
-		            console.log("RESP JSON: "+data);
-		      });*//*
-		    })
-		    .catch(() => { /* Error. Inform the user *//* })*/
-		}
-		
-		
-		
-		
-		/*function secondsToHmsCut(d) { useful
-		    d = Number(d);
-		    let h = Math.floor(d / 3600);
-		    let m = Math.floor(d % 3600 / 60);
-		    let s = Math.floor(d % 3600 % 60);
-		
-		    let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-		    let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-		    let sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-		    return hDisplay + mDisplay + sDisplay; 
-		}*/ #}

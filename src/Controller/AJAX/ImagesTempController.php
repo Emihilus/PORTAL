@@ -2,24 +2,11 @@
 
 namespace App\Controller\AJAX;
 
-use DateTime;
-use Exception;
-use App\Entity\User;
-use App\Entity\Offer;
-use App\Entity\Auction;
-use App\Entity\Comment;
-use App\Entity\Notification;
 use App\Entity\TempImage;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
@@ -35,10 +22,10 @@ class ImagesTempController extends AbstractController
     {
         $TOKEN = $request->request->get('TOKEN');
         $filename = '';
-        if (0 < $_FILES['file']['error']) 
+        if ((0 < $_FILES['file']['error']) || ($_FILES['file']['type'] != "image/jpeg")) 
         {
             return new JsonResponse([
-                'errors' => 'Error: ' . $_FILES['file']['error']
+                'errors' => 'Error: '
             ]);
         } else {
             $filename = $this->getSaveFilename($TOKEN, 1);

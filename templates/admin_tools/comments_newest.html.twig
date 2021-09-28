@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<span class="h2 d-block">
+		Najnowsze komentarze
+	</span>
+	<label for="sel">Tryb</label>
+	<select name="sel" id="select" onchange="processChange()">
+		<option selected value="1">modifiedAt</option>
+		<option value="2">createdAt</option>
+	</select>
+	<hr>
+	<div id="md" class="my-4">
+		{% if comments|length == 0 %}
+			<b class="text-success">Brak.</b>
+		{% endif %}
+
+		{% for comment in comments %}
+			<span>#{{comment.id}}:{{comment.byUser}}:{{comment.value}}:<br><b>{{comment.modifiedAt|date('H:m:s d-m-Y')}}</b>
+				<br><i>{{comment.content}}</i>
+			</span>
+			<br>
+			<a class="text-warning" id="a-{{comment.id}}" href="{% if comment.value < 2 and comment.value > -2 %}{{path('profile-details',{'username': comment.auction.byUser})}}{% else %}{{path('auction-details',{'auctionId': comment.auction.id})}}{% endif %}">Zobacz</a>
+			<br><br>
+		{% endfor %}
+	</div>
+
+	<div id="cr" class="my-4">
+		{% if commentsCA|length == 0 %}
+			<b class="text-success">Brak.</b>
+		{% endif %}
+
+		{% for comment in commentsCA %}
+			<span>#{{comment.id}}:{{comment.byUser}}:{{comment.value}}:<br><b>{{comment.modifiedAt|date('H:m:s d-m-Y')}}</b>
+				<br><i>{{comment.content}}</i>
+			</span>
+			<br>
+			<a class="text-warning" id="a-{{comment.id}}" href="{% if comment.value < 2 and comment.value > -2 %}{{path('profile-details',{'username': comment.auction.byUser})}}{% else %}{{path('auction-details',{'auctionId': comment.auction.id})}}{% endif %}">Zobacz</a>
+			<br><br>
+		{% endfor %}
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+function processChange()
+{
+	if($("#select").val() == 2)
+	{
+		$("#cr").removeClass("d-none")
+		$("#md").addClass("d-none");
+	}
+	else
+	{
+		$("#cr").addClass("d-none")
+		$("#md").removeClass("d-none");
+	}
+}
+</script>
+{% endblock %}
+

@@ -72,7 +72,12 @@ function processSuccess(res, requestedPage)
 			return;
 		}
 
+		if($('#spinner').length != 0)
+			$('#contener').slideUp(1).fadeIn(400);
+
 		$('#contener').html(res);
+		$('#contener').removeClass('row');
+		$('#contener').removeClass('vh-100');
 
 		let pageElementsArray = $('.page-item').toArray();
 		pageElementsArray.forEach(function (pageItemElement) 
@@ -104,4 +109,18 @@ function processSuccess(res, requestedPage)
     {
         optionsClicked = false;
     });
+	}
+	let state = true;
+	function toggleFilters()
+	{
+		if(state)
+		{
+			$('#filtersDiv').slideDown(500);
+			state = false;
+		}
+		else
+		{
+			$('#filtersDiv').slideUp(500);
+			state = true;
+		}
 	}

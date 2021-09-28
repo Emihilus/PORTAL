@@ -43,6 +43,14 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($this->getParameter('kernel.environment') == 'heroku')
+            {
+                $this->addFlash('danger',
+                'This functionality is disabled on Heroku environment due to lack of Mailer Service.');
+                return $this->render('reset_password/request.html.twig', [
+                    'requestForm' => $form->createView(),
+                ]);
+            }
             return $this->processSendingPasswordResetEmail(
                 $form->get('Email')->getData(),
                 $mailer
@@ -158,7 +166,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('system@emazemhs.com', 'PDPAPW.PL Mail SUBSSSSSSSSSYSTEM'))
+            ->from(new Address($this->getParameter('mailerSenderEmail'), $this->getParameter('mailerSender')))
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')

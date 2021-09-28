@@ -367,3 +367,14 @@ h1
   position: absolute;
   right:0;
 }
+
+.appLink
+{
+  text-decoration: none;
+  color: gold;
+}
+
+.appLink:hover
+{
+  color: gold;
+}

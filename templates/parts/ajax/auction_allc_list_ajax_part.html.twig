@@ -9,9 +9,9 @@
 	<a id="aid-{{auction.0.id}}" onclick="link('{{path('auction-details',{'auctionId': auction.0.id})}}')"  class="list-group-item list-group-item-dark list-group-item-action text-secondary"><img src="{% if auction.filename is defined and auction.filename != '' %}{{asset(tip~auction.filename)}}{% endif %}" width="75">
 	<div class='d-inline-block align-middle m-1 p-1'>
 		<span class='d-block'><b>{{auction.0.title}}</b></span>
-		<span> ends {{ auction[0].endsAt|ago }}</span></div> HO: <b>{{auction.hghst/100}} PLN</b>
+		<span> koniec {{ auction[0].endsAt|ago }}</span></div> <b>{{auction.hghst/100}} PLN</b>
 			
-			<button class="btn-primary btn" onclick="task('{{auction.0.id}}','{{path('profile-details', { 'username': auction.0.byUser})}}')">Wystaw komentarz</button>
+			<button class="btn-primary btn m-2" onclick="task('{{auction.0.id}}','{{path('profile-details', { 'username': auction.0.byUser})}}')">Wystaw komentarz</button>
 	</a>
 {% endfor %}
 
@@ -25,7 +25,7 @@
 				<ul class="pagination justify-content-center">
 
 					<li class="page-item {% if app.request.get('page') == 1 %}disabled{% endif %}">
-						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">Previous</a>
+						<a class="page-link"  onclick="getAuctions({{app.request.get('page')-1}})">&lt;</a>
 					</li>
 
 					{% for i in 1.. pages %}
@@ -36,7 +36,7 @@
 
 
 					<li class="page-item {% if app.request.get('page') == pages %}disabled{% endif %}">
-						<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">Next</a>
+						<a class="page-link" onclick="getAuctions({{app.request.get('page')+1}})">&gt;</a>
 					</li>
 
 					<span class="my-auto ms-3"><b>Items per page:</b></span>

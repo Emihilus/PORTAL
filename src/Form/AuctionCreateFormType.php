@@ -15,8 +15,8 @@ class AuctionCreateFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
+            ->add('title',null,['label'=>'Tytuł'])
+            ->add('description',null,['label'=>'Opis'])
             ->add('startingPrice', MoneyType::class, [
                 'mapped' => false,
                 'currency' => 'PLN',
@@ -30,14 +30,14 @@ class AuctionCreateFormType extends AbstractType
                 ])
             ->add('endsAt', ChoiceType::class, [
                 'choices' => [
-                    '1 day' => 86400,
-                    '5 days' => 432000,
-                    '7 days' => 604800
+                    '1 dzień' => 86400,
+                    '5 dni' => 432000,
+                    '7 dni' => 604800
                 ],
                 'data' => 432000,
-                'label' => 'expires in'
+                'label' => 'Koniec za'
             ])
-            ->add('Submit', SubmitType::class)
+            ->add('Submit', SubmitType::class, ['label'=>'Wyślij'])
         ;
     }
 

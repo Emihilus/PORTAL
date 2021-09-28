@@ -45,6 +45,10 @@ security:
         - { path: '^/comment-all-auctions', roles: ROLE_USER }
         - { path: '^/my-profile', roles: ROLE_USER }
         - { path: '^/create-auction', roles: ROLE_USER }
-        - { path: '^/ep/cw', roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1] }
+        - { path: '^/my-notifications', roles: ROLE_USER }
+        - { path: '^/place-acomment', roles: ROLE_USER }
+        - { path: '^/change-password', roles: ROLE_USER }
+        - { path: '^/ep/cw', roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1, ::1] }
+        - { path: '^/ep/cw', roles: ROLE_NO_ACCESS }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

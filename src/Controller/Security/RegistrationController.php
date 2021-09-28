@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,20 +46,34 @@ class RegistrationController extends AbstractController
             );
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('system@emazemhs.com', 'PDAPW.PL'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('parts/mail/confirmation_email.html.twig')
-            );
+            if($this->getParameter('kernel.environment') != 'heroku' )
+            {
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address($this->getParameter('mailerSenderEmail'), $this->getParameter('mailerSender')))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('parts/mail/confirmation_email.html.twig')
+                );
+                $emailResult = "Powodzenie. Przed zalogowaniem potwierdź swój adres email ".$user->getEmail();
+            }
+            else
+            {
+                $user->setIsVerified(true);
+                $emailResult = 'Symfony mailer is disabled in Heroku environment. Account is auto verified. On production scenario this webappliaction implements email verification functionality.';
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+
+
             // do anything else you need here, like send an email
             $this->addFlash('success',
-             "Powodzenie. Przed zalogowaniem potwierdź swój adres email ".$user->getEmail().".");
+             $emailResult);
 
             return $this->redirectToRoute('app_login');
         }

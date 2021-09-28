@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<span class="h2 d-block">
+		Zarządzanie usuniętymi komentarzami
+	</span>
+	<hr>
+	<div class="my-4">
+		{% if comments|length == 0 %}
+			<b class="text-success">Brak usuniętych komentarzy.</b>
+		{% endif %}
+
+		{% for comment in comments %}
+			<span>#{{comment.id}}:{{comment.byUser}}:{{comment.value}}:
+				<i>{{comment.content}}</i>
+			</span>
+			|
+			<a class="text-warning" id="a-{{comment.id}}" onclick="restore({{comment.id}})" hrev="{% if comment.value < 2 and comment.value > -2 %}{{path('profile-details',{'username': comment.auction.byUser})}}{% else %}{{path('auction-details',{'auctionId': comment.auction.id})}}{% endif %}">Przywróć</a>
+			<br><br>
+		{% endfor %}
+	</div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+function restore (commentId)
+{
+    $.ajax({
+    url: "{{path ('restoreComment') }}",
+    method: "post", 
+    dataType: "json", 
+    data: JSON.stringify({commentId})
+})
+.done(res => 
+{ 
+    console.log(res.result);
+    if(res.result == 'Success')
+    {
+        $("#a-"+commentId).html('Komentarz przywrócony. Zobacz powiązaną aukcję lub profil użytkownika');
+        $("#a-"+commentId).attr('onclick', '');
+        $("#a-"+commentId).attr('href', $("#a-"+commentId).attr('hrev'));
+    }
+    else
+    {
+        $("#a-"+commentId).html('Błąd podczas przywracania komentarza. Spróbuj ponownie');
+    }
+});
+}
+</script>
+{% endblock %}

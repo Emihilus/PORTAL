@@ -167,9 +167,7 @@ class Comment
         $this->modifiedAt = new \DateTime();
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
+    // manually at edit
     public function autoSetModifiedAt()
     {
         $this->modifiedAt = new \DateTime();

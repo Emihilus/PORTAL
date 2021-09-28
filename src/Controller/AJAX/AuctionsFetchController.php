@@ -2,24 +2,12 @@
 
 namespace App\Controller\AJAX;
 
-use DateTime;
-use Exception;
-use App\Entity\User;
-use App\Entity\Offer;
 use App\Entity\Auction;
-use App\Entity\Comment;
-use App\Entity\Notification;
-use App\Entity\TempImage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
@@ -61,41 +49,41 @@ class AuctionsFetchController extends AbstractController
                 $method = "ListAllAuctions";
                 break;
 
-            case 1: // of specific user
+            case $this->getParameter('mm_Sold_Selling'): // of specific user
                 $method = "ListAllAuctions";
                 break;
 
-            case 2:
+            case $this->getParameter('mm_Sold'):
                 //$method = "SoldAuctionsOfUser";
                 $method = "ListAllAuctions";
                 break;
 
-            case 3:
+            case $this->getParameter('mm_Selling'):
                 // $method = "CurrentAuctionsOfUser";
                 $method = "ListAllAuctions";
                 break;
 
-            case 4:
+            case $this->getParameter('mm_Leading_In'):
                 $method = "LeadingAuctionsOfUser";
                 break;
 
-            case 5: /// WON
+            case $this->getParameter('mm_Won'): /// WON
                 $method = "LeadingAuctionsOfUser";
                 break;
 
-            case 6:
+            case $this->getParameter('mm_Participating_In'):
                 $method = "ParticipatingAuctionsOfUser";
                 break;
 
-            case 7:
+            case $this->getParameter('mm_Participating_In_Not_Leading'):
                 $method = "ParticipatingNotLeadingAuctionsOfUser";
                 break;
 
-            case 8: //PARTICIPATED
+            case $this->getParameter('mm_Participated_In'): //PARTICIPATED
                 $method = "ParticipatingAuctionsOfUser";
                 break;
 
-            case 9: //PARTICIPATED
+            case $this->getParameter('mm_Participated_In_Not_Leading'): //PARTICIPATED
                 $method = "ParticipatingNotLeadingAuctionsOfUser";
                 break;
 
@@ -238,7 +226,7 @@ class AuctionsFetchController extends AbstractController
             $auctions = $this->getDoctrine()->getRepository(Auction::class)->$queryFunction($this->getUser(), $json->filters);
         }
 
-        dump($auctions);
+        // dump($auctions);
 
         $auctionTitles = [];
         foreach ($auctions as $auction) 

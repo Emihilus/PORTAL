@@ -21,6 +21,10 @@
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
         </testsuite>
+        <testsuite name="sample-testsuite">
+         <directory>tests/RoutesLoad/RoutesTest.php</directory>
+         <directory>tests/RoutesLoad/PantherRoutesTest.php</directory>
+        </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">
@@ -34,9 +38,9 @@
     </listeners>
 
     <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
+    
     <extensions>
         <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
-    -->
+   
 </phpunit>

@@ -108,6 +108,8 @@ class CRONTasksController extends AbstractController
             $em->persist($buyerCommentNotification);
         }*/
 
+
+        
         $dql = "SELECT u.id, a.title, c, u.username, c.value
         
         FROM App\Entity\User u
@@ -119,7 +121,8 @@ class CRONTasksController extends AbstractController
         AND c.notificationHandled = false";
 
         $comments = $em->createQuery($dql)->getResult();
-
+        
+        // Sending Buyer Comment notifications through this CRON Task endpoint due to automatic buyer comment creation in DataFixtures, in real scenario better solution is to use EventSubscriber which is already implemented in case of posting regular comment reply.
         foreach ($comments as $comment) 
         {
             $buyerCommentNotification = new Notification();
@@ -165,8 +168,8 @@ class CRONTasksController extends AbstractController
 
 
 
-        return $this->render('z_not_used/tst.twig');
-        // return new Response("Done");
+        // return $this->render('z_not_used/tst.twig');
+        return new Response("Executed");
     }
 
     private function deleteOldTempImages($em)

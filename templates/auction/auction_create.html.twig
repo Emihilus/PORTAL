@@ -7,7 +7,7 @@
 
 <h1>Dodawanie aukcji</h1>
 
- {# {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}  #}
+ {# {{ form_start(form, {'attr':d {'novalidate': 'novalidate'}}) }}  #}
  {{ form_start(form) }} 
 
 
@@ -32,8 +32,8 @@
   {# </form> #}
 </div>
 
-{{form_row(form.Submit)}}
-{{form_end(form)}}
+{% if not heroku %} {{form_row(form.Submit)}} {{form_end(form)}} {% else %}<b class="text-danger d-block mb-2">Na platformie Heroku dodawanie aukcji jest wyłączone, ponieważ funkcja move_uploaded_file() jest niedostępna.</b>{% endif %}
+
 
 {% endblock %}
 

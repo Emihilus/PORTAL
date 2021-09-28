@@ -3,23 +3,15 @@
 namespace App\Controller\AJAX;
 
 use DateTime;
-use Exception;
-use App\Entity\User;
-use App\Entity\Offer;
 use App\Entity\Auction;
 use App\Entity\Comment;
-use App\Entity\Notification;
-use App\Entity\TempImage;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Event\CommentRegularReplyEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
@@ -27,6 +19,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class CommentsController extends AbstractController
 {
+    public function __construct(EventDispatcherInterface $dispatcher) 
+    {
+        $this->dispatcher = $dispatcher;
+    }
+    
     // POST COMMENT AJAX CALL
     /**
      * @Route("/postComment", name="postComment", methods={"POST"})
@@ -95,6 +92,14 @@ class CommentsController extends AbstractController
             $em->flush();
             $genId = $comment->getId();
 
+            if(isset($json->replyTo))
+            {
+                $this->dispatcher->dispatch(new CommentRegularReplyEvent([
+                    'recipientComment' => $em->getReference('App\Entity\Comment', $json->replyTo),
+                    'relatedComment' => $comment
+                ]), 'auction.comment_regular_reply');
+            }
+
             return new JsonResponse([
                 'result' => "Success",
                 'genId' => $genId
@@ -127,7 +132,6 @@ class CommentsController extends AbstractController
         ->where('c.id = :cid')
         ->setParameter('cid',$json->commentId)
         ->getQuery()->execute();
-        dump($result);
 
         return new JsonResponse([
             'result' => $result
@@ -151,6 +155,8 @@ class CommentsController extends AbstractController
         ->update('App\Entity\Comment', 'c')
         ->set('c.content', ':newcontent')
         ->setParameter('newcontent', $json->content)
+        ->set('c.modifiedAt', ':modified')
+        ->setParameter('modified', new DateTime())
         ->where('c.id =:cid')
         ->setParameter('cid',$json->commentId);
 

@@ -1,12 +1,19 @@
 gct/nohup.out
 
 ###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
+.env
+/.env
+# .env.panther
+# .env.local
+# .env.local.php
+.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
+/var/cache/
+/var/log/
+/var/sessions/
+/var/spool/
+/var/error-screenshots
 /vendor/
 ###< symfony/framework-bundle ###
 
@@ -22,11 +29,11 @@ gct/nohup.out
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
-/public/build/
-/public/img/
-/public/upload/
-/public/u/
-/tempImg/
+# /public/build/
+# /public/img/
+# /public/upload/
+# /public/u/
+# /tempImg/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
