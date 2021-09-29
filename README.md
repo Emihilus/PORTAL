@@ -15,7 +15,7 @@ __Aukcje:__
   __Licytowanie:__
   - Licytować mogą tylko zalogowani
   - Powiadomienie dla użytkownika o tym, że jego oferta została przebita
-  - Właściciel aukcji może ją zakończyć przed czasem,ąlbo usunąć
+  - Właściciel aukcji może ją zakończyć przed czasem, albo usunąć
   
 __System komentarzy:__
   - Komentotwać można aukcje i sprzedających
