@@ -37,7 +37,10 @@ class AuctionCreateFormType extends AbstractType
                 'data' => 432000,
                 'label' => 'Koniec za'
             ])
-            ->add('Submit', SubmitType::class, ['label'=>'Wyślij'])
+            ->add('Submit', SubmitType::class, ['label'=>'Wyślij', 
+            'attr' =>
+            ['class' => 'btn-warning']
+            ])
         ;
     }
 

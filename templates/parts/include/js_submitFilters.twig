@@ -1,5 +1,7 @@
-function submitFilters()
+function submitFilters(toggle)
 {	
+	if(toggle)
+		toggleFilters();
 	reStoreInputsState();
 	getAuctions( {{ app.request.get('page') }} );
 }
@@ -38,8 +40,10 @@ function reStoreInputsState()
 	GAJArray.filters.f_favor = $("#favor").is(':checked');
 }
 
-function resetFilters()
+function resetFilters(toggle)
 {
+	if(toggle)
+		toggleFilters();
     document.getElementById('filterz').reset();
     submitFilters();
 }

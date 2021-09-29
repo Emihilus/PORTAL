@@ -21,7 +21,7 @@ class ChangePasswordType extends AbstractType
                 'mapped' => false,
                 'label' => 'Aktualne hasło',
             ])
-            ->add('chageInput', RepeatedType::class, [
+            ->add('changeInput', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'type' => PasswordType::class,
@@ -44,7 +44,10 @@ class ChangePasswordType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Zapisz'])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Zapisz',
+                'attr' => ['class' => 'btn-warning']
+                ])
         ;
     }
 

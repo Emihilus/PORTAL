@@ -20,15 +20,15 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
+            ->add('username', null, ['label' => 'Nazwa użytkownika'])
             ->add('Email', EmailType::class)
-            ->add('Phone', NumberType::class)
+            ->add('Phone', NumberType::class, ['label' => 'Numer telefonu'])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'type' => PasswordType::class,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Confirm Password'],
+                'first_options'  => ['label' => 'Hasło'],
+                'second_options' => ['label' => 'Powtórz hasło'],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [

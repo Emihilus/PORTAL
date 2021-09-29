@@ -4,13 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<form method="post">
-		{% if error %}
+{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
 				{% if error.messageKey =="You have been banned." %}<br><img src="{{asset('/interface/permabanned.gif')}}">
 				{% endif %}
 			</div>
 		{% endif %}
+		{# <h1 class="h3 mb-3 font-weight-normal">Logowanie</h1> #}
+	<form method="post" class="text-center m-sm-5  p-md-5 p-3">
+		
 
 		{% if app.user %}
 			<div class="mb-3">
@@ -20,10 +22,9 @@
 			</div>
 		{% endif %}
 
-		<h1 class="h3 mb-3 font-weight-normal">Logowanie</h1>
-		<label for="inputUsername">Login</label>
-		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-		<label for="inputPassword">Hasło</label>
+		<label for="inputUsername"><b>Login</b></label>
+		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus class="mb-2">
+		<label for="inputPassword" class="mt-2"><b>Hasło</b></label>
 		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -35,7 +36,7 @@
 		        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
 		        See https://symfony.com/doc/current/security/remember_me.html#}
 
-		<div class="checkbox mb-3">
+		<div class="checkbox mb-4">
 			<label>
 				<input type="checkbox" name="_remember_me">
 				Zapamiętaj mnie
@@ -43,11 +44,8 @@
 		</div>
 
 
-		<button class="btn btn-lg btn-primary me-3" type="submit">
+		<button class="btn btn-lg btn-warning mx-2 mb-2" type="submit">
 			Zaloguj
-		</button><a href="{{ path('app_forgot_password_request') }} "><button class="btn btn-lg btn-primary" type="button">Zapomniałem hasła</button></a>
-
-		<p>Username: Emis<br>Pwd: 12345</p>
-		</a><a href="{{ path('app_register') }} "><button class="mb-3 me-3 btn btn-lg btn-primary" type="button">Rejestracja</button></a>
+		</button><a href="{{ path('app_forgot_password_request') }} "><button class="btn btn-lg btn-warning mx-2 mb-2" type="button">Przypomnij hasło</button></a><a href="{{ path('app_register') }} "><button class="mx-2 mb-2 btn btn-lg btn-warning" type="button">Rejestracja</button></a>
 	</form>
 {% endblock %}

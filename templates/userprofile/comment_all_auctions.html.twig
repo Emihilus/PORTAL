@@ -88,7 +88,7 @@ function processSuccess(res, requestedPage)
 	{
         optionsClicked = true;
 		if($("#form-"+auctionId).length == 0)
-			$("#aid-"+auctionId).after('<form id="form-'+auctionId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+auctionId+'" rows="3"></textarea><button onclick="submitComment(\''+auctionId+'\',\''+owner+'\')" class="btn-primary btn" type="button">Wyślij</button><select name="cvalue" id="cvalue-'+auctionId+'"><option selected value="1">Pozytywny</option><option value="0">Neutralny</option><option value="-1">Negatywny</option></select></div></form>');
+			$("#aid-"+auctionId).after('<form id="form-'+auctionId+'" class="mt-3"><div class="form-group"><textarea class="form-control" id="commentTA-'+auctionId+'" rows="3"></textarea><button onclick="submitComment(\''+auctionId+'\',\''+owner+'\')" class="btn-warning m-1 btn" type="button">Wyślij</button><select name="cvalue" id="cvalue-'+auctionId+'"><option selected value="1">Pozytywny</option><option value="0">Neutralny</option><option value="-1">Negatywny</option></select></div></form>');
 	}
 
 	 function link(link)

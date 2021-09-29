@@ -18,9 +18,9 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+             return $this->redirectToRoute('auction-list');
+         }
         // dump($request);
 
         // get the login error if there is one
@@ -54,6 +54,7 @@ class SecurityController extends AbstractController
             if ($form->isValid() && $hasher->isPasswordValid($user, $form->get('currentPassword')->getData()))
             {
                 $user = $form->getData();
+                $user->setPassword($hasher->hashPassword($user, $form->get('changeInput')->getData()));
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();

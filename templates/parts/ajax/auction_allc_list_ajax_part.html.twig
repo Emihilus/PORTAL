@@ -11,7 +11,7 @@
 		<span class='d-block'><b>{{auction.0.title}}</b></span>
 		<span> koniec {{ auction[0].endsAt|ago }}</span></div> <b>{{auction.hghst/100}} PLN</b>
 			
-			<button class="btn-primary btn m-2" onclick="task('{{auction.0.id}}','{{path('profile-details', { 'username': auction.0.byUser})}}')">Wystaw komentarz</button>
+			<button class="btn-warning btn m-2" onclick="task('{{auction.0.id}}','{{path('profile-details', { 'username': auction.0.byUser})}}')">Wystaw komentarz</button>
 	</a>
 {% endfor %}
 

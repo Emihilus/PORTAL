@@ -1,14 +1,14 @@
-<form  id="filterz">
+<form id="filterz">
 <div class="form-group row">
 <div class="ps-0 d-flex">{# justify-content-end"> #}
 	<input class="search-input" id='input_search' type="text" placeholder="Szukaj" onkeyup="processChange()">
 	<input type="submit" hidden />
 	{# <button class="btn btn-secondary me-1" onclick='submitFilters()' type='button'><i class="bi bi-search"></i></button> #}
 	<button class="btn btn-secondary mx-1" type="reset" onclick="resetFilters()"><i class="bi bi-backspace"></i></button>
-	<button class=" btn-warning btn" onclick="toggleFilters()" type="button"><i class="bi bi-filter"></i></button>
+	<button class="btn-warning btn" onclick="toggleFilters()" type="button">{#<i class="bi bi-filter"></i>#}Filtry</button>
 	</div>
 </div>
-<div style="display:none;" id='filtersDiv'>
+<div style="display:none;" class="p-2" id='filtersDiv'>
 
 	<label for="search">szukaj wg</label>
 	<select name="search" id="select_searchtype"{# onchange="processChange()"#}>
@@ -28,8 +28,9 @@
 	<input id="input_price_s" type="number" placeholder="cena od"{# onkeyup="processChange()"#}>
 	<input id="input_price_e" type="number" placeholder="cena do"{# onkeyup="processChange()"#}>
 <br>
-	<input id="input_byuser" type="text" placeholder="użytkownika"{# onkeyup="processChange()"#}>
+	<input id="input_byuser" type="text" placeholder="sprzedawane przez"{# onkeyup="processChange()"#}>
 <br>
+	<hr>
 	<label for="sort">Sortuj według</label>
 	<select name="sort" id="select_criteria"{# onchange="processChange()"#}>
 		<option selected value="1">Nazwy</option>
@@ -51,7 +52,7 @@
 	<input type='checkbox' name="favor" id="favor"/>
 	<br>
 <br>
-	<button class="btn btn-secondary" onclick='submitFilters()' type='button'>SUBMIT</button>
-	<input class="btn btn-secondary" type="reset" onclick="resetFilters()">
+	<button class="btn btn-warning" onclick='submitFilters(true)' type='button'>Zastosuj</button>
+	<input class="btn btn-secondary" type="reset" onclick="resetFilters(true)">
 </form>
 </div>
