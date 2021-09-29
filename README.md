@@ -46,8 +46,4 @@ __System powiadomień:__
     
     
     
-  W tym oczywiście system użytkowników z typowymi funkcjami typu rejestracja, zmiana hasla, aktywacja konta na mailu
-  Użytkownicy mają swoje punkty za komentarze
-  Na publicznej karcie użytkownia informacje takie jak liczba sprzedwanych aukcji, liczb wygranych aukcji i suma wartosci i wiele innych.
-   
-    
+W tym oczywiście system użytkowników z typowymi funkcjami typu rejestracja, zmiana hasla, aktywacja konta na mailu. Użytkownicy mają swoje punkty za komentarze. Na publicznej karcie użytkownia informacje takie jak liczba sprzedwanych aukcji, liczb wygranych aukcji i suma wartosci i inne informacje.
