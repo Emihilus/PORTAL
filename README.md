@@ -1,7 +1,12 @@
-# Portal do Przeprowadzania aukcji Pieców Wędzarniczych
-## Aplikacja portalu aukcyjnego stworzynego pod frameworkiem Symfony 5.3
-Features:
+# Portal do Przeprowadzania aukcji Pieców Wędzarniczych - Aplikacja portalu aukcyjnego oparta na frameworku Symfony 5.3
+## Wersje live:
+Amazon Web Services: 
+> http://ec2-3-138-247-210.us-east-2.compute.amazonaws.com
 
+Heroku (na tej platformie nie działa wysyłanie maili i dodawanie zdjęć do aukcji z powodu zablokowania pewnych funkcji PHP)
+> https://pdpapw.herokuapp.com/
+> 
+## Features:
 __Aukcje:__
   - Dodawanie aukcji z opcją drag&drop obrazków dla aukcji
   - Filtrowanie aukcji po: nazwie, czy jest zakończona, po cenie, po sprzedającym, sortowanie: wg ilosci ofert, komentarzy, cenie, daty zakonczenia, utworzenia
