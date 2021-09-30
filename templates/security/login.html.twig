@@ -11,7 +11,7 @@
 			</div>
 		{% endif %}
 		{# <h1 class="h3 mb-3 font-weight-normal">Logowanie</h1> #}
-	<form method="post" class="text-center m-sm-5  p-md-5 p-3">
+	<form method="post" class="dashed mx-auto text-center my-sm-5 border-sm border-dark p-md-5 p-3 rounded">
 		
 
 		{% if app.user %}
@@ -23,9 +23,9 @@
 		{% endif %}
 
 		<label for="inputUsername"><b>Login</b></label>
-		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus class="mb-2">
+		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control mx-auto" style="max-width:450px;" autocomplete="username" required autofocus class="mb-2">
 		<label for="inputPassword" class="mt-2"><b>Hasło</b></label>
-		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+		<input type="password" name="password" id="inputPassword" class="form-control mx-auto" autocomplete="current-password" required  style="max-width:450px;">
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 

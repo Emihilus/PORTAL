@@ -109,13 +109,8 @@
 
 	<div class="row mb-3">
 		<div>
-			<h2 class='d-inline-block'>Komentarze</h2>
-			<h3 class='float-end'>
-				{% if commentCount == 0 %}No
-				{% else %}
-					{{commentCount}}
-				{% endif %}
-				comments</h3>
+			<h2 class='d-sm-inline-block d-none'>Komentarze</h2>
+			<span class='h4 float-end'>{% if commentCount == 0 %}Brak{% else %} {{commentCount}}{% endif %} {% if commentCount == 0 or commentCount > 4%}komentarzy{% elseif commentCount == 1 %}komentarz{% else %}komentarze{% endif %}</span>
 		</div>
 		<div id="comments-section">
 			{% for auction in USR[0][0].Auctions %}

@@ -194,7 +194,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
     public function getUserData(): array
     {
         return[
-            ['Emis', 'john@gmail.com', '12345', ['ROLE_ADMIN'], '519130641'],
+            ['Emis', 'john@gmail.com', '12345ss', ['ROLE_ADMIN'], '519130641'],
             ['Emazemhs', 'jahael@gmail.com', '12345', ['ROLE_USER'], '2852757'],
             ['CoColiono', 'malcolmz@gmail.com', '12345', ['ROLE_USER'], '31201919'],
             ['Masterklas', 'antarka@gmail.com', '12345', ['ROLE_USER'], '797770170']
@@ -219,9 +219,6 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
             ...a Wam jak się podoba taki efekt? 😉
             Przyjemności 👊🙃❗
             Fot: Michał Szyszka Fotografia'],
-
-
-            ['Piec Moon Card', (new \DateTime()), '+6 days', 'THE MOON CARD REPRESENTS THE JOURNEY INTO UKNOWN'],
 
 
             ['Piec PAleteia PL - Duchowość i lifestyle', (new \DateTime()), '+6 days', 'W jednej z praskich dzielnic znajduje się kościół pw. Najświętszej Maryi Panny Zwycięskiej, a w nim otoczona kultem figurka Dzieciątka Jezus. Od 400 lat wznoszone są tutaj modlitwy, a dzięki Jezusowi dokonuje się też wiele cudów.'],
@@ -266,8 +263,6 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
             Zarowno góra jak i dół to w sumie 40 minut (150 - 15-sto sekundowych klatek) na ISO 800, Sigmą Art 18-35mm przy 18 mm ogniskowej, z przesłoną 1,8 podpiętą do Nikona D5300. Perseidy zaś dodane są łącznie z 19 poszczególnych klatek.
             Więcej moich zdjęć możecie znaleźć na IG: https://www.instagram.com/kuba12988/
              PS Słowa krytyki, czy też rady mile widziane, jednak nie ukrywam jestem zadowolony ze swojej roboty 😜😅'],
-
-            ['Piec Stacja7.pl', (new \DateTime()), '+6 days', 'Kazimierz Badeni wstąpił do dominikanów dopiero w wieku trzydziestu dwóch lat❗️ Pierwszą profesję złożył 16 sierpnia 1945 roku, w dniu imienin Joachima - stąd przyjęte przez niego imię zakonne 🙏 Jego droga nawrócenia jest pełna niezwykłych historii 😮 Szedłem na tak zwaną balangę wieczorem, było może po ósmej, znużony – typowy przykład młodego człowieka, który nie ma nic do roboty i ma dużo pieniędzy. Studia skończyłem. Życie nie ma sensu, żadne idee nie mają sensu… Idę. Minąłem dość obojętnie figurę Matki Boskiej z Lourdes. To była duża figura, stała przy źródle – w czasie wojny zlikwidowali ją bolszewicy, dzisiaj znowu stoi odrestaurowana. Idę spokojnie i nagle czuję, że ktoś łagodnie położył mi rękę na plecach, dokładnie w okolicach łopatki...'],
         ];
     }
 

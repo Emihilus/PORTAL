@@ -142,7 +142,7 @@ max="{{validation_maxValue/100}}" maxLength="{{validation_maxValue|length+1}}" s
 
 
  <div class="row">
- <div><h2 class='d-inline-block'>Komentarze</h2><h3 class='float-end'>{% if commentCount == 0 %}Brak{% else %} {{commentCount}}{% endif %} {% if commentCount == 0 or commentCount > 4%}komentarzy{% elseif commentCount == 1 %}komentarz{% else %}komentarze{% endif %}</h3></div>
+ <div><span class='h3 d-sm-inline-block d-none'>Komentarze</span><span class='h4 float-end'>{% if commentCount == 0 %}Brak{% else %} {{commentCount}}{% endif %} {% if commentCount == 0 or commentCount > 4%}komentarzy{% elseif commentCount == 1 %}komentarz{% else %}komentarze{% endif %}</span></div>
 <div id="comments-section">
 {% if commentCount > 0 %}
     {% for comment in auction.comments|sort|filter(comment => not comment.isDeleted and not comment.replyTo) %}
