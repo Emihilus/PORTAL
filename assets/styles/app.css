@@ -32,7 +32,7 @@ h1
 
 .search-input
 {
-  /* min-width: 100px; */
+  min-width: 10px;
   /* max-width: 350px; */
   flex-grow:1;
 }
